@@ -1,5 +1,5 @@
 === Comic Easel ===
-Contributors: frumph
+Contributors: frumph, zerzix
 Tags: comiceasel, easel, webcomic, comic, webcomics, management, admin, posts, plugin
 Requires at least: 3.0
 Tested up to: 3.0.1
