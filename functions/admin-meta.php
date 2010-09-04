@@ -1,15 +1,15 @@
 <?php
 
-add_filter('manage_edit-comic_columns', 'comiceasel_add_new_comic_columns');
+add_filter('manage_edit-comic_columns', 'ceo_add_new_comic_columns');
 
-function comiceasel_add_new_comic_columns($comic_columns) {
+function ceo_add_new_comic_columns($comic_columns) {
 	$new_columns['cb'] = '<input type="checkbox" />';
 
 	$new_columns['title'] = _x('Comic Title Name', 'column name');
  
-	$new_columns['chapter'] = __('Chapter','comicpress');
-	$new_columns['characters'] = __('Characters','comicpress');
-	$new_columns['tags'] = __('Tags', 'comicpress');
+	$new_columns['chapter'] = __('Chapter','easel');
+	$new_columns['characters'] = __('Characters','easel');
+	$new_columns['tags'] = __('Tags', 'easel');
  
 	$new_columns['date'] = _x('Date', 'column name');
 	$new_columns['comicimages'] = _x('Comic', 'column name');
@@ -17,16 +17,16 @@ function comiceasel_add_new_comic_columns($comic_columns) {
 	return $new_columns;
 }
 
-add_action('manage_posts_custom_column', 'comiceasel_manage_comic_columns', 10, 2);
+add_action('manage_posts_custom_column', 'ceo_manage_comic_columns', 10, 2);
  
-function comiceasel_manage_comic_columns($column_name, $id) {
+function ceo_manage_comic_columns($column_name, $id) {
 	global $wpdb;
 	switch ($column_name) {
 	case 'chapter':
 			$allterms = get_the_terms( $id, 'chapters');
 			if (!empty($allterms)) {
 				foreach ($allterms as $term) {
-					$term_list_chapters[] = '<a href="'.comiceasel_themeinfo('siteurl').'/wp-admin/edit.php?post_type=comic&chapters='.comiceasel_clean_filename($term->name).'">'.$term->name.'</a>';
+					$term_list_chapters[] = '<a href="'.home_url('/wp-admin/edit.php?post_type=comic&chapters='.ceo_clean_filename($term->name)).'">'.$term->name.'</a>';
 				}
 				echo join(', ', $term_list_chapters );
 			}
@@ -35,7 +35,7 @@ function comiceasel_manage_comic_columns($column_name, $id) {
 			$allterms = get_the_terms( $id, 'characters');
 			if (!empty($allterms)) {
 				foreach ($allterms as $term) {
-					$term_list_characters[] = '<a href="'.comiceasel_themeinfo('siteurl').'/wp-admin/edit.php?post_type=comic&characters='.comiceasel_clean_filename($term->name).'">'.$term->name.'</a>';
+					$term_list_characters[] = '<a href="'.home_url('/wp-admin/edit.php?post_type=comic&characters='.ceo_clean_filename($term->name)).'">'.$term->name.'</a>';
 				}
 				echo join(', ', $term_list_characters );
 			}
@@ -52,7 +52,7 @@ function comiceasel_manage_comic_columns($column_name, $id) {
 	} // end switch
 }
 
-function comiceasel_edit_comic_in_post($post) { 
+function ceo_edit_comic_in_post($post) { 
 ?>
 <div class="inside" style="overflow: hidden">
 	<table>
@@ -65,8 +65,8 @@ function comiceasel_edit_comic_in_post($post) {
 <?php
 }
 
-function comiceasel_handle_edit_save_comic($post_id) {
-/*	$moods_directory = comiceasel_themeinfo('moods_directory');
+function ceo_handle_edit_save_comic($post_id) {
+/*	$moods_directory = ceo_pluginfo('moods_directory');
 	if (!empty($moods_directory) && $moods_directory != 'none') {
 		$currentmood = get_post_meta( $post_id, "mood", true );
 		if (isset($_POST['postmood']) && $_POST['postmood'] !== $currentmood) {

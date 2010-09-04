@@ -139,26 +139,17 @@ function ceo_load_manager_config_options($reset = false) {
 }
 
 function ceo_pluginfo($whichinfo = null) {
-	global $ceo_plugininfo;
-	if (empty($ceo_plugininfo) || $whichinfo == 'reset') {
-		$comiceasel_config = ceo_load_config();
-		$comiceasel_manager_config = ceo_load_manager_config_options();
+	global $ceo_pluginfo;
+	if (empty($ceo_pluginfo) || $whichinfo == 'reset') {
+		$ceo_config = ceo_load_config();
+		$ceo_manager_config = ceo_load_manager_config_options();
 		$ceo_coreinfo = wp_upload_dir();
-		$ceo_addinfo = array(
-				'themeurl' => get_template_directory_uri(),
-				'themepath' => get_template_directory(),
-				'styleurl' => get_stylesheet_directory_uri(),
-				'stylepath' => get_stylesheet_directory(),
-				'home' => get_option('home'),
-				'wpurl' => get_bloginfo('wpurl'),
-				'siteurl' => get_option('siteurl')
-		);
-		$ceo_plugininfo = array_merge($ceo_coreinfo, $ceo_addinfo);
-		$ceo_plugininfo = array_merge($ceo_plugininfo, $comiceasel_config);
-		$ceo_plugininfo = array_merge($ceo_plugininfo, $comiceasel_manager_config);
+		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_coreinfo);
+		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_config);
+		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_manager_config);
 	}
-	if ($whichinfo) return $ceo_plugininfo[$whichinfo];
-	return $ceo_plugininfo;
+	if ($whichinfo) return $ceo_pluginfo[$whichinfo];
+	return $ceo_pluginfo;
 }
 
 function ceo_feed_request($requests) {

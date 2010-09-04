@@ -25,13 +25,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 */
 
-define( CEASEL_PATH, get_template_directory() );
-define( CEASEL_URL, get_template_directory_uri() );
-define( CEASEL_CHILD_PATH, get_stylesheet_directory() );
-define( CEASEL_CHILD_URL, get_stylesheet_directory_uri() );
-define( CEASEL_HOME, trailingslashit(get_option('home')) );
-define( CEASEL_SITEURL, trailingslashit(get_option('siteurl')) );
-define( CEASEL_PLUGINPATH, CEASEL_HOME . trailingslashit(ceo_get_plugin_path()) );
+define( CEASEL_PLUGINPATH, trailingslashit(home_url())  . trailingslashit(ceo_get_plugin_path()) );
 
 add_action('init', 'ceo_initialize_post_types');
 
@@ -136,7 +130,7 @@ if (is_admin()) {
 	if (strpos(get_template_directory(), 'easel')  == false) {
 		if( substr( $_SERVER[ 'PHP_SELF' ], -19 ) != '/wp-admin/index.php' ) return;
 		
-		function ceo_no_comiceasel_theme() {
+		function ceo_no_ceo_theme() {
 			$output = '<div class="error">';
 			$output .= '<h2>'.__('Comic Easel Error','comiceasel').'</h2>';
 			$output .= __('The current theme is not an Easel theme; Comic Easel will not load.','comiceasel').'<br />';
@@ -145,7 +139,7 @@ if (is_admin()) {
 			echo $output;
 		}
 		
-		add_action( 'admin_notices', 'ceo_no_comiceasel_theme' );
+		add_action( 'admin_notices', 'ceo_no_ceo_theme' );
 		return;
 	}
 	// only load the plugin code of we're in the administration part of WordPress.
