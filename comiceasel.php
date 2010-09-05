@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 */
 
-define( CEASEL_PLUGINPATH, trailingslashit(home_url())  . trailingslashit(ceo_get_plugin_path()) );
+define( 'CEASEL_PLUGINPATH', trailingslashit(home_url())  . trailingslashit(ceo_get_plugin_path()) );
 
 add_action('init', 'ceo_initialize_post_types');
 
@@ -157,5 +157,74 @@ function ceo_flush_rewrite() {
 }
 
 @require('functions/injections.php');
+
+/**
+ * This is function ceo_clean_filename
+ *
+ * @param string $filename the BASE filename
+ * @return string returns the rawurlencoded filename with the %2F put back to /
+ *
+ */
+function ceo_clean_filename($filename) {
+	return str_replace("%2F", "/", rawurlencode($filename));
+}
+
+/**
+ * These set of functions are for the configuration ceo_pluginfo() information
+ * 
+ */
+function ceo_load_options($reset = false) {
+
+	if ($reset) delete_option('comiceasel-config');
+	
+	$ceo_config = get_option('comiceasel-config');
+	if (empty($ceo_config)) {
+		delete_option('comiceasel-config');
+		foreach (array(
+			'comic_folder' => 'comics',
+			'comic_folder_medium' => 'comics-medium',
+			'comic_folder_small' => 'comics-archive',
+			'medium_comic_width' => '360',
+			'small_comic_width' => '200',
+			'add_dashboard_frumph_feed_widget' => true
+		) as $field => $value) {
+			$ceo_config[$field] = $value;
+		}
+
+		add_option('comiceasel-config', $ceo_config, '', 'yes');
+	}
+	return $ceo_config;
+}
+
+function ceo_pluginfo($whichinfo = null) {
+	global $ceo_pluginfo;
+	if (empty($ceo_pluginfo) || $whichinfo == 'reset') {
+		$ceo_pluginfo = array();
+		$ceo_options = ceo_load_options('reset');
+		$ceo_coreinfo = wp_upload_dir();
+		// Comic folders
+		$ceo_pluginfo['comic_path'] = trailingslashit($ceo_coreinfo['basedir']) . $ceo_options['comic_folder'];
+		$ceo_pluginfo['comic_url'] = trailingslashit($ceo_coreinfo['baseurl']) . $ceo_options['comic_folder'];
+		// Medium Thumbnail Folder
+		$ceo_pluginfo['thumbnail_medium_path'] = trailingslashit($ceo_coreinfo['basedir']) . $ceo_options['comic_folder_medium'];
+		$ceo_pluginfo['thumbnail_medium_url'] = trailingslashit($ceo_coreinfo['baseurl']) . $ceo_options['comic_folder_medium'];
+		// Small Thumbnail Folder
+		$ceo_pluginfo['thumbnail_small_path'] = trailingslashit($ceo_coreinfo['basedir']) . $ceo_options['comic_folder_small'];
+		$ceo_pluginfo['thumbnail_small_url'] = trailingslashit($ceo_coreinfo['baseurl']) . $ceo_options['comic_folder_small'];
+		// Combine em.
+		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_coreinfo);
+		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_options);
+	}
+	if ($whichinfo) return $ceo_pluginfo[$whichinfo];
+	return $ceo_pluginfo;
+}
+
+function ceo_feed_request($requests) {
+	if (isset($requests['feed']))
+		$requests['post_type'] = get_post_types();
+	return $requests;
+}
+
+add_filter('request', 'ceo_feed_request');
 
 ?>

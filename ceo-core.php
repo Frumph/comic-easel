@@ -23,10 +23,12 @@ function ceo_add_menu_pages() {
 	// Scripts for the chapter manager page.
 	// Notice how its checking the _GET['page'], do this for the other areas
 	// if you need to execute scripts on the particular areas
-	switch ($_GET['page']) {
-		case 'comiceasel-chapter-manager':
-			add_action('admin_print_scripts-' . $chapter_manager_hook, 'ceo_load_scripts_chapter_manager');
-			break;
+	if (isset($_GET['page'])) {
+		switch ($_GET['page']) {
+			case 'comiceasel-chapter-manager':
+				add_action('admin_print_scripts-' . $chapter_manager_hook, 'ceo_load_scripts_chapter_manager');
+				break;
+		}
 	}
 }
 
@@ -73,92 +75,6 @@ function ceo_test_information($var_dump_info) { ?>
 <?php }
 
 // if (is_admin()) add_action( 'admin_notices', 'ceo_test_information' );
-
-/**
- * This is function ceo_clean_filename
- *
- * @param string $filename the BASE filename
- * @return string returns the rawurlencoded filename with the %2F put back to /
- *
- */
-function ceo_clean_filename($filename) {
-	return str_replace("%2F", "/", rawurlencode($filename));
-}
-
-/**
- * These set of functions are for the configuration ceo_pluginfo() information
- * This needs to be updated to the CEO plugin's options and not ComicPress's
- */
-function ceo_load_config($reset = false) {
-
-	if ($reset) delete_option('comicpress-config');
-	
-	$cp_config = get_option('comicpress-config');
-	if (empty($cp_config)) {
-		delete_option('comicpress-config');
-		foreach (array(
-			'comiccat' => '2',
-			'blogcat' => '3',
-			'comic_folder' => 'comics',
-			'rss_comic_folder' => 'comics-rss',
-			'archive_comic_folder' => 'comics-archive',
-			'mini_comic_folder' => 'comics-mini',
-			'archive_comic_width' => '300',
-			'rss_comic_width' => '480',
-			'mini_comic_width' => '170',
-			'add_dashboard_frumph_feed_widget' => true
-		) as $field => $value) {
-			$cp_config[$field] = $value;
-		}
-
-		add_option('comicpress-config', $cp_config, '', 'yes');
-	}
-	return $cp_config;
-}
-
-/**
- * These set of functions are for the configuration ceo_pluginfo() information
- * 
- */
-function ceo_load_manager_config_options($reset = false) {
-
-	if ($reset) delete_option('comiceasel-config');
-	
-	$ceo_config = get_option('comiceasel-config');
-	if (empty($ceo_config)) {
-		delete_option('comiceasel-config');
-		foreach (array(
-			'add_dashboard_frumph_feed_widget' => true
-		) as $field => $value) {
-			$ceo_config[$field] = $value;
-		}
-
-		add_option('comiceasel-config', $ceo_config, '', 'yes');
-	}
-	return $ceo_config;
-}
-
-function ceo_pluginfo($whichinfo = null) {
-	global $ceo_pluginfo;
-	if (empty($ceo_pluginfo) || $whichinfo == 'reset') {
-		$ceo_config = ceo_load_config();
-		$ceo_manager_config = ceo_load_manager_config_options();
-		$ceo_coreinfo = wp_upload_dir();
-		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_coreinfo);
-		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_config);
-		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_manager_config);
-	}
-	if ($whichinfo) return $ceo_pluginfo[$whichinfo];
-	return $ceo_pluginfo;
-}
-
-function ceo_feed_request($requests) {
-	if (isset($requests['feed']))
-		$requests['post_type'] = get_post_types();
-	return $requests;
-}
-
-add_filter('request', 'ceo_feed_request');
 
 
 ?>
