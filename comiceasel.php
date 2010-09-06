@@ -115,14 +115,6 @@ function ceo_initialize_post_types() {
 	register_taxonomy_for_object_type('characters', 'comic');
 }
 
-
-/**
- * Get the path to the plugin folder.
- */
-function ceo_get_plugin_path() {
-	return PLUGINDIR . '/' . preg_replace('#^.*/([^\/]*)#', '\\1', dirname(plugin_basename(__FILE__)));
-}
-
 // THIS STUFF ONLY RUNS IN THE WP-ADMIN
 if (is_admin()) {
 
@@ -156,6 +148,13 @@ function ceo_flush_rewrite() {
 	$wp_rewrite->flush_rules();
 }
 
+// This file handles navigation of the comic
+@require('functions/navigation.php');
+
+// This file handles reading the comic from the filesystem and displaying it
+@require('functions/displaycomic.php');
+
+// This file contains the functions that are injected into the theme
 @require('functions/injections.php');
 
 /**
@@ -167,6 +166,13 @@ function ceo_flush_rewrite() {
  */
 function ceo_clean_filename($filename) {
 	return str_replace("%2F", "/", rawurlencode($filename));
+}
+
+/**
+ * Get the path to the plugin folder.
+ */
+function ceo_get_plugin_path() {
+	return PLUGINDIR . '/' . preg_replace('#^.*/([^\/]*)#', '\\1', dirname(plugin_basename(__FILE__)));
 }
 
 /**
@@ -199,23 +205,41 @@ function ceo_load_options($reset = false) {
 function ceo_pluginfo($whichinfo = null) {
 	global $ceo_pluginfo;
 	if (empty($ceo_pluginfo) || $whichinfo == 'reset') {
+		// Important to assign pluginfo as an array to begin with.
 		$ceo_pluginfo = array();
-		$ceo_options = ceo_load_options('reset');
+		$ceo_options = ceo_load_options('reset'); // TEMP: Reset is temporary
 		$ceo_coreinfo = wp_upload_dir();
-		// Comic folders
-		$ceo_pluginfo['comic_path'] = trailingslashit($ceo_coreinfo['basedir']) . $ceo_options['comic_folder'];
-		$ceo_pluginfo['comic_url'] = trailingslashit($ceo_coreinfo['baseurl']) . $ceo_options['comic_folder'];
-		// Medium Thumbnail Folder
-		$ceo_pluginfo['thumbnail_medium_path'] = trailingslashit($ceo_coreinfo['basedir']) . $ceo_options['comic_folder_medium'];
-		$ceo_pluginfo['thumbnail_medium_url'] = trailingslashit($ceo_coreinfo['baseurl']) . $ceo_options['comic_folder_medium'];
-		// Small Thumbnail Folder
-		$ceo_pluginfo['thumbnail_small_path'] = trailingslashit($ceo_coreinfo['basedir']) . $ceo_options['comic_folder_small'];
-		$ceo_pluginfo['thumbnail_small_url'] = trailingslashit($ceo_coreinfo['baseurl']) . $ceo_options['comic_folder_small'];
+		// Child and Parent theme directories style = child(or parent), theme = parent
+		$ceo_addinfo = array(
+				// if wp_upload_dir reports an error, capture it
+				'error' => $ceo_coreinfo['error'],
+				// upload_path-url
+				'base_url' => $ceo_coreinfo['baseurl'],				
+				'base_path' => $ceo_coreinfo['basedir'],
+				// Parent theme
+				'theme_url' => get_template_directory_uri(),
+				'theme_path' => get_template_directory(),
+				// Child Theme (or parent if no child)
+				'style_url' => get_stylesheet_directory_uri(),
+				'style_path' => get_stylesheet_directory(),
+				// comic-easel plugin directory/url
+				'plugin_url' => plugin_dir_url(dirname (__FILE__)) . 'comic-easel',
+				'plugin_path' => trailingslashit(ABSPATH) . ceo_get_plugin_path(),
+				// Comic folders
+				'comic_url' => trailingslashit($ceo_coreinfo['baseurl']) . $ceo_options['comic_folder'],
+				'comic_path' => trailingslashit($ceo_coreinfo['basedir']) . $ceo_options['comic_folder'],
+				// Medium Thumbnail Folder
+				'thumbnail_medium_url' => trailingslashit($ceo_coreinfo['baseurl']) . $ceo_options['comic_folder_medium'],
+				'thumbnail_medium_path' => trailingslashit($ceo_coreinfo['basedir']) . $ceo_options['comic_folder_medium'],
+				// Small Thumbnail Folder
+				'thumbnail_small_url' =>trailingslashit($ceo_coreinfo['baseurl']) . $ceo_options['comic_folder_small'],
+				'thumbnail_small_path' => trailingslashit($ceo_coreinfo['basedir']) . $ceo_options['comic_folder_small']
+		);
 		// Combine em.
-		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_coreinfo);
+		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_addinfo);
 		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_options);
 	}
-	if ($whichinfo) return $ceo_pluginfo[$whichinfo];
+	if ($whichinfo && isset($ceo_pluginfo[$whichinfo])) return $ceo_pluginfo[$whichinfo];
 	return $ceo_pluginfo;
 }
 

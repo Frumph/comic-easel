@@ -28,11 +28,9 @@ function ceo_display_comic_area() {
 	global $wp_query;
 	if (function_exists('easel_display_post') && !is_home()) { // If the theme isnt installed, just don't go there.
 		if (is_single()) {
-			var_dump(ceo_pluginfo());
 			ceo_display_comic_wrapper();
 		} else {
 			if (is_home() && !is_paged())  {
-				var_dump(ceo_pluginfo());
 				Protect();
 				$wp_query->in_the_loop = true; $comicFrontpage = new WP_Query(); $comicFrontpage->query('post_type=comic&showposts=1');
 				while ($comicFrontpage->have_posts()) : $comicFrontpage->the_post();
