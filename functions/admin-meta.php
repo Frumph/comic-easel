@@ -41,6 +41,7 @@ function ceo_manage_comic_columns($column_name, $id) {
 			}
 	        break;	
 	case 'comicimages':
+			$comicthumb = '';
 			echo "TODO: Some sort of thumbnail.<br /><br />";
 			// $this_post = &get_post($id); 
 			if (!$comicthumb) { echo 'No Comic Found.'; } else {

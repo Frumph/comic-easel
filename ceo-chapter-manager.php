@@ -2,16 +2,16 @@
 
 //Switch page target depending on version
 function ceo_getTarget() {
-	return "admin.php";
+	return "admin-meta.php";
 }
 
 global $wpdb;
 	
-$mode = "";
-$mode = $_GET['mode'];
+$mode = '';
+if (isset($_GET['mode'])) $mode = $_GET['mode'];
 $startingID = 13;
 $parentID = 13;
-$success = "";
+$success = '';
 if (isset($_GET['parentID']))
     $parentID = $_GET['parentID'];
 		
@@ -70,12 +70,12 @@ if (isset($_GET['parentID']))
 		jQuery("#updateText").html("<?php _e('Updating Category Order...','comiceasel'); ?>");
 		
 		idList = jQuery("#order").sortable("toArray");
-		location.href = 'admin.php?page=comiceasel-storyline&mode=act_OrderCategories&parentID=<?php echo $parentID; ?>&idString='+idList;
+		location.href = 'edit.php?post_type=comic&page=comiceasel-chapter-manager&mode=act_OrderCategories&parentID=<?php echo $parentID; ?>&idString='+idList;
 	}
 	function goEdit ()
 	{
 		if(jQuery("#cats").val() != "")
-			location.href="admin.php?page=comiceasel-storyline&parentID="+jQuery("#cats").val();
+			location.href="edit.php?post_type=comic&page=comiceasel-chapter-manager&parentID="+jQuery("#cats").val();
 	}
 </script>
 	<div class='wrap' style="width: 500px;">
@@ -87,6 +87,7 @@ if (isset($_GET['parentID']))
 	<p><?php _e('Choose a category from the drop down to order subcategories in that category or order the categories on this level by dragging and dropping them into the desired order.','ceo'); ?></p>
 
 <?php
+	$orderby = 'name'; $order = 'ASC'; $show_last_updated = 0; $show_count = -1; 
 	$cat_args = array('orderby' => $orderby, 'order' => $order, 'show_last_updated' => $show_last_updated, 'show_count' => $show_count, 
 	'hide_empty' => 1, 'child_of' => $startingID, 'hierarchical' => 1);
 	$infocats = get_categories($cat_args);
@@ -117,7 +118,7 @@ if (isset($_GET['parentID']))
 
 function ceo_applyorderfilter($orderby, $args)
 {
-	if($args['orderby'] == 'order')
+	if(isset($args['orderby']) && ($args['orderby'] == 'order'))
 		return 't.term_order';
 	else
 		return $orderby;
