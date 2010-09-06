@@ -189,7 +189,7 @@ function ceo_load_options($reset = false) {
 		foreach (array(
 			'comic_folder' => 'comics',
 			'comic_folder_medium' => 'comics-medium',
-			'comic_folder_small' => 'comics-archive',
+			'comic_folder_small' => 'comics-small',
 			'medium_comic_width' => '360',
 			'small_comic_width' => '200',
 			'add_dashboard_frumph_feed_widget' => true
