@@ -14,11 +14,13 @@ function ceo_add_menu_pages() {
 	$image_title = __('Image Manager', 'comiceasel');
 	$chapter_title = __('Chapter Manager', 'comiceasel');
 	$config_title = __('Config', 'comiceasel');
+	$upload_title = __('Upload', 'comiceasel');
 	
 	// the ceo_pluginfo used here actually initiates it.
 	$image_manager_hook = add_submenu_page($menu_location,  $plugin_title . ' - ' . $image_title, $image_title, 'edit_theme_options', 'comiceasel-image-manager', 'ceo_image_manager');
 	$chapter_manager_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $chapter_title, $chapter_title, 'edit_theme_options', 'comiceasel-chapter-manager', 'ceo_chapter_manager');
 	$config_hook = add_submenu_page($menu_location,   $plugin_title . ' - ' . $config_title, $config_title, 'edit_theme_options', 'comiceasel-config', 'ceo_manager_config');
+	$upload_hook = add_submenu_page($menu_location,   $plugin_title . ' - ' . $upload_title, $upload_title, 'edit_posts', 'comiceasel-upload', 'ceo_upload');
 
 	// Scripts for the chapter manager page.
 	// Notice how its checking the _GET['page'], do this for the other areas
@@ -28,6 +30,10 @@ function ceo_add_menu_pages() {
 			case 'comiceasel-chapter-manager':
 				add_action('admin_print_scripts-' . $chapter_manager_hook, 'ceo_load_scripts_chapter_manager');
 				break;
+			case 'comiceasel-upload':
+				add_action('admin_print_scripts-' . $upload_hook, 'ceo_load_scripts_upload');
+				add_action('admin_print_styles-' . $upload_hook, 'ceo_load_styles_upload');
+				break;
 		}
 	}
 }
@@ -36,6 +42,14 @@ function ceo_load_scripts_chapter_manager() {
 	wp_enqueue_script('jquery');
 	wp_enqueue_script('jquery-ui-core');
 	wp_enqueue_script('jquery-ui-sortable');
+}
+
+function ceo_load_scripts_upload() {
+	wp_enqueue_script('comiceasel-fileuploader-script', ceo_pluginfo('plugin_url') .'/js/fileuploader.js');		
+}
+
+function ceo_load_styles_upload() {
+	wp_enqueue_style('comiceasel-fileuploader-style', ceo_pluginfo('plugin_url') .'/css/fileuploader.css');
 }
 
 // This is done this way to *not* load pages unless they are called, self sufficient code, but since attached to the ceo-core it can use the library in core.
@@ -49,6 +63,11 @@ function ceo_chapter_manager() {
 
 function ceo_manager_config() {
 	require_once('ceo-config.php');
+}
+
+
+function ceo_upload() {
+	require_once('ceo-upload.php');
 }
 
 /**

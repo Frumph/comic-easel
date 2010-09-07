@@ -1,3 +1,5 @@
+<div class="wrap">
+<h2><?php _e('Comic Easel - Chapter Manager','comiceasel'); ?></h2>
 <?php
 
 //Switch page target depending on version
@@ -126,3 +128,4 @@ function ceo_applyorderfilter($orderby, $args)
 
 add_filter('get_terms_orderby', 'ceo_applyorderfilter', 10, 2);
 ?>
+</div>

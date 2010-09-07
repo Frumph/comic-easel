@@ -2,10 +2,12 @@
 // Show Config Variables for right now
 // var_dump(ceo_pluginfo());
 ?>
+<div class="wrap">
+<h2><?php _e('Comic Easel - Config','comiceasel'); ?></h2>
 <table class="widefat">
 <thead>
 	<tr>
-	<th colspan="3"><?php _e('Variables','comic-easel'); ?></th>
+	<th colspan="3"><?php _e('Variables','comiceasel'); ?></th>
 	</tr>
 </thead>
 <tr><td>error</td><td><?php echo ceo_pluginfo('error'); ?></td></tr>
@@ -30,3 +32,4 @@
 <tr><td>small_comic_width</td><td><?php echo ceo_pluginfo('small_comic_width'); ?></td></tr>
 <tr><td>add_dashboard_frumph_feed_widget</td><td><?php echo ceo_pluginfo('add_dashboard_frumph_feed_widget'); ?> (1 true, 0 false)</td></tr>
 </table>
+</div>
