@@ -139,14 +139,66 @@ if (is_admin()) {
 	@require('functions/admin-meta.php');
 }
 
-// Flush Rewrite Rules
-register_activation_hook( __FILE__, 'ceo_flush_rewrite' );
+// Flush Rewrite Rules & create chapters
+register_activation_hook( __FILE__, 'ceo_activation_hook' );
 register_deactivation_hook( __FILE__, 'ceo_flush_rewrite' );
+
+// This function executes when the plugin is activated.
+// Checks chapters, creates them if needs be, checks directories, creates them if need be.
+function ceo_activation_hook() {
+	ceo_flush_rewrite();
+	$checkchapters = get_terms('chapters', 'orderby=count&hide_empty=0');
+	if (empty($checkchapters)) {
+		$bookname = stripslashes(__('Book 1', 'comiceasel'));
+		$bookslug = sanitize_title($bookname);
+		// Should I check for .. the slug of term or name of term?
+		if (!term_exists($bookslug, 'chapters')) {
+			$args = array(
+					'description' => stripslashes(__('The first book.', 'comiceasel')),
+					'slug' => $bookslug 
+					);
+			$returned_book_info = wp_insert_term($bookname, 'chapters', $args);
+			$parent_term_id = 0;
+			// should I get term_taxonomy_id ?
+			// old: if (isset($returned_book_info['term_id'])) $parent_term_id = $returned_book_info['term_id'];
+			$parent_term = term_exists( $bookslug, 'chapters' ); // array is returned if taxonomy is given
+			$parent_term_id = $parent_term['term_id']; // get numeric term id
+			
+			if ($parent_term_id) {
+				$chaptername = stripslashes(__('Chapter 1', 'comiceasel'));
+				$chapterslug = sanitize_title($chaptername);
+				$args = array(
+						'description' => stripslashes(__('First chapter of Book 1', 'comiceasel')),
+						'slug' => $chapterslug,
+						'parent' => $parent_term_id
+						);
+				$returned_chapter_info = wp_insert_term($chaptername, 'chapters', $args);
+			}
+		}
+	}
+}
 
 function ceo_flush_rewrite() {
 	global $wp_rewrite;
 	$wp_rewrite->flush_rules();
 }
+
+/**
+ * This functions is to display test information on the dashboard, instead of dumping it out to everyone.
+ * This is so that a plugin doesn't generate errors on output of the var_dump() to the end user.
+ */
+function ceo_test_information($vartodump) { ?>
+	<div class="error">
+		<h2><?php _e('Comic Easel - Test Information','comiceasel'); ?></h2>
+		<?php 
+			var_dump($vartodump);
+		?>
+	</div>
+<?php }
+
+if (is_admin()) add_action( 'admin_notices', 'ceo_test_information' );
+
+
 
 // This file handles navigation of the comic
 @require('functions/navigation.php');

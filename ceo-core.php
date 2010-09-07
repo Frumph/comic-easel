@@ -63,18 +63,7 @@ function ceo_add_dashboard_widgets() {
 	wp_add_dashboard_widget('ceo_dashboard_widget', 'Frumph.NET News', 'ceo_dashboard_feed_widget');	
 }
 
-/**
- * This set of functions is to display test information on the dashboard, much like an error
- * 
- */
-function ceo_test_information($var_dump_info) { ?>
-	<div class="error">
-	<h2><?php _e('Comic Easel - Test Information','comiceasel'); ?></h2>
-	<?php var_dump(get_post_types()); ?><br />
-	</div>
-<?php }
 
-// if (is_admin()) add_action( 'admin_notices', 'ceo_test_information' );
 
 
 ?>

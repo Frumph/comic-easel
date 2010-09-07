@@ -22,7 +22,7 @@ function ceo_edit_post_category($post_category) {
 	return $post_category;
 }
 
-add_action('easel-content-area', 'ceo_display_comic_area');
+// add_action('easel-content-area', 'ceo_display_comic_area');
 
 function ceo_display_comic_area() {
 	global $wp_query;
@@ -58,7 +58,7 @@ function ceo_display_comic_wrapper() {
 	<?php }
 }
 
-add_action('easel-narrowcolumn-area', 'ceo_display_comic_post_home');
+// add_action('easel-narrowcolumn-area', 'ceo_display_comic_post_home');
 
 function ceo_display_comic_post_home() { 
 	global $wp_query;
