@@ -140,13 +140,17 @@ if (is_admin()) {
 }
 
 // Flush Rewrite Rules & create chapters
-register_activation_hook( __FILE__, 'ceo_activation_hook' );
+register_activation_hook( __FILE__, 'ceo_flush_rewrite' );
 register_deactivation_hook( __FILE__, 'ceo_flush_rewrite' );
 
-// This function executes when the plugin is activated.
+function ceo_flush_rewrite() {
+	global $wp_rewrite;
+	$wp_rewrite->flush_rules();
+}
+
+
 // Checks chapters, creates them if needs be, checks directories, creates them if need be.
-function ceo_activation_hook() {
-	ceo_flush_rewrite();
+function ceo_checkdefaults() {
 	$checkchapters = get_terms('chapters', 'orderby=count&hide_empty=0');
 	if (empty($checkchapters)) {
 		$bookname = stripslashes(__('Book 1', 'comiceasel'));
@@ -176,11 +180,6 @@ function ceo_activation_hook() {
 			}
 		}
 	}
-}
-
-function ceo_flush_rewrite() {
-	global $wp_rewrite;
-	$wp_rewrite->flush_rules();
 }
 
 /**
