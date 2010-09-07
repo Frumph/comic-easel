@@ -34,13 +34,13 @@ if (!function_exists('ceo_display_comic_navigation')) {
 		global $post, $wp_query;
 		if (!ceo_pluginfo('disable_default_comic_nav')) { 
 			$first_comic = ceo_get_first_comic_permalink();
-			$first_text = __('&lsaquo;&lsaquo; First','comicpress');
+			$first_text = __('&lsaquo;&lsaquo; First','comiceasel');
 			$last_comic = ceo_get_last_comic_permalink();
-			$last_text = __('Last &rsaquo;&rsaquo;','comicpress'); 
+			$last_text = __('Last &rsaquo;&rsaquo;','comiceasel'); 
 			$next_comic = ceo_get_next_comic_permalink();
-			$next_text = __('Next &rsaquo;','comicpress');
+			$next_text = __('Next &rsaquo;','comiceasel');
 			$prev_comic = ceo_get_previous_comic_permalink();
-			$prev_text = __('&lsaquo; Prev','comicpress');
+			$prev_text = __('&lsaquo; Prev','comiceasel');
 ?>
 		<div class="nav">
 			<div class="nav-first"><?php if ( get_permalink() != $first_comic ) { ?><a href="<?php echo $first_comic ?>"><?php echo $first_text; ?></a><?php } else { echo $first_text; } ?></div>
@@ -87,7 +87,7 @@ function ceo_init_comic_swf() {
 	wp_enqueue_script('swfobject', '', array(), false, true);
 }
 
-// This function will let authors who want to use comicpress as a way to output their books/text in a comic area as a page.
+// This function will let authors who want to use comic easel as a way to output their books/text in a comic area as a page.
 function ceo_display_comic_text($comic) {
 	if (file_exists(ceo_pluginfo('basedir') . '/' .$comic)) {
 		$output = nl2br(file_get_contents(ceo_pluginfo('basedir') . '/' .$comic));
@@ -337,7 +337,7 @@ function get_comic_path($folder = 'comic', $override_post = null, $filter = 'def
 		}	
 	}
 	
-	$comic_pathfinding_errors[] = sprintf(__("Unable to find the file in the <strong>%s</strong> folder that matched the pattern <strong>%s</strong>. Check your WordPress and ComicPress settings.", 'comicpress'), $folder_to_use, $filter_with_date);
+	$comic_pathfinding_errors[] = sprintf(__("Unable to find the file in the <strong>%s</strong> folder that matched the pattern <strong>%s</strong>. Check your WordPress and ComicPress settings.", 'comiceasel'), $folder_to_use, $filter_with_date);
 	return false;
 }
 

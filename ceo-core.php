@@ -15,11 +15,13 @@ function ceo_add_menu_pages() {
 	$chapter_title = __('Chapter Manager', 'comiceasel');
 	$config_title = __('Config', 'comiceasel');
 	$upload_title = __('Upload', 'comiceasel');
+	$debug_title = __ ('Debug', 'comiceasel');
 	
 	// the ceo_pluginfo used here actually initiates it.
 	$image_manager_hook = add_submenu_page($menu_location,  $plugin_title . ' - ' . $image_title, $image_title, 'edit_theme_options', 'comiceasel-image-manager', 'ceo_image_manager');
 	$chapter_manager_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $chapter_title, $chapter_title, 'edit_theme_options', 'comiceasel-chapter-manager', 'ceo_chapter_manager');
 	$config_hook = add_submenu_page($menu_location,   $plugin_title . ' - ' . $config_title, $config_title, 'edit_theme_options', 'comiceasel-config', 'ceo_manager_config');
+	$debug_hook = add_submenu_page($menu_location,   $plugin_title . ' - ' . $debug_title, $debug_title, 'edit_theme_options', 'comiceasel-debug', 'ceo_debug');
 	$upload_hook = add_submenu_page($menu_location,   $plugin_title . ' - ' . $upload_title, $upload_title, 'edit_posts', 'comiceasel-upload', 'ceo_upload');
 
 	// Scripts for the chapter manager page.
@@ -65,6 +67,9 @@ function ceo_manager_config() {
 	require_once('ceo-config.php');
 }
 
+function ceo_debug() {
+	require_once('ceo-debug.php');
+}
 
 function ceo_upload() {
 	require_once('ceo-upload.php');
@@ -75,7 +80,7 @@ function ceo_upload() {
  *
  */
 function ceo_dashboard_feed_widget() {
-	wp_widget_rss_output('http://frumph.net/feed/', array('items' => 2, 'show_summary' => true));
+	wp_widget_rss_output('http://frumph.net/?feed=rss2', array('items' => 2, 'show_summary' => true));
 } 
 
 function ceo_add_dashboard_widgets() {
