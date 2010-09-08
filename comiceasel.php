@@ -77,7 +77,7 @@ function ceo_initialize_post_types() {
 			'new_item_name' => __( 'New Chapter Name' ),
 			); 	
 
-	register_taxonomy('chapters',array('chapter'), array(
+	register_taxonomy('chapters', 'comic', array(
 				'hierarchical' => true,
 				'public' => true,
 				'labels' => $labels,
@@ -88,7 +88,7 @@ function ceo_initialize_post_types() {
 				));
 
 	$labels = array(
-			'name' => _x( 'Characters', 'taxonomy general name' ),
+			'name' => _x('Characters', 'taxonomy general name' ),
 			'singular_name' => _x( 'Character', 'taxonomy singular name' ),
 			'search_items' =>  __( 'Search Characters' ),
 			'popular_items' => __( 'Popular Characters' ),
@@ -101,7 +101,7 @@ function ceo_initialize_post_types() {
 			'new_item_name' => __( 'New Character Name' ),
 			); 	
 
-	register_taxonomy('characters',array('showcase'), array(
+	register_taxonomy('characters', 'comic', array(
 				'hierarchical' => false,
 				'public' => true,
 				'labels' => $labels,
@@ -110,9 +110,34 @@ function ceo_initialize_post_types() {
 				'show_tagcloud' => false,
 				'rewrite' => array( 'slug' => 'character' ),
 				));
+				
+	$labels = array(
+			'name' => _x( 'Locations', 'taxonomy general name' ),
+			'singular_name' => _x( 'Location', 'taxonomy singular name' ),
+			'search_items' =>  __( 'Search Locations' ),
+			'popular_items' => __( 'Popular Locations' ),
+			'all_items' => __( 'All Locations' ),
+			'parent_item' => __( 'Parent Locations' ),
+			'parent_item_colon' => __( 'Parent Location:' ),
+			'edit_item' => __( 'Edit Location' ), 
+			'update_item' => __( 'Update Location' ),
+			'add_new_item' => __( 'Add New Location' ),
+			'new_item_name' => __( 'New Location Name' ),
+			); 	
+
+	register_taxonomy('locations', 'comic', array(
+				'hierarchical' => true,
+				'public' => true,
+				'labels' => $labels,
+				'show_ui' => true,
+				'query_var' => true,
+				'show_tagcloud' => false,
+				'rewrite' => array( 'slug' => 'location' ),
+				));
 
 	register_taxonomy_for_object_type('chapters', 'comic');
 	register_taxonomy_for_object_type('characters', 'comic');
+	register_taxonomy_for_object_type('locations', 'comic');
 }
 
 // THIS STUFF ONLY RUNS IN THE WP-ADMIN

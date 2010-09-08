@@ -22,7 +22,7 @@ function ceo_edit_post_category($post_category) {
 	return $post_category;
 }
 
-// add_action('easel-content-area', 'ceo_display_comic_area');
+add_action('easel-content-area', 'ceo_display_comic_area');
 
 function ceo_display_comic_area() {
 	global $wp_query;
@@ -51,9 +51,11 @@ function ceo_display_comic_wrapper() {
 		<div id="comic-wrap">
 			<div id="comic-head"></div>
 			<div id="comic">
-				<?php the_title(); ?>
+				<?php echo ceo_display_comic(); ?>
 			</div>
-			<div id="comic-foot"></div>
+			<div id="comic-foot">
+				<?php ceo_display_comic_navigation(); ?>
+			</div>
 		</div>
 	<?php }
 }
@@ -73,5 +75,31 @@ function ceo_display_comic_post_home() {
 	<?php }
 	}
 }
+
+function ceo_display_characters() {
+	global $post;
+	$before = '<div class="characters">Characters: ';
+	$sep = ', '; 
+	$after = '</div>';
+	$output = get_the_term_list( $post->ID, 'characters', $before, $sep, $after );
+	return $output;
+}
+
+function ceo_display_locations() {
+	global $post;
+	$before = '<div class="location">Location: ';
+	$sep = ', '; 
+	$after = '</div>';
+	$output = get_the_term_list( $post->ID, 'locations', $before, $sep, $after );
+	return $output;
+}
+
+function ceo_display_comic_info() {
+	$output = ceo_display_characters();
+	$output .= ceo_display_locations();
+	echo $output;
+}
+
+add_action('easel-post-info', 'ceo_display_comic_info');
 
 ?>
