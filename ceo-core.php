@@ -35,6 +35,7 @@ function ceo_add_menu_pages() {
 			case 'comiceasel-upload':
 				add_action('admin_print_scripts-' . $upload_hook, 'ceo_load_scripts_upload');
 				add_action('admin_print_styles-' . $upload_hook, 'ceo_load_styles_upload');
+				add_action( 'admin_head-settings_page_' . $upload_hook, 'ceo_add_help_upload' );
 				break;
 		}
 	}
@@ -53,6 +54,12 @@ function ceo_load_scripts_upload() {
 function ceo_load_styles_upload() {
 	wp_enqueue_style('comiceasel-fileuploader-style', ceo_pluginfo('plugin_url') .'/css/fileuploader.css');
 }
+
+function ceo_add_help_upload() {  
+	global $current_screen;  
+	add_contextual_help( $current_screen, __( 'Help\'s on the way! Don\'t panic!' ) );  
+}  
+
 
 // This is done this way to *not* load pages unless they are called, self sufficient code, but since attached to the ceo-core it can use the library in core.
 function ceo_image_manager() {

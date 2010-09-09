@@ -23,7 +23,12 @@
 			<!-- or put a simple form for upload here -->
 		</noscript>         
 	</div> 
-    
+</td>
+</tr>
+</table>
+</form>
+</div>
+
     <script>        
         function createUploader(){            
             var uploader = new qq.FileUploader({
@@ -52,8 +57,3 @@
         // don't wait for the window to load  
         window.onload = createUploader;     
     </script> 
-</td>
-</tr>
-</table>
-</form>
-</div>
