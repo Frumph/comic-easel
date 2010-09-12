@@ -6,6 +6,7 @@
 			<p>Please enable JavaScript to use file uploader.</p>
 			<!-- or put a simple form for upload here -->
 		</noscript>         
+
 </div>
 
 <script>        
@@ -22,3 +23,4 @@
 	// don't wait for the window to load  
 	window.onload = createUploader;     
 </script>  
+
