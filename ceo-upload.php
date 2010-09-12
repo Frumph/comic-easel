@@ -33,9 +33,10 @@
         function createUploader(){            
             var uploader = new qq.FileUploader({
                 element: document.getElementById('file-uploader-demo1'),
-                action: '<?php echo ceo_pluginfo('plugin_url') ?>/functions/uploader.php',
+                action: userSettings.ajaxurl,
 				params: {
-					userid: userSettings.uid
+					userid: userSettings.uid,
+					action: 'ceo_uploader'
 				},
 				onSubmit: function(id, fileName){
 					uploader.setParams({

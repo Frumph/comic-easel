@@ -1,9 +1,6 @@
 <?php
 
-require_once( "../../../../wp-load.php" );
 include_once('easyphpthumbnail.class.php');
-
-
 class ceo_UploadFileXhr {
 	function save($path){
 		$input = fopen("php://input", "r");
@@ -83,29 +80,6 @@ function ceo_handleUpload(){
 		$thumb -> Createthumb(ceo_pluginfo('comic_path') .'/'. $filename . '.' . $ext,'file');
 	}
 	
-	//generate post for comic
-	//need to add more data for the post from the uploader form here.
-	$post = array(
-		'post_content' => $_REQUEST['content'], //The full text of the post.
-		'post_title' => $_REQUEST['title'], //The title of your post.
-		'post_type' => 'comic',
-		'post_author' => $_REQUEST['userid'],
-		'post_status' => 'publish',
-		'post_date' => $_REQUEST['date'] .' '. $_REQUEST['time'],
-		'tags_input' => $_REQUEST['tags']
-	);
-	
-	$newpost = wp_insert_post( $post );
-	$chapter = get_term_by('id', $_REQUEST['chapter'], 'chapters');
-	wp_set_object_terms( $newpost, $chapter->slug , 'chapters',  false);
-	add_post_meta($newpost, 'comic', $filename . '.' . $ext);
 	
 	return array(success=>true);
 }
-
-
-$result = ceo_handleUpload();
-
-// to pass data through iframe you will need to encode all html tags
-echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
-
