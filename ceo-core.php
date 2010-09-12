@@ -14,7 +14,6 @@ function ceo_add_menu_pages() {
 	$image_title = __('Image Manager', 'comiceasel');
 	$chapter_title = __('Chapter Manager', 'comiceasel');
 	$config_title = __('Config', 'comiceasel');
-	$upload_title = __('Upload', 'comiceasel');
 	$debug_title = __ ('Debug', 'comiceasel');
 	
 	// the ceo_pluginfo used here actually initiates it.
@@ -22,7 +21,6 @@ function ceo_add_menu_pages() {
 	$chapter_manager_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $chapter_title, $chapter_title, 'edit_theme_options', 'comiceasel-chapter-manager', 'ceo_chapter_manager');
 	$config_hook = add_submenu_page($menu_location,   $plugin_title . ' - ' . $config_title, $config_title, 'edit_theme_options', 'comiceasel-config', 'ceo_manager_config');
 	$debug_hook = add_submenu_page($menu_location,   $plugin_title . ' - ' . $debug_title, $debug_title, 'edit_theme_options', 'comiceasel-debug', 'ceo_debug');
-	$upload_hook = add_submenu_page($menu_location,   $plugin_title . ' - ' . $upload_title, $upload_title, 'edit_posts', 'comiceasel-upload', 'ceo_upload');
 
 	// Scripts for the chapter manager page.
 	// Notice how its checking the _GET['page'], do this for the other areas
@@ -32,10 +30,9 @@ function ceo_add_menu_pages() {
 			case 'comiceasel-chapter-manager':
 				add_action('admin_print_scripts-' . $chapter_manager_hook, 'ceo_load_scripts_chapter_manager');
 				break;
-			case 'comiceasel-upload':
-				add_action('admin_print_scripts-' . $upload_hook, 'ceo_load_scripts_upload');
-				add_action('admin_print_styles-' . $upload_hook, 'ceo_load_styles_upload');
-				add_action( 'admin_head-settings_page_' . $upload_hook, 'ceo_add_help_upload' );
+			case 'comiceasel-image-manager':
+				add_action('admin_print_scripts-' . $image_manager_hook, 'ceo_load_scripts_image_manager');
+				add_action('admin_print_styles-' . $image_manager_hook, 'ceo_load_styles_image_manager');
 				break;
 		}
 	}
@@ -47,18 +44,15 @@ function ceo_load_scripts_chapter_manager() {
 	wp_enqueue_script('jquery-ui-sortable');
 }
 
-function ceo_load_scripts_upload() {
+function ceo_load_scripts_image_manager() {
 	wp_enqueue_script('comiceasel-fileuploader-script', ceo_pluginfo('plugin_url') .'/js/fileuploader.js');		
 }
 
-function ceo_load_styles_upload() {
+function ceo_load_styles_image_manager() {
 	wp_enqueue_style('comiceasel-fileuploader-style', ceo_pluginfo('plugin_url') .'/css/fileuploader.css');
 }
 
-function ceo_add_help_upload() {  
-	global $current_screen;  
-	add_contextual_help( $current_screen, __( 'Help\'s on the way! Don\'t panic!' ) );  
-}  
+ 
 
 
 // This is done this way to *not* load pages unless they are called, self sufficient code, but since attached to the ceo-core it can use the library in core.
