@@ -9,6 +9,7 @@ function ceo_add_new_comic_columns($comic_columns) {
  
 	$new_columns['chapter'] = __('Chapter','easel');
 	$new_columns['characters'] = __('Characters','easel');
+	$new_columns['locations'] = __('Location','easel');
 	$new_columns['tags'] = __('Tags', 'easel');
  
 	$new_columns['date'] = _x('Date', 'column name');
@@ -24,22 +25,31 @@ function ceo_manage_comic_columns($column_name, $id) {
 	switch ($column_name) {
 	case 'chapter':
 			$allterms = get_the_terms( $id, 'chapters');
-			if (!empty($allterms)) {
+			if (!empty($allterms) && !isset($allterms->errors)) {
 				foreach ($allterms as $term) {
-					$term_list_chapters[] = '<a href="'.home_url('/wp-admin/edit.php?post_type=comic&chapters='.ceo_clean_filename($term->name)).'">'.$term->name.'</a>';
+					$term_list_chapters[] = '<a href="'.home_url(ceo_clean_filename('/wp-admin/edit.php?post_type=comic&chapters='.$term->name)).'">'.$term->name.'</a>';
 				}
 				echo join(', ', $term_list_chapters );
 			}
 	        break;
 	case 'characters':
 			$allterms = get_the_terms( $id, 'characters');
-			if (!empty($allterms)) {
+			if (!empty($allterms) && !isset($allterms->errors)) {
 				foreach ($allterms as $term) {
-					$term_list_characters[] = '<a href="'.home_url('/wp-admin/edit.php?post_type=comic&characters='.ceo_clean_filename($term->name)).'">'.$term->name.'</a>';
+					$term_list_characters[] = '<a href="'.home_url(ceo_clean_filename('/wp-admin/edit.php?post_type=comic&characters='.$term->name)).'">'.$term->name.'</a>';
 				}
 				echo join(', ', $term_list_characters );
 			}
-	        break;	
+	        break;
+	case 'locations':
+			$allterms = get_the_terms( $id, 'locations');
+			if (!empty($allterms) && !isset($allterms->errors)) {
+				foreach ($allterms as $term) {
+					$term_list_locations[] = '<a href="'.home_url(ceo_clean_filename('/wp-admin/edit.php?post_type=comic&locations='.$term->name)).'">'.$term->name.'</a>';
+				}
+				echo join(', ', $term_list_locations );
+			}
+	        break;
 	case 'comicimages':
 			$comicthumb = '';
 			echo "TODO: Some sort of thumbnail.<br /><br />";

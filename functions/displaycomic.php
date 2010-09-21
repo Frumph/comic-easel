@@ -89,8 +89,8 @@ function ceo_init_comic_swf() {
 
 // This function will let authors who want to use comicpress as a way to output their books/text in a comic area as a page.
 function ceo_display_comic_text($comic) {
-	if (file_exists(ceo_pluginfo('base_dir') . '/' .$comic)) {
-		$output = nl2br(file_get_contents(ceo_pluginfo('base_dir') . '/' .$comic));
+	if (file_exists(ceo_pluginfo('base_path') . '/' .$comic)) {
+		$output = nl2br(file_get_contents(ceo_pluginfo('base_path') . '/' .$comic));
 	}
 	return apply_filters('ceo_display_comic_text', $output);
 }
@@ -286,7 +286,7 @@ function get_comic_path($folder = 'comic', $override_post = null, $filter = 'def
 		case "comic": default: $subfolder_to_use = ceo_pluginfo('comic_folder'); break;
 	}
 	
-	$folder_to_use = ceo_pluginfo('base_dir') . '/' . $subfolder_to_use;
+	$folder_to_use = ceo_pluginfo('base_path') . '/' . $subfolder_to_use;
 
 //	if (!file_exists($folder_to_use . '/' . $comicfile) && $folder !== 'comic') 
 //		$subfolder_to_use = ceo_pluginfo('comic_folder'); 
@@ -319,18 +319,18 @@ function get_comic_path($folder = 'comic', $override_post = null, $filter = 'def
 			$newresults = array();
 			foreach ($results as $result) {
 				// Strip the base directory off.
-				$newresults[] = str_replace(ceo_pluginfo('base_dir'), '', $result);
+				$newresults[] = str_replace(ceo_pluginfo('base_path'), '', $result);
 			}
 			return $newresults;
 		} else {
 			// fallback to the comics directory
-			$folder_to_use = ceo_pluginfo('base_dir') . '/' . ceo_pluginfo('comic_folder');
+			$folder_to_use = ceo_pluginfo('base_path') . '/' . ceo_pluginfo('comic_folder');
 			if (count($results = glob("${folder_to_use}/${filter_with_date}")) > 0) {
 				
 				$newresults = array();
 				foreach ($results as $result) {
 					// Strip the base directory off.
-					$newresults[] = str_replace(ceo_pluginfo('base_dir'), '', $result);
+					$newresults[] = str_replace(ceo_pluginfo('base_path'), '', $result);
 				}
 				return $newresults;
 			}
