@@ -22,7 +22,7 @@ function ceo_edit_post_category($post_category) {
 	return $post_category;
 }
 
-// add_action('easel-content-area', 'ceo_display_comic_area');
+add_action('easel-content-area', 'ceo_display_comic_area');
 
 function ceo_display_comic_area() {
 	global $wp_query;
@@ -34,7 +34,6 @@ function ceo_display_comic_area() {
 				Protect();
 				$wp_query->in_the_loop = true; $comicFrontpage = new WP_Query(); $comicFrontpage->query('post_type=comic&showposts=1');
 				while ($comicFrontpage->have_posts()) : $comicFrontpage->the_post();
-					echo "On Home Page<br />";
 					ceo_display_comic_wrapper();
 				endwhile;
 				UnProtect();
@@ -51,7 +50,7 @@ function ceo_display_comic_wrapper() {
 		<div id="comic-wrap">
 			<div id="comic-head"></div>
 			<div id="comic">
-				<?php the_title(); ?>
+				<?php echo ceo_display_comic(); ?>
 			</div>
 			<div id="comic-foot"></div>
 		</div>
