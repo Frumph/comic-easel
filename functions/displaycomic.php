@@ -21,7 +21,6 @@ if (defined("CPM_DATE_FORMAT")) {
 // Then show the second comic on your page by calling the_comic with your filter name (PHP tags munged
 // to maintain valid file syntax):
 //
-// < ?php the_comic('secondary'); ? >
 //
 // Note that it's quite possible to slurp up the wrong file if your expressions are too broad.
 
@@ -308,25 +307,20 @@ function get_comic_path($folder = 'comic', $override_post = null, $filter = 'def
 		} else {
 			$filter_to_use = '{date}*.*';
 		}
-	
 		$post_date = mysql2date(CP_DATE_FORMAT, $post_to_use->post_date);
 		$filter_with_date = str_replace('{date}', $post_date, $filter_to_use);
-		
 		$results = array();
-		
 		if (count($results = glob("${folder_to_use}/${filter_with_date}")) > 0) {
-	
 			$newresults = array();
 			foreach ($results as $result) {
 				// Strip the base directory off.
 				$newresults[] = str_replace(ceo_pluginfo('base_path'), '', $result);
 			}
 			return $newresults;
-		} else {
 			// fallback to the comics directory
 			$folder_to_use = ceo_pluginfo('base_path') . '/' . ceo_pluginfo('comic_folder');
 			if (count($results = glob("${folder_to_use}/${filter_with_date}")) > 0) {
-				
+			
 				$newresults = array();
 				foreach ($results as $result) {
 					// Strip the base directory off.
