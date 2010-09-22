@@ -10,16 +10,18 @@ function ceo_display_edit_link() {
 	}
 }
 
-add_filter('easel_display_post_category', 'ceo_edit_post_category');
+add_filter('easel_display_post_category', 'ceo_display_comic_chapters');
 
 // TODO: Make this actually output a chapter set that the comic is in, instead of the post-type
-function ceo_edit_post_category($post_category) {
+function ceo_display_comic_chapters($post_category) {
 	global $post;
 	if ($post->post_type == 'comic') {
-		$post_category = str_replace('Posted In', 'Chapter', $post_category);
-		$post_category = str_replace('post-cat', 'chapter-cat', $post_category);
+		$before = '<div class="comic-chapter">Chapter: ';
+		$sep = ', '; 
+		$after = '</div>';
+		$post_category = get_the_term_list( $post->ID, 'chapters', $before, $sep, $after );
 	}
-	return $post_category;
+	return apply_filters('ceo_display_comic_chapters', $post_category);
 }
 
 add_action('easel-content-area', 'ceo_display_comic_area');
@@ -32,7 +34,11 @@ function ceo_display_comic_area() {
 		} else {
 			if (is_home() && !is_paged())  {
 				Protect();
-				$wp_query->in_the_loop = true; $comicFrontpage = new WP_Query(); $comicFrontpage->query('post_type=comic&showposts=1');
+				$comic_args = array(
+					'posts_per_page' => 1,
+					'post_type' => 'comic'
+				);
+				$wp_query->in_the_loop = true; $comicFrontpage = new WP_Query(); $comicFrontpage->query($comic_args);
 				while ($comicFrontpage->have_posts()) : $comicFrontpage->the_post();
 					ceo_display_comic_wrapper();
 				endwhile;

@@ -1,0 +1,18 @@
+/*
+Comic Easel - Style.css
+Defaults for the Comic Easel Elements.
+*/
+
+#default-nav-wrapper {
+	width: 100%;
+}
+
+	.default-nav {
+		margin: 0 auto;
+		width: 300px;
+	}
+
+	.default-nav-base {
+		display: inline-block;
+		padding: 0 10px;
+	}
