@@ -32,25 +32,25 @@ $comic_filename_filters['default'] = "{date}*.*";
 if (!function_exists('ceo_display_comic_navigation')) {
 	function ceo_display_comic_navigation() {
 		global $post, $wp_query;
-		if (!ceo_pluginfo('disable_default_comic_nav')) { 
-			$first_comic = ceo_get_first_comic_permalink();
-			$first_text = __('&lsaquo;&lsaquo; First','comicpress');
-			$last_comic = ceo_get_last_comic_permalink();
-			$last_text = __('Last &rsaquo;&rsaquo;','comicpress'); 
-			$next_comic = ceo_get_next_comic_permalink();
-			$next_text = __('Next &rsaquo;','comicpress');
-			$prev_comic = ceo_get_previous_comic_permalink();
-			$prev_text = __('&lsaquo; Prev','comicpress');
-?>
-		<div class="nav">
-			<div class="nav-first"><?php if ( get_permalink() != $first_comic ) { ?><a href="<?php echo $first_comic ?>"><?php echo $first_text; ?></a><?php } else { echo $first_text; } ?></div>
-			<div class="nav-previous"><?php if ($prev_comic) { ?><a href="<?php echo $prev_comic ?>"><?php echo $prev_text; ?></a><?php } else { echo $prev_text; } ?></div>
-			<div class="nav-last"><?php if ( get_permalink() != $last_comic ) { ?><a href="<?php echo $last_comic ?>"><?php echo $last_text; ?></a><?php } else { echo $last_text; } ?></div>
-			<div class="nav-next"><?php if ($next_comic) { ?><a href="<?php echo $next_comic ?>"><?php echo $next_text; ?></a><?php } else { echo $next_text; } ?></div>
-			<div class="clear"></div>
+		$first_comic = ceo_get_first_comic_permalink();
+		$first_text = __('&lsaquo;&lsaquo; First','comicpress');
+		$last_comic = ceo_get_last_comic_permalink();
+		$last_text = __('Last &rsaquo;&rsaquo;','comicpress'); 
+		$next_comic = ceo_get_next_comic_permalink();
+		$next_text = __('Next &rsaquo;','comicpress');
+		$prev_comic = ceo_get_previous_comic_permalink();
+		$prev_text = __('&lsaquo; Prev','comicpress');
+		?>
+		<div id="default-nav-wrapper">
+			<div class="default-nav">
+				<div class="default-nav-base default-nav-first"><?php if ( get_permalink() != $first_comic ) { ?><a href="<?php echo $first_comic ?>"><?php echo $first_text; ?></a><?php } else { echo $first_text; } ?></div>
+				<div class="default-nav-base default-nav-previous"><?php if ($prev_comic) { ?><a href="<?php echo $prev_comic ?>"><?php echo $prev_text; ?></a><?php } else { echo $prev_text; } ?></div>
+				<div class="default-nav-base default-nav-next"><?php if ($next_comic) { ?><a href="<?php echo $next_comic ?>"><?php echo $next_text; ?></a><?php } else { echo $next_text; } ?></div>
+				<div class="default-nav-base default-nav-last"><?php if ( get_permalink() != $last_comic ) { ?><a href="<?php echo $last_comic ?>"><?php echo $last_text; ?></a><?php } else { echo $last_text; } ?></div>
+				<div class="clear"></div>
+			</div>
 		</div>
-<?php
-		} 
+		<?php
 	}
 }
 

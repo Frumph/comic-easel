@@ -142,7 +142,7 @@ function ceo_initialize_post_types() {
 
 // THIS STUFF ONLY RUNS IN THE WP-ADMIN
 if (is_admin()) {
-
+	
 	// check if this is a easel theme, if not, dont execute.
 	if (strpos(get_template_directory(), 'easel')  == false) {
 		if( substr( $_SERVER[ 'PHP_SELF' ], -19 ) != '/wp-admin/index.php' ) return;
@@ -162,6 +162,8 @@ if (is_admin()) {
 	// only load the plugin code of we're in the administration part of WordPress.
 	@require('ceo-core.php');
 	@require('functions/admin-meta.php');
+} else {
+	wp_enqueue_style('comiceasel-default-style', ceo_pluginfo('plugin_url').'/css/comiceasel.css');
 }
 
 // Flush Rewrite Rules & create chapters

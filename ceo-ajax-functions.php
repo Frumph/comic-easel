@@ -1,4 +1,4 @@
-<? php
+<?php
 // if both logged in and not logged in users can send this AJAX request,
 // add both of these actions, otherwise add only the appropriate one
 // add_action( 'wp_ajax_nopriv_ceo_comic_upload', 'myajax_submit' );

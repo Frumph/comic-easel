@@ -25,8 +25,8 @@ function ceo_edit_post_category($post_category) {
 add_action('easel-content-area', 'ceo_display_comic_area');
 
 function ceo_display_comic_area() {
-	global $wp_query;
-	if (function_exists('easel_display_post') && !is_home()) { // If the theme isnt installed, just don't go there.
+	global $wp_query, $post;
+	if (function_exists('easel_display_post')) { // If the theme isnt installed, just don't go there.
 		if (is_single()) {
 			ceo_display_comic_wrapper();
 		} else {
@@ -52,12 +52,15 @@ function ceo_display_comic_wrapper() {
 			<div id="comic">
 				<?php echo ceo_display_comic(); ?>
 			</div>
-			<div id="comic-foot"></div>
+			<div id="comic-foot">
+				<?php ceo_display_comic_navigation(); ?>
+			</div>
+			<div class="clear"></div>
 		</div>
 	<?php }
 }
 
-// add_action('easel-narrowcolumn-area', 'ceo_display_comic_post_home');
+add_action('easel-narrowcolumn-area', 'ceo_display_comic_post_home');
 
 function ceo_display_comic_post_home() { 
 	global $wp_query;
@@ -73,6 +76,21 @@ function ceo_display_comic_post_home() {
 	}
 }
 
+add_action('easel-post-info', 'ceo_display_comic_locations');
 
+function ceo_display_comic_locations() {
+	global $post;
+	$allterms = get_the_terms( $post->ID, 'locations');
+	if (!empty($allterms) && !isset($allterms->errors)) {
+		foreach ($allterms as $term) {
+			$term_list_locations[] = '<a href="'.home_url(ceo_clean_filename('/wp-admin/edit.php?post_type=comic&locations='.$term->name)).'">'.$term->name.'</a>';
+		}
+		$output_locations = 'None Set';
+		if (!empty($term_list_locations))
+			$output_locations = join(', ', $term_list_locations );
+	}
+	$output = '<div class="comic-locations">Locations: '.$output_locations."</div>\r\n";
+	echo apply_filters('ceo_display_comic_locations', $output);
+}
 
 ?>
