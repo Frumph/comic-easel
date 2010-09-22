@@ -305,15 +305,6 @@ function ceo_pluginfo($whichinfo = null) {
 	return $ceo_pluginfo;
 }
 
-function ceo_feed_request($requests) {
-	if (isset($requests['feed']))
-		$requests['post_type'] = get_post_types();
-	return $requests;
-}
-
-add_filter('request', 'ceo_feed_request');
-
-
 /**
  * This functions is to display test information on the dashboard, instead of dumping it out to everyone.
  * This is so that a plugin doesn't generate errors on output of the var_dump() to the end user.

@@ -80,16 +80,10 @@ add_action('easel-post-info', 'ceo_display_comic_locations');
 
 function ceo_display_comic_locations() {
 	global $post;
-	$allterms = get_the_terms( $post->ID, 'locations');
-	if (!empty($allterms) && !isset($allterms->errors)) {
-		foreach ($allterms as $term) {
-			$term_list_locations[] = '<a href="'.home_url(ceo_clean_filename('/wp-admin/edit.php?post_type=comic&locations='.$term->name)).'">'.$term->name.'</a>';
-		}
-		$output_locations = 'None Set';
-		if (!empty($term_list_locations))
-			$output_locations = join(', ', $term_list_locations );
-	}
-	$output = '<div class="comic-locations">Locations: '.$output_locations."</div>\r\n";
+	$before = '<div class="comic-locations">Locations: ';
+	$sep = ', '; 
+	$after = '</div>';
+	$output = get_the_term_list( $post->ID, 'locations', $before, $sep, $after );
 	echo apply_filters('ceo_display_comic_locations', $output);
 }
 
