@@ -164,6 +164,7 @@ if (is_admin()) {
 	@require('functions/admin-meta.php');
 } else {
 	wp_enqueue_style('comiceasel-default-style', ceo_pluginfo('plugin_url').'/css/comiceasel.css');
+	// Load all the widgets.
 }
 
 // Flush Rewrite Rules & create chapters
@@ -174,7 +175,6 @@ function ceo_flush_rewrite() {
 	global $wp_rewrite;
 	$wp_rewrite->flush_rules();
 }
-
 
 // Checks chapters, creates them if needs be, checks directories, creates them if need be.
 function ceo_checkdefaults() {
@@ -320,5 +320,10 @@ function ceo_test_information($vartodump) { ?>
 
 // if (is_admin()) add_action( 'admin_notices', 'ceo_test_information' );
 
+// Load all the widgets
+
+foreach (glob(ceo_pluginfo('plugin_path')  . '/widgets/*.php') as $widgefile) {
+	@include($widgefile);
+}
 
 ?>
