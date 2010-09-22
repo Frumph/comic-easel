@@ -86,11 +86,22 @@ add_action('easel-post-info', 'ceo_display_comic_locations');
 
 function ceo_display_comic_locations() {
 	global $post;
-	$before = '<div class="comic-locations">Locations: ';
+	$before = '<div class="comic-locations">Location: ';
 	$sep = ', '; 
 	$after = '</div>';
 	$output = get_the_term_list( $post->ID, 'locations', $before, $sep, $after );
 	echo apply_filters('ceo_display_comic_locations', $output);
+}
+
+// Syndication Injection
+
+add_filter('easel_thumbnail_feed', 'ceo_inject_comic_into_feed');
+
+function ceo_inject_comic_into_feed($post_thumbnail) {
+	global $post;
+	if (empty($post_thumbnail) && ($post->post_type == 'comic'))
+		$post_thumbnail = '<p>'. ceo_display_comic_thumbnail('medium', $post) . '</p>';
+	return $post_thumbnail;
 }
 
 ?>
