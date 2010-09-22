@@ -88,8 +88,8 @@ function ceo_init_comic_swf() {
 
 // This function will let authors who want to use comicpress as a way to output their books/text in a comic area as a page.
 function ceo_display_comic_text($comic) {
-	if (file_exists(ceo_pluginfo('base_path') . '/' .$comic)) {
-		$output = nl2br(file_get_contents(ceo_pluginfo('base_path') . '/' .$comic));
+	if (file_exists(ceo_pluginfo('base_path') . $comic)) {
+		$output = nl2br(file_get_contents(ceo_pluginfo('base_path') . $comic));
 	}
 	return apply_filters('ceo_display_comic_text', $output);
 }
@@ -98,7 +98,7 @@ function ceo_display_comic_text($comic) {
 // Do the thumbnail display functions here.
 function ceo_display_comic_thumbnail($type = 'small', $override_post = null, $use_post_image = false, $setwidth = 0) {
 	global $post;
-	
+	$thumbnail = '';
 	$post_to_use = !empty($override_post) ? $override_post : $post;
 
 	// use_post_image if its set to true
@@ -109,17 +109,16 @@ function ceo_display_comic_thumbnail($type = 'small', $override_post = null, $us
 			if ($thumbnail) (string)$thumbnail = $thumbnail[0];
 		}
 	}
-	
+
 	if (empty($thumbnail)) {
 		$thumb_found = get_comic_path($type, $post_to_use);
-		
 		$count = count($thumb_found);
-		
+
 		// adjust the thumbnail directories of all of them not just one, time to stop outputting them singularly and do array
 		$thumbnail = array();
 		if (!empty($thumb_found)) {
 			foreach ($thumb_found as $thumb) {
-				$thumbnail[] = ceo_pluginfo('base_url') . '/' . ceo_clean_filename($thumb);
+				$thumbnail[] = ceo_pluginfo('base_url') . ceo_clean_filename($thumb);
 			}
 		}
 	}
@@ -152,7 +151,7 @@ function ceo_display_comic_thumbnail($type = 'small', $override_post = null, $us
 
 // TODO: Add the hovertext - rascal code and click to next INSIDE this.
 function ceo_display_comic_image($post, $comic) {
-	$file_url = ceo_pluginfo('base_url') .'/'. ceo_clean_filename($comic);
+	$file_url = ceo_pluginfo('base_url') . ceo_clean_filename($comic);
 	if (ceo_pluginfo('rascal_says')) {
 		$alt_text = get_the_title($post);
 	} else {
@@ -210,8 +209,6 @@ function ceo_display_comic() {
 	}
 	return $output;
 }
-
-
 
 if (!function_exists('ceo_comic_clicks_next')) {
 	function ceo_comic_clicks_next($output) {
@@ -280,16 +277,16 @@ function get_comic_path($folder = 'comic', $override_post = null, $filter = 'def
 // Backswards compatibility here
 	
 	switch ($folder) {
-		case "medium": $subfolder_to_use = ceo_pluginfo('medium_thumbnail_folder'); break;
-		case "small": $subfolder_to_use = ceo_pluginfo('small_thumbnail_folder'); break;
+		case "medium": $subfolder_to_use = ceo_pluginfo('comic_folder_medium'); break;
+		case "small": $subfolder_to_use = ceo_pluginfo('comic_folder_small'); break;
 		case "comic": default: $subfolder_to_use = ceo_pluginfo('comic_folder'); break;
 	}
 	
-	$folder_to_use = ceo_pluginfo('base_path') . '/' . $subfolder_to_use;
+	$folder_to_use = ceo_pluginfo('base_path') . $subfolder_to_use;
 
-//	if (!file_exists($folder_to_use . '/' . $comicfile) && $folder !== 'comic') 
-//		$subfolder_to_use = ceo_pluginfo('comic_folder'); 
-	
+/*	if (!is_dir($folder_to_use . '/' . $comicfile) && $folder !== 'comic') 
+		$folder_to_use = ceo_pluginfo('base_path') . '/' . ceo_pluginfo('comic_folder'); */
+
 	if (!empty($comicfile)) {
 		// return this as an array if we want to include in the future multiple comics found type thing, keeping it compatible.
 		$newresults = array();
@@ -318,7 +315,7 @@ function get_comic_path($folder = 'comic', $override_post = null, $filter = 'def
 			}
 			return $newresults;
 			// fallback to the comics directory
-			$folder_to_use = ceo_pluginfo('base_path') . '/' . ceo_pluginfo('comic_folder');
+			$folder_to_use = ceo_pluginfo('base_path') . ceo_pluginfo('comic_folder');
 			if (count($results = glob("${folder_to_use}/${filter_with_date}")) > 0) {
 			
 				$newresults = array();
@@ -347,7 +344,7 @@ function get_comic_url($folder = 'comic', $override_post = null, $filter = 'defa
 	if (($results = get_comic_path($folder, $override_post, $filter)) !== false) {
 		$newresults = array();
 		foreach ($results as $result) {
-			$newresults[] = ceo_pluginfo('base_url') .'/'. $result;
+			$newresults[] = ceo_pluginfo('base_url') . $result;
 		}
 		return $newresults;
 	}

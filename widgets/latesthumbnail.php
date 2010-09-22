@@ -17,7 +17,7 @@ class ceo_latest_thumbnail_widget extends WP_Widget {
 	function widget($args, $instance) {
 		global $post, $wp_query;		
 		extract($args, EXTR_SKIP);
-
+		$current_post_id = $post->ID;
 		Protect();
 		$chaptinfo = ';';
 		if ($instance['thumbchapt'] !== 'All') $chaptinfo = '&chapters='.$instance['thumbchapt'];
@@ -26,6 +26,7 @@ class ceo_latest_thumbnail_widget extends WP_Widget {
 		$archive_image = null;
 		if (have_posts()) {
 			while (have_posts()) : the_post();
+				if ($current_post_id !== $post->ID) {
 					echo $before_widget;
 					$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']); 
 					if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
@@ -33,12 +34,13 @@ class ceo_latest_thumbnail_widget extends WP_Widget {
 						if ( has_post_thumbnail($post->ID) ) {
 							echo "<a href=\"".get_permalink($post->ID)."\" rel=\"bookmark\" title=\"Permanent Link to ".get_the_title()."\">".get_the_post_thumbnail($post->ID, 'small')."</a>\r\n";
 						} else {
-							echo "<a href=\"".get_permalink($post->ID)."\" title=\"".$post->post_title."\">".ceo_display_comic_thumbnail('small', $post, 198)."</a>\r\n";	
+							echo "<a href=\"".get_permalink($post->ID)."\" title=\"".$post->post_title."\">".ceo_display_comic_thumbnail('small', $post, true, 198)."</a>\r\n";	
 						}			
 					} else { 
-						echo "<a href=\"".get_permalink($post->ID)."\" title=\"".$post->post_title."\">".ceo_display_comic_thumbnail('small', $post, 198)."</a>\r\n";
+						echo "<a href=\"".get_permalink($post->ID)."\" title=\"".$post->post_title."\">".ceo_display_comic_thumbnail('small', $post, true, 198)."</a>\r\n";
 					}
 					echo $after_widget;
+				}
 			endwhile;
 		}
 		UnProtect();

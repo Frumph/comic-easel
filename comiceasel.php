@@ -276,8 +276,8 @@ function ceo_pluginfo($whichinfo = null) {
 				// if wp_upload_dir reports an error, capture it
 				'error' => $ceo_coreinfo['error'],
 				// upload_path-url
-				'base_url' => $ceo_coreinfo['baseurl'],				
-				'base_path' => $ceo_coreinfo['basedir'],
+				'base_url' => trailingslashit($ceo_coreinfo['baseurl']),
+				'base_path' => trailingslashit($ceo_coreinfo['basedir']),
 				// Parent theme
 				'theme_url' => get_template_directory_uri(),
 				'theme_path' => get_template_directory(),
