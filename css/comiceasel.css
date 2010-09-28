@@ -16,3 +16,9 @@ Defaults for the Comic Easel Elements.
 		display: inline-block;
 		padding: 0 10px;
 	}
+	
+.infotext {
+	font-size: 10px;
+	color: gray;
+	padding-left: 5px;
+}

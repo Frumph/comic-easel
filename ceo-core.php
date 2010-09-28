@@ -39,6 +39,9 @@ function ceo_add_menu_pages() {
 			case 'comiceasel-upload':
 				add_action('admin_print_styles-' . $upload_hook, 'ceo_load_styles_upload');
 				add_action('admin_print_styles-' . $upload_hook, 'ceo_load_scripts_upload');
+				add_thickbox();
+				wp_admin_css();
+				wp_tiny_mce();
 		}
 	}
 }
@@ -57,17 +60,20 @@ function ceo_load_styles_image_manager() {
 	wp_enqueue_style('comiceasel-fileuploader-style', ceo_pluginfo('plugin_url') .'/css/fileuploader.css');
 }
 
-/*    <script type="text/javascript" src="<?php echo $plugin_url_root ?>/jscalendar-1.0/calendar.js"></script>
-//    <script type="text/javascript" src="<?php echo $plugin_url_root ?>/jscalendar-1.0/lang/calendar-en.js"></script>
-//    <script type="text/javascript" src="<?php echo $plugin_url_root ?>/jscalendar-1.0/calendar-setup.js"></script> */
-	
 function ceo_load_scripts_upload() {
+	wp_enqueue_script('common');
+	wp_enqueue_script('jquery-color');
+	wp_enqueue_script('editor');
+	wp_enqueue_script('media-upload');
+	wp_enqueue_script('utils');
+	wp_enqueue_script('word-count');
 	wp_enqueue_script('comiceasel-upload-calendar', ceo_pluginfo('plugin_url') . '/js/jscalendar-1.0/calendar.js');
 	wp_enqueue_script('comiceasel-upload-calendar-en', ceo_pluginfo('plugin_url') . '/js/jscalendar-1.0/lang/calendar-en.js');
 	wp_enqueue_script('comiceasel-upload-calendar-setup', ceo_pluginfo('plugin_url') . '/js/jscalendar-1.0/calendar-setup.js');	
 }
 
 function ceo_load_styles_upload() {
+	wp_enqueue_style('comiceasel_css', ceo_pluginfo('plugin_url') . '/css/comiceasel.css');
 	wp_enqueue_style('comiceasel-upload-calendar-blue', ceo_pluginfo('plugin_url') . '/js/jscalendar-1.0/calendar-blue.css');
 }
 

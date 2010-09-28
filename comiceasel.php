@@ -25,15 +25,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 */
 
-define( 'CEASEL_PLUGINPATH', trailingslashit(home_url())  . trailingslashit(ceo_get_plugin_path()) );
-
 add_action('init', 'ceo_initialize_post_types');
 
 function ceo_initialize_post_types() {
 	$labels = array(
-			'name' => _x('Comic Easel', 'post type general name'),
-			'singular_name' => _x('Comic', 'post type singular name'),
-			'add_new' => _x('Add Comic Post', 'comic'),
+			'name' => __('Comic Easel', 'comiceasel'),
+			'singular_name' => __('Comic', 'comiceasel'),
+			'add_new' => __('Add Comic', 'comiceasel'),
 			'add_new_item' => __('Add Comic Post'),
 			'edit_item' => _x('Edit Comic','comic'),
 			'edit' => _x('Edit', 'comic'),
@@ -59,8 +57,9 @@ function ceo_initialize_post_types() {
 				'rewrite' => true,
 				'hierarchical' => false,
 				'menu_position' => 5,
-				'menu_icon' => CEASEL_PLUGINPATH . 'images/ceo-icon.png',
-				'supports' => array( 'title', 'editor', 'excerpt', 'author', 'comments', 'thumbnail', 'custom-fields' )
+				'menu_icon' => ceo_pluginfo('plugin_url') . '/images/ceo-icon.png',
+				'supports' => array( 'title', 'editor', 'excerpt', 'author', 'comments', 'thumbnail', 'custom-fields' ),
+				'description' => 'Post type for Comics'
 				));
 
 	$labels = array(
