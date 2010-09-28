@@ -1,4 +1,3 @@
-<!-- push test -->
 <div class="wrap">
 <h2><?php _e('Comic Easel - Upload','comiceasel'); ?></h2>
 <form name="comicuploaderform">
@@ -10,7 +9,16 @@
 </thead>
 <tr><td>Post Title <span style="color: #f00;font-size: 11px;">(Required)</span>:</td><td><input size="80" type="text" name="title" value="New Comic"></td></tr>
 <tr><td>Content:</td><td><textarea type="test" name="content" style="height: 80px; width: 440px;" value=""></textarea></td></tr>
-<tr><td>Publish Date <span style="color: #f00;font-size: 11px;">(Required)</span>:</td><td><input type="text" name="date" value="yyy-mm-dd"> Time: <input type="text" name="time" value="hh:mm:ss"></td></tr>
+<tr>
+	<td>Publish Date <span style="color: #f00;font-size: 11px;">(Required)</span>:</td>
+	<td><input type="text" id="override-date" name="override-date" value="yyyy-mm-dd"></td>
+</tr>
+<tr>
+	<td>Time:</td>
+	<td><input type="text" id="override-time" name="override-time" value="hh:mm:ss"></td>
+</tr>
+
+
 <tr><td>Tags:</td><td><input type="text" name="tags" value=" "></td></tr>
 <tr><td>Chapter:</td><td><?php wp_dropdown_categories('taxonomy=chapters&hide_empty=0&orderby=slug'); ?></td></tr>
 <tr>
@@ -26,35 +34,12 @@
 </td>
 </tr>
 </table>
+<script type="text/javascript">
+	Calendar.setup({
+		inputField: "override-date",
+		ifFormat: "%Y-%m-%d",
+		button: "override-date"
+	});
+</script>
 </form>
 </div>
-
-    <script>        
-        function createUploader(){            
-            var uploader = new qq.FileUploader({
-                element: document.getElementById('file-uploader-demo1'),
-                action: userSettings.ajaxurl,
-				params: {
-					userid: userSettings.uid,
-					action: 'ceo_uploader'
-				},
-				onSubmit: function(id, fileName){
-					uploader.setParams({
-						title:document.comicuploaderform.title.value,
-						content:document.comicuploaderform.content.value,
-						date:document.comicuploaderform.date.value,
-						time:document.comicuploaderform.time.value,
-						tags:document.comicuploaderform.tags.value,
-						chapter:document.comicuploaderform.cat.value
-					});
-				},
-				onComplete: function(id, fileName, responseJSON){
-					document.comicuploaderform.reset()
-				}
-            });           
-        }
-        
-        // in your app create uploader as soon as the DOM is ready
-        // don't wait for the window to load  
-        window.onload = createUploader;     
-    </script> 

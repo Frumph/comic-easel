@@ -100,8 +100,15 @@ add_filter('easel_thumbnail_feed', 'ceo_inject_comic_into_feed');
 function ceo_inject_comic_into_feed($post_thumbnail) {
 	global $post;
 	if (empty($post_thumbnail) && ($post->post_type == 'comic'))
-		$post_thumbnail = '<p>'. ceo_display_comic_thumbnail('medium', $post) . '</p>';
+		$post_thumbnail = '<p>'. ceo_display_comic_thumbnail('medium', $post, true) . '</p>';
 	return $post_thumbnail;
+}
+
+add_action('easel-display-the-content-archive-before', 'ceo_inject_thumbnail_into_archive_posts');
+
+function ceo_inject_thumbnail_into_archive_posts() {
+	global $post;
+	echo '<p>'. str_replace('alt=', 'class="aligncenter" alt=', ceo_display_comic_thumbnail('medium', $post, true, 320)) . '</p>';
 }
 
 ?>
