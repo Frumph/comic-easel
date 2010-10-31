@@ -32,7 +32,7 @@ function ceo_initialize_post_types() {
 			'name' => __('Comic Easel', 'comiceasel'),
 			'singular_name' => __('Comic', 'comiceasel'),
 			'add_new' => __('Add Comic', 'comiceasel'),
-			'add_new_item' => __('Add Comic Post'),
+			'add_new_item' => __('Add Comic'),
 			'edit_item' => _x('Edit Comic','comic'),
 			'edit' => _x('Edit', 'comic'),
 			'new_item' => __('New Comic'),

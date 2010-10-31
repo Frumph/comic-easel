@@ -6,7 +6,6 @@ add_action('wp_dashboard_setup', 'ceo_add_dashboard_widgets' );
 
 // add_action( 'admin_notices', 'ceo_test_information' );
 
-
 // INIT ComicPress Manager pages & hook activation of scripts per page.
 function ceo_add_menu_pages() {
 	$menu_location = 'edit.php?post_type=comic';
@@ -23,7 +22,7 @@ function ceo_add_menu_pages() {
 	$config_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $config_title, $config_title, 'edit_theme_options', 'comiceasel-config', 'ceo_manager_config');
 	$debug_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $debug_title, $debug_title, 'edit_theme_options', 'comiceasel-debug', 'ceo_debug');
 	$upload_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $upload_title, $upload_title, 'edit_theme_options', 'comiceasel-upload', 'ceo_upload'); 
-
+		
 	// Scripts for the chapter manager page.
 	// Notice how its checking the _GET['page'], do this for the other areas
 	// if you need to execute scripts on the particular areas

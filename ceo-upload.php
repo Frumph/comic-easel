@@ -8,7 +8,7 @@
 	</tr>
 </thead>
 <tr><td>Post Title <span style="color: #f00;font-size: 11px;">(Required)</span>:</td><td><input size="80" type="text" name="title" value="New Comic"></td></tr>
-<tr><td colspan="3"><?php $content=''; the_editor($content, 'Content'); ?></td></tr>
+<tr><td colspan="2"><?php $content=''; the_editor($content, 'Content'); ?></td></tr>
 <tr>
 	<td>Publish Date <span style="color: #f00;font-size: 11px;">(Required)</span>:</td>
 	<td><input type="text" id="override-date" name="override-date" value="yyyy-mm-dd"><br /><span class="infotext">Click inside box to open calendar.</span></td>

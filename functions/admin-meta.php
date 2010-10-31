@@ -69,11 +69,37 @@ function ceo_edit_comic_in_post($post) {
 	<table>
 		<td valign="top">
 			Meta Box Inside a Post
+			TODO<br />
+			<ol>
+			<li>Check if comic custom field exists, if so, display comic thumbnail that appears</li>
+			<li>If custom field does not exist, check if comic exists via date</li>
+			<li>If not by date or custom field then display no comic exists</li>
+			</ol>
 		</td>
 	</tr>
 	</table>
 </div>
 <?php
+}
+
+function ceo_edit_hovertext_in_post($post) { 
+?>
+<div class="inside" style="overflow: hidden">
+	<table>
+		<td valign="top">
+			Alt Text (Hover) - This is text that is displayed when the mouse is over the comic.<br />
+		</td>
+	</tr>
+	</table>
+</div>
+<?php
+}
+
+add_action('add_meta_boxes', 'ceo_add_comic_in_post');
+
+function ceo_add_comic_in_post() {
+	add_meta_box('ceo_comic_in_post', __('Comic', 'comiceasel'), 'ceo_edit_comic_in_post', 'comic', 'normal', 'high');
+	add_meta_box('ceo_hovertext_in_post', __('Alt (Hover) Text', 'comiceasel'), 'ceo_edit_hovertext_in_post', 'comic', 'normal', 'high');
 }
 
 function ceo_handle_edit_save_comic($post_id) {
