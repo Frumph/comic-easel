@@ -108,7 +108,9 @@ add_action('easel-display-the-content-archive-before', 'ceo_inject_thumbnail_int
 
 function ceo_inject_thumbnail_into_archive_posts() {
 	global $post;
-	echo '<p>'. str_replace('alt=', 'class="aligncenter" alt=', ceo_display_comic_thumbnail('medium', $post, true, 320)) . '</p>';
+	if ($post->post_type == 'comic') {
+		echo '<p>'. str_replace('alt=', 'class="aligncenter" alt=', ceo_display_comic_thumbnail('medium', $post, true, 320)) . '</p>';
+	}
 }
 
 ?>
