@@ -113,4 +113,26 @@ function ceo_inject_thumbnail_into_archive_posts() {
 	}
 }
 
+// Inject into the menubar some mini navigation
+
+add_action('easel-menubar-mini-navigation', 'ceo_inject_mini_navigation');
+
+function ceo_inject_mini_navigation() {
+	global $post;
+	if (is_home()) {
+	} else {
+		$next_comic = ceo_get_next_comic_permalink();
+		$next_text = __('&rsaquo;','comiceasel');
+		$prev_comic = ceo_get_previous_comic_permalink();
+		$prev_text = __('&lsaquo;','comiceasel');
+		$output = '<div class="mininav-wrapper">'."\r\n";
+		if (!empty($prev_comic))
+			$output .= '<span class="mininav-prev"><a href="'.$prev_comic.'">'.$prev_text.'</a></span>';
+		if (!empty($next_comic))
+			$output .= '<span class="mininav-next"><a href="'.$next_comic.'">'.$next_text.'</a></span>';
+		$output .= '</div>'."\r\n";
+		echo apply_filters('ceo_inject_mini_navigation', $output);
+	}
+}
+
 ?>

@@ -32,13 +32,13 @@ if (!function_exists('ceo_display_comic_navigation')) {
 	function ceo_display_comic_navigation() {
 		global $post, $wp_query;
 		$first_comic = ceo_get_first_comic_permalink();
-		$first_text = __('&lsaquo;&lsaquo; First','comicpress');
+		$first_text = __('&lsaquo;&lsaquo; First','comiceasel');
 		$last_comic = ceo_get_last_comic_permalink();
-		$last_text = __('Last &rsaquo;&rsaquo;','comicpress'); 
+		$last_text = __('Last &rsaquo;&rsaquo;','comiceasel'); 
 		$next_comic = ceo_get_next_comic_permalink();
-		$next_text = __('Next &rsaquo;','comicpress');
+		$next_text = __('Next &rsaquo;','comiceasel');
 		$prev_comic = ceo_get_previous_comic_permalink();
-		$prev_text = __('&lsaquo; Prev','comicpress');
+		$prev_text = __('&lsaquo; Prev','comiceasel');
 		?>
 		<div id="default-nav-wrapper">
 			<div class="default-nav">

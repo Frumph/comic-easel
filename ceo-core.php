@@ -14,15 +14,13 @@ function ceo_add_menu_pages() {
 	$chapter_title = __('Chapter Manager', 'comiceasel');
 	$config_title = __('Config', 'comiceasel');
 	$debug_title = __('Debug', 'comiceasel');
-//	$upload_title = __('Upload', 'comiceasel');
 	
 	// the ceo_pluginfo used here actually initiates it.
 	$image_manager_hook = add_submenu_page($menu_location,  $plugin_title . ' - ' . $image_title, $image_title, 'edit_theme_options', 'comiceasel-image-manager', 'ceo_image_manager');
 	$chapter_manager_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $chapter_title, $chapter_title, 'edit_theme_options', 'comiceasel-chapter-manager', 'ceo_chapter_manager');
 	$config_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $config_title, $config_title, 'edit_theme_options', 'comiceasel-config', 'ceo_manager_config');
-	$debug_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $debug_title, $debug_title, 'edit_theme_options', 'comiceasel-debug', 'ceo_debug');
-//	$upload_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $upload_title, $upload_title, 'edit_theme_options', 'comiceasel-upload', 'ceo_upload'); 
-		
+	$debug_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $debug_title, $debug_title, 'edit_theme_options', 'comiceasel-debug', 'ceo_debug');		
+
 	// Scripts for the chapter manager page.
 	// Notice how its checking the _GET['page'], do this for the other areas
 	// if you need to execute scripts on the particular areas
@@ -32,15 +30,10 @@ function ceo_add_menu_pages() {
 				add_action('admin_print_scripts-' . $chapter_manager_hook, 'ceo_load_scripts_chapter_manager');
 				break;
 			case 'comiceasel-image-manager':
+			default:
 				add_action('admin_print_scripts-' . $image_manager_hook, 'ceo_load_scripts_image_manager');
 				add_action('admin_print_styles-' . $image_manager_hook, 'ceo_load_styles_image_manager');
 				break;
-/*			case 'comiceasel-upload':
-				add_action('admin_print_styles-' . $upload_hook, 'ceo_load_styles_upload');
-				add_action('admin_print_styles-' . $upload_hook, 'ceo_load_scripts_upload');
-				add_thickbox();
-				wp_admin_css();
-				wp_tiny_mce(); */
 		}
 	}
 }
@@ -59,25 +52,6 @@ function ceo_load_styles_image_manager() {
 	wp_enqueue_style('comiceasel-fileuploader-style', ceo_pluginfo('plugin_url') .'/css/fileuploader.css');
 }
 
-/*
-function ceo_load_scripts_upload() {
-	wp_enqueue_script('common');
-	wp_enqueue_script('jquery-color');
-	wp_enqueue_script('editor');
-	wp_enqueue_script('media-upload');
-	wp_enqueue_script('utils');
-	wp_enqueue_script('word-count');
-	wp_enqueue_script('comiceasel-upload-calendar', ceo_pluginfo('plugin_url') . '/js/jscalendar-1.0/calendar.js');
-	wp_enqueue_script('comiceasel-upload-calendar-en', ceo_pluginfo('plugin_url') . '/js/jscalendar-1.0/lang/calendar-en.js');
-	wp_enqueue_script('comiceasel-upload-calendar-setup', ceo_pluginfo('plugin_url') . '/js/jscalendar-1.0/calendar-setup.js');	
-}
-*/
-
-function ceo_load_styles_upload() {
-	wp_enqueue_style('comiceasel_css', ceo_pluginfo('plugin_url') . '/css/comiceasel.css');
-	wp_enqueue_style('comiceasel-upload-calendar-blue', ceo_pluginfo('plugin_url') . '/js/jscalendar-1.0/calendar-blue.css');
-}
-
 // This is done this way to *not* load pages unless they are called, self sufficient code, but since attached to the ceo-core it can use the library in core.
 function ceo_image_manager() {
 	require_once('ceo-image-manager.php');
@@ -94,12 +68,6 @@ function ceo_manager_config() {
 function ceo_debug() {
 	require_once('ceo-debug.php');
 }
-
-/*
-function ceo_upload() {
-	require_once('ceo-upload.php');
-}
-*/
 
 /**
  * This set of functions is for displaying the dashboard feed widget.

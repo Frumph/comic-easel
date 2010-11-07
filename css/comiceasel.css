@@ -22,3 +22,22 @@ Defaults for the Comic Easel Elements.
 	color: gray;
 	padding-left: 5px;
 }
+
+.mininav-wrapper {
+	font-size: 25px;
+	display: inline-block;
+	float: right;
+	line-height: 22px
+}
+
+.mininav-prev a, .mininav-next a {
+	display: inline-block;
+	float: left;
+	padding: 0 5px 4px 5px;
+}
+
+.mininav-prev a:hover, .mininav-next a:hover {
+	background: #fff;
+	color: #000;
+}
+	
