@@ -100,7 +100,7 @@ function ceo_display_comic_thumbnail($type = 'small', $override_post = null, $us
 	global $post;
 	$thumbnail = '';
 	$post_to_use = !empty($override_post) ? $override_post : $post;
-
+	
 	// use_post_image if its set to true
 	if ($use_post_image) {
 		$post_image_id = get_post_thumbnail_id($post_to_use->ID);

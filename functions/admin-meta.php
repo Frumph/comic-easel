@@ -51,9 +51,8 @@ function ceo_manage_comic_columns($column_name, $id) {
 			}
 	        break;
 	case 'comicimages':
-			$comicthumb = '';
-			echo "TODO: Some sort of thumbnail.<br /><br />";
-			// $this_post = &get_post($id); 
+			$post = &get_post($id);
+			$comicthumb = ceo_display_comic_thumbnail('small', $post, false, 100); 
 			if (!$comicthumb) { echo 'No Comic Found.'; } else {
 				echo $comicthumb;
 			}
@@ -101,7 +100,7 @@ function ceo_edit_comic_in_post($post) {
 			</ol>
 		</td>
 		<td rowspan="2">
-		Display Current Comic Thumbnail that is set in this area.
+		Display Current Comic Thumbnail(s) that is set in this area.  Basically do a loop through the meta fields for 'comic' and display each thumbnail here of all that are attached.
 		</td>
 	</tr>
 	<tr>
