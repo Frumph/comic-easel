@@ -93,12 +93,14 @@ function ceo_edit_comic_in_post($post) {
 			Meta Box Inside a Post
 			TODO<br />
 			<ol>
+			<li>When file is uploaded via this script create the 2 thumbnails necessary using the ceo_pluginfo paths that are set</li>
+			<li>Update the 'comic' custom metafield with the filename (not full location, just filename)</li>
 			<li>Check if comic custom field exists, if so, display comic thumbnail that appears</li>
 			<li>If custom field does not exist, check if comic exists via date</li>
 			<li>If not by date or custom field then display no comic exists</li>
 			</ol>
 		</td>
-		<td>
+		<td rowspan="2">
 		Display Current Comic Thumbnail that is set in this area.
 		</td>
 	</tr>
