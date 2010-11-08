@@ -99,7 +99,11 @@ function ceo_edit_comic_in_post($post) {
 			<li>If not by date or custom field then display no comic exists</li>
 			</ol>
 		</td>
-		<td rowspan="2">
+		<td valign="top" style="width: 240px;">
+		<center>
+		<?php echo ceo_display_comic_thumbnail('small', $post, false, 198); ?>
+		</center>
+		<br />
 		Display Current Comic Thumbnail(s) that is set in this area.  Basically do a loop through the meta fields for 'comic' and display each thumbnail here of all that are attached.
 		</td>
 	</tr>
