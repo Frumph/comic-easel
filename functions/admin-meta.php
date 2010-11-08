@@ -98,6 +98,16 @@ function ceo_edit_comic_in_post($post) {
 			<li>If not by date or custom field then display no comic exists</li>
 			</ol>
 		</td>
+		<td>
+		Display Current Comic Thumbnail that is set in this area.
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3" style="border-top: solid 1px #000;">
+		Display 'selection' box where you can reselect a different comic that is already available here instead of uploading.<br />
+		This also needs to be ajaxified where when clicking the select button it will update the custom post meta field with the appropriate filename for the comic.<br />
+		If multiple comics selected it will create a new comic field for all of them.
+		</td>
 	</tr>
 	</table>
 </div>
