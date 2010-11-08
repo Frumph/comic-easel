@@ -5,9 +5,11 @@ add_action('admin_menu', 'ceo_add_menu_pages');
 add_action('wp_dashboard_setup', 'ceo_add_dashboard_widgets' );
 
 // add_action( 'admin_notices', 'ceo_test_information' );
-
+// var_dump($pagenow);
 // INIT ComicPress Manager pages & hook activation of scripts per page.
 function ceo_add_menu_pages() {
+	global $pagenow;
+	
 	$menu_location = 'edit.php?post_type=comic';
 	$plugin_title = __('Comic Easel', 'comiceasel');
 	$image_title = __('Image Manager', 'comiceasel');
@@ -19,9 +21,13 @@ function ceo_add_menu_pages() {
 	$image_manager_hook = add_submenu_page($menu_location,  $plugin_title . ' - ' . $image_title, $image_title, 'edit_theme_options', 'comiceasel-image-manager', 'ceo_image_manager');
 	$chapter_manager_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $chapter_title, $chapter_title, 'edit_theme_options', 'comiceasel-chapter-manager', 'ceo_chapter_manager');
 	$config_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $config_title, $config_title, 'edit_theme_options', 'comiceasel-config', 'ceo_manager_config');
-	$debug_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $debug_title, $debug_title, 'edit_theme_options', 'comiceasel-debug', 'ceo_debug');		
-
-	// Scripts for the chapter manager page.
+	$debug_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $debug_title, $debug_title, 'edit_theme_options', 'comiceasel-debug', 'ceo_debug');
+	
+	if (($pagenow == 'post-new.php') && ($_GET['post_type'] == 'comic')) {
+		add_action('admin_print_scripts', 'ceo_load_scripts_image_manager');
+		add_action('admin_print_styles', 'ceo_load_styles_image_manager');
+	}
+	
 	// Notice how its checking the _GET['page'], do this for the other areas
 	// if you need to execute scripts on the particular areas
 	if (isset($_GET['page'])) {
