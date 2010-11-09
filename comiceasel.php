@@ -4,7 +4,7 @@ Plugin Name: Comic Easel
 Plugin URI: http://comiceasel.com
 Description: Manage a Comic with the Easel theme.
 Version: 1.0
-Author: Philip M. Hofer (Frumph)
+Author: Philip M. Hofer (Frumph), Tyler Martin and Contributions from the ComicPress dev team.
 Author URI: http://frumph.net/
 
 Copyright 2010 Philip M. Hofer (Frumph)  (email : philip@frumph.net)
@@ -24,6 +24,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 */
+// Look at the function ceo_pluginfo() at the bottom of this file for global variables used.
 
 add_action('init', 'ceo_initialize_post_types');
 
@@ -143,6 +144,7 @@ function ceo_initialize_post_types() {
 if (is_admin()) {
 	
 	// check if this is a easel theme, if not, dont execute.
+	// This will be removed since actions can be added to any theme.
 	if (strpos(get_template_directory(), 'easel')  == false) {
 		if( substr( $_SERVER[ 'PHP_SELF' ], -19 ) != '/wp-admin/index.php' ) return;
 		
@@ -162,8 +164,8 @@ if (is_admin()) {
 	@require('ceo-core.php');
 	@require('functions/admin-meta.php');
 } else {
+	// This style needs to be loaded on all the comic-easel pages inside ceo-core.php instead.
 	wp_enqueue_style('comiceasel-default-style', ceo_pluginfo('plugin_url').'/css/comiceasel.css');
-	// Load all the widgets.
 }
 
 // Flush Rewrite Rules & create chapters
@@ -176,6 +178,7 @@ function ceo_flush_rewrite() {
 }
 
 // Checks chapters, creates them if needs be, checks directories, creates them if need be.
+// This does not work yet, its purpose is to generate default chapters if no chapters exist.
 function ceo_checkdefaults() {
 	$checkchapters = get_terms('chapters', 'orderby=count&hide_empty=0');
 	if (empty($checkchapters)) {

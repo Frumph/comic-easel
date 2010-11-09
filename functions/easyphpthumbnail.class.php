@@ -1,5 +1,5 @@
 <?php 
-
+// This file is here only for testing purposes, we'll probably use the wordpress core thumbnailing or John Bintz's code from CPM
 /**
 
 EasyPhpThumbnail class version 2.0.3 - PHP5

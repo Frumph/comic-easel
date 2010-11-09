@@ -59,7 +59,11 @@ function ceo_load_styles_image_manager() {
 	wp_enqueue_style('comiceasel-fileuploader-style', ceo_pluginfo('plugin_url') .'/css/fileuploader.css');
 }
 
-// This is done this way to *not* load pages unless they are called, self sufficient code, but since attached to the ceo-core it can use the library in core.
+// This is done this way to *not* load pages unless they are called, self sufficient code,
+// but since attached to the ceo-core it can use the library in core. so the global functions used in multiple areas
+// go into the ceo-core.php file, while local functions that are only run on the individual pages go on those pages
+// the "forms" if there are any call the same page back up.
+
 function ceo_image_manager() {
 	require_once('ceo-image-manager.php');
 }
