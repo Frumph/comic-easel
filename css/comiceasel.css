@@ -40,4 +40,7 @@ Defaults for the Comic Easel Elements.
 	background: #fff;
 	color: #000;
 }
-	
+
+.ceo_thumbnail_widget .widget-content {
+	text-align: center;
+}

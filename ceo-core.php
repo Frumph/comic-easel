@@ -16,17 +16,21 @@ function ceo_add_menu_pages() {
 	$chapter_title = __('Chapter Manager', 'comiceasel');
 	$config_title = __('Config', 'comiceasel');
 	$debug_title = __('Debug', 'comiceasel');
+	$upload_title = __('Upload', 'comiceasel');
 	
 	// the ceo_pluginfo used here actually initiates it.
 	$image_manager_hook = add_submenu_page($menu_location,  $plugin_title . ' - ' . $image_title, $image_title, 'edit_theme_options', 'comiceasel-image-manager', 'ceo_image_manager');
 	$chapter_manager_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $chapter_title, $chapter_title, 'edit_theme_options', 'comiceasel-chapter-manager', 'ceo_chapter_manager');
 	$config_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $config_title, $config_title, 'edit_theme_options', 'comiceasel-config', 'ceo_manager_config');
 	$debug_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $debug_title, $debug_title, 'edit_theme_options', 'comiceasel-debug', 'ceo_debug');
+	$upload_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $upload_title, $upload_title, 'edit_theme_options', 'comiceasel-upload', 'ceo_upload');
 
 	// post_type is only found on the post-new.php with $_GET, so when the $pagenow is post.php it will not be able to strictly determine the post type so it will be executed on all already made post/page edits
-	if (($pagenow == 'post.php') || (($pagenow == 'post-new.php') && ($_GET['post_type'] == 'comic'))) {
-		add_action('admin_print_scripts', 'ceo_load_scripts_image_manager');
-		add_action('admin_print_styles', 'ceo_load_styles_image_manager');
+	if (isset($_GET['post_type'])) {
+		if (($pagenow == 'post.php') || (($pagenow == 'post-new.php') && ($_GET['post_type'] == 'comic'))) {
+			add_action('admin_print_scripts', 'ceo_load_scripts_image_manager');
+			add_action('admin_print_styles', 'ceo_load_styles_image_manager');
+		}
 	}
 	
 	// Notice how its checking the _GET['page'], do this for the other areas
@@ -78,6 +82,10 @@ function ceo_manager_config() {
 
 function ceo_debug() {
 	require_once('ceo-debug.php');
+}
+
+function ceo_upload() {
+	require_once('ceo-upload.php');
 }
 
 /**

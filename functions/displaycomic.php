@@ -215,6 +215,7 @@ if (!function_exists('ceo_comic_clicks_next')) {
 		if (is_search() || is_archive() || is_feed()) return $output;
 		$hovertext = ceo_the_hovertext($post);
 		$next_comic = ceo_get_next_comic_permalink();
+		if (empty($next_comic)) $next_comic = '#';
 		$class = '';
 		if (ceo_pluginfo('rascal_says')) {
 			$the_title = get_the_title($post);
@@ -238,6 +239,7 @@ function ceo_rascal_says($output) {
 	}
 	if (ceo_pluginfo('comic_clicks_next')) {
 		$href_to_use = ceo_get_next_comic_permalink();
+		if (empty($href_to_use)) $href_to_use = "#";
 		$output = "<a href=\"{$href_to_use}\" class=\"tt\" title=\"".$post->post_title."\">{$output}</a>";
 	} else {
 		$output = "<a class=\"tt\" href=\"{$href_to_use}\" title=\"".$post->post_title."\">{$output}</a>";
