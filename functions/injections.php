@@ -105,6 +105,8 @@ function ceo_inject_comic_into_feed($post_thumbnail) {
 }
 
 add_action('easel-display-the-content-archive-before', 'ceo_inject_thumbnail_into_archive_posts');
+// add_action('easel-display-the-content-before', 'ceo_inject_thumbnail_into_archive_posts');
+
 
 function ceo_inject_thumbnail_into_archive_posts() {
 	global $post;
