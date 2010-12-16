@@ -11,4 +11,4 @@ Comic Easel ties in with the Easel theme to allow you to post webcomics.
 
 Description Needed.
 will be added latter
-maybe.
+
