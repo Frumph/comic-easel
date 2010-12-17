@@ -8,7 +8,7 @@ add_action('wp_dashboard_setup', 'ceo_add_dashboard_widgets' );
 
 // INIT ComicPress Manager pages & hook activation of scripts per page.
 function ceo_add_menu_pages() {
-	global $pagenow;
+	global $pagenow, $post_type;
 	
 	$menu_location = 'edit.php?post_type=comic';
 	$plugin_title = __('Comic Easel', 'comiceasel');
@@ -26,11 +26,8 @@ function ceo_add_menu_pages() {
 	$upload_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $upload_title, $upload_title, 'edit_theme_options', 'comiceasel-upload', 'ceo_upload');
 
 	// post_type is only found on the post-new.php with $_GET, so when the $pagenow is post.php it will not be able to strictly determine the post type so it will be executed on all already made post/page edits
-	if (isset($_GET['post_type'])) {
-		if (($pagenow == 'post.php') || (($pagenow == 'post-new.php') && ($_GET['post_type'] == 'comic'))) {
-			add_action('admin_print_scripts', 'ceo_load_scripts_image_manager');
-			add_action('admin_print_styles', 'ceo_load_styles_image_manager');
-		}
+	if (($_GET['post_type'] == 'comic') || ($post_type == 'comic'))   {
+		add_action('admin_head', 'comic_admin_css');
 	}
 	
 	// Notice how its checking the _GET['page'], do this for the other areas
@@ -114,5 +111,31 @@ function ceo_comic_upload() {
 	exit;
 }
 
+add_action( 'wp_ajax_ceo_thumb_update', 'ceo_comic_thumb_update' );
+
+function ceo_comic_thumb_update() {
+	echo ceo_display_comic_thumbnail('small', $_POST[post_id], false, 198); 
+	exit;
+}
+
+add_action( 'wp_ajax_ceo_comic_add', 'ceo_comic_add' );
+
+function ceo_comic_add() {
+	add_post_meta($_GET[post_id], 'comic', $_GET[comicfile], false);
+	exit;
+}
+
+
+function comic_admin_css() {
+
+    global $post_type;
+
+    if (($_GET['post_type'] == 'comic') || ($post_type == 'comic')) :
+
+        echo "<link type='text/css' rel='stylesheet' href='" . plugins_url('/css/fileuploader.css', __FILE__) . "' />";
+		echo "<script type='text/javascript' src='". plugins_url('/js/fileuploader.js',  __FILE__) . "'></script>";
+    endif;
+
+}
 
 ?>

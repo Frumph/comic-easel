@@ -79,7 +79,8 @@ function ceo_handleUpload(){
 		$thumb -> Thumbprefix           = '';
 		$thumb -> Createthumb(ceo_pluginfo('comic_path') .'/'. $filename . '.' . $ext,'file');
 	}
-	
+	add_post_meta($_GET[post_id], 'comic', $filename . '.' . $ext, false);
 	
 	return array(success=>true);
 }
+
