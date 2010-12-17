@@ -105,11 +105,9 @@ var refreshId = setInterval(function()
 	<tr>
 		<td colspan="3" style="border-top: solid 1px #000;">
 		
-<<<<<<< HEAD
+
 		<!-- <form>
-=======
-		<form>
->>>>>>> c02fc8af0c9f3d44e8d1e45ede4ed1fc60e463a5
+
 		<div class="wrap">
 			<form name="test_form" id="test_form">
 			<input type="hidden" name="post_id" id="post_id"  value="<?php echo $post->ID ?>" />  
@@ -128,11 +126,9 @@ var refreshId = setInterval(function()
 		//	closedir($dh); 
 		//	</select>
         <input type="submit" value="Submit" />
-<<<<<<< HEAD
     </form> -->
-=======
-    </form>
->>>>>>> c02fc8af0c9f3d44e8d1e45ede4ed1fc60e463a5
+
+
  
 </div>
 
