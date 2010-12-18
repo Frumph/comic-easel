@@ -28,16 +28,16 @@ add_action('easel-content-area', 'ceo_display_comic_area');
 
 function ceo_display_comic_area() {
 	global $wp_query, $post;
-	if (function_exists('easel_display_post') && !is_home()) { // If the theme isnt installed, just don't go there.
+	if (!is_home()) {
 		if (is_single()) {
 			ceo_display_comic_wrapper();
 		} else {
 			if (is_home() && !is_paged())  {
 				Protect();
 				$comic_args = array(
-					'posts_per_page' => 1,
-					'post_type' => 'comic'
-				);
+						'posts_per_page' => 1,
+						'post_type' => 'comic'
+						);
 				$wp_query->in_the_loop = true; $comicFrontpage = new WP_Query(); $comicFrontpage->query($comic_args);
 				while ($comicFrontpage->have_posts()) : $comicFrontpage->the_post();
 					ceo_display_comic_wrapper();
