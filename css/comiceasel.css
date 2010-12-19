@@ -44,3 +44,7 @@ Defaults for the Comic Easel Elements.
 .ceo_thumbnail_widget .widget-content {
 	text-align: center;
 }
+
+#comic {
+	text-align: center;
+}

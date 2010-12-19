@@ -24,7 +24,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 		if ($instance['first']) { $order = 'ASC'; } else { $order = 'DESC'; }
 		$comic_query = 'showposts=1&order='.$order.'&post_type=comic'.$chaptinfo;
 		if ($instance['random']) $comic_query .= '&orderby=rand';
-		if (!empty($post)) $comic_query .= '&exclude='.$current_post_id;
+		if (!empty($post) && $instance['random']) $comic_query .= '&exclude='.$current_post_id;
 		$posts = &query_posts($comic_query);
 		$archive_image = null;
 		if (have_posts()) {
