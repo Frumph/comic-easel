@@ -979,4 +979,27 @@ function triggered() { // put data returned by requested URL to selected DIV
   if (xmlhttp.readyState == 4) if (xmlhttp.status == 200) 
     document.getElementById(ajaxdestination).innerHTML =xmlhttp.responseText;
 }
+function comicfileadd(post_id){
+ var selectedArray = new Array();
+  var selObj = document.getElementById('comicfile');
+  var i;
+  var count = 0;
+  for (i=0; i<selObj.options.length; i++) {
+    if (selObj.options[i].selected) {
+      selectedArray[count] = selObj.options[i].value;
+      count++;
+    }
+  }
 
+	var comicfile = document.getElementById('comicfile');
+	try {
+		xmlhttp = window.XMLHttpRequest?new XMLHttpRequest():
+		new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	catch (e) { /* do nothing */ }
+	xmlhttp.onreadystatechange = triggered; // when request finished, call the function to put result to destination DIV
+	xmlhttp.open("GET", ajaxurl + "?action=ceo_comic_add&post_id=" + post_id + "&comicfile=" + selectedArray);
+	xmlhttp.send(null);
+		getdata(ajaxurl + '?action=ceo_thumb_update&post_id=' + post_id ,'comicthumbs');
+	return false;
+}

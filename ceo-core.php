@@ -122,11 +122,14 @@ function ceo_comic_thumb_update() {
 add_action( 'wp_ajax_ceo_comic_add', 'ceo_comic_add' );
 
 function ceo_comic_add() {
-$name=htmlspecialchars($_GET['name']);
-$name=stripslashes($name);
-$age=(int)$_GET['age'];
-echo "<span style='color:red'>Welcome <b>$name</b> to JavaScript Kit. So you're <b>$age</b> years old eh?</span>";
-	add_post_meta($_GET['post_id'], 'comic', $_GET['comicfile'], false);
+	$comicfiles = $_GET['comicfile'];
+	if (!($comicfiles == '')){
+		$pieces = explode(",", $comicfiles);
+		foreach ($pieces as $comicfile){
+			add_post_meta($_GET['post_id'], 'comic', $comicfile, false);
+		}
+	}
+	return 'success';
 	exit;
 }
 
