@@ -970,7 +970,7 @@ function getdata(what,where) { // get data from source (what)
 // we are defining the destination DIV id, must be stored in global variable (ajaxdestination)
  ajaxdestination=where;
  xmlhttp.onreadystatechange = triggered; // when request finished, call the function to put result to destination DIV
- xmlhttp.open("GET", what);
+ xmlhttp.open("GET", what + "&random=" + Math.random());
  xmlhttp.send(null);
   return false;
 }
@@ -998,8 +998,21 @@ function comicfileadd(post_id){
 	}
 	catch (e) { /* do nothing */ }
 	xmlhttp.onreadystatechange = triggered; // when request finished, call the function to put result to destination DIV
-	xmlhttp.open("GET", ajaxurl + "?action=ceo_comic_add&post_id=" + post_id + "&comicfile=" + selectedArray);
+	xmlhttp.open("GET", ajaxurl + "?action=ceo_comic_add&post_id=" + post_id + "&comicfile=" + selectedArray + "&random=" + Math.random());
 	xmlhttp.send(null);
-		getdata(ajaxurl + '?action=ceo_thumb_update&post_id=' + post_id ,'comicthumbs');
+		getdata(ajaxurl + '?action=ceo_thumb_update&post_id=' + post_id ,'comicthumbs' );
 	return false;
+}
+
+function comicfileremove(post_id, comicfile){
+	try {
+		xmlhttp = window.XMLHttpRequest?new XMLHttpRequest():
+		new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	catch (e) { /* do nothing */ }
+	xmlhttp.open("GET", ajaxurl + "?action=ceo_comic_remove&post_id=" + post_id + "&comicfile=" + comicfile + "&random=" + Math.random());
+	xmlhttp.send(null);
+	var d = document.getElementById('comicthumbs'); 
+	var olddiv = document.getElementById(comicfile); 
+	d.removeChild(olddiv);
 }

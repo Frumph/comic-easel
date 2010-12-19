@@ -1,5 +1,6 @@
 <?php
-
+if ($_REQUEST['action'] == ('ceo_uploader' || 'ceo_thumb_update' || 'ceo_comic_add' || 'ceo_comic_remove'))
+	require_once('ceo-ajax-functions.php');
 // actions
 add_action('admin_menu', 'ceo_add_menu_pages');
 add_action('wp_dashboard_setup', 'ceo_add_dashboard_widgets' );
@@ -97,45 +98,7 @@ function ceo_add_dashboard_widgets() {
 	wp_add_dashboard_widget('ceo_dashboard_widget', 'Frumph.NET News', 'ceo_dashboard_feed_widget');	
 }
 
-// ajax stuff
-// if both logged in and not logged in users can send this AJAX request,
-// add both of these actions, otherwise add only the appropriate one
-// add_action( 'wp_ajax_nopriv_ceo_comic_upload', 'myajax_submit' );
-add_action( 'wp_ajax_ceo_uploader', 'ceo_comic_upload' );
 
-// Ajax function to upload and attach files. uploader.php handles uploads, thumb generation, and attaching to post
-// This ajax function will only work itthe user has edit privlages on the site and is currentl;y logged in.
-function ceo_comic_upload() {
-	require_once('functions/uploader.php');
-	$result = ceo_handleUpload();
-	// to pass data through iframe you will need to encode all html tags
-	echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
-	exit;
-}
-
-add_action( 'wp_ajax_ceo_thumb_update', 'ceo_comic_thumb_update' );
-
-// Ajax function to update thumb list on comic edit page when new files are attached to the post by the uploader or the selectbox attacher.
-//This ajax function will only work itthe user has edit privlages on the site and is currentl;y logged in.
-function ceo_comic_thumb_update() {
-	$post = get_post( $_GET['post_id']);
-	echo ceo_display_comic_thumbnail('small', $post , false, 198); 
-	exit;
-}
-
-add_action( 'wp_ajax_ceo_comic_add', 'ceo_comic_add' );
-// Ajax function to attach files submited in select box. This ajax function will only work itthe user has edit privlages on the site and is currentl;y logged in.
-function ceo_comic_add() {
-	$comicfiles = $_GET['comicfile'];
-	if (!($comicfiles == '')){
-		$pieces = explode(",", $comicfiles);
-		foreach ($pieces as $comicfile){
-			add_post_meta($_GET['post_id'], 'comic', $comicfile, false);
-		}
-	}
-	return 'success';
-	exit;
-}
 // function to add comic uploader sectipts only to the comic post add/edit pager.
 add_action('admin_head', 'comic_admin_css');
 function comic_admin_css() {
@@ -143,7 +106,6 @@ function comic_admin_css() {
     global $post_type;
 
     if (($_GET['post_type'] == 'comic') || ($post_type == 'comic')) :
-
         echo "<link type='text/css' rel='stylesheet' href='" . plugins_url('/css/fileuploader.css', __FILE__) . "' />";
 		echo "<script type='text/javascript' src='". plugins_url('/js/fileuploader.js',  __FILE__) . "'></script>";
     endif;

@@ -125,7 +125,7 @@ function ceo_edit_comic_in_post($post) {
 		<td valign="top" style="width: 240px;">
 		<center>
 		  <!-- DIV added to enable auto update function -->
-			<div id="comicthumbs"><?php echo ceo_display_comic_thumbnail('small', $post, false, 198); ?></div>
+			<div id="comicthumbs"><?php echo ceo_display_comic_thumbnail_editor('small', $post, false, 198); ?></div>
 		</center>
 
 		<br />
@@ -193,6 +193,22 @@ function ceo_handle_edit_save_comic($post_id) {
 			update_post_meta($post_id, 'mood', $postmood);
 		}
 	} */
+}
+
+// Do the thumbnail display functions here.
+function ceo_display_comic_thumbnail_editor($type = 'small', $override_post = null, $use_post_image = false, $setwidth = 0) {
+	global $post;
+	$thumbnail = '';
+	$post_to_use = !empty($override_post) ? $override_post : $post;
+	$thumburl = ceo_pluginfo('thumbnail_small_url');
+	$thumbnail = get_post_meta($post_to_use->ID, 'comic');
+	foreach ($thumbnail as $thumb) {
+		if ($setwidth) {
+			echo '<div id='.$thumb.'><img src="'.$thumburl.'/'.$thumb.'" alt="'.get_the_title($post_to_use).'" style="max-width:'.$setwidth.'px" class="comicthumbnail" title="'.get_the_title($post_to_use->ID).'" /><INPUT type="button" value="Remove" name="'.$thumb.'" onClick="comicfileremove('.$post->ID.',\''.$thumb.'\')"></div>'."\r\n";
+		} else {
+			echo '<img src="'.$thumburl.'/'.$thumb.'" alt="'.get_the_title($post_to_use).'" class="comicthumbnail" title="'.get_the_title($post_to_use).'" /><INPUT type="button" value="Remove" name="button2" onClick="comicfileremove('.$post->ID.','.$thumb.')">'."\r\n";
+		}
+	}
 }
 
 ?>
