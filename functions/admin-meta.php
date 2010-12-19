@@ -67,13 +67,49 @@ function ceo_edit_comic_in_post($post) {
 <div class="inside" style="overflow: hidden">
 	<table>
 		<td valign="top">
+		<! -- comic uploader button -->
 			<div id="file-uploader-demo1">		
 				<noscript>			
 					<p>Please enable JavaScript to use file uploader.</p>
 					<!-- or put a simple form for upload here -->
 				</noscript>         
-
 			</div>
+		<!-- end comic uploader button -->
+		<br />
+		<!-- selectbox for file attaching from DIR -->
+			<?php
+			// open the current directory
+			$dhandle = opendir(ceo_pluginfo('comic_path'));
+			// define an array to hold the files
+			$files = array();
+
+			if ($dhandle) {
+			// loop through all of the files
+			while (false !== ($fname = readdir($dhandle))) {
+				// if the file is not this file, and does not start with a '.' or '..',
+				// then store it for later display
+				if (($fname != '.') && ($fname != '..') &&
+					($fname != basename($_SERVER['PHP_SELF']))) {
+					// store the filename
+					$files[] = (is_dir( "./$fname" )) ? "(Dir) {$fname}" : $fname;
+				}
+			}
+			// close the directory
+			closedir($dhandle);
+			}
+			?>
+			<select id="comicfile"name="comicfile" multiple size="4">
+			<?php
+			// Now loop through the files, echoing out a new select option for each one
+			foreach( $files as $fname )
+			{
+				echo "<option>{$fname}</option>\n";
+			}
+			?>
+			</select>
+			<INPUT type="button" value="Attach" name="button2" onClick="comicfileadd(<?php echo $post->ID; ?>)"> 
+			<br />
+		<!-- end selectbox attacher -->
 <hr>
 			Meta Box Inside a Post
 			TODO<br />
@@ -88,6 +124,7 @@ function ceo_edit_comic_in_post($post) {
 		</td>
 		<td valign="top" style="width: 240px;">
 		<center>
+		  <!-- DIV added to enable auto update function -->
 			<div id="comicthumbs"><?php echo ceo_display_comic_thumbnail('small', $post, false, 198); ?></div>
 		</center>
 
@@ -97,37 +134,6 @@ function ceo_edit_comic_in_post($post) {
 	</tr>
 	<tr>
 		<td colspan="3" style="border-top: solid 1px #000;">
-<?php
-// open the current directory
-$dhandle = opendir(ceo_pluginfo('comic_path'));
-// define an array to hold the files
-$files = array();
-
-if ($dhandle) {
-   // loop through all of the files
-   while (false !== ($fname = readdir($dhandle))) {
-      // if the file is not this file, and does not start with a '.' or '..',
-      // then store it for later display
-      if (($fname != '.') && ($fname != '..') &&
-          ($fname != basename($_SERVER['PHP_SELF']))) {
-          // store the filename
-          $files[] = (is_dir( "./$fname" )) ? "(Dir) {$fname}" : $fname;
-      }
-   }
-   // close the directory
-   closedir($dhandle);
-}
-
-echo "<select id=\"comicfile\"name=\"comicfile\" multiple size=\"4\">\n";
-// Now loop through the files, echoing out a new select option for each one
-foreach( $files as $fname )
-{
-   echo "<option>{$fname}</option>\n";
-}
-echo "</select>\n";
-?>
-<INPUT type="button" value="Attach" name="button2" onClick="comicfileadd(<?php echo $post->ID; ?>)"> 
-<br />
 		ZERZIX : Need to add the AJAX form submitter.
 		Display 'selection' box where you can reselect a different comic that is already available here instead of uploading.<br />
 		This also needs to be ajaxified where when clicking the select button it will update the custom post meta field with the appropriate filename for the comic.<br />

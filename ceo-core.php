@@ -103,6 +103,8 @@ function ceo_add_dashboard_widgets() {
 // add_action( 'wp_ajax_nopriv_ceo_comic_upload', 'myajax_submit' );
 add_action( 'wp_ajax_ceo_uploader', 'ceo_comic_upload' );
 
+// Ajax function to upload and attach files. uploader.php handles uploads, thumb generation, and attaching to post
+// This ajax function will only work itthe user has edit privlages on the site and is currentl;y logged in.
 function ceo_comic_upload() {
 	require_once('functions/uploader.php');
 	$result = ceo_handleUpload();
@@ -113,6 +115,8 @@ function ceo_comic_upload() {
 
 add_action( 'wp_ajax_ceo_thumb_update', 'ceo_comic_thumb_update' );
 
+// Ajax function to update thumb list on comic edit page when new files are attached to the post by the uploader or the selectbox attacher.
+//This ajax function will only work itthe user has edit privlages on the site and is currentl;y logged in.
 function ceo_comic_thumb_update() {
 	$post = get_post( $_GET['post_id']);
 	echo ceo_display_comic_thumbnail('small', $post , false, 198); 
@@ -120,7 +124,7 @@ function ceo_comic_thumb_update() {
 }
 
 add_action( 'wp_ajax_ceo_comic_add', 'ceo_comic_add' );
-
+// Ajax function to attach files submited in select box. This ajax function will only work itthe user has edit privlages on the site and is currentl;y logged in.
 function ceo_comic_add() {
 	$comicfiles = $_GET['comicfile'];
 	if (!($comicfiles == '')){
@@ -132,7 +136,7 @@ function ceo_comic_add() {
 	return 'success';
 	exit;
 }
-
+// function to add comic uploader sectipts only to the comic post add/edit pager.
 add_action('admin_head', 'comic_admin_css');
 function comic_admin_css() {
 
