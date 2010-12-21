@@ -28,30 +28,29 @@ $comic_filename_filters = array();
 $comic_filename_filters['default'] = "{date}*.*";
 
 // TODO: Change this to $output at some point.
-if (!function_exists('ceo_display_comic_navigation')) {
-	function ceo_display_comic_navigation() {
-		global $post, $wp_query;
-		$first_comic = ceo_get_first_comic_permalink();
-		$first_text = __('&lsaquo;&lsaquo; First','comiceasel');
-		$last_comic = ceo_get_last_comic_permalink();
-		$last_text = __('Last &rsaquo;&rsaquo;','comiceasel'); 
-		$next_comic = ceo_get_next_comic_permalink();
-		$next_text = __('Next &rsaquo;','comiceasel');
-		$prev_comic = ceo_get_previous_comic_permalink();
-		$prev_text = __('&lsaquo; Prev','comiceasel');
-		?>
-		<div id="default-nav-wrapper">
-			<div class="default-nav">
-				<div class="default-nav-base default-nav-first"><?php if ( get_permalink() != $first_comic ) { ?><a href="<?php echo $first_comic ?>"><?php echo $first_text; ?></a><?php } else { echo $first_text; } ?></div>
-				<div class="default-nav-base default-nav-previous"><?php if ($prev_comic) { ?><a href="<?php echo $prev_comic ?>"><?php echo $prev_text; ?></a><?php } else { echo $prev_text; } ?></div>
-				<div class="default-nav-base default-nav-last"><?php if ( get_permalink() != $last_comic ) { ?><a href="<?php echo $last_comic ?>"><?php echo $last_text; ?></a><?php } else { echo $last_text; } ?></div>
-				<div class="default-nav-base default-nav-next"><?php if ($next_comic) { ?><a href="<?php echo $next_comic ?>"><?php echo $next_text; ?></a><?php } else { echo $next_text; } ?></div>
-				<div class="clear"></div>
-			</div>
+function ceo_display_comic_navigation() {
+	global $post, $wp_query;
+	$first_comic = ceo_get_first_comic_permalink();
+	$first_text = __('&lsaquo;&lsaquo; First','comiceasel');
+	$last_comic = ceo_get_last_comic_permalink();
+	$last_text = __('Last &rsaquo;&rsaquo;','comiceasel'); 
+	$next_comic = ceo_get_next_comic_permalink();
+	$next_text = __('Next &rsaquo;','comiceasel');
+	$prev_comic = ceo_get_previous_comic_permalink();
+	$prev_text = __('&lsaquo; Prev','comiceasel');
+	?>
+	<div id="default-nav-wrapper">
+		<div class="default-nav">
+			<div class="default-nav-base default-nav-first"><?php if ( get_permalink() != $first_comic ) { ?><a href="<?php echo $first_comic ?>"><?php echo $first_text; ?></a><?php } else { echo $first_text; } ?></div>
+			<div class="default-nav-base default-nav-previous"><?php if ($prev_comic) { ?><a href="<?php echo $prev_comic ?>"><?php echo $prev_text; ?></a><?php } else { echo $prev_text; } ?></div>
+			<div class="default-nav-base default-nav-last"><?php if ( get_permalink() != $last_comic ) { ?><a href="<?php echo $last_comic ?>"><?php echo $last_text; ?></a><?php } else { echo $last_text; } ?></div>
+			<div class="default-nav-base default-nav-next"><?php if ($next_comic) { ?><a href="<?php echo $next_comic ?>"><?php echo $next_text; ?></a><?php } else { echo $next_text; } ?></div>
+			<div class="clear"></div>
 		</div>
-		<?php
-	}
+	</div>
+	<?php
 }
+
 
 function ceo_display_comic_swf($post, $comic) {
 	$file_url = ceo_pluginfo('base_url') .'/' . ceo_clean_filename($comic);
@@ -209,23 +208,21 @@ function ceo_display_comic() {
 	return $output;
 }
 
-if (!function_exists('ceo_comic_clicks_next')) {
-	function ceo_comic_clicks_next($output) {
-		global $post, $wp_query;
-		if (is_search() || is_archive() || is_feed()) return $output;
-		$hovertext = ceo_the_hovertext($post);
-		$next_comic = ceo_get_next_comic_permalink();
-		if (empty($next_comic)) $next_comic = '#';
-		$class = '';
-		if (ceo_pluginfo('rascal_says')) {
-			$the_title = get_the_title($post);
-			$class='class="tt"';
-		} else {
-			$the_title = ceo_the_hovertext($post);
-		}
-		$output = "<a {$class} href=\"{$next_comic}\" title=\"{$the_title}\">{$output}</a>\r\n";
-		return $output;
+function ceo_comic_clicks_next($output) {
+	global $post, $wp_query;
+	if (is_search() || is_archive() || is_feed()) return $output;
+	$hovertext = ceo_the_hovertext($post);
+	$next_comic = ceo_get_next_comic_permalink();
+	if (empty($next_comic)) $next_comic = '#';
+	$class = '';
+	if (ceo_pluginfo('rascal_says')) {
+		$the_title = get_the_title($post);
+		$class='class="tt"';
+	} else {
+		$the_title = ceo_the_hovertext($post);
 	}
+	$output = "<a {$class} href=\"{$next_comic}\" title=\"{$the_title}\">{$output}</a>\r\n";
+	return $output;
 }
 
 function ceo_rascal_says($output) {

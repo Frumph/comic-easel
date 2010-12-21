@@ -51,8 +51,7 @@ function ceo_display_comic_area() {
 // This is used inside ceo_display_comic_area()
 function ceo_display_comic_wrapper() {
 	global $post; 
-	if ($post->post_type == 'comic') {
-		?>
+	if ($post->post_type == 'comic') { ?>
 		<div id="comic-wrap" class="comic-id-<?php echo $post->ID; ?>">
 			<div id="comic-head"></div>
 			<div id="comic">
@@ -67,6 +66,9 @@ function ceo_display_comic_wrapper() {
 }
 
 // add_action('easel-narrowcolumn-area', 'ceo_display_comic_post_home');
+
+/* this needs to be rewritten to be able to accomodate any theme not just easel */
+/* or its own post area. */
 
 function ceo_display_comic_post_home() { 
 	global $wp_query;
