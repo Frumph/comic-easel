@@ -58,7 +58,7 @@ function ceo_initialize_post_types() {
 				'rewrite' => array( 'slug' => 'comic', 'with_front' => true ),
 				'hierarchical' => false,
 				'can_export' => true,
-				'menu_position' => 5,
+				'menu_position' => 57,
 				'menu_icon' => ceo_pluginfo('plugin_url') . '/images/ceo-icon.png',
 				'supports' => array( 'title', 'editor', 'excerpt', 'author', 'comments', 'thumbnail', 'custom-fields' ),
 				'description' => 'Post type for Comics'
