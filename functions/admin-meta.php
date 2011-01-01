@@ -64,9 +64,9 @@ function ceo_manage_comic_columns($column_name, $id) {
 
 function ceo_edit_comic_in_post($post) { 
 ?>
-<div class="inside" style="overflow: hidden">
+<div class="inside" style="overflow: hidden; width: 100%;">
 	<table>
-		<td valign="top" style="width:300px;">
+		<td valign="top" style="width:50%;">
 		<! -- comic uploader button -->
 			<div id="file-uploader-demo1">		
 				<noscript>			
