@@ -37,8 +37,7 @@ Defaults for the Comic Easel Elements.
 }
 
 .mininav-prev a:hover, .mininav-next a:hover {
-	background: #fff;
-	color: #000;
+	color: #ffcf00;
 }
 
 .ceo_thumbnail_widget .widget-content {

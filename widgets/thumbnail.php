@@ -18,17 +18,16 @@ class ceo_thumbnail_widget extends WP_Widget {
 		global $post, $wp_query;		
 		extract($args, EXTR_SKIP);
 		$current_post_id = $post->ID;
-		Protect();
 		$chaptinfo = ';';
 		if ($instance['thumbchapt'] !== 'All') $chaptinfo = '&chapters='.$instance['thumbchapt'];
 		if ($instance['first']) { $order = 'ASC'; } else { $order = 'DESC'; }
 		$comic_query = 'showposts=1&order='.$order.'&post_type=comic'.$chaptinfo;
 		if ($instance['random']) $comic_query .= '&orderby=rand';
 		if (!empty($post) && $instance['random']) $comic_query .= '&exclude='.$current_post_id;
-		$posts = &query_posts($comic_query);
+		$thumbnail_query = new WP_Query($comic_query);
 		$archive_image = null;
-		if (have_posts()) {
-			while (have_posts()) : the_post();
+		if ($thumbnail_query->have_posts()) {
+			while ($thumbnail_query->have_posts()) : $thumbnail_query->the_post();
 				if ($current_post_id !== $post->ID) {
 					echo $before_widget;
 					$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']); 
@@ -46,7 +45,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 				}
 			endwhile;
 		}
-		UnProtect();
+		wp_reset_postdata();
 	}
 	
 	function update($new_instance, $old_instance) {
