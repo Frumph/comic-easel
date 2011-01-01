@@ -66,7 +66,7 @@ function ceo_edit_comic_in_post($post) {
 ?>
 <div class="inside" style="overflow: hidden">
 	<table>
-		<td valign="top">
+		<td valign="top" style="width:300px;">
 		<! -- comic uploader button -->
 			<div id="file-uploader-demo1">		
 				<noscript>			
@@ -75,69 +75,58 @@ function ceo_edit_comic_in_post($post) {
 				</noscript>         
 			</div>
 		<!-- end comic uploader button -->
+<hr>
 		<br />
 		<!-- selectbox for file attaching from DIR -->
-			<?php
+<?php
 			// open the current directory
-			$dhandle = opendir(ceo_pluginfo('comic_path'));
+$comic_path = ceo_pluginfo('comic_path');
 			// define an array to hold the files
-			$files = array();
-
-			if ($dhandle) {
-			// loop through all of the files
-			while (false !== ($fname = readdir($dhandle))) {
-				// if the file is not this file, and does not start with a '.' or '..',
-				// then store it for later display
-				if (($fname != '.') && ($fname != '..') &&
-					($fname != basename($_SERVER['PHP_SELF']))) {
-					// store the filename
-					$files[] = (is_dir( "./$fname" )) ? "(Dir) {$fname}" : $fname;
-				}
-			}
-			// close the directory
-			closedir($dhandle);
-			}
+$dirhandle = opendir($comic_path);
+if ($dirhandle) {
+	// loop through all of the files
+	while (false !== ($fname = readdir($dirhandle))) {
+		// if the file is not this file, and does not start with a '.' or '..',
+		// then store it for later display
+		if (($fname != '.') && ($fname != '..') && ($fname != basename($_SERVER['PHP_SELF']))) {
+			// store the filename
+			$files[] = (is_dir( "./$fname" )) ? "(Dir) {$fname}" : $fname;
+		}
+	}
+	// close the directory
+	closedir($dirhandle);
+}
 			?>
-			<select id="comicfile"name="comicfile" multiple size="4">
+			<div id="comicfileattacharea">
+			<select id="comicfile" name="comicfile" size="6" multiple>
 			<?php
+			if (empty($files)) {
+				echo '<option value="There are no files available">No Files';
+			} else {
 			// Now loop through the files, echoing out a new select option for each one
-			foreach( $files as $fname )
-			{
-				echo "<option>{$fname}</option>\n";
+				foreach( $files as $fname ) {
+					echo "<option value=\"{$fname}\">{$fname}\r\n";
+				}
 			}
 			?>
 			</select>
-			<INPUT type="button" value="Attach" name="button2" onClick="comicfileadd(<?php echo $post->ID; ?>)"> 
+			</div>
+			<br />
+			<div class="comicfileattach">
+			<?php if (!empty($files)) { ?>
+				<INPUT type="button" value="Attach" name="button2" onClick="comicfileadd(<?php echo $post->ID; ?>)"> 
+			<?php } ?>
+			</div>
 			<br />
 		<!-- end selectbox attacher -->
-<hr>
-			Meta Box Inside a Post
-			TODO<br />
-			<ol>
-			<li><b>When file is uploaded via this script create the 2 thumbnails necessary using the ceo_pluginfo paths that are set</b></li>
-			<li><b>Update the 'comic' custom metafield with the filename (not full location, just filename)</b></li>
-			<li>Check if comic custom field exists, if so, display comic thumbnail that appears</li>
-			<li>If custom field does not exist, check if comic exists via date</li>
-			<li>If not by date or custom field then display no comic exists</li>
-			</ol>
-		
 		</td>
 		<td valign="top" style="width: 240px;">
 		<center>
 		  <!-- DIV added to enable auto update function -->
-			<div id="comicthumbs"><?php echo ceo_display_comic_thumbnail_editor('small', $post, false, 198); ?></div>
+			<div id="comicthumbsremove">
+				<?php echo ceo_display_comic_thumbnail_editor('small', $post, false, 198); ?><br />
+			</div>
 		</center>
-
-		<br />
-		Display Current Comic Thumbnail(s) that is set in this area.  Basically do a loop through the meta fields for 'comic' and display each thumbnail here of all that are attached.
-		</td>
-	</tr>
-	<tr>
-		<td colspan="3" style="border-top: solid 1px #000;">
-		ZERZIX : Need to add the AJAX form submitter.
-		Display 'selection' box where you can reselect a different comic that is already available here instead of uploading.<br />
-		This also needs to be ajaxified where when clicking the select button it will update the custom post meta field with the appropriate filename for the comic.<br />
-		If multiple comics selected it will create a new comic field for all of them.
 		</td>
 	</tr>
 	</table>
@@ -152,7 +141,7 @@ function ceo_edit_comic_in_post($post) {
 			},
 			onComplete: function(id, fileName, responseJSON){
 				//refreash thumbnail DIV
-				 getdata(ajaxurl + '?action=ceo_thumb_update&post_id=<?php echo $post->ID ?>','comicthumbs');
+				 getdata(ajaxurl + '?action=ceo_thumb_update&post_id=<?php echo $post->ID ?>','comicthumbsremove');
 			}
 		});           
 	}

@@ -76,3 +76,7 @@
 .qq-upload-fail .qq-upload-failed-text {
 	display: inline;
 }
+
+#wpcontent #ceo_comic_in_post select {
+	height: auto;
+}

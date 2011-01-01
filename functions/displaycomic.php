@@ -82,7 +82,7 @@ function ceo_the_hovertext($override_post = null) {
 }
 
 function ceo_init_comic_swf() {
-	wp_enqueue_script('swfobject', '', array(), false, true);
+	wp_enqueue_script('swfobject');
 }
 
 // This function will let authors who want to use comicpress as a way to output their books/text in a comic area as a page.
