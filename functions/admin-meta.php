@@ -123,7 +123,7 @@ if ($dirhandle) {
 		<td valign="top" style="width: 240px;">
 		<center>
 		  <!-- DIV added to enable auto update function -->
-			<div id="comicthumbsremove">
+			<div id="comicthumbs">
 				<?php echo ceo_display_comic_thumbnail_editor('small', $post, false, 198); ?><br />
 			</div>
 		</center>
@@ -141,7 +141,7 @@ if ($dirhandle) {
 			},
 			onComplete: function(id, fileName, responseJSON){
 				//refreash thumbnail DIV
-				 getdata(ajaxurl + '?action=ceo_thumb_update&post_id=<?php echo $post->ID ?>','comicthumbsremove');
+				 getdata(ajaxurl + '?action=ceo_thumb_update&post_id=<?php echo $post->ID ?>','comicthumbs');
 			}
 		});           
 	}
