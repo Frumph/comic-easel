@@ -187,15 +187,24 @@ function ceo_handle_edit_save_comic($post_id) {
 // Do the thumbnail display functions here.
 function ceo_display_comic_thumbnail_editor($type = 'small', $override_post = null, $use_post_image = false, $setwidth = 0) {
 	global $post;
-	$thumbnail = '';
+	$thumbnail = $extra_text = '';
 	$post_to_use = !empty($override_post) ? $override_post : $post;
 	$thumburl = ceo_pluginfo('thumbnail_small_url');
+	// need to add fallback
+	
 	$thumbnail = get_post_meta($post_to_use->ID, 'comic');
 	foreach ($thumbnail as $thumb) {
-		if ($setwidth) {
-			echo '<div id='.$thumb.'><img src="'.$thumburl.'/'.$thumb.'" alt="'.get_the_title($post_to_use).'" style="max-width:'.$setwidth.'px" class="comicthumbnail" title="'.get_the_title($post_to_use->ID).'" /><INPUT type="button" value="Remove" name="'.$thumb.'" onClick="comicfileremove('.$post->ID.',\''.$thumb.'\')"></div>'."\r\n";
+		if (!file_exists(ceo_pluginfo('thumbnail_small_path').'/'.$thumb)) {
+			$thumb_url = ceo_pluginfo('comic_url').'/'.$thumb;
+			$extra_text = 'No Thumbnail Found<br />';
 		} else {
-			echo '<img src="'.$thumburl.'/'.$thumb.'" alt="'.get_the_title($post_to_use).'" class="comicthumbnail" title="'.get_the_title($post_to_use).'" /><INPUT type="button" value="Remove" name="button2" onClick="comicfileremove('.$post->ID.','.$thumb.')">'."\r\n";
+			$thumb_url = ceo_pluginfo('thumbnail_small_url').'/'.$thumb;
+		}
+		if ($setwidth) {
+			echo '<div id='.$thumb.'><img src="'.$thumb_url.'" alt="'.get_the_title($post_to_use).'" style="max-width:'.$setwidth.'px" class="comicthumbnail" title="'.get_the_title($post_to_use->ID).'" />
+			<br />'.$extra_text.'<INPUT type="button" value="Remove" name="'.$thumb.'" onClick="comicfileremove('.$post->ID.',\''.$thumb.'\')"></div>'."\r\n";
+		} else {
+			echo '<img src="'.$thumb_url.'" alt="'.get_the_title($post_to_use).'" class="comicthumbnail" title="'.get_the_title($post_to_use).'" />'.$extra_text.'<INPUT type="button" value="Remove" name="button2" onClick="comicfileremove('.$post->ID.','.$thumb.')">'."\r\n";
 		}
 	}
 }
