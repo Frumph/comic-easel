@@ -252,9 +252,9 @@ function ceo_load_options($reset = false) {
 	if (empty($ceo_config)) {
 		delete_option('comiceasel-config');
 		foreach (array(
-			'comic_folder' => 'comics',
-			'comic_folder_medium' => 'comics-medium',
-			'comic_folder_small' => 'comics-small',
+			'comic_folder' => 'webcomics',
+			'comic_folder_medium' => 'webcomics-medium',
+			'comic_folder_small' => 'webcomics-small',
 			'medium_comic_width' => '360',
 			'small_comic_width' => '200',
 			'add_dashboard_frumph_feed_widget' => true
@@ -269,6 +269,7 @@ function ceo_load_options($reset = false) {
 
 function ceo_pluginfo($whichinfo = null) {
 	global $ceo_pluginfo;
+	ceo_load_options($reset);
 	if (empty($ceo_pluginfo) || $whichinfo == 'reset') {
 		// Important to assign pluginfo as an array to begin with.
 		$ceo_pluginfo = array();

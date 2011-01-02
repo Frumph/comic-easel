@@ -47,3 +47,8 @@ Defaults for the Comic Easel Elements.
 #comic {
 	text-align: center;
 }
+
+#blogheader {
+	border-bottom: solid 1px #fff;
+	margin: 10px auto;
+}
