@@ -17,32 +17,34 @@ class ceo_thumbnail_widget extends WP_Widget {
 	function widget($args, $instance) {
 		global $post, $wp_query;		
 		extract($args, EXTR_SKIP);
-		$current_post_id = $post->ID;
+		$current_post_id = '';
 		$chaptinfo = ';';
 		if ($instance['thumbchapt'] !== 'All') $chaptinfo = '&chapters='.$instance['thumbchapt'];
 		if ($instance['first']) { $order = 'ASC'; } else { $order = 'DESC'; }
 		$comic_query = 'showposts=1&order='.$order.'&post_type=comic'.$chaptinfo;
 		if ($instance['random']) $comic_query .= '&orderby=rand';
-		if (!empty($post) && $instance['random']) $comic_query .= '&exclude='.$current_post_id;
+		if (!empty($post) && $instance['random']) {
+			$current_post_id = $post->ID;
+			$comic_query .= '&exclude='.$current_post_id;
+		}
 		$thumbnail_query = new WP_Query($comic_query);
 		$archive_image = null;
 		if ($thumbnail_query->have_posts()) {
 			while ($thumbnail_query->have_posts()) : $thumbnail_query->the_post();
-				if ($current_post_id !== $post->ID) {
-					echo $before_widget;
-					$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']); 
-					if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
-					if (function_exists('has_post_thumbnail')) {
-						if ( has_post_thumbnail($post->ID) ) {
-							echo "<a href=\"".get_permalink($post->ID)."\" rel=\"bookmark\" title=\"Permanent Link to ".get_the_title()."\">".get_the_post_thumbnail($post->ID, 'small')."</a>\r\n";
-						} else {
-							echo "<a href=\"".get_permalink($post->ID)."\" title=\"".$post->post_title."\">".ceo_display_comic_thumbnail('small', $post, true, 198)."</a>\r\n";	
-						}			
-					} else { 
-						echo "<a href=\"".get_permalink($post->ID)."\" title=\"".$post->post_title."\">".ceo_display_comic_thumbnail('small', $post, true, 198)."</a>\r\n";
-					}
-					echo $after_widget;
+				echo $before_widget;
+				$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']); 
+				if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
+				if (function_exists('has_post_thumbnail')) {
+					if ( has_post_thumbnail($post->ID) ) {
+						echo "<a href=\"".get_permalink($post->ID)."\" rel=\"bookmark\" title=\"Permanent Link to ".get_the_title()."\">".get_the_post_thumbnail($post->ID, 'small')."</a>\r\n";
+					} else {
+						echo "<a href=\"".get_permalink($post->ID)."\" title=\"".$post->post_title."\">".ceo_display_comic_thumbnail('small', $post, true, 198)."</a>\r\n";	
+					}			
+				} else { 
+					echo "here";
+					echo "<a href=\"".get_permalink($post->ID)."\" title=\"".$post->post_title."\">".ceo_display_comic_thumbnail('small', $post, true, 198)."</a>\r\n";
 				}
+				echo $after_widget;
 			endwhile;
 		}
 		wp_reset_postdata();

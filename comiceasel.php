@@ -269,13 +269,12 @@ function ceo_load_options($reset = false) {
 
 function ceo_pluginfo($whichinfo = null) {
 	global $ceo_pluginfo;
-	ceo_load_options($reset);
+	ceo_load_options('reset');
 	if (empty($ceo_pluginfo) || $whichinfo == 'reset') {
 		// Important to assign pluginfo as an array to begin with.
 		$ceo_pluginfo = array();
 		$ceo_options = ceo_load_options('reset'); // TEMP: Reset is temporary
 		$ceo_coreinfo = wp_upload_dir();
-		// Child and Parent theme directories style = child(or parent), theme = parent
 		$ceo_addinfo = array(
 				// if wp_upload_dir reports an error, capture it
 				'error' => $ceo_coreinfo['error'],

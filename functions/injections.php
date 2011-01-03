@@ -30,7 +30,7 @@ function ceo_display_comic_area() {
 	global $wp_query, $post;
 	if (is_single()) {
 		ceo_display_comic_wrapper();
-	} else {
+	} /* else {
 		if (is_home() && !is_paged())  {
 			Protect();
 			$comic_args = array(
@@ -43,7 +43,7 @@ function ceo_display_comic_area() {
 			endwhile;
 			UnProtect();
 		}
-	}
+	} */
 }
 
 // This is used inside ceo_display_comic_area()
@@ -63,7 +63,7 @@ function ceo_display_comic_wrapper() {
 	<?php }
 }
 
-add_action('easel-narrowcolumn-area', 'ceo_display_comic_post_home');
+// add_action('easel-narrowcolumn-area', 'ceo_display_comic_post_home');
 
 /* This will only work if using the Easel theme. */
 
@@ -86,11 +86,13 @@ add_action('easel-post-info', 'ceo_display_comic_locations');
 
 function ceo_display_comic_locations() {
 	global $post;
-	$before = '<div class="comic-locations">Location: ';
-	$sep = ', '; 
-	$after = '</div>';
-	$output = get_the_term_list( $post->ID, 'locations', $before, $sep, $after );
-	echo apply_filters('ceo_display_comic_locations', $output);
+	if ($post->post_type == 'comic') {
+		$before = '<div class="comic-locations">Location: ';
+		$sep = ', '; 
+		$after = '</div>';
+		$output = get_the_term_list( $post->ID, 'locations', $before, $sep, $after );
+		echo apply_filters('ceo_display_comic_locations', $output);
+	}
 }
 
 add_action('easel-post-info', 'ceo_display_comic_characters');
@@ -102,8 +104,8 @@ function ceo_display_comic_characters($post_category) {
 		$sep = ', '; 
 		$after = '</div>';
 		$post_characters = get_the_term_list( $post->ID, 'characters', $before, $sep, $after );
+		echo apply_filters('ceo_display_comic_characters', $post_characters);		
 	}
-	echo apply_filters('ceo_display_comic_characters', $post_characters);
 }
 
 // Syndication Injection
