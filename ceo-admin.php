@@ -25,7 +25,7 @@ function ceo_add_menu_pages() {
 //	$upload_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $upload_title, $upload_title, 'edit_theme_options', 'comiceasel-upload', 'ceo_upload');
 
 	// post_type is only found on the post-new.php with $_GET, so when the $pagenow is post.php it will not be able to strictly determine the post type so it will be executed on all already made post/page edits
-	if (($_GET['post_type'] == 'comic') || ($post_type == 'comic'))   {
+	if ( (isset($_GET['post_type']) && $_GET['post_type'] == 'comic') || $post_type == 'comic') {
 		// Z? why does the function comic_admin_css() not use wp_enqueue style/script and not here?
 	}
 	// Notice how its checking the _GET['page'], do this for the other areas
@@ -85,7 +85,7 @@ function ceo_add_dashboard_widgets() {
 add_action('admin_head', 'comic_admin_css');
 function comic_admin_css() {
     global $post_type;
-    if (($_GET['post_type'] == 'comic') || ($post_type == 'comic')) :
+    if ( (isset($_GET['post_type']) && $_GET['post_type'] == 'comic') || $post_type == 'comic') :
         echo "<link type='text/css' rel='stylesheet' href='" . plugins_url('/css/ceo-admin.css', __FILE__) . "' />";
 		echo "<script type='text/javascript' src='". plugins_url('/js/fileuploader.js',  __FILE__) . "'></script>";
     endif;

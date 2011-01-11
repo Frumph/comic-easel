@@ -97,7 +97,7 @@ function ceo_display_comic_locations() {
 
 add_action('easel-post-info', 'ceo_display_comic_characters');
 
-function ceo_display_comic_characters($post_category) {
+function ceo_display_comic_characters() {
 	global $post;
 	if ($post->post_type == 'comic') {
 		$before = '<div class="comic-characters">Characters: ';
