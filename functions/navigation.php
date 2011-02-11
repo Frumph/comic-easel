@@ -1,9 +1,14 @@
 <?php
 
-// TODO these can be combined, there's no need to have them separate functions
-// we're not going to have any code anywhere that needs the object itself.
 function ceo_get_first_comic() {
-	return ceo_get_terminal_post_of_chapter(0, true);
+	global $post;
+	$current_chapter = reset(get_the_terms( $post->ID, 'chapters'));
+	if (empty($current_chapter) || is_null($current_chapter)) { 
+		$current_chapter_id = 0;
+	} else {
+		$current_chapter_id = $current_chapter->term_id;
+	}
+	return ceo_get_terminal_post_of_chapter($current_chapter_id, true);
 }
 
 function ceo_get_first_comic_permalink() {
@@ -12,7 +17,14 @@ function ceo_get_first_comic_permalink() {
 }
 
 function ceo_get_last_comic() {
-	return ceo_get_terminal_post_of_chapter(0, false);
+	global $post;
+	$current_chapter = reset(get_the_terms( $post->ID, 'chapters'));
+	if (empty($current_chapter) || is_null($current_chapter)) { 
+		$current_chapter_id = 0;
+	} else {
+		$current_chapter_id = $current_chapter->term_id;
+	}	
+	return ceo_get_terminal_post_of_chapter($current_chapter_id, false);
 }
 
 function ceo_get_last_comic_permalink() {
@@ -21,7 +33,7 @@ function ceo_get_last_comic_permalink() {
 }
 
 function ceo_get_previous_comic() {
-	return ceo_get_adjacent_comic(false, true);
+	return ceo_get_adjacent_comic(true, true);
 }
 
 function ceo_get_previous_comic_permalink() {
@@ -35,7 +47,7 @@ function ceo_get_previous_comic_permalink() {
 }
 
 function ceo_get_next_comic() {
-	return ceo_get_adjacent_comic(false, false);
+	return ceo_get_adjacent_comic(false, true);
 }
 
 function ceo_get_next_comic_permalink() {
@@ -48,29 +60,6 @@ function ceo_get_next_comic_permalink() {
 	return false;
 }
 
-function ceo_get_current_chapter_start_permalink() {
-	// Get the first chapter on lists ID or slug
-	// ceo_get_terminal_post_of_chapter($chapterid, true);
-}
-
-function ceo_get_current_chapter_end_permalink() {
-	// Get the first chapter on lists ID or slug
-	// ceo_get_terminal_post_of_chapter($chapterid, false);
-}
-
-function ceo_get_previous_chapter_start() {
-	// we're just going to go by sort order.
-}
-
-function ceo_get_previous_chapter_start_permalink() {
-}
-
-function ceo_get_next_chapter_start() {
-	// going by a particular sort order, have to look them up
-}
-
-function ceo_get_next_chapter_start_permalink() {
-}
 
 // 0 means get the first of them all, no matter chapter, otherwise 0 = this chapter.
 function ceo_get_terminal_post_of_chapter($chapterID = 0, $first = true) {
@@ -108,35 +97,22 @@ function ceo_get_terminal_post_of_chapter($chapterID = 0, $first = true) {
  *
  * Can either be next or previous post link.
  */
-function ceo_get_adjacent_comic($in_same_chapter = false, $previous = true, $excluded_chapters = '', $taxonomy = 'comic') {
+function ceo_get_adjacent_comic($previous = true, $in_same_chapter = false, $taxonomy = 'comic') {
 	global $post, $wpdb;
-
-	if ( empty( $post ) )
-		return null;
+	
+	if ( empty( $post ) ) return null;
 
 	$current_post_date = $post->post_date;
 
 	$join = '';
-	$posts_in_ex_cats_sql = '';
-	if ( $in_same_chapter || !empty($excluded_chapters) ) {
+
+	if ( $in_same_chapter ) {
 		$join = " INNER JOIN $wpdb->term_relationships AS tr ON p.ID = tr.object_id INNER JOIN $wpdb->term_taxonomy tt ON tr.term_taxonomy_id = tt.term_taxonomy_id";
 
 		if ( $in_same_chapter ) {
-			$cat_array = wp_get_object_terms($post->ID, $taxonomy, array('fields' => 'ids'));
-			$join .= " AND tt.taxonomy = '".$taxonomy."' AND tt.term_id IN (" . implode(',', $cat_array) . ")";
-		}
-
-		$posts_in_ex_cats_sql = "AND tt.taxonomy = '".$taxonomy."'";
-		if ( !empty($excluded_chapters) ) {
-			$excluded_chapters = array_map('intval', explode(' and ', $excluded_chapters));
-			if ( !empty($cat_array) ) {
-				$excluded_chapters = array_diff($excluded_chapters, $cat_array);
-				$posts_in_ex_cats_sql = '';
-			}
-
-			if ( !empty($excluded_chapters) ) {
-				$posts_in_ex_cats_sql = " AND tt.taxonomy = '".$taxonomy."' AND tt.term_id NOT IN (" . implode($excluded_chapters, ',') . ')';
-			}
+			$chapt_array = wp_get_object_terms($post->ID, 'chapters', array('fields' => 'ids'));
+			if (!empty($chapt_array))
+				$join .= " AND tt.taxonomy = 'chapters' AND tt.term_id IN (" . implode(',', $chapt_array) . ")";
 		}
 	}
 
@@ -144,12 +120,12 @@ function ceo_get_adjacent_comic($in_same_chapter = false, $previous = true, $exc
 	$op = $previous ? '<' : '>';
 	$order = $previous ? 'DESC' : 'ASC';
 
-	$join  = apply_filters( "get_{$adjacent}_comic_join", $join, $in_same_chapter, $excluded_chapters );
-	$where = apply_filters( "get_{$adjacent}_comic_where", $wpdb->prepare("WHERE p.post_date $op %s AND p.post_type = %s AND p.post_status = 'publish' $posts_in_ex_cats_sql", $current_post_date, $post->post_type), $in_same_chapter, $excluded_chapters );
-	$sort  = apply_filters( "get_{$adjacent}_comic_sort", "ORDER BY p.post_date $order LIMIT 1" );
+	$join  = apply_filters( "get_{$adjacent}_{$taxonomy}_join", $join, $in_same_chapter, $excluded_chapters );
+	$where = apply_filters( "get_{$adjacent}_{$taxonomy}_where", $wpdb->prepare("WHERE p.post_date $op %s AND p.post_type = %s AND p.post_status = 'publish' $posts_in_ex_cats_sql", $current_post_date, $post->post_type), $in_same_chapter, $excluded_chapters );
+	$sort  = apply_filters( "get_{$adjacent}_{$taxonomy}_sort", "ORDER BY p.post_date $order LIMIT 1" );
 
 	$query = "SELECT p.* FROM $wpdb->posts AS p $join $where $sort";
-	$query_key = 'adjacent_comic_' . md5($query);
+	$query_key = "adjacent_{$taxonomy}_" . md5($query);
 	$result = wp_cache_get($query_key, 'counts');
 	if ( false !== $result )
 		return $result;

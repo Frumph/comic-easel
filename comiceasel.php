@@ -252,9 +252,9 @@ function ceo_load_options($reset = false) {
 	if (empty($ceo_config)) {
 		delete_option('comiceasel-config');
 		foreach (array(
-			'comic_folder' => 'webcomics',
-			'comic_folder_medium' => 'webcomics-medium',
-			'comic_folder_small' => 'webcomics-small',
+			'comic_folder' => 'webcomic',
+			'comic_folder_medium' => 'webcomic-medium',
+			'comic_folder_small' => 'webcomic-small',
 			'medium_comic_width' => '360',
 			'small_comic_width' => '200',
 			'add_dashboard_frumph_feed_widget' => true
