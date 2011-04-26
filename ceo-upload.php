@@ -1,5 +1,0 @@
-The Upload Page
-<?php
-
-
-?>

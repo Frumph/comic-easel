@@ -65,90 +65,11 @@ function ceo_manage_comic_columns($column_name, $id) {
 function ceo_edit_comic_in_post($post) { 
 ?>
 <div class="inside" style="overflow: hidden; width: 100%;">
-	<table>
-		<td valign="top" style="width:50%;">
-		<! -- comic uploader button -->
-			<div id="file-uploader-demo1">		
-				<noscript>			
-					<p>Please enable JavaScript to use file uploader.</p>
-					<!-- or put a simple form for upload here -->
-				</noscript>         
-			</div>
-		<!-- end comic uploader button -->
-<hr>
-		<br />
-		<!-- selectbox for file attaching from DIR -->
-<?php
-			// open the current directory
-$comic_path = ceo_pluginfo('comic_path');
-			// define an array to hold the files
-$dirhandle = opendir($comic_path);
-if ($dirhandle) {
-	// loop through all of the files
-	while (false !== ($fname = readdir($dirhandle))) {
-		// if the file is not this file, and does not start with a '.' or '..',
-		// then store it for later display
-		if (($fname != '.') && ($fname != '..') && ($fname != basename($_SERVER['PHP_SELF']))) {
-			// store the filename
-			$files[] = (is_dir( "./$fname" )) ? "(Dir) {$fname}" : $fname;
-		}
-	}
-	// close the directory
-	closedir($dirhandle);
-}
-			?>
-			<div id="comicfileattacharea">
-			<select id="comicfile" name="comicfile" size="6" multiple>
-			<?php
-			if (empty($files)) {
-				echo '<option value="There are no files available">No Files';
-			} else {
-			// Now loop through the files, echoing out a new select option for each one
-				foreach( $files as $fname ) {
-					echo "<option value=\"{$fname}\">{$fname}\r\n";
-				}
-			}
-			?>
-			</select>
-			</div>
-			<br />
-			<div class="comicfileattach">
-			<?php if (!empty($files)) { ?>
-				<INPUT type="button" value="Attach" name="button2" onClick="comicfileadd(<?php echo $post->ID; ?>)"> 
-			<?php } ?>
-			</div>
-			<br />
-		<!-- end selectbox attacher -->
-		</td>
-		<td valign="top" style="width: 240px;">
+	<div id="comicthumbs">
 		<center>
-		  <!-- DIV added to enable auto update function -->
-			<div id="comicthumbs">
-				<?php echo ceo_display_comic_thumbnail_editor('small', $post, false, 198); ?><br />
-			</div>
+		<?php echo ceo_display_comic_thumbnail('medium', $post, false, 200); ?><br />
 		</center>
-		</td>
-	</tr>
-	</table>
-	<script>        
-	function createUploader(){            
-		var uploader = new qq.FileUploader({
-			element: document.getElementById('file-uploader-demo1'),
-			action: '<?php echo admin_url( 'admin-ajax.php'  ); ?>',
-			params: {
-				action: 'ceo_uploader',
-				post_id: '<?php echo $post->ID ?>'
-			},
-			onComplete: function(id, fileName, responseJSON){
-				//refreash thumbnail DIV
-				 getdata(ajaxurl + '?action=ceo_thumb_update&post_id=<?php echo $post->ID ?>','comicthumbs');
-			}
-		});           
-	}
-	// in your app create uploader as soon as the DOM is readyi
-	// don't wait for the window to load  
-	window.onload = createUploader;   
-</script> 
+	</div>
 </div>
 <?php
 }
@@ -169,7 +90,7 @@ function ceo_edit_hovertext_in_post($post) {
 add_action('add_meta_boxes', 'ceo_add_comic_in_post');
 
 function ceo_add_comic_in_post() {
-	add_meta_box('ceo_comic_in_post', __('Comic', 'comiceasel'), 'ceo_edit_comic_in_post', 'comic', 'normal', 'high');
+	add_meta_box('ceo_comic_in_post', __('Comic', 'comiceasel'), 'ceo_edit_comic_in_post', 'comic', 'side', 'high');
 	add_meta_box('ceo_hovertext_in_post', __('Alt (Hover) Text', 'comiceasel'), 'ceo_edit_hovertext_in_post', 'comic', 'normal', 'high');
 }
 
@@ -184,29 +105,5 @@ function ceo_handle_edit_save_comic($post_id) {
 	} */
 }
 
-// Do the thumbnail display functions here.
-function ceo_display_comic_thumbnail_editor($type = 'small', $override_post = null, $use_post_image = false, $setwidth = 0) {
-	global $post;
-	$thumbnail = $extra_text = '';
-	$post_to_use = !empty($override_post) ? $override_post : $post;
-	$thumburl = ceo_pluginfo('thumbnail_small_url');
-	// need to add fallback
-	
-	$thumbnail = get_post_meta($post_to_use->ID, 'comic');
-	foreach ($thumbnail as $thumb) {
-		if (!file_exists(ceo_pluginfo('thumbnail_small_path').'/'.$thumb)) {
-			$thumb_url = ceo_pluginfo('comic_url').'/'.$thumb;
-			$extra_text = 'No Thumbnail Found<br />';
-		} else {
-			$thumb_url = ceo_pluginfo('thumbnail_small_url').'/'.$thumb;
-		}
-		if ($setwidth) {
-			echo '<div id='.$thumb.'><img src="'.$thumb_url.'" alt="'.get_the_title($post_to_use).'" style="max-width:'.$setwidth.'px" class="comicthumbnail" title="'.get_the_title($post_to_use->ID).'" />
-			<br />'.$extra_text.'<INPUT type="button" value="Remove" name="'.$thumb.'" onClick="comicfileremove('.$post->ID.',\''.$thumb.'\')"></div>'."\r\n";
-		} else {
-			echo '<img src="'.$thumb_url.'" alt="'.get_the_title($post_to_use).'" class="comicthumbnail" title="'.get_the_title($post_to_use).'" />'.$extra_text.'<INPUT type="button" value="Remove" name="button2" onClick="comicfileremove('.$post->ID.','.$thumb.')">'."\r\n";
-		}
-	}
-}
 
 ?>
