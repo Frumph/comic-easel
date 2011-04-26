@@ -13,13 +13,13 @@ function ceo_add_menu_pages() {
 	
 	$menu_location = 'edit.php?post_type=comic';
 	$plugin_title = __('Comic Easel', 'comiceasel');
-	$chapter_title = __('Chapter Manager', 'comiceasel');
+//	$chapter_title = __('Chapter Manager', 'comiceasel');
 	$config_title = __('Config', 'comiceasel');
 	$debug_title = __('Debug', 'comiceasel');
 //	$upload_title = __('Upload', 'comiceasel');
 	
 	// the ceo_pluginfo used here actually initiates it.
-	$chapter_manager_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $chapter_title, $chapter_title, 'edit_theme_options', 'comiceasel-chapter-manager', 'ceo_chapter_manager');
+//	$chapter_manager_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $chapter_title, $chapter_title, 'edit_theme_options', 'comiceasel-chapter-manager', 'ceo_chapter_manager');
 	$config_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $config_title, $config_title, 'edit_theme_options', 'comiceasel-config', 'ceo_manager_config');
 	$debug_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $debug_title, $debug_title, 'edit_theme_options', 'comiceasel-debug', 'ceo_debug');
 //	$upload_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $upload_title, $upload_title, 'edit_theme_options', 'comiceasel-upload', 'ceo_upload');
@@ -30,14 +30,14 @@ function ceo_add_menu_pages() {
 	}
 	// Notice how its checking the _GET['page'], do this for the other areas
 	// if you need to execute scripts on the particular areas
-	if (isset($_GET['page'])) {
+/*	if (isset($_GET['page'])) {
 		switch ($_GET['page']) {
 			case 'comiceasel-chapter-manager':
 			default:
 				add_action('admin_print_scripts-' . $chapter_manager_hook, 'ceo_load_scripts_chapter_manager');
 				break;
 		}
-	}
+	} */
 }
 
 function ceo_load_scripts_chapter_manager() {
@@ -50,10 +50,6 @@ function ceo_load_scripts_chapter_manager() {
 // but since attached to the ceo-admin it can use the library in core. so the global functions used in multiple areas
 // go into the ceo-admin.php file, while local functions that are only run on the individual pages go on those pages
 // the "forms" if there are any call the same page back up. - phil
-
-function ceo_chapter_manager() {
-	require_once('ceo-chapter-manager.php');
-}
 
 function ceo_manager_config() {
 	require_once('ceo-config.php');
