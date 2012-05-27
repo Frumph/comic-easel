@@ -34,7 +34,7 @@ function ceo_insert_comic_into_archive($content) {
 
 function ceo_change_prev_rel_link_two($object) {
 	global $post, $wp_query;
-	if ($post->post_type=='comic' || is_home()) $link='<link rel="previous" href="'.ceo_get_previous_comic_permalink().'" />'."\r\n";
+	if ($post->post_type=='comic' || is_home()) $link='<link rel="prev" href="'.ceo_get_previous_comic_permalink().'" />'."\r\n";
 	return $link;
 }
 
