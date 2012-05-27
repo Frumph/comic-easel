@@ -3,18 +3,39 @@ Comic Easel - Style.css
 Defaults for the Comic Easel Elements.
 */
 
-#default-nav-wrapper {
-	width: 100%;
+table#comic-nav-wrapper {
+    background: none;
+    border: 0;
+	text-align: center;
+	border-collapse: collapse;
+	margin: 0 auto;
+	    background: #333 !important;
+		margin: 6px auto;
+		border: solid 1px #000;
+	    -moz-border-radius: 5px;
+	    -khtml-border-radius: 5px;
+	    -webkit-border-radius: 5px;
+	    border-radius: 5px;
+	    padding: 3px;
+	    display: inline-block;
 }
 
-	.default-nav {
-		margin: 0 auto;
-		width: 300px;
-	}
-
-	.default-nav-base {
+	td.comic-nav {
+	    border: 0 !important;
 		display: inline-block;
 		padding: 0 10px;
+	}
+	
+	.comic-nav a:link, .comic-nav a:visited {
+	    color: #fff;
+	}
+	
+    .comic-nav a:hover {
+	    color: #fffc00;
+	}
+	
+	.comic-nav-embed {
+	    width: 99%;
 	}
 	
 .infotext {
@@ -40,15 +61,106 @@ Defaults for the Comic Easel Elements.
 	color: #ffcf00;
 }
 
-.ceo_thumbnail_widget .widget-content {
+#comic {
 	text-align: center;
 }
 
-#comic {
-	text-align: center;
+#comic img {
+    margin: 0 auto;
+    padding: 0;
+    max-width: 100%;
 }
 
 #blogheader {
 	border-bottom: solid 1px #fff;
 	margin: 10px auto;
+}
+
+/* cast archive shorttag */
+
+.cast-box {
+    width: 520px;
+    padding: 2px;
+    margin: 10px auto;
+    border: solid 1px #ccc;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	-moz-box-shadow: 2px 2px 2px #000;
+	-webkit-box-shadow: 2px 2px 2px #000;
+	-khtml-box-shadow: 2px 2px 2px #000;
+	box-shadow: 2px 2px 2px #000;
+}
+
+.cast-pic {
+    float: left;
+    width: 150px;
+    height: 150px;
+    border: solid 1px #bff;
+}
+
+.cast-info {
+    width: 358px;
+    float: left;
+    padding: 5px;
+}
+
+.cast-comic-link {
+    text-align: right;
+}
+
+/* Archive Shortcode */
+
+.comic-archive-chapter-wrap {
+    width: 530px;
+    margin-bottom: 30px;
+}
+
+.comic-archive-series-description {
+    padding: 20px;
+}
+
+.comic-archive-chapter-description {
+    padding: 10px;
+}
+
+h2.comic-archive-series-title {
+    text-align: center;
+}
+
+.comic-archive-title {
+    margin-left: 10px;
+}
+
+.comic-archive-date {
+    width: 88px;
+    display: inline-block;
+}
+
+.comic-archive-thumbnail {
+    width: 150px;
+    float: left;
+    margin-right: 3px;
+    display: block;
+}
+
+.comic-archive-list-wrap {
+    padding: 0;
+    list-style-type: none;
+    float: right;
+    width: 376px;
+}
+
+.comic-list-alt {
+    background: #f7f7f7;
+}
+
+.level-select {
+    font-weight: 700;
+    background: #eee;
+}
+
+#comic-foot {
+    text-align: center;
 }

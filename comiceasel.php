@@ -2,12 +2,12 @@
 /*
 Plugin Name: Comic Easel
 Plugin URI: http://comiceasel.com
-Description: Manage a Comic with the Easel theme.
-Version: 1.0
-Author: Philip M. Hofer (Frumph), Tyler Martin and Contributions from the ComicPress dev team.
+Description: Comic Easel allows you to incorporate a WebComic using the WordPress Media Library functionality with Navigation into almost any WordPress theme. With just a few modifications of adding *injection* action locations into a theme, you can have the theme of your choice display a comic.
+Version: 1.0.1
+Author: Philip M. Hofer (Frumph)
 Author URI: http://frumph.net/
 
-Copyright 2010 Philip M. Hofer (Frumph)  (email : philip@frumph.net)
+Copyright 2012 Philip M. Hofer (Frumph)  (email : philip@frumph.net)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ add_action('init', 'ceo_initialize_post_types');
 
 function ceo_initialize_post_types() {
 	$labels = array(
-			'name' => __('Comic Easel', 'comiceasel'),
+			'name' => __('Comics', 'comiceasel'),
 			'singular_name' => __('Comic', 'comiceasel'),
 			'add_new' => __('Add Comic', 'comiceasel'),
 			'add_new_item' => __('Add Comic', 'comiceasel'),
@@ -58,9 +58,13 @@ function ceo_initialize_post_types() {
 				'rewrite' => array( 'slug' => 'comic', 'with_front' => true ),
 				'hierarchical' => false,
 				'can_export' => true,
-				'menu_position' => 57,
+				'show_in_menu' => true,
+				'menu_position' => 5,
+				'exclude_from_search' => false,
+				'has_archive' => true,
+				'query_var' => true,
 				'menu_icon' => ceo_pluginfo('plugin_url') . '/images/ceo-icon.png',
-				'supports' => array( 'title', 'editor', 'excerpt', 'author', 'comments', 'thumbnail', 'custom-fields' ),
+				'supports' => array( 'title', 'editor', 'excerpt', 'author', 'comments', 'thumbnail', 'custom-fields', 'revisions', 'trackbacks' ),
 				'description' => 'Post type for Comics'
 				));
 
@@ -136,6 +140,7 @@ function ceo_initialize_post_types() {
 				'rewrite' => array( 'slug' => 'location' ),
 				));
 
+	register_taxonomy_for_object_type('post_tag', 'comic');
 	register_taxonomy_for_object_type('chapters', 'comic');
 	register_taxonomy_for_object_type('characters', 'comic');
 	register_taxonomy_for_object_type('locations', 'comic');
@@ -143,30 +148,18 @@ function ceo_initialize_post_types() {
 
 // THIS STUFF ONLY RUNS IN THE WP-ADMIN
 if (is_admin()) {
-	
-	// check if this is a easel theme, if not, dont execute.
-	// This will be removed since actions can be added to any theme.
-	if (strpos(get_template_directory(), 'easel')  == false) {
-		if( substr( $_SERVER[ 'PHP_SELF' ], -19 ) != '/wp-admin/index.php' ) return;
-		
-		function ceo_no_ceo_theme() {
-			$output = '<div class="error">';
-			$output .= '<h2>'.__('Comic Easel Error','comiceasel').'</h2>';
-			$output .= __('The current theme is not an Easel theme; Comic Easel will not load.','comiceasel').'<br />';
-			$output .='<br />';
-			$output .='</div>';
-			echo $output;
-		}
-		
-		add_action( 'admin_notices', 'ceo_no_ceo_theme' );
-		return;
-	}
 	// only load the plugin code of we're in the administration part of WordPress.
 	@require('ceo-admin.php');
 	@require('functions/admin-meta.php');
-} else {
-	// This style needs to be loaded on all the comic-easel pages inside ceo-core.php instead.
-	wp_enqueue_style('comiceasel-default-style', ceo_pluginfo('plugin_url').'/css/comiceasel.css');
+} 
+
+add_action('wp_print_styles', 'ceo_run_css');
+
+// This style needs to be loaded on all the comic-easel pages inside ceo-core.php instead.
+
+function ceo_run_css() {
+	wp_register_style('comiceasel-style', ceo_pluginfo('plugin_url').'/css/comiceasel.css');
+	wp_enqueue_style('comiceasel-style');
 }
 
 // Flush Rewrite Rules & create chapters
@@ -178,40 +171,11 @@ function ceo_flush_rewrite() {
 	$wp_rewrite->flush_rules();
 }
 
-// Checks chapters, creates them if needs be, checks directories, creates them if need be.
-// This does not work yet, its purpose is to generate default chapters if no chapters exist.
-function ceo_checkdefaults() {
-	$checkchapters = get_terms('chapters', 'orderby=count&hide_empty=0');
-	if (empty($checkchapters)) {
-		$bookname = stripslashes(__('Book 1', 'comiceasel'));
-		$bookslug = sanitize_title($bookname);
-		// Should I check for .. the slug of term or name of term?
-		if (!term_exists($bookslug, 'chapters')) {
-			$args = array(
-					'description' => stripslashes(__('The first book.', 'comiceasel')),
-					'slug' => $bookslug 
-					);
-			$returned_book_info = wp_insert_term($bookname, 'chapters', $args);
-			$parent_term_id = 0;
-			// should I get term_taxonomy_id ?
-			// old: if (isset($returned_book_info['term_id'])) $parent_term_id = $returned_book_info['term_id'];
-			$parent_term = term_exists( $bookslug, 'chapters' ); // array is returned if taxonomy is given
-			$parent_term_id = $parent_term['term_id']; // get numeric term id
-			
-			if ($parent_term_id) {
-				$chaptername = stripslashes(__('Chapter 1', 'comiceasel'));
-				$chapterslug = sanitize_title($chaptername);
-				$args = array(
-						'description' => stripslashes(__('First chapter of Book 1', 'comiceasel')),
-						'slug' => $chapterslug,
-						'parent' => $parent_term_id
-						);
-				$returned_chapter_info = wp_insert_term($chaptername, 'chapters', $args);
-			}
-		}
-	}
-}
+// This file contains functions that is used elsewhere in the plugin 
+@require('functions/library.php');
 
+// Filters that change the behavior of WordPress
+@require('functions/filters.php');
 
 // This file handles navigation of the comic
 @require('functions/navigation.php');
@@ -221,6 +185,12 @@ function ceo_checkdefaults() {
 
 // This file contains the functions that are injected into the theme
 @require('functions/injections.php');
+
+// This file contains all the shortcodes for archives and cast pages
+@require('functions/shortcodes.php');
+
+// Redirects /?latest /?random etc.
+@require('functions/redirects.php');
 
 /**
  * This is function ceo_clean_filename
@@ -252,12 +222,15 @@ function ceo_load_options($reset = false) {
 	if (empty($ceo_config)) {
 		delete_option('comiceasel-config');
 		foreach (array(
-			'comic_folder' => 'webcomic',
-			'comic_folder_medium' => 'webcomic-medium',
-			'comic_folder_small' => 'webcomic-small',
-			'medium_comic_width' => '360',
-			'small_comic_width' => '200',
-			'add_dashboard_frumph_feed_widget' => true
+			'add_dashboard_frumph_feed_widget' => true,
+			'disable_comic_on_home_page' => false,
+			'disable_comic_blog_on_home_page' => false,
+			'click_comic_next' => true,
+			'navigate_only_chapters' => true,
+			'enable_chapter_nav' => false,
+			'enable_comments_nav' => true,
+			'enable_random_nav' => true,
+			'enable_embed_nav' => false
 		) as $field => $value) {
 			$ceo_config[$field] = $value;
 		}
@@ -269,11 +242,11 @@ function ceo_load_options($reset = false) {
 
 function ceo_pluginfo($whichinfo = null) {
 	global $ceo_pluginfo;
-	ceo_load_options('reset');
+//	ceo_load_options('reset');
 	if (empty($ceo_pluginfo) || $whichinfo == 'reset') {
 		// Important to assign pluginfo as an array to begin with.
 		$ceo_pluginfo = array();
-		$ceo_options = ceo_load_options('reset'); // TEMP: Reset is temporary
+		$ceo_options = ceo_load_options();
 		$ceo_coreinfo = wp_upload_dir();
 		$ceo_addinfo = array(
 				// if wp_upload_dir reports an error, capture it
@@ -289,16 +262,7 @@ function ceo_pluginfo($whichinfo = null) {
 				'style_path' => get_stylesheet_directory(),
 				// comic-easel plugin directory/url
 				'plugin_url' => plugin_dir_url(dirname (__FILE__)) . 'comic-easel',
-				'plugin_path' => trailingslashit(ABSPATH) . ceo_get_plugin_path(),
-				// Comic folders
-				'comic_url' => trailingslashit($ceo_coreinfo['baseurl']) . $ceo_options['comic_folder'],
-				'comic_path' => trailingslashit($ceo_coreinfo['basedir']) . $ceo_options['comic_folder'],
-				// Medium Thumbnail Folder
-				'thumbnail_medium_url' => trailingslashit($ceo_coreinfo['baseurl']) . $ceo_options['comic_folder_medium'],
-				'thumbnail_medium_path' => trailingslashit($ceo_coreinfo['basedir']) . $ceo_options['comic_folder_medium'],
-				// Small Thumbnail Folder
-				'thumbnail_small_url' =>trailingslashit($ceo_coreinfo['baseurl']) . $ceo_options['comic_folder_small'],
-				'thumbnail_small_path' => trailingslashit($ceo_coreinfo['basedir']) . $ceo_options['comic_folder_small']
+				'plugin_path' => trailingslashit(ABSPATH) . ceo_get_plugin_path()
 		);
 		// Combine em.
 		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_addinfo);
@@ -326,7 +290,7 @@ function ceo_test_information($vartodump) { ?>
 // Load all the widgets
 
 foreach (glob(ceo_pluginfo('plugin_path')  . '/widgets/*.php') as $widgefile) {
-	@include($widgefile);
+	require_once($widgefile);
 }
 
 ?>

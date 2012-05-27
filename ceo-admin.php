@@ -1,6 +1,5 @@
 <?php
-if ($_REQUEST['action'] == ('ceo_uploader' || 'ceo_thumb_update' || 'ceo_comic_add' || 'ceo_comic_remove'))
-	require_once('ceo-ajax-functions.php');
+
 // actions
 add_action('admin_menu', 'ceo_add_menu_pages');
 add_action('wp_dashboard_setup', 'ceo_add_dashboard_widgets' );
@@ -13,29 +12,16 @@ function ceo_add_menu_pages() {
 	
 	$menu_location = 'edit.php?post_type=comic';
 	$plugin_title = __('Comic Easel', 'comiceasel');
-	$library_title = __('Library', 'comiceasel');
 	$config_title = __('Config', 'comiceasel');
 	$debug_title = __('Debug', 'comiceasel');
 	
 	// the ceo_pluginfo used here actually initiates it.
-	$library_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $library_title, $library_title, 'edit_theme_options', 'comiceasel-library', 'ceo_library');
+//	$debug_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $debug_title, $debug_title, 'edit_theme_options', 'comiceasel-debug', 'ceo_debug');
 	$config_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $config_title, $config_title, 'edit_theme_options', 'comiceasel-config', 'ceo_manager_config');
-	$debug_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $debug_title, $debug_title, 'edit_theme_options', 'comiceasel-debug', 'ceo_debug');
-
-	// post_type is only found on the post-new.php with $_GET, so when the $pagenow is post.php it will not be able to strictly determine the post type so it will be executed on all already made post/page edits
-	if ( (isset($_GET['post_type']) && $_GET['post_type'] == 'comic') || $post_type == 'comic') {
-		 
-	}
-	// Notice how its checking the _GET['page'], do this for the other areas
-	// if you need to execute scripts on the particular areas
-/*	if (isset($_GET['page'])) {
-		switch ($_GET['page']) {
-			case 'comiceasel-chapter-manager':
-			default:
-				add_action('admin_print_scripts-' . $chapter_manager_hook, 'ceo_load_scripts_chapter_manager');
-				break;
-		}
-	} */
+	add_action('admin_head-' . $config_hook, 'ceo_admin_page_head');
+	add_action('admin_print_scripts-' . $config_hook, 'ceo_admin_print_scripts');
+	add_action('admin_print_styles-' . $config_hook, 'ceo_admin_print_styles');
+	ceo_enqueue_admin_cpt_style('comic', 'comic-admin-editor-style', ceo_pluginfo('plugin_url').'/css/admin-editor.css');	
 }
 
 function ceo_load_scripts_chapter_manager() {
@@ -43,6 +29,23 @@ function ceo_load_scripts_chapter_manager() {
 	wp_enqueue_script('jquery-ui-core');
 	wp_enqueue_script('jquery-ui-sortable');
 }
+
+function ceo_admin_print_scripts() {
+	wp_enqueue_script('utils');
+	wp_enqueue_script('jquery');
+}
+
+function ceo_admin_print_styles() {
+	wp_admin_css('css/global');
+	wp_admin_css('css/colors');
+	wp_admin_css('css/ie');
+	wp_enqueue_style('comiceasel-options-style', ceo_pluginfo('plugin_url') . '/css/config.css');
+}
+
+
+function ceo_admin_page_head() { ?>
+	<!--[if lt ie 8]> <style> div.show { position: static; margin-top: 1px; } #eadmin div.off { height: 22px; } </style> <![endif]-->
+<?php }
 
 // This is done this way to *not* load pages unless they are called, self sufficient code,
 // but since attached to the ceo-admin it can use the library in core. so the global functions used in multiple areas
@@ -57,21 +60,42 @@ function ceo_debug() {
 	require_once('ceo-debug.php');
 }
 
-function ceo_library() {
-	require_once('ceo-library.php');
-}
-
 /**
  * This set of functions is for displaying the dashboard feed widget.
  *
  */
 function ceo_dashboard_feed_widget() {
-	wp_widget_rss_output('http://comicpress.net/?feed=rss2', array('items' => 3, 'show_summary' => true));
+	wp_widget_rss_output('http://frumph.net/?feed=rss2', array('items' => 3, 'show_summary' => true));
 } 
 
 function ceo_add_dashboard_widgets() {
-	wp_add_dashboard_widget('ceo_dashboard_widget', 'ComicPress.NET News', 'ceo_dashboard_feed_widget');	
+	wp_add_dashboard_widget('ceo_dashboard_widget', 'Frumph.NET News', 'ceo_dashboard_feed_widget');	
 }
 
+function ceo_enqueue_admin_cpt_style( $cpt, $handle, $src = false, $deps = array(), $ver = false, $media = 'all' ) {
+ 
+	/* Check the admin page we are on. */
+	global $pagenow;
+ 
+	/* Default to null to prevent enqueuing. */
+	$enqueue = null;
+ 
+	/* Enqueue style only if we are on the correct CPT editor page. */
+	if ( isset($_GET['post_type']) && $_GET['post_type'] == $cpt && $pagenow == "post-new.php" ) {
+		$enqueue = true;
+	}
+ 
+	/* Enqueue style only if we are on the correct CPT editor page. */
+	if ( isset($_GET['post']) && $pagenow == "post.php" ) {
+		$post_id = $_GET['post'];
+		$post_obj = get_post( $post_id );
+		if( $post_obj->post_type == $cpt )
+			$enqueue = true;
+	}
+ 
+	/* Only enqueue if editor page is the correct CPT. */
+	if( $enqueue )
+		wp_enqueue_style( $handle, $src, $deps, $ver, $media );
+}
 
 ?>

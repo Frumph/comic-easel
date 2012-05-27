@@ -1,8 +1,8 @@
 <?php
 /*
-Widget Name: ComicEasel Calendar
-Widget URI: http://comiceasel.org/
-Description: Display a calendar of this months posts.
+Widget Name: Comic Calendar
+Widget URI: http://frumph.net/
+Description: Display a calendar of this months posts of comics
 Author: Philip M. Hofer (Frumph)
 Author URI: http://frumph.net/
 Version: 1.03
@@ -246,7 +246,7 @@ class comiceasel_calendar_widget extends WP_Widget {
 	function comiceasel_calendar_widget($skip_widget_init = false) {
 		if (!$skip_widget_init) {
 			$widget_ops = array('classname' => __CLASS__, 'description' => __('Display a calendar showing this months posts. (this calendar does not drop lines if there is no title given.)','comiceasel') );
-			$this->WP_Widget(__CLASS__, __('Comic Calendar','comiceasel'), $widget_ops);
+			$this->WP_Widget(__CLASS__, __('Comic Easel - Calendar','comiceasel'), $widget_ops);
 		}
 	}
 
@@ -335,10 +335,5 @@ class comiceasel_calendar_widget extends WP_Widget {
 	}
 }
 
-add_action( 'widgets_init', 'comiceasel_calendar_widget_init' );
-
-function comiceasel_calendar_widget_init() {
-	register_widget('comiceasel_calendar_widget');
-}
-
+add_action( 'widgets_init', create_function('', 'return register_widget("comiceasel_calendar_widget");') );
 ?>
