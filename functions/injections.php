@@ -8,6 +8,7 @@ add_action('comic-post-info', 'ceo_display_comic_locations');
 add_action('comic-post-info', 'ceo_display_comic_characters');
 add_action('comic-mini-navigation', 'ceo_inject_mini_navigation');
 add_action('comic-blog-area', 'ceo_display_comic_post_home');
+add_action('wp_head', 'ceo_facebook_comic_thumbnail');
 
 function ceo_display_edit_link() {
 	global $post;
@@ -210,6 +211,18 @@ global $post, $wp_query; ?>
 			<div class="comic-post-foot"></div>
 		</div>
 <?php 
+}
+
+function ceo_facebook_comic_thumbnail() {
+	global $post;
+	if ($post->post_type == 'comic') {
+		$post_image_id = get_post_thumbnail_id($post->ID);
+		$thumbnail = wp_get_attachment_image_src( $post_image_id, 'thumbnail', false);
+		if (is_array($thumbnail)) { 
+			$thumbnail = reset($thumbnail);
+			echo '<meta property="og:image" content="'.$thumbnail.'" />'."\r\n";
+		}
+	}
 }
 
 ?>
