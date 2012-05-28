@@ -3,7 +3,7 @@ Contributors: frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.0
 Tested up to: 3.4
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -81,13 +81,7 @@ There are other "action" area's that you can put into your theme, not just the c
 
 = Adding the Comic area sidebars =
 
-Find the code in the functions.php of the theme that registers sidebars.  The only relevant information you need to add is the name and ID, just duplicate the rest of how the theme does it.  This is completely optional.
-
-`
-'name' => 'Over Comic', 'id' => 'over-comic',
-'name' => 'Left of Comic', id' => 'left-of-comic',
-'name' => 'Right of Comic', 'id' => 'right-of-comic',
-'name' => 'Under Comic', 'id' => 'under-comic'
+Sidebars for Comic Easel are added automatically since 05/28/2012 They should appear above all of your other sidebars in the widget panel.
 `
 
 The usage in the plugin for get_sidebar is 'over', 'comicleft', 'comicright', 'under' which makes the CSS #sidebar-over #sidebar-comicleft #sidebar-comicright and #sidebar-under which will also look in your theme and child themes for sidebar-over.php sidebar-under.php sidebar-comicleft.php and sidebar-comicright.php which are only optional.
@@ -101,6 +95,9 @@ Go to your settings -> permalinks and just click save, the wp_rewrite will refre
 
 
 == Changelog ==
+= 1.0.2 =
+Added Sidebar generators for no matter what theme you use.
+Added the Navigation Widget, which replaces the default navigation, it shares the same skinning as ComicPress and will often times be able to use the navstyle from ComicPress.
 
 = 1.0.1 =
 Updated: 05/26/2012 12:25am Pacific

@@ -3,7 +3,7 @@
 Plugin Name: Comic Easel
 Plugin URI: http://comiceasel.com
 Description: Comic Easel allows you to incorporate a WebComic using the WordPress Media Library functionality with Navigation into almost any WordPress theme. With just a few modifications of adding *injection* action locations into a theme, you can have the theme of your choice display a comic.
-Version: 1.0.1
+Version: 1.0.2
 Author: Philip M. Hofer (Frumph)
 Author URI: http://frumph.net/
 
@@ -24,7 +24,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 */
-// Look at the function ceo_pluginfo() at the bottom of this file for global variables used.
 
 add_action('init', 'ceo_initialize_post_types');
 
@@ -146,20 +145,46 @@ function ceo_initialize_post_types() {
 	register_taxonomy_for_object_type('locations', 'comic');
 }
 
+// Create CEO Specific Sidebars regardless if they already exist.
+function ceo_register_sidebars() {
+	foreach (array(
+				__('Over Comic', 'comiceasel'),
+				__('Left of Comic','comiceasel'),
+				__('Right of Comic', 'comiceasel'),
+				__('Under Comic', 'comiceasel')				
+				) as $sidebartitle) {
+		register_sidebar(array(
+					'name'=> $sidebartitle,
+					'id' => 'ceo-sidebar-'.sanitize_title($sidebartitle),
+					'description' => __('Comic Easel Sidebar Location', 'comiceasel'),
+					'before_widget' => "<div id=\"".'%1$s'."\" class=\"widget ".'%2$s'."\">\r\n<div class=\"widget-head\"></div>\r\n<div class=\"widget-content\">\r\n",
+					'after_widget'  => "</div>\r\n<div class=\"clear\"></div>\r\n<div class=\"widget-foot\"></div>\r\n</div>\r\n",
+					'before_title'  => "<h2 class=\"widgettitle\">",
+					'after_title'   => "</h2>\r\n"
+					));
+	}
+}
+
+add_action('widgets_init', 'ceo_register_sidebars');
+
 // THIS STUFF ONLY RUNS IN THE WP-ADMIN
 if (is_admin()) {
 	// only load the plugin code of we're in the administration part of WordPress.
 	@require('ceo-admin.php');
 	@require('functions/admin-meta.php');
-} 
-
-add_action('wp_print_styles', 'ceo_run_css');
+} else {
+	add_action('wp_print_styles', 'ceo_run_css');
+}
 
 // This style needs to be loaded on all the comic-easel pages inside ceo-core.php instead.
 
 function ceo_run_css() {
 	wp_register_style('comiceasel-style', ceo_pluginfo('plugin_url').'/css/comiceasel.css');
 	wp_enqueue_style('comiceasel-style');
+	if (is_active_widget('ceo_comic_navigation', false, 'ceo_comic_navigation', true)) {
+		wp_register_style('comiceasel-navstyle', ceo_pluginfo('plugin_url').'/css/navstyle.css');
+		wp_enqueue_style('comiceasel-navstyle');
+	}	
 }
 
 // Flush Rewrite Rules & create chapters
@@ -230,7 +255,8 @@ function ceo_load_options($reset = false) {
 			'enable_chapter_nav' => false,
 			'enable_comments_nav' => true,
 			'enable_random_nav' => true,
-			'enable_embed_nav' => false
+			'enable_embed_nav' => false,
+			'disable_default_nav' => false
 		) as $field => $value) {
 			$ceo_config[$field] = $value;
 		}

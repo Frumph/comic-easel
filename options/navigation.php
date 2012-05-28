@@ -29,7 +29,24 @@
 						<?php _e('When this is enabled, when the comic is mouse over and clicked it will go to the next comic in the chapter.','comiceasel'); ?>
 					</td>
 				</tr>
+			</table>
+			<br />
+			<table class="widefat">
+				<thead>
+					<tr>
+						<th colspan="3"><?php _e('Default Navigation','comiceasel'); ?></th>
+					</tr>
+				</thead>
 				<tr class="alternate">
+					<th scope="row"><label for="disable_default_nav"><?php _e('Disable default navigation?','comiceasel'); ?></label></th>
+					<td>
+						<input id="disable_default_nav" name="disable_default_nav" type="checkbox" value="1" <?php checked(true, $ceo_options['disable_default_nav']); ?> />
+					</td>
+					<td>
+						<?php _e('Checking this will disable the default navigation, you could use and skin the navigation widget.','comiceasel'); ?>
+					</td>
+				</tr>
+				<tr>
 					<th scope="row"><label for="enable_chapter_nav"><?php _e('Enable the chapter navigation drop down in the comic navigation?','comiceasel'); ?></label></th>
 					<td>
 						<input id="enable_chapter_nav" name="enable_chapter_nav" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_chapter_nav']); ?> />
@@ -38,7 +55,7 @@
 						<?php _e('When this is enabled, a drop down archive box will appear in the navigation that lets you go to the start of each chapter','comiceasel'); ?>
 					</td>
 				</tr>
-				<tr>
+				<tr class="alternate">
 					<th scope="row"><label for="enable_random_nav"><?php _e('Enable the random comic link in the comic navigation?','comiceasel'); ?></label></th>
 					<td>
 						<input id="enable_random_nav" name="enable_random_nav" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_random_nav']); ?> />
@@ -47,7 +64,7 @@
 						<?php _e('When this is enabled, a link will appear in the navigation that lets you go to a random comic in all chapters.','comiceasel'); ?>
 					</td>
 				</tr>
-				<tr class="alternate">
+				<tr>
 					<th scope="row"><label for="enable_comment_nav"><?php _e('Enable the comment link in the comic navigation?','comiceasel'); ?></label></th>
 					<td>
 						<input id="enable_comment_nav" name="enable_comment_nav" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_comment_nav']); ?> />
@@ -56,7 +73,7 @@
 						<?php _e('When this is enabled, a link will appear in the navigation that lets you go to the comments section of the current post, it also shows how many comments there currently are.','comiceasel'); ?>
 					</td>
 				</tr>
-				<tr>
+				<tr class="alternate">
 					<th scope="row"><label for="enable_embed_nav"><?php _e('Enable the "embed this comic" textarea in the comic navigation?','comiceasel'); ?></label></th>
 					<td>
 						<input id="enable_embed_nav" name="enable_embed_nav" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_embed_nav']); ?> />

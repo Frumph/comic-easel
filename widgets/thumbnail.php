@@ -27,6 +27,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 			$current_post_id = $post->ID;
 			$comic_query .= '&exclude='.$current_post_id;
 		}
+		ceo_Protect();
 		$thumbnail_query = new WP_Query($comic_query);
 		$archive_image = null;
 		if ($thumbnail_query->have_posts()) {
@@ -44,7 +45,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 				echo $after_widget;
 			endwhile;
 		}
-		wp_reset_postdata();
+		ceo_unProtect();
 	}
 	
 	function update($new_instance, $old_instance) {

@@ -1,0 +1,72 @@
+/* COMIC NAVIGATION - Text based */
+
+.comic_navi_href {
+    text-align: center;
+}
+
+.comic_navi_wrapper {
+	display: table;
+	border-collapse: collapse;
+	text-align: center;
+	margin: 0 auto;
+	font-weight: bold;
+	font-size: 12px;
+}
+
+.comic_navi_left {
+	float: left;
+}
+
+.comic_navi_right {
+	float: right;
+}
+
+.comic_navi {
+	padding: 2px;
+}
+
+.navi-comictitle {
+	padding: 0px 6px;
+	text-align: center;
+	display: inline-block;
+}
+
+.navi {
+/*	padding: 0 6px; */
+	display: inline-block;
+}
+
+.navi a {
+	display: block;
+	text-decoration: none;
+}
+
+.navi-first {
+	float: left;
+}
+
+.navi-prev, .navi-previous {
+}
+
+.navi-comments, .navi-archive, .navi-random {
+	display: inline-block;
+}
+
+.navi-comments-count {
+	padding-right: 4px;
+}
+	
+.navi-next {
+	float: left;
+}
+
+.navi-last {
+	float: right;
+}
+
+.navi-void, .navi-void:hover {
+	font-weight: normal;
+}
+
+
+

@@ -8,6 +8,7 @@ add_filter('the_content', 'ceo_insert_comic_into_archive'); // Insert the comic 
 add_filter('the_excerpt', 'ceo_insert_comic_into_archive');
 add_filter('previous_post_rel_link', 'ceo_change_prev_rel_link_two', $link); // change the rel links for comic pages
 add_filter('next_post_rel_link', 'ceo_change_next_rel_link_two', $link);
+add_filter('pre_get_posts', 'ceo_query_post_type');
 
 function ceo_rss_request($qv) {
 	if (isset($qv['feed']) && !isset($qv['post_type'])) {
@@ -44,4 +45,15 @@ function ceo_change_next_rel_link_two($object) {
 	return $link;
 }
 
-
+function ceo_query_post_type($query) {
+	if (is_tag() && empty( $query->query_vars['suppress_filters'] ) ) {
+		$post_type = get_query_var('post_type');
+		if($post_type) :
+			$post_type = $post_type;
+		else:
+			$post_type = array('post','comic');
+			$query->set('post_type',$post_type);
+		endif;
+		return $query;
+	}
+}

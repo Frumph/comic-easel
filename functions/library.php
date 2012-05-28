@@ -4,12 +4,11 @@
 */
 
 function ceo_get_sidebar($location = '') {
-	if (empty($location)) { get_sidebar(); return; }
 	if (file_exists(get_stylesheet_directory().'/sidebar-'.$location.'.php')) {
 		get_sidebar($location);
-	} elseif (is_active_sidebar('sidebar-'.$location)) { ?>
+	} elseif (is_active_sidebar('ceo-sidebar-'.$location)) { ?>
 		<div id="sidebar-<?php echo $location; ?>" class="sidebar">
-			<?php dynamic_sidebar('sidebar-'.$location); ?>
+			<?php dynamic_sidebar('ceo-sidebar-'.$location); ?>
 		</div>
 	<?php }
 }
