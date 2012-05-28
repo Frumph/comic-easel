@@ -62,13 +62,24 @@ A number of injection snippets that you add to your theme, mini navigation for t
 
 == Installation == 
 
+= Setting up Thumbnail sizes before adding your comics =
+
+In the WP-ADMIn -> Settings -> Media, you can set the thumbnail widths that you would want to use on your site.
+
+The "thumbnail size" default 150x150 cropped works just fine.  Some users of Comic Easel have noted that it doesn't look the greatest for all comics so they suggest unchecking the box for crop thumbnil and setting the width to 198 (barely less then the width of the sidebars) and then removing the contents of height on thumbnail medium and large sizes.  This is all depends on your comic.
+
+Further down the Media page is the [x] Organize my uploads into month- and year-based folders, this is a *must* have since it will organize your comics into sep. directories for you.
+
+If you don't like the size of your thumbnails you have set, there are several plugins available on the WordPress repository available to regenerate all of your thumbnails.
+
+
 = Modifying themes to use =
 
 * Modify your theme adding `<?php do_action('comic-area'); ?>` in a position where to display the comic, generally it should be right above the #content and under the menu bar.
 
 Generally the two files to edit is the index.php and the single.php, however some layouts are auto-generated with code and those you will need to seek advice out from their designers, the makers of those particular themes.
 
-There are other "action" area's that you can put into your theme, not just the comic-area.  Those are being documented and will be available this coming week.
+There are other "action" area's that you can put into your theme, not just the comic-area.  
 
 
 `do_action('comic_area');` - This is for the area you want your comic displayed on the home page and single pages.
