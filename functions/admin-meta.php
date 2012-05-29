@@ -64,7 +64,12 @@ function ceo_manage_comic_columns($column_name, $id) {
 function ceo_edit_comic_in_post($post) {  ?>
 <div class="admin-comicbox" style="margin:0; padding:0; overflow:hidden;">
 	<center>
-	<?php echo ceo_display_comic_thumbnail('medium', $post); ?><br />
+<?php 
+	if ( has_post_thumbnail()) {
+		echo ceo_display_comic_thumbnail('medium', $post); 
+} else { 
+		_e('To add a comic image, use the featured image link to add a featured image.  After it uploads, click the "use as featured image".','comiceasel'); ?><br />
+<?php } ?>
 	</center>
 </div>
 <?php
