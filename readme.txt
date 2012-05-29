@@ -64,7 +64,7 @@ A number of injection snippets that you add to your theme, mini navigation for t
 
 = Setting up Thumbnail sizes before adding your comics =
 
-In the WP-ADMIn -> Settings -> Media, you can set the thumbnail widths that you would want to use on your site.
+In the WP-ADMIN -> Settings -> Media, you can set the thumbnail widths that you would want to use on your site.
 
 The "thumbnail size" default 150x150 cropped works just fine.  Some users of Comic Easel have noted that it doesn't look the greatest for all comics so they suggest unchecking the box for crop thumbnil and setting the width to 198 (barely less then the width of the sidebars) and then removing the contents of height on thumbnail medium and large sizes.  This is all depends on your comic.
 
@@ -93,9 +93,6 @@ There are other "action" area's that you can put into your theme, not just the c
 = Adding the Comic area sidebars =
 
 Sidebars for Comic Easel are added automatically since 05/28/2012 They should appear above all of your other sidebars in the widget panel.
-`
-
-The usage in the plugin for get_sidebar is 'over', 'comicleft', 'comicright', 'under' which makes the CSS #sidebar-over #sidebar-comicleft #sidebar-comicright and #sidebar-under which will also look in your theme and child themes for sidebar-over.php sidebar-under.php sidebar-comicleft.php and sidebar-comicright.php which are only optional.
 
 
 == Frequently Asked Questions ==

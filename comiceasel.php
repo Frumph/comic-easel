@@ -143,6 +143,10 @@ function ceo_initialize_post_types() {
 	register_taxonomy_for_object_type('chapters', 'comic');
 	register_taxonomy_for_object_type('characters', 'comic');
 	register_taxonomy_for_object_type('locations', 'comic');
+
+	// load the comiceasel language translations
+	load_plugin_textdomain('comiceasel', false, basename( dirname( __FILE__ ) ) . '/languages');
+		
 }
 
 // Create CEO Specific Sidebars regardless if they already exist.
