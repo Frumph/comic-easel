@@ -260,7 +260,8 @@ function ceo_load_options($reset = false) {
 			'enable_comments_nav' => true,
 			'enable_random_nav' => true,
 			'enable_embed_nav' => false,
-			'disable_default_nav' => false
+			'disable_default_nav' => false,
+			'enable_comments_on_homepage' => false
 		) as $field => $value) {
 			$ceo_config[$field] = $value;
 		}

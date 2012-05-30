@@ -38,8 +38,16 @@
 						<?php _e('Checking this will stop the display of the comic\'s blog on the home page.','comiceasel'); ?>
 					</td>
 				</tr>
+				<tr>
+					<th scope="row"><label for="enable_comments_on_homepage"><?php _e('Enable comments to appear on the home page for comic posts?','comiceasel'); ?></label></th>
+					<td>
+						<input id="enable_comments_on_homepage" name="enable_comments_on_homepage" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_comments_on_homepage']); ?> />
+					</td>
+					<td>
+						<?php _e('If the blog loop is disabled and the comic post is enabled on the home page, enabling this will allow the comments for the comic post to appear.','comiceasel'); ?>
+					</td>
+				</tr>
 			</table>
-				
 		</div>
 		
 		<br />
