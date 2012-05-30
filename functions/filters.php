@@ -27,21 +27,31 @@ function ceo_insert_comic_into_feed($content) {
 
 function ceo_insert_comic_into_archive($content) {
 	global $wp_query, $post;
-	if (is_archive() || is_search() && ($post->post-type == 'comic') && !is_single() && !is_feed()) {
+	if (is_archive() || is_search() && ($post->post_type == 'comic') && !is_single() && !is_feed()) {
 		$content = '<p>'.ceo_display_comic_thumbnail('medium', $post) . '</p>' . $content;
 	}
 	return apply_filters('ceo_insert_comic_into_archive', $content);
 }
 
-function ceo_change_prev_rel_link_two($object) {
+function ceo_change_prev_rel_link_two($link) {
 	global $post, $wp_query;
-	if ($post->post_type=='comic' || is_home()) $link='<link rel="prev" href="'.ceo_get_previous_comic_permalink().'" />'."\r\n";
+	if ($post->post_type=='comic' || is_home()) {
+		$link_url = ceo_get_previous_comic_permalink();
+		if (!empty($link_url)) {
+			$link='<link rel="prev" href="'.$link_url.'" />'."\r\n";
+		} else $link = '';
+	}
 	return $link;
 }
 
-function ceo_change_next_rel_link_two($object) {
-	global $post;
-	if ($post->post_type=='comic') $link='<link rel="next" href="'.ceo_get_next_comic_permalink().'" />'."\r\n";
+function ceo_change_next_rel_link_two($link) {
+	global $post, $wp_query;
+	if ($post->post_type=='comic' || is_home()) {
+		$link_url = ceo_get_next_comic_permalink();
+		if (!empty($link_url)) {
+			$link='<link rel="next" href="'.$link_url.'" />'."\r\n";
+		} else $link = '';
+	}
 	return $link;
 }
 

@@ -142,7 +142,7 @@ function ceo_inject_mini_navigation() {
 			$prev_comic = ceo_get_previous_comic_permalink();
 		endwhile;
 	} else {
-		if ($post->post_type == 'comic') {
+		if (!empty($post) && $post->post_type == 'comic') {
 			$next_comic = ceo_get_next_comic_permalink();
 			$prev_comic = ceo_get_previous_comic_permalink();
 		}
@@ -215,7 +215,7 @@ global $post, $wp_query; ?>
 
 function ceo_facebook_comic_thumbnail() {
 	global $post;
-	if ($post->post_type == 'comic') {
+	if (!empty($post) && $post->post_type == 'comic') {
 		$post_image_id = get_post_thumbnail_id($post->ID);
 		$thumbnail = wp_get_attachment_image_src( $post_image_id, 'thumbnail', false);
 		if (is_array($thumbnail)) { 
