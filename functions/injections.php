@@ -58,7 +58,7 @@ function ceo_display_comic_navigation() {
 		</tr>
 <?php if (ceo_pluginfo('enable_embed_nav')) { ?>
 		<tr>
-			<td class="comic-nav">
+			<td class="comic-nav" colspan="15">
 				<?php 
 					$post_image_id = get_post_thumbnail_id($post->ID);
 					$thumbnail = wp_get_attachment_image_src( $post_image_id, 'full', false);

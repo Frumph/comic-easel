@@ -9,6 +9,7 @@ add_filter('the_excerpt', 'ceo_insert_comic_into_archive');
 add_filter('previous_post_rel_link', 'ceo_change_prev_rel_link_two', $link); // change the rel links for comic pages
 add_filter('next_post_rel_link', 'ceo_change_next_rel_link_two', $link);
 add_filter('pre_get_posts', 'ceo_query_post_type');
+add_filter('body_class', 'ceo_body_class');
 
 function ceo_rss_request($qv) {
 	if (isset($qv['feed']) && !isset($qv['post_type'])) {
@@ -66,4 +67,17 @@ function ceo_query_post_type($query) {
 		endif;
 		return $query;
 	}
+}
+
+function ceo_body_class($classes = '') {
+	global $post, $wp_query;
+	
+	if (!empty($post) && $post->post_type == 'comic') {
+		$terms = wp_get_object_terms( $post->ID, 'chapters');
+		foreach ($terms as $terms) {
+			$classes[] = 'story-'.$terms->slug;
+		}
+	}
+	
+	return $classes;
 }
