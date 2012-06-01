@@ -151,21 +151,23 @@ function ceo_initialize_post_types() {
 
 // Create CEO Specific Sidebars regardless if they already exist.
 function ceo_register_sidebars() {
-	foreach (array(
-				__('Over Comic', 'comiceasel'),
-				__('Left of Comic','comiceasel'),
-				__('Right of Comic', 'comiceasel'),
-				__('Under Comic', 'comiceasel')				
-				) as $sidebartitle) {
-		register_sidebar(array(
-					'name'=> $sidebartitle,
-					'id' => 'ceo-sidebar-'.sanitize_title($sidebartitle),
-					'description' => __('Comic Easel Sidebar Location', 'comiceasel'),
-					'before_widget' => "<div id=\"".'%1$s'."\" class=\"widget ".'%2$s'."\">\r\n<div class=\"widget-head\"></div>\r\n<div class=\"widget-content\">\r\n",
-					'after_widget'  => "</div>\r\n<div class=\"clear\"></div>\r\n<div class=\"widget-foot\"></div>\r\n</div>\r\n",
-					'before_title'  => "<h2 class=\"widgettitle\">",
-					'after_title'   => "</h2>\r\n"
-					));
+	if (ceo_pluginfo('enable_comic_sidebar_locations')) {
+		foreach (array(
+					__('Over Comic', 'comiceasel'),
+					__('Left of Comic','comiceasel'),
+					__('Right of Comic', 'comiceasel'),
+					__('Under Comic', 'comiceasel')				
+					) as $sidebartitle) {
+			register_sidebar(array(
+						'name'=> $sidebartitle,
+						'id' => 'ceo-sidebar-'.sanitize_title($sidebartitle),
+						'description' => __('Comic Easel Sidebar Location', 'comiceasel'),
+						'before_widget' => "<div id=\"".'%1$s'."\" class=\"widget ".'%2$s'."\">\r\n<div class=\"widget-head\"></div>\r\n<div class=\"widget-content\">\r\n",
+						'after_widget'  => "</div>\r\n<div class=\"clear\"></div>\r\n<div class=\"widget-foot\"></div>\r\n</div>\r\n",
+						'before_title'  => "<h2 class=\"widgettitle\">",
+						'after_title'   => "</h2>\r\n"
+						));
+		}
 	}
 }
 
@@ -261,7 +263,8 @@ function ceo_load_options($reset = false) {
 			'enable_random_nav' => true,
 			'enable_embed_nav' => false,
 			'disable_default_nav' => false,
-			'enable_comments_on_homepage' => false
+			'enable_comments_on_homepage' => false,
+			'enable_comic_sidebar_locations' => false
 		) as $field => $value) {
 			$ceo_config[$field] = $value;
 		}

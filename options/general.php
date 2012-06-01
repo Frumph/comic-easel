@@ -47,9 +47,17 @@
 						<?php _e('If the blog loop is disabled and the comic post is enabled on the home page, enabling this will allow the comments for the comic post to appear.','comiceasel'); ?>
 					</td>
 				</tr>
+				<tr class="alternate">
+					<th scope="row"><label for="enable_comic_sidebar_locations"><?php _e('Enable comic sidebar locations?','comiceasel'); ?></label></th>
+					<td>
+						<input id="enable_comic_sidebar_locations" name="enable_comic_sidebar_locations" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_comic_sidebar_locations']); ?> />
+					</td>
+					<td>
+						<?php _e('Checking this option makes 4 new sidebars appear in the appearance - widgets section, above comic, below comic, left of comic and right of comic.','comiceasel'); ?>
+					</td>
+				</tr>
 			</table>
 		</div>
-		
 		<br />
 		<div class="ceo-options-save">
 			<div class="ceo-major-publishing-actions">
