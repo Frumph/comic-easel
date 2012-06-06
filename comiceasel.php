@@ -54,7 +54,7 @@ function ceo_initialize_post_types() {
 				'query_var' => true,
 				'capability_type' => 'post',
 				'taxonomies' => array( 'post_tag' ),
-				'rewrite' => array( 'slug' => 'comic', 'with_front' => true ),
+				'rewrite' => array( 'slug' => 'comic', 'with_front' => true, 'feeds' => true ),
 				'hierarchical' => false,
 				'can_export' => true,
 				'show_in_menu' => true,
@@ -88,7 +88,7 @@ function ceo_initialize_post_types() {
 				'show_ui' => true,
 				'query_var' => true,
 				'show_tagcloud' => false,
-				'rewrite' => array( 'slug' => 'chapter' ),
+				'rewrite' => array( 'slug' => 'chapter', 'with_front' => true, 'feeds' => true ),
 				));
 
 	$labels = array(
@@ -112,7 +112,7 @@ function ceo_initialize_post_types() {
 				'show_ui' => true,
 				'query_var' => true,
 				'show_tagcloud' => false,
-				'rewrite' => array( 'slug' => 'character' ),
+				'rewrite' => array( 'slug' => 'character', 'with_front' => true, 'feeds' => true ),
 				));
 				
 	$labels = array(
@@ -136,7 +136,7 @@ function ceo_initialize_post_types() {
 				'show_ui' => true,
 				'query_var' => true,
 				'show_tagcloud' => false,
-				'rewrite' => array( 'slug' => 'location' ),
+				'rewrite' => array( 'slug' => 'location', 'with_front' => true, 'feeds' => true ),
 				));
 
 	register_taxonomy_for_object_type('post_tag', 'comic');
