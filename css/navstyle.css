@@ -42,7 +42,6 @@
 }
 
 .navi-first {
-	float: left;
 }
 
 .navi-prev, .navi-previous {
@@ -57,11 +56,9 @@
 }
 	
 .navi-next {
-	float: left;
 }
 
 .navi-last {
-	float: right;
 }
 
 .navi-void, .navi-void:hover {

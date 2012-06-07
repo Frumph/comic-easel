@@ -1,0 +1,99 @@
+/* COMIC NAVIGATION 
+Author: Tyler Martin
+Style: Silver
+*/
+
+.comic_navi_wrapper {
+	display: table;
+	border-collapse: collapse;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.navi-comictitle {
+	padding-top: 26px;
+	max-width: 100px;
+}
+
+.navi {
+	width: 66px;
+	padding-top: 66px;
+	font-size: 9px;
+	color: #555;
+	display: inline-block;
+}
+
+.navi:hover {
+	background-position: -66px 0;
+}
+
+.navi-first-in {
+	background: url('first.png') no-repeat;
+}
+
+.navi-first {
+	background: url('first.png') no-repeat;
+}
+
+.navi-prev {
+	margin-right: 5px;
+	background: url('prev.png') no-repeat;
+}
+
+.navi-prev-in {
+	background: url('prev-in.png') no-repeat;
+}
+
+.navi-archive, .navi-archives {
+	background: url('archive.png') no-repeat;
+}
+
+.navi-random {
+	background: url('random.png') no-repeat;
+}
+
+.navi-subscribe {
+	background: url('archive.png') no-repeat;
+}
+
+.navi-comments {
+	padding: 0;
+	background: url('comments.png') no-repeat;
+}
+
+a.navi-comments span {
+	display: inline-block;
+	width: 66px;
+	height: 66px;
+	font-size: 16px;
+	font-weight: bold;
+	line-height: 54px;
+	color: #fff;
+	text-indent: 0;
+}
+
+a.navi-comments span:hover {
+	color: #860b04;
+}
+
+.navi-next {
+	margin-left: 5px;
+	background: url('next.png') no-repeat;
+}
+
+.navi-next-in {
+	background: url('next-in.png') no-repeat;
+}
+
+.navi-last {
+	background: url('last.png') no-repeat;
+}
+
+.navi-last-in {
+	background: url('last.png') no-repeat;
+}
+
+.navi-void, .navi-void:hover {
+	color: #999;
+	background-position: -132px 0;
+}

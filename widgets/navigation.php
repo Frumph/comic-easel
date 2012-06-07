@@ -18,6 +18,11 @@ class ceo_comic_navigation_widget extends WP_Widget {
 	function widget($args, $instance) {
 		global $wp_query, $post;
 		extract($args, EXTR_SKIP);
+		$prev_in_comic = $next_in_comic = $first_in_comic = $last_in_comic = $prev_comic = $next_comic = $first_comic = $last_comic = false;
+		if ($instance['previous_in']) $prev_in_comic = ceo_get_previous_comic_in_chapter_permalink();
+		if ($instance['next_in']) $next_in_comic = ceo_get_next_comic_in_chapter_permalink();
+		if ($instance['first_in']) $first_in_comic = ceo_get_first_comic_in_chapter_permalink();
+		if ($instance['last_in']) $last_in_comic = ceo_get_last_comic_in_chapter_permalink();		
 		if ($instance['previous']) $prev_comic = ceo_get_previous_comic_permalink();
 		if ($instance['next']) $next_comic = ceo_get_next_comic_permalink();
 		if ($instance['first']) $first_comic = ceo_get_first_comic_permalink();
@@ -44,13 +49,27 @@ class ceo_comic_navigation_widget extends WP_Widget {
 					<span class="navi navi-first navi-void"><?php echo $instance['first_title']; ?></span>
 				<?php } 
 			}
+		if ($instance['first_in']) {
+			if (!empty($first_in_comic) && ($first_in_comic !== $this_permalink)) { ?>
+				<a href="<?php echo $first_in_comic; ?>" class="navi navi-first-in" title="<?php echo $instance['first_in_title']; ?>"><?php echo $instance['first_in_title']; ?></a>
+			<?php } else { ?>
+				<span class="navi navi-first-in navi-void"><?php echo $instance['first_in_title']; ?></span>
+			<?php } 
+		}			
 			if ($instance['previous']) {
 				if (!empty($prev_comic)) { ?>
 					<a href="<?php echo $prev_comic; ?>" class="navi navi-prev" title="<?php echo $instance['previous_title']; ?>"><?php echo $instance['previous_title']; ?></a>
 				<?php } else { ?>
 					<span class="navi navi-prev navi-void"><?php echo $instance['previous_title']; ?></span>
 				<?php }
-			} 
+			}
+		if ($instance['previous_in']) {
+			if (!empty($prev_in_comic)) { ?>
+				<a href="<?php echo $prev_in_comic; ?>" class="navi navi-prev-in" title="<?php echo $instance['previous_in_title']; ?>"><?php echo $instance['previous_in_title']; ?></a>
+			<?php } else { ?>
+				<span class="navi navi-prev-in navi-void"><?php echo $instance['previous_in_title']; ?></span>
+			<?php }
+		} 
 		?>
 		</td>
 		<td class="comic_navi_center">
@@ -71,13 +90,27 @@ class ceo_comic_navigation_widget extends WP_Widget {
 		</td>
 		<td class="comic_navi_right">
 			<?php
+		if ($instance['next_in']) {
+			if (!empty($next_in_comic)) { ?>
+				<a href="<?php echo $next_in_comic; ?>" class="navi navi-next-in" title="<?php echo $instance['next_in_title']; ?>"><?php echo $instance['next_in_title']; ?></a>
+			<?php } else { ?>
+				<span class="navi navi-next-in navi-void"><?php echo $instance['next_in_title']; ?></span>
+			<?php }
+		}
 			if ($instance['next']) {
 				if (!empty($next_comic)) { ?>
 					<a href="<?php echo $next_comic; ?>" class="navi navi-next" title="<?php echo $instance['next_title']; ?>"><?php echo $instance['next_title']; ?></a>
 				<?php } else { ?>
 					<span class="navi navi-next navi-void"><?php echo $instance['next_title']; ?></span>
 				<?php }
-			}			
+			}
+		if ($instance['last_in']) {
+			if (!empty($last_in_comic) && ($last_in_comic !== $this_permalink)) { ?>
+					<a href="<?php echo $last_in_comic; ?>" class="navi navi-last-in" title="<?php echo $instance['last_in_title']; ?>"><?php echo $instance['last_in_title']; ?></a>						
+			<?php } else { ?>
+					<span class="navi navi-last-in navi-void"><?php echo $instance['last_in_title']; ?></span>
+			<?php }
+		}
 			if ($instance['last']) {
 				if (!empty($last_comic) && ($last_comic !== $this_permalink)) {
 					if (isset($instance['lastgohome']) && $instance['lastgohome']) { ?>
@@ -114,59 +147,74 @@ class ceo_comic_navigation_widget extends WP_Widget {
 	function update($new_instance, $old_instance) {
 		$instance = $old_instance;
 		foreach (array(
-			'first',
-			'last',
-			'previous',
-			'next',
-			'random',
-			'archives',
-			'comments',
-			'subscribe',
-			'comictitle',
-			'imageurl'
-			) as $key) {
-				$instance[$key] = (bool)( $new_instance[$key] == 1 ? true : false );
+					'first_in',
+					'last_in',
+					'previous_in',
+					'next_in',			
+					'first',
+					'last',
+					'previous',
+					'next',
+					'random',
+					'archives',
+					'comments',
+					'subscribe',
+					'comictitle',
+					'imageurl'
+					) as $key) {
+			$instance[$key] = (bool)( $new_instance[$key] == 1 ? true : false );
 		}
 		
-		$instance['archive_path'] = wp_filter_nohtml_kses($new_instance['archive_path']);		
+		$instance['archive_path'] = wp_filter_nohtml_kses($new_instance['archive_path']);
+		$instance['first_in_title'] = wp_filter_nohtml_kses($new_instance['first_in_title']);
+		$instance['last_in_title'] = wp_filter_nohtml_kses($new_instance['last_in_title']);
+		$instance['previous_in_title'] = wp_filter_nohtml_kses($new_instance['previous_in_title']);
+		$instance['next_in_title'] = wp_filter_nohtml_kses($new_instance['next_in_title']);		
 		$instance['first_title'] = wp_filter_nohtml_kses($new_instance['first_title']);
 		$instance['last_title'] = wp_filter_nohtml_kses($new_instance['last_title']);
 		$instance['previous_title'] = wp_filter_nohtml_kses($new_instance['previous_title']);
+		$instance['next_title'] = wp_filter_nohtml_kses($new_instance['next_title']);		
 		$instance['random_title'] = wp_filter_nohtml_kses($new_instance['random_title']);
 		$instance['archives_title'] = wp_filter_nohtml_kses($new_instance['archives_title']);
 		$instance['comments_title'] = wp_filter_nohtml_kses($new_instance['comments_title']);
-		$instance['next_title'] = wp_filter_nohtml_kses($new_instance['next_title']);
 		$instance['subscribe_title'] = wp_filter_nohtml_kses($new_instance['subscribe_title']);
 		return $instance;
 	}
 	
 	function form($instance) {
-		$instance = wp_parse_args( (array) $instance, array( 
-			'first' => true,
-			'last' => true,
-			'previous' => true,  
-			'random' => false, 
-			'archives' => false, 
-			'comments' => false, 
-			'next' => true,
-			'archive_path' => '', 
-			'first_title' => '<< First',
-			'last_title' => 'Latest >>',
-			'previous_title' => '< Prev',
-			'next_title' => 'Next >',
-			'random_title' => 'Random', 
-			'archives_title' => 'Archives', 
-			'comments_title' => 'Comments', 
-			'buyprint_title' => 'Buy Print',
-			'comictitle' => false,		
-			'subscribe' => 'Subscribe',
-			'subscribe_path' => '',
-			'subscribe_title' => 'SubScribe',
-			'imageurl' => false
-		 ) );
+		$instance = wp_parse_args( (array) $instance, array(
+					'first_in' => false,
+					'last_in' => false,
+					'previous_in' => false,
+					'next_in' => false,
+					'first' => true,
+					'last' => true,
+					'previous' => true,
+					'next' => true,
+					'random' => false,
+					'archives' => false,
+					'comments' => false,
+					'archive_path' => '',
+					'first_in_title' => '<< First',
+					'last_in_title' => 'Last >>',
+					'previous_in_title' => '< Prev',
+					'next_in_title' => 'Next >',
+					'first_title' => '<< First',
+					'last_title' => 'Last >>',
+					'previous_title' => '< Prev',
+					'next_title' => 'Next >',
+					'random_title' => 'Random', 
+					'archives_title' => 'Archives', 
+					'comments_title' => 'Comments', 
+					'buyprint_title' => 'Buy Print',
+					'comictitle' => false,		
+					'subscribe' => 'Subscribe',
+					'subscribe_path' => '',
+					'subscribe_title' => 'SubScribe',
+					'imageurl' => false
+				) );
 		
 		?>
-	
 		<input id="<?php echo $this->get_field_id('first'); ?>" name="<?php echo $this->get_field_name('first'); ?>" type="checkbox" value="1" <?php checked(true, $instance['first']); ?> /> <label for="<?php echo $this->get_field_id('first'); ?>"><strong><?php _e('First','comiceasel'); ?></strong></label>
 		<input class="widefat" id="<?php echo $this->get_field_id('first_title'); ?>" name="<?php echo $this->get_field_name('first_title'); ?>" type="text" value="<?php echo stripcslashes($instance['first_title']); ?>" /></label><br />	
 		<br />
@@ -181,6 +229,22 @@ class ceo_comic_navigation_widget extends WP_Widget {
 		
 		<input id="<?php echo $this->get_field_id('next'); ?>" name="<?php echo $this->get_field_name('next'); ?>" type="checkbox" value="1" <?php checked(true, $instance['next']); ?> /> <label for="<?php echo $this->get_field_id('next'); ?>"><strong><?php _e('Next','comiceasel'); ?></strong></label>
 		<input class="widefat" id="<?php echo $this->get_field_id('next_title'); ?>" name="<?php echo $this->get_field_name('next_title'); ?>" type="text" value="<?php echo stripcslashes($instance['next_title']); ?>" /></label><br />
+		<br />
+
+		<input id="<?php echo $this->get_field_id('first_in'); ?>" name="<?php echo $this->get_field_name('first_in'); ?>" type="checkbox" value="1" <?php checked(true, $instance['first_in']); ?> /> <label for="<?php echo $this->get_field_id('first_in'); ?>"><strong><?php _e('First in Chapter','comiceasel'); ?></strong></label>
+		<input class="widefat" id="<?php echo $this->get_field_id('first_in_title'); ?>" name="<?php echo $this->get_field_name('first_in_title'); ?>" type="text" value="<?php echo stripcslashes($instance['first_in_title']); ?>" /></label><br />	
+		<br />
+		
+		<input id="<?php echo $this->get_field_id('last_in'); ?>" name="<?php echo $this->get_field_name('last_in'); ?>" type="checkbox" value="1" <?php checked(true, $instance['last_in']); ?> /> <label for="<?php echo $this->get_field_id('last_in'); ?>"><strong><?php _e('Last in Chapter','comiceasel'); ?></strong></label>
+		<input class="widefat" id="<?php echo $this->get_field_id('last_in_title'); ?>" name="<?php echo $this->get_field_name('last_in_title'); ?>" type="text" value="<?php echo stripcslashes($instance['last_in_title']); ?>" /></label><br />
+		<br />
+		
+		<input id="<?php echo $this->get_field_id('previous_in'); ?>" name="<?php echo $this->get_field_name('previous_in'); ?>" type="checkbox" value="1" <?php checked(true, $instance['previous_in']); ?> /> <label for="<?php echo $this->get_field_id('previous_in'); ?>"><strong><?php _e('Previous in Chapter','comiceasel'); ?></strong></label>
+		<input class="widefat" id="<?php echo $this->get_field_id('first_in_title'); ?>" name="<?php echo $this->get_field_name('previous_in_title'); ?>" type="text" value="<?php echo stripcslashes($instance['previous_in_title']); ?>" /></label><br />	
+		<br />
+		
+		<input id="<?php echo $this->get_field_id('next_in'); ?>" name="<?php echo $this->get_field_name('next_in'); ?>" type="checkbox" value="1" <?php checked(true, $instance['next_in']); ?> /> <label for="<?php echo $this->get_field_id('next_in'); ?>"><strong><?php _e('Next in Chapter','comiceasel'); ?></strong></label>
+		<input class="widefat" id="<?php echo $this->get_field_id('next_in_title'); ?>" name="<?php echo $this->get_field_name('next_in_title'); ?>" type="text" value="<?php echo stripcslashes($instance['next_in_title']); ?>" /></label><br />
 		<br />
 
 		<input id="<?php echo $this->get_field_id('comictitle'); ?>" name="<?php echo $this->get_field_name('comictitle'); ?>" type="checkbox" value="1" <?php checked(true, $instance['comictitle']); ?> /> <label for="<?php echo $this->get_field_id('comictitle'); ?>"><strong><?php _e('Comic Title','comiceasel'); ?></strong></label><br />

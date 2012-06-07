@@ -12,7 +12,7 @@ add_filter('pre_get_posts', 'ceo_query_post_type');
 add_filter('body_class', 'ceo_body_class');
 
 function ceo_rss_request($qv) {
-	if (isset($qv['feed']) && !isset($qv['post_type'])) {
+	if (isset($qv['feed']) && !isset($qv['post_type']) && !isset($qv['chapters'])) {
 		$qv['post_type'] = array('post', 'comic');
 	}
 	return $qv;
@@ -20,16 +20,21 @@ function ceo_rss_request($qv) {
 
 function ceo_insert_comic_into_feed($content) {
 	global $wp_query, $post;
-	if (is_feed() && $post->post_type == 'comic') {
-		$content = '<p>'. ceo_display_comic_thumbnail('full', $post) . '</p>' . $content;
+	if (is_feed() && ($post->post_type == 'comic')) {
+		if ((ceo_pluginfo('thumbnail_size_for_rss') !== 'none') && !isset($wp_query->query_vars['chapters'])) {
+			$content = '<p>'. ceo_display_comic_thumbnail(ceo_pluginfo('thumbnail_size_for_rss'), $post) . '</p>' . $content;
+		}
+		if ((ceo_pluginfo('thumbnail_size_for_direct_rss') !== 'none') && isset($wp_query->query_vars['chapters'])) {
+			$content = '<p>'. ceo_display_comic_thumbnail(ceo_pluginfo('thumbnail_size_for_direct_rss'), $post) . '</p>' . $content;
+		} 		
 	}
 	return apply_filters('ceo_insert_comic_into_feed', $content);
 }
 
 function ceo_insert_comic_into_archive($content) {
 	global $wp_query, $post;
-	if (is_archive() || is_search() && ($post->post_type == 'comic') && !is_single() && !is_feed()) {
-		$content = '<p>'.ceo_display_comic_thumbnail('medium', $post) . '</p>' . $content;
+	if (is_archive() || is_search() && ($post->post_type == 'comic') && !is_single() && !is_feed() && (ceo_plugin('thumbnail_size_for_archive') !== 'none')) {
+		$content = '<p>'.ceo_display_comic_thumbnail(ceo_pluginfo('thumbnail_size_for_archive'), $post) . '</p>' . $content;
 	}
 	return apply_filters('ceo_insert_comic_into_archive', $content);
 }

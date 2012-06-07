@@ -30,15 +30,22 @@ function ceo_display_comic_chapters($post_category) {
 
 function ceo_display_comic_navigation() {
 	global $post, $wp_query;
+	if (ceo_pluginfo('navigate_only_chapters')) {
+		$first_comic = ceo_get_first_comic_in_chapter_permalink();
+		$last_comic = ceo_get_last_comic_in_chapter_permalink();
+		$next_comic = ceo_get_next_comic_in_chapter_permalink();
+		$prev_comic = ceo_get_previous_comic_in_chapter_permalink();		
+	} else {
+		$first_comic = ceo_get_first_comic_permalink();
+		$last_comic = ceo_get_last_comic_permalink();
+		$next_comic = ceo_get_next_comic_permalink();
+		$prev_comic = ceo_get_previous_comic_permalink();
+	}
+	$first_text = __('&lsaquo;&lsaquo; First','comiceasel');
+	$last_text = __('Last &rsaquo;&rsaquo;','comiceasel'); 
+	$next_text = __('Next &rsaquo;','comiceasel');
+	$prev_text = __('&lsaquo; Prev','comiceasel');
 	
-	$first_comic = ceo_get_first_comic_permalink();
-	$first_text = __('&lsaquo;&lsaquo; First','easel');
-	$last_comic = ceo_get_last_comic_permalink();
-	$last_text = __('Last &rsaquo;&rsaquo;','easel'); 
-	$next_comic = ceo_get_next_comic_permalink();
-	$next_text = __('Next &rsaquo;','easel');
-	$prev_comic = ceo_get_previous_comic_permalink();
-	$prev_text = __('&lsaquo; Prev','easel');
 	?>
 	<table id="comic-nav-wrapper">
 		<tr class="comic-nav-container">

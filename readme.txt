@@ -3,7 +3,7 @@ Contributors: frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.0
 Tested up to: 3.4
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -21,7 +21,7 @@ With Comic Easel's extra taxonomies to control Character and Locations, you can 
 
 To Convert your existing ComicPress theme comics to Comic Easel's post type there is a plugin available called CP2CE.
 
-= Features of 1.0 =
+= Features =
 
 - Custom Post Type control of posts.
 - Media Library handling of comics.
@@ -31,7 +31,8 @@ To Convert your existing ComicPress theme comics to Comic Easel's post type ther
 - As many comic posts you can do in a day as you want.
 - Hovertext on the comic
 - Using translate plugins, every comic and post can be multilanguage
-- And More!
+- Navigation widget that mimics ComicPress's navigation widget including custom graphic sets that can be pulled from themes
+- And more!
 
 = Widgets =
 
@@ -104,6 +105,11 @@ Go to your settings -> permalinks and just click save, the wp_rewrite will refre
 
 
 == Changelog ==
+= 1.0.3 =
+Navigation Widget, Calendar widget, bug fixes and new code for navigating in chapters/all.
+New options for setting the thumbnail size for various locations that use thumbnails
+
+
 = 1.0.2 =
 Added Sidebar generators for no matter what theme you use.
 Added the Navigation Widget, which replaces the default navigation, it shares the same skinning as ComicPress and will often times be able to use the navstyle from ComicPress.
@@ -118,6 +124,9 @@ Updated: 05/26/2012 5:25pm Pacific
 
 
 == Upgrade Notice ==
+
+= 1.0.3 = 
+Need to RESET CONFIG OPTIONS - Navigation Widget changes, Calendar Widget addition.
 
 = 1.0.1 =
 Additions and fixes of 1.0 - reinstall it.

@@ -3,7 +3,7 @@
 Plugin Name: Comic Easel
 Plugin URI: http://comiceasel.com
 Description: Comic Easel allows you to incorporate a WebComic using the WordPress Media Library functionality with Navigation into almost any WordPress theme. With just a few modifications of adding *injection* action locations into a theme, you can have the theme of your choice display a comic.
-Version: 1.0.2
+Version: 1.0.3
 Author: Philip M. Hofer (Frumph)
 Author URI: http://frumph.net/
 
@@ -88,7 +88,7 @@ function ceo_initialize_post_types() {
 				'show_ui' => true,
 				'query_var' => true,
 				'show_tagcloud' => false,
-				'rewrite' => array( 'slug' => 'chapter', 'with_front' => false, 'feeds' => true ),
+				'rewrite' => array( 'slug' => 'chapter', 'with_front' => true, 'feeds' => true ),
 				));
 
 	$labels = array(
@@ -112,7 +112,7 @@ function ceo_initialize_post_types() {
 				'show_ui' => true,
 				'query_var' => true,
 				'show_tagcloud' => false,
-				'rewrite' => array( 'slug' => 'character', 'with_front' => false, 'feeds' => true ),
+				'rewrite' => array( 'slug' => 'character', 'with_front' => true, 'feeds' => true ),
 				));
 				
 	$labels = array(
@@ -198,7 +198,14 @@ function ceo_run_css() {
 	wp_register_style('comiceasel-style', ceo_pluginfo('plugin_url').'/css/comiceasel.css');
 	wp_enqueue_style('comiceasel-style');
 	if (is_active_widget('ceo_comic_navigation', false, 'ceo_comic_navigation', true)) {
-		wp_register_style('comiceasel-navstyle', ceo_pluginfo('plugin_url').'/css/navstyle.css');
+		if (is_child_theme() && file_exists(get_stylesheet_directory() . '/images/nav/' . ceo_pluginfo('graphic_navigation_directory') . '/navstyle.css')) {
+			wp_register_style('comiceasel-navstyle',get_stylesheet_directory_uri() . '/images/nav/' . ceo_pluginfo('graphic_navigation_directory') . '/navstyle.css');
+		} elseif (file_exists(get_template_directory() . '/images/nav/' . ceo_pluginfo('graphic_navigation_directory'). '/navstyle.css')) {
+			wp_register_style('comiceasel-navstyle',get_template_directory_uri() . '/images/nav/' . ceo_pluginfo('graphic_navigation_directory') . '/navstyle.css');
+		} elseif (file_exists(ABSPATH.ceo_get_plugin_path() . '/images/nav/' . ceo_pluginfo('graphic_navigation_directory') . '/navstyle.css')) {
+			wp_register_style('comiceasel-navstyle', ceo_pluginfo('plugin_url').'/images/nav/'. ceo_pluginfo('graphic_navigation_directory'). '/navstyle.css');
+		} else 
+			wp_register_style('comiceasel-navstyle', ceo_pluginfo('plugin_url').'/css/navstyle.css');
 		wp_enqueue_style('comiceasel-navstyle');
 	}	
 }
@@ -274,7 +281,11 @@ function ceo_load_options($reset = false) {
 			'enable_embed_nav' => false,
 			'disable_default_nav' => false,
 			'enable_comments_on_homepage' => false,
-			'enable_comic_sidebar_locations' => false
+			'enable_comic_sidebar_locations' => false,
+			'thumbnail_size_for_rss' => 'thumbnail',
+			'thumbnail_size_for_direct_rss' => 'full',
+			'thumbnail_size_for_archive' => 'large',
+			'graphic_navigation_directory' => 'default'
 		) as $field => $value) {
 			$ceo_config[$field] = $value;
 		}

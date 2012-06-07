@@ -20,15 +20,16 @@ $ceo_options = get_option('comiceasel-config');
 if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-options') ) {
 		
 		if ($_REQUEST['action'] == 'ceo_save_general') {
-/*
+
 			foreach (array(
-				'layout',
-				'scheme'
+				'thumbnail_size_for_rss',
+				'thumbnail_size_for_direct_rss',
+				'thumbnail_size_for_archive'
 					) as $key) {
 							if (isset($_REQUEST[$key])) 
-								$easel_options[$key] = wp_filter_nohtml_kses($_REQUEST[$key]);
+								$ceo_options[$key] = wp_filter_nohtml_kses($_REQUEST[$key]);
 			}
-*/
+
 			foreach (array(
 				'add_dashboard_frumph_feed_widget',
 				'disable_comic_on_home_page',
@@ -44,15 +45,14 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 			update_option('comiceasel-config', $ceo_options);
 		}
 		if ($_REQUEST['action'] == 'ceo_save_navigation') {
-/*
+
 			foreach (array(
-				'layout',
-				'scheme'
+				'graphic_navigation_directory'
 					) as $key) {
 							if (isset($_REQUEST[$key])) 
-								$easel_options[$key] = wp_filter_nohtml_kses($_REQUEST[$key]);
+								$ceo_options[$key] = wp_filter_nohtml_kses($_REQUEST[$key]);
 			}
-*/
+
 			foreach (array(
 				'click_comic_next',
 				'navigate_only_chapters',

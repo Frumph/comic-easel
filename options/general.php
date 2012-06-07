@@ -57,6 +57,64 @@
 					</td>
 				</tr>
 			</table>
+			<br />
+			<table class="widefat">
+				<thead>
+					<tr>
+						<th colspan="3"><?php _e('Thumbnail sizes for locations where used.','comiceasel'); ?></th>
+					</tr>
+				</thead>
+				<tr class="alternate">
+					<th scope="row">
+						<label for="thumbnail_size_for_rss"><?php _e('Thumbnail size for main RSS Feed','comiceasel'); ?></label>
+						<select name="thumbnail_size_for_rss" id="thumbnail_size_for_rss">
+							<option class="level-0" value="none" <?php selected( $ceo_options['thumbnail_size_for_rss'],'none'); ?>><?php _e('None', 'comiceasel'); ?></option>
+							<option class="level-0" value="thumbnail" <?php selected( $ceo_options['thumbnail_size_for_rss'],'thumbnail'); ?>><?php _e('Thumbnail', 'comiceasel'); ?></option>
+							<option class="level-0" value="medium" <?php selected( $ceo_options['thumbnail_size_for_rss'],'medium'); ?>><?php _e('Medium', 'comiceasel'); ?></option>
+							<option class="level-0" value="large" <?php selected( $ceo_options['thumbnail_size_for_rss'],'large'); ?>><?php _e('Large', 'comiceasel'); ?></option>
+							<option class="level-0" value="full" <?php selected( $ceo_options['thumbnail_size_for_rss'],'full'); ?>><?php _e('Full', 'comiceasel'); ?></option>							
+						</select>
+					</th>
+					<td>
+						<?php _e('The thumbnail for the main RSS /feed/','comiceasel'); ?>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">
+						<label for="thumbnail_size_for_direct_rss"><?php _e('Thumbnail size for the direct comic & chapter RSS Feeds','comiceasel'); ?></label>
+						<select name="thumbnail_size_for_direct_rss" id="thumbnail_size_for_direct_rss">
+							<option class="level-0" value="none" <?php selected( $ceo_options['thumbnail_size_for_direct_rss'],'none'); ?>><?php _e('None', 'comiceasel'); ?></option>
+							<option class="level-0" value="thumbnail" <?php selected( $ceo_options['thumbnail_size_for_direct_rss'],'thumbnail'); ?>><?php _e('Thumbnail', 'comiceasel'); ?></option>
+							<option class="level-0" value="medium" <?php selected( $ceo_options['thumbnail_size_for_direct_rss'],'medium'); ?>><?php _e('Medium', 'comiceasel'); ?></option>
+							<option class="level-0" value="large" <?php selected( $ceo_options['thumbnail_size_for_direct_rss'],'large'); ?>><?php _e('Large', 'comiceasel'); ?></option>
+							<option class="level-0" value="full" <?php selected( $ceo_options['thumbnail_size_for_direct_rss'],'full'); ?>><?php _e('Full', 'comiceasel'); ?></option>
+						</select>
+					</th>
+					<td>
+						<?php _e('The thumbnail for the direct comic and chapter RSS /comic/feed/ and /chapter/chapter-slug/feed/ ','comiceasel'); ?>
+					</td>
+				</tr>
+				<tr class="alternate">
+					<th scope="row">
+						<label for="thumbnail_size_for_archive"><?php _e('Thumbnail size for archive and search','comiceasel'); ?></label>
+						<select name="thumbnail_size_for_archive" id="thumbnail_size_for_archive">
+							<option class="level-0" value="none" <?php selected( $ceo_options['thumbnail_size_for_archive'],'none'); ?>><?php _e('None', 'comiceasel'); ?></option>
+							<option class="level-0" value="thumbnail" <?php selected( $ceo_options['thumbnail_size_for_archive'],'thumbnail'); ?>><?php _e('Thumbnail', 'comiceasel'); ?></option>
+							<option class="level-0" value="medium" <?php selected( $ceo_options['thumbnail_size_for_archive'],'medium'); ?>><?php _e('Medium', 'comiceasel'); ?></option>
+							<option class="level-0" value="large" <?php selected( $ceo_options['thumbnail_size_for_archive'],'large'); ?>><?php _e('Large', 'comiceasel'); ?></option>
+							<option class="level-0" value="full" <?php selected( $ceo_options['thumbnail_size_for_archive'],'full'); ?>><?php _e('Full', 'comiceasel'); ?></option>							
+						</select>
+					</th>
+					<td>
+						<?php _e('The thumbnail shown inside posts when viewed in the archive and search functions of WordPress','comiceasel'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="12">
+						<i><?php _e('NOTE: Edit a post, click update on it for the feeds to refresh with new copies; to see changes.', 'comiceasle'); ?></i>
+					</td>	
+				</tr>
+			</table>
 		</div>
 		<br />
 		<div class="ceo-options-save">
