@@ -54,7 +54,7 @@ function ceo_initialize_post_types() {
 				'query_var' => true,
 				'capability_type' => 'post',
 				'taxonomies' => array( 'post_tag' ),
-				'rewrite' => array( 'slug' => 'comic', 'with_front' => true, 'feeds' => true ),
+				'rewrite' => array( 'slug' => 'comic', 'with_front' => false, 'feeds' => true ),
 				'hierarchical' => false,
 				'can_export' => true,
 				'show_in_menu' => true,
@@ -88,7 +88,7 @@ function ceo_initialize_post_types() {
 				'show_ui' => true,
 				'query_var' => true,
 				'show_tagcloud' => false,
-				'rewrite' => array( 'slug' => 'chapter', 'with_front' => true, 'feeds' => true ),
+				'rewrite' => array( 'slug' => 'chapter', 'with_front' => false, 'feeds' => true ),
 				));
 
 	$labels = array(
@@ -112,7 +112,7 @@ function ceo_initialize_post_types() {
 				'show_ui' => true,
 				'query_var' => true,
 				'show_tagcloud' => false,
-				'rewrite' => array( 'slug' => 'character', 'with_front' => true, 'feeds' => true ),
+				'rewrite' => array( 'slug' => 'character', 'with_front' => false, 'feeds' => true ),
 				));
 				
 	$labels = array(
@@ -136,7 +136,7 @@ function ceo_initialize_post_types() {
 				'show_ui' => true,
 				'query_var' => true,
 				'show_tagcloud' => false,
-				'rewrite' => array( 'slug' => 'location', 'with_front' => true, 'feeds' => true ),
+				'rewrite' => array( 'slug' => 'location', 'with_front' => false, 'feeds' => true ),
 				));
 
 	register_taxonomy_for_object_type('post_tag', 'comic');
@@ -146,7 +146,17 @@ function ceo_initialize_post_types() {
 
 	// load the comiceasel language translations
 	load_plugin_textdomain('comiceasel', false, basename( dirname( __FILE__ ) ) . '/languages');
-		
+	add_rewrite_rule(
+			'^comic/([^/]*)/([^/]*)/?',
+			'index.php?post_type=comic&chapter=$matches[1]&comic=$matches[2]',
+			'top'
+			);
+	add_rewrite_rule(
+			'^comic/([0-9]+)/([0-9]{1,2})/([0-9]{1,2})/?$',
+			'index.php?post_type=comic&year=$matches[1]&monthnum=$matches[2]&day=$matches[3]',
+			'top'
+			);
+			
 }
 
 // Create CEO Specific Sidebars regardless if they already exist.
