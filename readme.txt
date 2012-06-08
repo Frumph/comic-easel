@@ -3,7 +3,7 @@ Contributors: frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.0
 Tested up to: 3.4
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -105,6 +105,12 @@ Go to your settings -> permalinks and just click save, the wp_rewrite will refre
 
 
 == Changelog ==
+= 1.0.4 =
+Fixed wrong function in filter for archive
+added option for turning off the mininav if it's implemented
+fixed the mininav to not be enabled of on the home page the comic is diabled
+
+
 = 1.0.3 =
 Navigation Widget, Calendar widget, bug fixes and new code for navigating in chapters/all.
 New options for setting the thumbnail size for various locations that use thumbnails
@@ -124,6 +130,9 @@ Updated: 05/26/2012 5:25pm Pacific
 
 
 == Upgrade Notice ==
+
+= 1.0.4 =
+To make options work that are new, you save the tab that the option is on.
 
 = 1.0.3 = 
 Need to RESET CONFIG OPTIONS - Navigation Widget changes, Calendar Widget addition.

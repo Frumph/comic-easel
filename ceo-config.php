@@ -60,7 +60,8 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 				'enable_comment_nav',
 				'enable_random_nav',
 				'enable_embed_nav',
-				'disable_default_nav'
+				'disable_default_nav',
+				'disable_mininav'
 			) as $key) {
 				if (!isset($_REQUEST[$key])) $_REQUEST[$key] = 0;
 				$ceo_options[$key] = (bool)( $_REQUEST[$key] == 1 ? true : false );

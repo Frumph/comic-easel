@@ -148,12 +148,11 @@ h2.comic-archive-series-title {
 .comic-archive-list-wrap {
     padding: 0;
     list-style-type: none;
-    float: right;
+    float: left;
     width: 376px;
 }
 
 .comic-list-alt {
-    background: #f7f7f7;
 }
 
 .level-select {

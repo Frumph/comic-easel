@@ -20,6 +20,15 @@
 						<?php _e('When this is enabled, when the comic is mouse over and clicked it will go to the next comic in the chapter.','comiceasel'); ?>
 					</td>
 				</tr>
+				<tr>
+					<th scope="row"><label for="disable_mininav"><?php _e('Disable the Menubar Mini-navigation? (if implemented)','comiceasel'); ?></label></th>
+					<td>
+						<input id="disable_mininav" name="disable_mininav" type="checkbox" value="1" <?php checked(true, $ceo_options['disable_mininav']); ?> />
+					</td>
+					<td>
+						<?php _e('Checking this will disable the mini navigation in the menubar if the theme you are using supports it.','comiceasel'); ?>
+					</td>
+				</tr>				
 			</table>
 			<br />
 			<table class="widefat">
