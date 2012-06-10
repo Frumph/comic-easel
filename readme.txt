@@ -19,6 +19,8 @@ The core reason to use Comic Easel above other WordPress theme's is that you are
 
 With Comic Easel's extra taxonomies to control Character and Locations, you can provide your end readers with a plethora of information that wouldn't have had before that is auto-generated. The Cast Page itself shows how many times a character was in a comic as well as the first comic they were seen in.
 
+Comic Easel is *not* an upgrade to ComicPress, it is a different CMS that has a migration path available from ComicPress to Comic Easel.   The ComicPress theme has functionality that the theme you choose might not.
+
 To Convert your existing ComicPress theme comics to Comic Easel's post type there is a plugin available called CP2CE.
 
 = Features =
