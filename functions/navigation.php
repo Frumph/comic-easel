@@ -167,4 +167,67 @@ function ceo_get_adjacent_comic($previous = true, $in_same_chapter = false, $tax
 	return $result;
 }
 
+function ceo_get_adjacent_chapter($prev = false) {
+	global $post;
+	$current_chapter = get_the_terms($post->ID, 'chapters');
+	if (is_array($current_chapter)) { $current_chapter = reset($current_chapter); } else { return; }
+	$current_order = $current_chapter->menu_order;
+	$find_order = (bool)$prev ? $current_order - 1 : $current_order + 1;
+	if (!$find_order) return false;
+	var_dump($find_order);
+	$args = array(
+			'orderby' => 'menu_order',
+			'order' => 'DESC',
+			'hide_empty' => 1,
+			'menu_order' => $find_order
+			);
+	$all_chapters = get_terms( 'chapters', $args );
+	if (!is_null($all_chapters)) {
+		foreach($all_chapters as $chapter) {
+			if ((int)$chapter->menu_order == $find_order) return $chapter;
+		}
+	}
+	return false;
+}
+
+function ceo_get_previous_chapter() {
+	$chapter = ceo_get_adjacent_chapter(true);
+	if (is_object($chapter)) {
+		$child_args = array( 
+				'numberposts' => 1, 
+				'post_type' => 'comic',
+				'orderby' => 'post_date', 
+				'order' => 'ASC', 
+				'post_status' => 'publish', 
+				'chapters' => $chapter->slug 
+				);				
+		$qcposts = get_posts( $child_args );
+		if (is_array($qcposts)) {
+			$qcposts = reset($qcposts);
+			return get_permalink($qcposts->ID);
+		}
+	}
+	return false;
+}
+
+function ceo_get_next_chapter() {
+	$chapter = ceo_get_adjacent_chapter(false);
+	if (is_object($chapter)) {
+		$child_args = array( 
+				'numberposts' => 1, 
+				'post_type' => 'comic',
+				'orderby' => 'post_date', 
+				'order' => 'ASC', 
+				'post_status' => 'publish', 
+				'chapters' => $chapter->slug 
+				);				
+		$qcposts = get_posts( $child_args );
+		if (is_array($qcposts)) {
+			$qcposts = reset($qcposts);
+			return get_permalink($qcposts->ID);
+		}
+	}
+	return false;
+}
+
 ?>

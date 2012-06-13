@@ -18,7 +18,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 	function widget($args, $instance) {
 		global $wp_query, $post;
 		extract($args, EXTR_SKIP);
-		$prev_in_comic = $next_in_comic = $first_in_comic = $last_in_comic = $prev_comic = $next_comic = $first_comic = $last_comic = false;
+		$prev_in_comic = $next_in_comic = $first_in_comic = $last_in_comic = $prev_comic = $next_comic = $first_comic = $last_comic = $previous_chap = $next_chap = false;
 		if ($instance['previous_in']) $prev_in_comic = ceo_get_previous_comic_in_chapter_permalink();
 		if ($instance['next_in']) $next_in_comic = ceo_get_next_comic_in_chapter_permalink();
 		if ($instance['first_in']) $first_in_comic = ceo_get_first_comic_in_chapter_permalink();
@@ -27,6 +27,10 @@ class ceo_comic_navigation_widget extends WP_Widget {
 		if ($instance['next']) $next_comic = ceo_get_next_comic_permalink();
 		if ($instance['first']) $first_comic = ceo_get_first_comic_permalink();
 		if ($instance['last']) $last_comic = ceo_get_last_comic_permalink();
+		if (class_exists('NS_TMO_Plugin')) {
+			if ($instance['previous_chap']) $previous_chap = ceo_get_previous_chapter();
+			if ($instance['next_chap']) $next_chap = ceo_get_next_chapter();
+		}
 		$this_permalink = get_permalink($post->ID);
 //		echo $before_widget;
 ?>
@@ -55,7 +59,14 @@ class ceo_comic_navigation_widget extends WP_Widget {
 			<?php } else { ?>
 				<span class="navi navi-first-in navi-void"><?php echo $instance['first_in_title']; ?></span>
 			<?php } 
-		}			
+		}
+		if ((class_exists('NS_TMO_Plugin')) && $instance['previous_chap']) {
+			if (!empty($previous_chap)) { ?>
+				<a href="<?php echo $previous_chap; ?>" class="navi navi-prev-chap" title="<?php echo $instance['previous_chap_title']; ?>"><?php echo $instance['previous_chap_title']; ?></a>
+			<?php } else { ?>
+				<span class="navi navi-prev-chap navi-void"><?php echo $instance['previous_chap_title']; ?></span>
+			<?php } 
+		}
 			if ($instance['previous']) {
 				if (!empty($prev_comic)) { ?>
 					<a href="<?php echo $prev_comic; ?>" class="navi navi-prev" title="<?php echo $instance['previous_title']; ?>"><?php echo $instance['previous_title']; ?></a>
@@ -96,6 +107,13 @@ class ceo_comic_navigation_widget extends WP_Widget {
 			<?php } else { ?>
 				<span class="navi navi-next-in navi-void"><?php echo $instance['next_in_title']; ?></span>
 			<?php }
+		}
+		if ((class_exists('NS_TMO_Plugin')) && $instance['next_chap']) {
+			if (!empty($next_chap)) { ?>
+				<a href="<?php echo $next_chap; ?>" class="navi navi-next-chap" title="<?php echo $instance['next_chap_title']; ?>"><?php echo $instance['next_chap_title']; ?></a>
+			<?php } else { ?>
+				<span class="navi navi-next-chap navi-void"><?php echo $instance['next_chap_title']; ?></span>
+			<?php } 
 		}
 			if ($instance['next']) {
 				if (!empty($next_comic)) { ?>
@@ -147,6 +165,8 @@ class ceo_comic_navigation_widget extends WP_Widget {
 	function update($new_instance, $old_instance) {
 		$instance = $old_instance;
 		foreach (array(
+					'previous_chap',
+					'next_chap',
 					'first_in',
 					'last_in',
 					'previous_in',
@@ -164,7 +184,8 @@ class ceo_comic_navigation_widget extends WP_Widget {
 					) as $key) {
 			$instance[$key] = (bool)( $new_instance[$key] == 1 ? true : false );
 		}
-		
+		$instance['previous_chap_title'] = wp_filter_nohtml_kses($new_instance['previous_chap_title']);
+		$instance['next_chap_title'] = wp_filter_nohtml_kses($new_instance['next_chap_title']);
 		$instance['archive_path'] = wp_filter_nohtml_kses($new_instance['archive_path']);
 		$instance['first_in_title'] = wp_filter_nohtml_kses($new_instance['first_in_title']);
 		$instance['last_in_title'] = wp_filter_nohtml_kses($new_instance['last_in_title']);
@@ -183,6 +204,8 @@ class ceo_comic_navigation_widget extends WP_Widget {
 	
 	function form($instance) {
 		$instance = wp_parse_args( (array) $instance, array(
+					'previous_chap' => false,
+					'next_chap' => false,
 					'first_in' => false,
 					'last_in' => false,
 					'previous_in' => false,
@@ -195,6 +218,8 @@ class ceo_comic_navigation_widget extends WP_Widget {
 					'archives' => false,
 					'comments' => false,
 					'archive_path' => '',
+					'previous_chap_title' => '<[ Prev Chapter',
+					'next_chap_title' => 'Next chapter ]>',
 					'first_in_title' => '<< First',
 					'last_in_title' => 'Last >>',
 					'previous_in_title' => '< Prev',
@@ -240,11 +265,19 @@ class ceo_comic_navigation_widget extends WP_Widget {
 		<br />
 		
 		<input id="<?php echo $this->get_field_id('previous_in'); ?>" name="<?php echo $this->get_field_name('previous_in'); ?>" type="checkbox" value="1" <?php checked(true, $instance['previous_in']); ?> /> <label for="<?php echo $this->get_field_id('previous_in'); ?>"><strong><?php _e('Previous in Chapter','comiceasel'); ?></strong></label>
-		<input class="widefat" id="<?php echo $this->get_field_id('first_in_title'); ?>" name="<?php echo $this->get_field_name('previous_in_title'); ?>" type="text" value="<?php echo stripcslashes($instance['previous_in_title']); ?>" /></label><br />	
+		<input class="widefat" id="<?php echo $this->get_field_id('previous_in_title'); ?>" name="<?php echo $this->get_field_name('previous_in_title'); ?>" type="text" value="<?php echo stripcslashes($instance['previous_in_title']); ?>" /></label><br />	
 		<br />
 		
 		<input id="<?php echo $this->get_field_id('next_in'); ?>" name="<?php echo $this->get_field_name('next_in'); ?>" type="checkbox" value="1" <?php checked(true, $instance['next_in']); ?> /> <label for="<?php echo $this->get_field_id('next_in'); ?>"><strong><?php _e('Next in Chapter','comiceasel'); ?></strong></label>
 		<input class="widefat" id="<?php echo $this->get_field_id('next_in_title'); ?>" name="<?php echo $this->get_field_name('next_in_title'); ?>" type="text" value="<?php echo stripcslashes($instance['next_in_title']); ?>" /></label><br />
+		<br />
+		<?php $noclass = ''; if (!class_exists('NS_TMO_Plugin')) $noclass = 'disabled="disabled" '; ?>
+		<input id="<?php echo $this->get_field_id('previous_chap'); ?>" name="<?php echo $this->get_field_name('previous_chap'); ?>" type="checkbox" value="1" <?php checked(true, $instance['previous_chap']); ?> <?php echo $noclass;?>/> <label for="<?php echo $this->get_field_id('previous_chap'); ?>"><strong><?php _e('Previous Chapter','comiceasel'); ?></strong></label>
+		<input class="widefat" id="<?php echo $this->get_field_id('previous_chap_title'); ?>" name="<?php echo $this->get_field_name('previous_chap_title'); ?>" type="text" value="<?php echo stripcslashes($instance['previous_chap_title']); ?>" <?php echo $noclass;?>/></label><br />	
+		<br />
+		
+		<input id="<?php echo $this->get_field_id('next_chap'); ?>" name="<?php echo $this->get_field_name('next_chap'); ?>" type="checkbox" value="1" <?php checked(true, $instance['next_chap']); ?> <?php echo $noclass;?>/> <label for="<?php echo $this->get_field_id('next_chap'); ?>"><strong><?php _e('Next Chapter','comiceasel'); ?></strong></label>
+		<input class="widefat" id="<?php echo $this->get_field_id('next_chap_title'); ?>" name="<?php echo $this->get_field_name('next_chap_title'); ?>" type="text" value="<?php echo stripcslashes($instance['next_chap_title']); ?>" <?php echo $noclass;?>/></label><br />
 		<br />
 
 		<input id="<?php echo $this->get_field_id('comictitle'); ?>" name="<?php echo $this->get_field_name('comictitle'); ?>" type="checkbox" value="1" <?php checked(true, $instance['comictitle']); ?> /> <label for="<?php echo $this->get_field_id('comictitle'); ?>"><strong><?php _e('Comic Title','comiceasel'); ?></strong></label><br />
@@ -272,6 +305,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 	}
 }
 
-add_action( 'widgets_init', create_function('', 'return register_widget("ceo_comic_navigation_widget");') );
+if (ceo_pluginfo('enable_comic_sidebar_locations')) 
+	add_action( 'widgets_init', create_function('', 'return register_widget("ceo_comic_navigation_widget");') );
 
 ?>

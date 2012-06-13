@@ -43,7 +43,6 @@ function ceo_display_comic_area() {
 			$wp_query->in_the_loop = true; $comicFrontpage = new WP_Query(); $comicFrontpage->query($comic_args);
 			while ($comicFrontpage->have_posts()) : $comicFrontpage->the_post();
 				ceo_display_comic_wrapper();
-				break;
 			endwhile;
 			ceo_UnProtect();
 		}

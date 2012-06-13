@@ -3,7 +3,7 @@ Contributors: frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.0
 Tested up to: 3.4
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -12,6 +12,8 @@ Comic Easel allows you to post webcomics to your theme.
 
 
 == Description ==
+
+Tech Support Forum: [Frumph.NET Forums](http://forum.frumph.net/ "The Forums for Frumph.NET")
 
 Comic Easel allows you to incorporate a WebComic using the WordPress Media Library functionality with Navigation into almost any WordPress theme. With just a few modifications of adding *injection* action locations into a theme, you can have the theme of your choice display a comic.
 
@@ -34,6 +36,7 @@ To Convert your existing ComicPress theme comics to Comic Easel's post type ther
 - Hovertext on the comic
 - Using translate plugins, every comic and post can be multilanguage
 - Navigation widget that mimics ComicPress's navigation widget including custom graphic sets that can be pulled from themes
+- chapter navigation in a variety of different methods
 - And more!
 
 = Widgets =
@@ -105,8 +108,21 @@ Sidebars for Comic Easel are added automatically since 05/28/2012 They should ap
 
 Go to your settings -> permalinks and just click save, the wp_rewrite will refresh.  You need to go to the settings -> permalinks if you ever upgrade enable or disable the Comic Easel plugin.
 
+= Chapter Navigation is not enabled for me to check in the widget =
+
+Chapter navigation requires another plugin [Term Menu Order by James Lafferty](http://wordpress.org/extend/plugins/term-menu-order/ "Taxonomy Order Plugin") when this is installed and activated you can go to your Comic -> Chapters and set the order of your chapters and those buttons will then be active.  Order is set with numerical value, make sure only to set order #'s inside chapters that have comics in them.
+
+= Where is Comic Easel's navigation widget? =
+
+The comic navigation widget is only seen if you have the comic sidebar's enabled; even then it only works in the comic sidebars themself, nowhere else.
+
 
 == Changelog ==
+
+= 1.0.5 =
+Chapter Navigation (prev/next chapter)
+Various little bug fixes here and there
+
 = 1.0.4 =
 Fixed wrong function in filter for archive
 added option for turning off the mininav if it's implemented
@@ -130,8 +146,9 @@ Updated: 05/26/2012 5:25pm Pacific
 - Sidebar locations for the comic-area
 
 
-
 == Upgrade Notice ==
+= 1.0.5 =
+Don't forget to ask for features for 1.0.6!
 
 = 1.0.4 =
 To make options work that are new, you save the tab that the option is on.
