@@ -123,8 +123,8 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 
 	<div class="ceoadmin-footer">
 		<br />
-		<?php _e('Created, Developed and maintained by','easel'); ?> <a href="http://frumph.net/">Philip M. Hofer</a> <small>(<a href="http://frumph.net/">Frumph</a>)</small><br />
-		<?php _e('If you like the Comic Easel plugin, please donate.  It will help in developing new features and versions.','easel'); ?>
+		<?php _e('Created, Developed and maintained by','comiceasel'); ?> <a href="http://frumph.net/">Philip M. Hofer</a> <small>(<a href="http://frumph.net/">Frumph</a>)</small><br />
+		<?php _e('If you like the Comic Easel plugin, please donate.  It will help in developing new features and versions.','comiceasel'); ?>
 		<table style="margin:0 auto;">
 			<tr>
 				<td style="width:200px;">
@@ -143,6 +143,16 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 					</form>
 				</td>
 			</tr>
+		</table>
+		<table>
+		<tr style="width: 100%">
+			<td>
+				<img src="<?php echo ceo_pluginfo('plugin_url').'/languages/french.jpg'; ?>" alt="French" ?>
+			</td>
+			<td style="font-size: 11px;">
+				<a href="http://www.li-an.fr/blog/" target="_blank"><?php _e('French Translation by LiAn', 'comiceasel'); ?></a><br />
+			</td>
+		</tr>
 		</table>
 	</div>
 
