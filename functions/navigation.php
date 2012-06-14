@@ -174,7 +174,6 @@ function ceo_get_adjacent_chapter($prev = false) {
 	$current_order = $current_chapter->menu_order;
 	$find_order = (bool)$prev ? $current_order - 1 : $current_order + 1;
 	if (!$find_order) return false;
-	var_dump($find_order);
 	$args = array(
 			'orderby' => 'menu_order',
 			'order' => 'DESC',
