@@ -10,6 +10,7 @@ add_filter('previous_post_rel_link', 'ceo_change_prev_rel_link_two', $link); // 
 add_filter('next_post_rel_link', 'ceo_change_next_rel_link_two', $link);
 add_filter('pre_get_posts', 'ceo_query_post_type');
 add_filter('body_class', 'ceo_body_class');
+add_filter('get_terms_args', 'ceo_chapters_find_menu_orderby');
 
 function ceo_rss_request($qv) {
 	if (isset($qv['feed']) && !isset($qv['post_type']) && !isset($qv['chapters'])) {
@@ -86,3 +87,17 @@ function ceo_body_class($classes = '') {
 	
 	return $classes;
 }
+
+function ceo_chapters_edit_menu_orderby() {
+	//This is a one-off, so that we don't disrupt queries that may not use menu_order.
+	remove_filter('get_terms_orderby', 'ceo_chapters_edit_menu_orderby');
+	return "menu_order";	
+}
+
+function ceo_chapters_find_menu_orderby($args) {
+	if ('menu_order' === $args['orderby']) {
+		add_filter('get_terms_orderby', 'ceo_chapters_edit_menu_orderby');
+	}
+	return $args;
+}
+	
