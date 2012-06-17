@@ -27,7 +27,7 @@ function ceo_cast_page( $atts, $content = null ) {
 					'order' => 'ASC',
 					'post_status' => 'publish',
 					'characters' => $character->slug,
-					);					
+					);
 			$qposts = get_posts( $args );
 			if (!empty($qposts)) {
 				$first_seen = $qposts[0]->post_title;
@@ -107,7 +107,9 @@ function ceo_archive_list_single($chapter = 0, $order = 'ASC', $thumbnail = 0) {
 function ceo_archive_list_all($order = 'ASC', $thumbnail = 0) {
 	$output = '';
 	$main_args = array(
-			'hide_empty' => 1
+			'hide_empty' => 1,
+			'orderby' => class_exists('NS_TMO_Plugin') ?  'menu_order' : 'name',
+			'order' => $order
 			);
 	$all_chapters = get_terms('chapters', $main_args);
 	if (is_null($all_chapters)) { echo 'There are no chapters available.'; return; }
@@ -151,7 +153,7 @@ function ceo_archive_list_series($thumbnail = 0) {
 	$archive_count = 0;
 	$args = array(
 			'pad_counts' => 0,
-			'orderby' => 'id',
+			'orderby' => class_exists('NS_TMO_Plugin') ?  'menu_order' : 'name',
 			'order' => 'DESC',
 			'hide_empty' => 0,
 			'parent' => 0

@@ -10,7 +10,7 @@ Version: 1.02
 function ceo_comic_archive_jump_to_chapter() {
 	$args = array(
 		'pad_counts' => 1,
-		'orderby' => 'id',
+		'orderby' => class_exists('NS_TMO_Plugin') ?  'menu_order' : 'name',
 		'order' => 'DESC',
 		'hide_empty' => 0,
 		'parent' => 0
@@ -70,8 +70,8 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 	
 	function ceo_comic_archive_dropdown_widget($skip_widget_init = false) {
 		if (!$skip_widget_init) {
-			$widget_ops = array('classname' => __CLASS__, 'description' => __('Display dropdown list of comic chapters.','easel') );
-			$this->WP_Widget(__CLASS__, __('Comic Easel - Comic Chapters','easel'), $widget_ops);
+			$widget_ops = array('classname' => __CLASS__, 'description' => __('Display dropdown list of comic chapters.', 'comiceasel') );
+			$this->WP_Widget(__CLASS__, __('Comic Easel - Comic Chapters','comiceasel'), $widget_ops);
 		}
 	}
 	
@@ -79,7 +79,7 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 		global $post;
 		extract($args, EXTR_SKIP); 
 		echo $before_widget;
-		$title = empty($instance['title']) ? __('Comic Chapters','easel') : apply_filters('widget_title', $instance['title']); 
+		$title = empty($instance['title']) ? __('Comic Chapters','comiceasel') : apply_filters('widget_title', $instance['title']); 
 		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; }; 
 		ceo_comic_archive_jump_to_chapter();
 		echo $after_widget;
@@ -95,7 +95,7 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
 		$title = strip_tags($instance['title']);
 		?>
-		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','easel'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
+		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','comiceasel'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
 		<?php
 	}
 }

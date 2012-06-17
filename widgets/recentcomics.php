@@ -11,8 +11,8 @@ class ceo_latest_comics_widget extends WP_Widget {
 	
 	function ceo_latest_comics_widget($skip_widget_init = false) {
 		if (!$skip_widget_init) {
-			$widget_ops = array('classname' => __CLASS__, 'description' => __('Display a list of the latest comics','easel') );
-			$this->WP_Widget(__CLASS__, __('Comic Easel - Latest Comics','easel'), $widget_ops);
+			$widget_ops = array('classname' => __CLASS__, 'description' => __('Display a list of the latest comics','comiceasel') );
+			$this->WP_Widget(__CLASS__, __('Comic Easel - Latest Comics','comiceasel'), $widget_ops);
 		}
 	}
 	
@@ -21,7 +21,7 @@ class ceo_latest_comics_widget extends WP_Widget {
 		extract($args, EXTR_SKIP); 
 		ceo_Protect();
 		echo $before_widget;
-		$title = empty($instance['title']) ? __('Latest Comics','easel') : apply_filters('widget_title', $instance['title']); 
+		$title = empty($instance['title']) ? __('Latest Comics','comiceasel') : apply_filters('widget_title', $instance['title']); 
 		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; }; 
 		$latestmusic = get_posts('numberposts=5&post_type=comic'); ?>
 		<ul>
@@ -44,7 +44,7 @@ class ceo_latest_comics_widget extends WP_Widget {
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
 		$title = strip_tags($instance['title']);
 		?>
-		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','easel'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
+		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','comiceasel'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
 		<?php
 	}
 }

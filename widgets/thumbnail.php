@@ -10,8 +10,8 @@ Version: 1.3
 class ceo_thumbnail_widget extends WP_Widget {
 
 	function ceo_thumbnail_widget() {
-		$widget_ops = array('classname' => __CLASS__, 'description' => __('Display a thumbnail of a comic, by chapter, newest, first or random, clickable to go to the comic.', 'easel') );
-		$this->WP_Widget(__CLASS__, __('Comic Easel - Thumbnail', 'easel'), $widget_ops);
+		$widget_ops = array('classname' => __CLASS__, 'description' => __('Display a thumbnail of a comic, by chapter, newest, first or random, clickable to go to the comic.', 'comiceasel') );
+		$this->WP_Widget(__CLASS__, __('Comic Easel - Thumbnail', 'comiceasel'), $widget_ops);
 	}
 	
 	function widget($args, $instance) {
@@ -21,7 +21,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 		$chaptinfo = ';';
 		if ($instance['thumbchapt'] !== 'All') $chaptinfo = '&chapters='.$instance['thumbchapt'];
 		if ($instance['first']) { $order = 'ASC'; } else { $order = 'DESC'; }
-		$comic_query = 'showposts=1&order='.$order.'&post_type=comic'.$chaptinfo;
+		$comic_query = 'showposts='.$instance['thumbcount'].'&order='.$order.'&post_type=comic'.$chaptinfo;
 		if ($instance['random']) $comic_query .= '&orderby=rand';
 		if (!empty($post) && $instance['random']) {
 			$current_post_id = $post->ID;
@@ -35,13 +35,16 @@ class ceo_thumbnail_widget extends WP_Widget {
 				echo $before_widget;
 				$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']); 
 				if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
-				echo "\r\n<center>\r\n";
+				echo '<div class="comic-thumb comic-thumb-'.$post->ID.'">';
+				if ($instance['centering']) echo "\r\n<center>\r\n";
 				if ( has_post_thumbnail($post->ID) ) {
 					echo "<a href=\"".get_permalink($post->ID)."\" rel=\"bookmark\" title=\"Permanent Link to ".get_the_title()."\">".get_the_post_thumbnail($post->ID, 'thumbnail')."</a>\r\n";
 				} else {
 					echo "No Thumbnail Found.";	
-				}	
-				echo "\r\n</center>\r\n";
+				}
+				if ($instance['linktitle']) { echo '<div class="comic-thumb-title">'; the_title(); echo '</div><div class="clear"></div>'; }
+				echo '</div>';
+				if ($instance['centering']) echo "\r\n</center>\r\n";
 				echo $after_widget;
 			endwhile;
 		}
@@ -52,20 +55,26 @@ class ceo_thumbnail_widget extends WP_Widget {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['thumbchapt'] = strip_tags($new_instance['thumbchapt']);
+		$instance['thumbcount'] = (int)strip_tags($new_instance['thumbcount']);
 		$instance['first'] =  (bool)( $new_instance['first'] == 1 ? true : false );
 		$instance['random'] =  (bool)( $new_instance['random'] == 1 ? true : false );
+		$instance['linktitle'] = (bool)($new_instance['linktitle'] == 1 ? true : false );
+		$instance['centering'] = (bool)($new_instance['centering'] == 1 ? true : false );		
 		return $instance;
 	}
 	
 	function form($instance) {
-		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'thumbchapt' => '', 'first' => false, 'random' => false ) );
+		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'thumbchapt' => '', 'first' => false, 'random' => false, 'thumbcount' => 1, 'linktitle' => false, 'centering' => false ) );
 		$title = strip_tags($instance['title']);
 		$thumbchapt = $instance['thumbchapt'];
 		$first = $instance['first'];
 		$random = $instance['random'];
+		$thumbcount = $instance['thumbcount'];
+		$linktitle = $instance['linktitle'];
+		$centering = $instance['centering'];
 		?>
-		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:', 'easel'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
-		<p><?php _e('Which Chapter?', 'easel'); ?><br />	
+		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:', 'comiceasel'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
+		<p><?php _e('Which Chapter?', 'comiceasel'); ?><br />	
 		<?php 
 		
 		$allterms = &get_terms('chapters');
@@ -84,9 +93,12 @@ class ceo_thumbnail_widget extends WP_Widget {
 			</select>
 		<?php } ?>
 		</p>
-		<p><label for="<?php echo $this->get_field_id('first'); ?>"><?php _e('Get first in chapter instead?','easel'); ?> <input id="<?php echo $this->get_field_id('first'); ?>" name="<?php echo $this->get_field_name('first'); ?>" type="checkbox" value="1" <?php checked(true, $first); ?> /></label></p>		
-		<p><label for="<?php echo $this->get_field_id('random'); ?>"><?php _e('Display a random Thumbnail?','easel'); ?> <input id="<?php echo $this->get_field_id('random'); ?>" name="<?php echo $this->get_field_name('random'); ?>" type="checkbox" value="1" <?php checked(true, $random); ?> /></label></p>
-		<p><em><?php _e('*note: Random thumbnail overrides the get first in chapter option.','easel'); ?></em></p>		
+		<p><label for="<?php echo $this->get_field_id('first'); ?>"><?php _e('Get first in chapter instead?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('first'); ?>" name="<?php echo $this->get_field_name('first'); ?>" type="checkbox" value="1" <?php checked(true, $first); ?> /></label></p>		
+		<p><label for="<?php echo $this->get_field_id('random'); ?>"><?php _e('Display a random Thumbnail?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('random'); ?>" name="<?php echo $this->get_field_name('random'); ?>" type="checkbox" value="1" <?php checked(true, $random); ?> /></label></p>
+		<p><em><?php _e('*note: Random thumbnail overrides the get first in chapter option.','comiceasel'); ?></em></p>
+		<p><?php _e('Display how many thumbnails?', 'comiceasel'); ?><input style="width:40px;" id="<?php echo $this->get_field_id('thumbcount'); ?>" name="<?php echo $this->get_field_name('thumbcount'); ?>" type="text" value="<?php echo stripcslashes($instance['thumbcount']); ?>" /></label></p>
+		<p><label for="<?php echo $this->get_field_id('linktitle'); ?>"><?php _e('Include comic title?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('linktitle'); ?>" name="<?php echo $this->get_field_name('linktitle'); ?>" type="checkbox" value="1" <?php checked(true, $linktitle); ?> /></label></p>
+		<p><label for="<?php echo $this->get_field_id('centering'); ?>"><?php _e('Add centering html?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('centering'); ?>" name="<?php echo $this->get_field_name('centering'); ?>" type="checkbox" value="1" <?php checked(true, $centering); ?> /></label></p>		
 		<br />
 	<?php
 	}

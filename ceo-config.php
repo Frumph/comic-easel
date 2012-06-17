@@ -13,7 +13,7 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'comiceasel_reset') {
 	$ceo_pluginfo = array();
 	ceo_load_options('reset');
 	?>
-			<div id="message" class="updated"><p><strong><?php _e('Comic Easel Settings RESET!','easel'); ?></strong></p></div>
+			<div id="message" class="updated"><p><strong><?php _e('Comic Easel Settings RESET!','comiceasel'); ?></strong></p></div>
 	<?php
 }
 $ceo_options = get_option('comiceasel-config');
