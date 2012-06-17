@@ -27,10 +27,8 @@ class ceo_comic_navigation_widget extends WP_Widget {
 		if ($instance['next']) $next_comic = ceo_get_next_comic_permalink();
 		if ($instance['first']) $first_comic = ceo_get_first_comic_permalink();
 		if ($instance['last']) $last_comic = ceo_get_last_comic_permalink();
-		if (class_exists('NS_TMO_Plugin')) {
-			if ($instance['previous_chap']) $previous_chap = ceo_get_previous_chapter();
-			if ($instance['next_chap']) $next_chap = ceo_get_next_chapter();
-		}
+		if ($instance['previous_chap']) $previous_chap = ceo_get_previous_chapter();
+		if ($instance['next_chap']) $next_chap = ceo_get_next_chapter();
 		$this_permalink = get_permalink($post->ID);
 		//		echo $before_widget;
 		?>
@@ -60,7 +58,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 				<span class="navi navi-first-in navi-void"><?php echo $instance['first_in_title']; ?></span>
 			<?php } 
 		}
-		if ((class_exists('NS_TMO_Plugin')) && $instance['previous_chap']) {
+		if ($instance['previous_chap']) {
 			if (!empty($previous_chap)) { ?>
 				<a href="<?php echo $previous_chap; ?>" class="navi navi-prev-chap" title="<?php echo $instance['previous_chap_title']; ?>"><?php echo $instance['previous_chap_title']; ?></a>
 			<?php } else { ?>
@@ -108,7 +106,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 				<span class="navi navi-next-in navi-void"><?php echo $instance['next_in_title']; ?></span>
 			<?php }
 		}
-		if ((class_exists('NS_TMO_Plugin')) && $instance['next_chap']) {
+		if ($instance['next_chap']) {
 			if (!empty($next_chap)) { ?>
 				<a href="<?php echo $next_chap; ?>" class="navi navi-next-chap" title="<?php echo $instance['next_chap_title']; ?>"><?php echo $instance['next_chap_title']; ?></a>
 			<?php } else { ?>
@@ -289,13 +287,13 @@ class ceo_comic_navigation_widget extends WP_Widget {
 		<input id="<?php echo $this->get_field_id('next_in'); ?>" name="<?php echo $this->get_field_name('next_in'); ?>" type="checkbox" value="1" <?php checked(true, $instance['next_in']); ?> /> <label for="<?php echo $this->get_field_id('next_in'); ?>"><strong><?php _e('Next in Chapter','comiceasel'); ?></strong></label>
 		<input class="widefat" id="<?php echo $this->get_field_id('next_in_title'); ?>" name="<?php echo $this->get_field_name('next_in_title'); ?>" type="text" value="<?php echo stripcslashes($instance['next_in_title']); ?>" /></label><br />
 		<br />
-		<?php $noclass = ''; if (!class_exists('NS_TMO_Plugin')) $noclass = 'disabled="disabled" '; ?>
-		<input id="<?php echo $this->get_field_id('previous_chap'); ?>" name="<?php echo $this->get_field_name('previous_chap'); ?>" type="checkbox" value="1" <?php checked(true, $instance['previous_chap']); ?> <?php echo $noclass;?>/> <label for="<?php echo $this->get_field_id('previous_chap'); ?>"><strong><?php _e('Previous Chapter','comiceasel'); ?></strong></label>
-		<input class="widefat" id="<?php echo $this->get_field_id('previous_chap_title'); ?>" name="<?php echo $this->get_field_name('previous_chap_title'); ?>" type="text" value="<?php echo stripcslashes($instance['previous_chap_title']); ?>" <?php echo $noclass;?>/></label><br />	
+
+		<input id="<?php echo $this->get_field_id('previous_chap'); ?>" name="<?php echo $this->get_field_name('previous_chap'); ?>" type="checkbox" value="1" <?php checked(true, $instance['previous_chap']); ?> /> <label for="<?php echo $this->get_field_id('previous_chap'); ?>"><strong><?php _e('Previous Chapter','comiceasel'); ?></strong></label>
+		<input class="widefat" id="<?php echo $this->get_field_id('previous_chap_title'); ?>" name="<?php echo $this->get_field_name('previous_chap_title'); ?>" type="text" value="<?php echo stripcslashes($instance['previous_chap_title']); ?>" /></label><br />	
 		<br />
 		
-		<input id="<?php echo $this->get_field_id('next_chap'); ?>" name="<?php echo $this->get_field_name('next_chap'); ?>" type="checkbox" value="1" <?php checked(true, $instance['next_chap']); ?> <?php echo $noclass;?>/> <label for="<?php echo $this->get_field_id('next_chap'); ?>"><strong><?php _e('Next Chapter','comiceasel'); ?></strong></label>
-		<input class="widefat" id="<?php echo $this->get_field_id('next_chap_title'); ?>" name="<?php echo $this->get_field_name('next_chap_title'); ?>" type="text" value="<?php echo stripcslashes($instance['next_chap_title']); ?>" <?php echo $noclass;?>/></label><br />
+		<input id="<?php echo $this->get_field_id('next_chap'); ?>" name="<?php echo $this->get_field_name('next_chap'); ?>" type="checkbox" value="1" <?php checked(true, $instance['next_chap']); ?> /> <label for="<?php echo $this->get_field_id('next_chap'); ?>"><strong><?php _e('Next Chapter','comiceasel'); ?></strong></label>
+		<input class="widefat" id="<?php echo $this->get_field_id('next_chap_title'); ?>" name="<?php echo $this->get_field_name('next_chap_title'); ?>" type="text" value="<?php echo stripcslashes($instance['next_chap_title']); ?>" /></label><br />
 		<br />
 		
 		<input id="<?php echo $this->get_field_id('comictitle'); ?>" name="<?php echo $this->get_field_name('comictitle'); ?>" type="checkbox" value="1" <?php checked(true, $instance['comictitle']); ?> /> <label for="<?php echo $this->get_field_id('comictitle'); ?>"><strong><?php _e('Comic Title','comiceasel'); ?></strong></label><br />

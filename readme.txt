@@ -3,7 +3,7 @@ Contributors: frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.0
 Tested up to: 3.4
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -108,9 +108,6 @@ Sidebars for Comic Easel are added automatically since 05/28/2012 They should ap
 
 Go to your settings -> permalinks and just click save, the wp_rewrite will refresh.  You need to go to the settings -> permalinks if you ever upgrade enable or disable the Comic Easel plugin.
 
-= Chapter Navigation is not enabled for me to check in the widget =
-
-Chapter navigation requires another plugin [Term Menu Order by James Lafferty](http://wordpress.org/extend/plugins/term-menu-order/ "Taxonomy Order Plugin") when this is installed and activated you can go to your Comic -> Chapters and set the order of your chapters and those buttons will then be active.  Order is set with numerical value, make sure only to set order #'s inside chapters that have comics in them.
 
 = Where is Comic Easel's navigation widget? =
 
@@ -118,6 +115,8 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.0.7 =
+Chapter ordering is now part of the plugin, if you see any errors report them, deactivate the plugin and reactivate.
 
 = 1.0.5 =
 Chapter Navigation (prev/next chapter)
@@ -128,11 +127,9 @@ Fixed wrong function in filter for archive
 added option for turning off the mininav if it's implemented
 fixed the mininav to not be enabled of on the home page the comic is diabled
 
-
 = 1.0.3 =
 Navigation Widget, Calendar widget, bug fixes and new code for navigating in chapters/all.
 New options for setting the thumbnail size for various locations that use thumbnails
-
 
 = 1.0.2 =
 Added Sidebar generators for no matter what theme you use.
@@ -147,6 +144,9 @@ Updated: 05/26/2012 5:25pm Pacific
 
 
 == Upgrade Notice ==
+= 1.0.7 =
+You MAY need to deactivate the plugin and reactivate it.  Remove the term order additional plugin (if you have it), it's no longer needed!
+
 = 1.0.5 =
 Don't forget to ask for features for 1.0.6!
 

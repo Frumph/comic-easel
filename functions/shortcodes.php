@@ -108,7 +108,7 @@ function ceo_archive_list_all($order = 'ASC', $thumbnail = 0) {
 	$output = '';
 	$main_args = array(
 			'hide_empty' => 1,
-			'orderby' => class_exists('NS_TMO_Plugin') ?  'menu_order' : 'name',
+			'orderby' => 'menu_order',
 			'order' => $order
 			);
 	$all_chapters = get_terms('chapters', $main_args);
@@ -153,7 +153,7 @@ function ceo_archive_list_series($thumbnail = 0) {
 	$archive_count = 0;
 	$args = array(
 			'pad_counts' => 0,
-			'orderby' => class_exists('NS_TMO_Plugin') ?  'menu_order' : 'name',
+			'orderby' => 'menu_order',
 			'order' => 'DESC',
 			'hide_empty' => 0,
 			'parent' => 0

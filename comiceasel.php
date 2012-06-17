@@ -3,7 +3,7 @@
 Plugin Name: Comic Easel
 Plugin URI: http://comiceasel.com
 Description: Comic Easel allows you to incorporate a WebComic using the WordPress Media Library functionality with Navigation into almost any WordPress theme. With just a few modifications of adding *injection* action locations into a theme, you can have the theme of your choice display a comic.
-Version: 1.0.6
+Version: 1.0.7
 Author: Philip M. Hofer (Frumph)
 Author URI: http://frumph.net/
 
@@ -156,7 +156,6 @@ function ceo_initialize_post_types() {
 			'index.php?post_type=comic&year=$matches[1]&monthnum=$matches[2]&day=$matches[3]',
 			'top'
 			);
-			
 }
 
 // Create CEO Specific Sidebars regardless if they already exist.
@@ -210,9 +209,14 @@ function ceo_run_css() {
 	}	
 }
 
-// Flush Rewrite Rules & create chapters
-register_activation_hook( __FILE__, 'ceo_flush_rewrite' );
+// Flush Rewrite Rules
+register_activation_hook( __FILE__, 'ceo_activation' );
 register_deactivation_hook( __FILE__, 'ceo_flush_rewrite' );
+
+function ceo_activation() {
+	ceo_chapters_activate();
+	ceo_flush_rewrite();
+}
 
 function ceo_flush_rewrite() {
 	global $wp_rewrite;
@@ -270,6 +274,7 @@ function ceo_load_options($reset = false) {
 	if (empty($ceo_config)) {
 		delete_option('comiceasel-config');
 		foreach (array(
+			'db_version' => '1.0.7',
 			'add_dashboard_frumph_feed_widget' => true,
 			'disable_comic_on_home_page' => false,
 			'disable_comic_blog_on_home_page' => false,
@@ -303,6 +308,11 @@ function ceo_pluginfo($whichinfo = null) {
 		// Important to assign pluginfo as an array to begin with.
 		$ceo_pluginfo = array();
 		$ceo_options = ceo_load_options();
+		if ( !isset($ceo_options['db_version']) ||  empty($ceo_options['db_version']) || (version_compare($ceo_options['db_version'], '1.0.7', '<')) ) {
+			ceo_chapters_activate();
+			$ceo_options['db_version'] = '1.0.7';
+			update_option('comiceasel-config', $ceo_options);
+		}
 		$ceo_coreinfo = wp_upload_dir();
 		$ceo_addinfo = array(
 				// if wp_upload_dir reports an error, capture it

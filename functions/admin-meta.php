@@ -1,6 +1,64 @@
 <?php
 
-add_filter('manage_edit-comic_columns', 'ceo_add_new_comic_columns');
+add_action('admin_init', 'ceo_admin_init');
+
+function ceo_admin_init() {
+	add_filter('manage_edit-comic_columns', 'ceo_add_new_comic_columns');
+	add_action('manage_posts_custom_column', 'ceo_manage_comic_columns', 10, 2);
+	add_action('add_meta_boxes', 'ceo_add_comic_in_post');
+	add_action( 'save_post', 'ceo_handle_edit_save_comic', 10, 2 );
+	
+	add_filter("manage_edit-chapters_columns", 'ceo_chapters_columns');
+	add_filter('manage_edit-chapters_sortable_columns', 'ceo_chapters_sortable_columns' );
+	add_filter('manage_chapters_custom_column', 'ceo_chapters_add_column_value', 10, 3);
+	add_action('chapters_add_form_fields', 'ceo_chapters_menu_order_add_form_field');
+	add_action('chapters_edit_form_fields', 'ceo_chapters_menu_order_edit_form_field');
+	add_action('edited_chapters', 'ceo_chapters_save_value', 10, 2);
+	add_action('quick_edit_custom_box', 'ceo_chapters_quick_edit_menu_order', 10, 3);
+}
+
+function ceo_chapters_quick_edit_menu_order($column_name, $screen, $name) {
+	if (($column_name != 'menu_order') && ($name != 'chapters') && ($screen != 'edit-tags')) return;
+	echo '<fieldset><div class="inline-edit-col"><label><span class="title">' . __( 'Order' , 'comiceasel') . '</span><span class="input-text-wrap"><input class="ptitle" name="ceo_chapter_order" type="text" value="" /></span></label></div></fieldset>';
+}
+
+function ceo_chapters_save_value($term_id, $tt_id) {
+	if (!$term_id) return;
+	global $wpdb;
+	if (isset($_POST['ceo_chapter_order']))
+		$itwork = $wpdb->update($wpdb->terms, array('menu_order' => (int)$_POST['ceo_chapter_order']), array('term_id' => $term_id));
+}
+
+function ceo_chapters_columns($theme_columns) {
+	$new_columns['cb'] = '<input type="checkbox" />';
+	$new_columns['name'] = __('Name', 'comiceasel');
+	$new_columns['slug'] = __('Slug', 'comiceasel');
+	$new_columns['description'] = __('Description', 'comiceasel');
+	$new_columns['posts'] = __('Posts', 'comiceasel');
+	$new_columns['menu_order'] = __('Order', 'comiceasel');
+	return $new_columns;
+}
+
+function ceo_chapters_sortable_columns( $columns ) {
+	$columns['menu_order'] = 'menu_order';
+	return $columns;
+}
+
+function ceo_chapters_add_column_value($empty = '', $custom_column, $term_id) {
+	$taxonomy = (isset($_POST['taxonomy'])) ? $_POST['taxonomy'] : $_GET['taxonomy'];
+	$term = get_term($term_id, $taxonomy);
+	return $term->$custom_column;
+}
+
+function ceo_chapters_menu_order_add_form_field() {		
+	$form_field = '<div class="form-field"><label for="ceo_chapter_order">' . __('Chapter Order', 'comiceasel') . '</label><input name="ceo_chapter_order" id="ceo_chapter_order" type="text" value="0" size="10" /><p>' . __('This defines what order the chapter is in. 0 = do not order.', 'comiceasel') . '</p></div>';
+	echo $form_field;
+}
+
+function ceo_chapters_menu_order_edit_form_field($term) {
+	$form_field = '<tr class="form-field"><th scope="row" valign="top"><label for="ceo_chapter_order">' . __('Chapter Order', 'comiceasel')  . '</label></th><td><input name="ceo_chapter_order" id="ceo_chapter_order" type="text" value="'.$term->menu_order.'" size="10" /><p class="description">' . __('This defines what order the chapter is in. 0 = do not order.', 'comiceasel') .'</p></td></tr>';
+	echo $form_field;
+}
 
 function ceo_add_new_comic_columns($comic_columns) {
 	$new_columns['cb'] = '<input type="checkbox" />';
@@ -16,8 +74,6 @@ function ceo_add_new_comic_columns($comic_columns) {
  
 	return $new_columns;
 }
-
-add_action('manage_posts_custom_column', 'ceo_manage_comic_columns', 10, 2);
  
 function ceo_manage_comic_columns($column_name, $id) {
 	global $wpdb;
@@ -83,14 +139,10 @@ function ceo_edit_hovertext_in_post($post) {
 <?php
 }
 
-add_action('add_meta_boxes', 'ceo_add_comic_in_post');
-
 function ceo_add_comic_in_post() {
 	add_meta_box('ceo_comic_in_post', __('Comic', 'comiceasel'), 'ceo_edit_comic_in_post', 'comic', 'side', 'high');
 	add_meta_box('ceo_hovertext_in_post', __('Alt (Hover) Text', 'comiceasel'), 'ceo_edit_hovertext_in_post', 'comic', 'normal', 'high');
 }
-
-add_action( 'save_post', 'ceo_handle_edit_save_comic', 10, 2 );
 
 function ceo_handle_edit_save_comic($post_id, $post) {
 	/* Verify the nonce before proceeding. */
@@ -126,5 +178,20 @@ function ceo_handle_edit_save_comic($post_id, $post) {
 		delete_post_meta( $post_id, $meta_key, $meta_value );
 }
 
+
+function ceo_chapters_activate() {
+	global $wpdb;
+	$init_query = $wpdb->query("SHOW COLUMNS FROM $wpdb->terms LIKE 'menu_order'");
+	if (!$init_query) {
+		$sql = "ALTER TABLE `{$wpdb->terms}` ADD `menu_order` INT (11) NOT NULL DEFAULT 0;";
+		$wpdb->query($sql);
+	}
+}
+
+function ceo_chapters_deactivate() {
+	global $wpdb;
+	$sql = "ALTER TABLE `{$wpdb->terms}` DROP COLUMN `menu_order`;";
+	$result = $wpdb->query($sql);	
+}
 
 ?>

@@ -10,7 +10,7 @@ Version: 1.02
 function ceo_comic_archive_jump_to_chapter() {
 	$args = array(
 		'pad_counts' => 1,
-		'orderby' => class_exists('NS_TMO_Plugin') ?  'menu_order' : 'name',
+		'orderby' => 'menu_order',
 		'order' => 'DESC',
 		'hide_empty' => 0,
 		'parent' => 0

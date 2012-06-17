@@ -169,7 +169,6 @@ function ceo_get_adjacent_comic($previous = true, $in_same_chapter = false, $tax
 
 function ceo_get_adjacent_chapter($prev = false) {
 	global $post;
-	if (!class_exists('NS_TMO_Plugin')) return false;
 	$current_chapter = get_the_terms($post->ID, 'chapters');
 	if (is_array($current_chapter)) { $current_chapter = reset($current_chapter); } else { return; }
 	$current_order = $current_chapter->menu_order;
