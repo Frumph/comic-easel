@@ -209,6 +209,22 @@ function ceo_run_css() {
 	}	
 }
 
+function ceo_chapters_activate() {
+	global $wpdb;
+	$init_query = $wpdb->query("SHOW COLUMNS FROM $wpdb->terms LIKE 'menu_order'");
+	if (!$init_query) {
+		$sql = "ALTER TABLE `{$wpdb->terms}` ADD `menu_order` INT (11) NOT NULL DEFAULT 0;";
+		$wpdb->query($sql);
+	}
+}
+
+function ceo_chapters_deactivate() {
+	global $wpdb;
+	$sql = "ALTER TABLE `{$wpdb->terms}` DROP COLUMN `menu_order`;";
+	$result = $wpdb->query($sql);	
+}
+
+
 // Flush Rewrite Rules
 register_activation_hook( __FILE__, 'ceo_activation' );
 register_deactivation_hook( __FILE__, 'ceo_flush_rewrite' );

@@ -177,19 +177,3 @@ function ceo_handle_edit_save_comic($post_id, $post) {
 	elseif ( '' == $new_meta_value && $meta_value )
 		delete_post_meta( $post_id, $meta_key, $meta_value );
 }
-
-
-function ceo_chapters_activate() {
-	global $wpdb;
-	$init_query = $wpdb->query("SHOW COLUMNS FROM $wpdb->terms LIKE 'menu_order'");
-	if (!$init_query) {
-		$sql = "ALTER TABLE `{$wpdb->terms}` ADD `menu_order` INT (11) NOT NULL DEFAULT 0;";
-		$wpdb->query($sql);
-	}
-}
-
-function ceo_chapters_deactivate() {
-	global $wpdb;
-	$sql = "ALTER TABLE `{$wpdb->terms}` DROP COLUMN `menu_order`;";
-	$result = $wpdb->query($sql);	
-}
