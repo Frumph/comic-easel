@@ -4,6 +4,7 @@
 */
 
 function ceo_get_sidebar($location = '') {
+	if (!empty($location)) do_action($location.'-top');
 	if (file_exists(get_stylesheet_directory().'/sidebar-'.$location.'.php')) {
 		get_sidebar($location);
 	} elseif (is_active_sidebar('ceo-sidebar-'.$location)) { ?>
@@ -11,6 +12,7 @@ function ceo_get_sidebar($location = '') {
 			<?php dynamic_sidebar('ceo-sidebar-'.$location); ?>
 		</div>
 	<?php }
+	if (!empty($location)) do_action($location.'-bottom');
 }
 
 /**

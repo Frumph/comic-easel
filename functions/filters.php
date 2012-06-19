@@ -42,7 +42,7 @@ function ceo_insert_comic_into_archive($content) {
 
 function ceo_change_prev_rel_link_two($link) {
 	global $post, $wp_query;
-	if ($post->post_type=='comic' || is_home()) {
+	if ($post->post_type=='comic' || is_home() || is_front_page()) {
 		$link_url = ceo_get_previous_comic_permalink();
 		if (!empty($link_url)) {
 			$link='<link rel="prev" href="'.$link_url.'" />'."\r\n";
@@ -53,7 +53,7 @@ function ceo_change_prev_rel_link_two($link) {
 
 function ceo_change_next_rel_link_two($link) {
 	global $post, $wp_query;
-	if ($post->post_type=='comic' || is_home()) {
+	if ($post->post_type=='comic' || is_home() || is_front_page()) {
 		$link_url = ceo_get_next_comic_permalink();
 		if (!empty($link_url)) {
 			$link='<link rel="next" href="'.$link_url.'" />'."\r\n";
@@ -100,4 +100,3 @@ function ceo_chapters_find_menu_orderby($args) {
 	}
 	return $args;
 }
-	

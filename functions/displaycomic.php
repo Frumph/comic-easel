@@ -34,7 +34,7 @@ function ceo_display_comic_area() {
 	if (is_single()) {
 		ceo_display_comic_wrapper();
 	} else {
-		if (is_home() && !is_paged() && ceo_pluginfo('display_comic_on_home'))  {
+		if ((is_home() || is_front_page()) && !is_paged() && !ceo_pluginfo('disable_comic_on_home_page'))  {
 			ceo_Protect();
 			$comic_args = array(
 					'posts_per_page' => 1,
@@ -63,4 +63,3 @@ function ceo_display_comic_thumbnail($thumbnail_size = 'thumbnail', $override_po
 	}
 	return apply_filters('easel_display_comic_thumbnail', $output);
 }
-?>

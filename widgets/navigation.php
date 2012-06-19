@@ -89,6 +89,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 		if ($instance['random']) { ?>
 			<a href="<?php echo home_url(); ?>/?random&amp;nocache=1" class="navi navi-random" title="<?php echo $instance['random_title']; ?>"><?php echo $instance['random_title']; ?></a>
 		<?php }
+		do_action('inside-comic-navigation');
 		if ($instance['comments']) { ?>
 			<a href="<?php the_permalink(); ?>#comment" class="navi navi-comments" title="<?php echo $instance['comments_title']; ?>"><span class="navi-comments-count"><?php comments_number('0', '1', '%'); ?></span><?php echo $instance['comments_title']; ?></a>
 		<?php }

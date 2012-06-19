@@ -228,5 +228,3 @@ function ceo_get_next_chapter() {
 	}
 	return false;
 }
-
-?>

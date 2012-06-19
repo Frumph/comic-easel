@@ -17,7 +17,7 @@ function ceo_admin_init() {
 	add_action('quick_edit_custom_box', 'ceo_chapters_quick_edit_menu_order', 10, 3);
 }
 
-function ceo_chapters_quick_edit_menu_order($column_name, $screen, $name) {
+function ceo_chapters_quick_edit_menu_order($column_name, $screen, $name = '') {
 	if (($column_name != 'menu_order') && ($name != 'chapters') && ($screen != 'edit-tags')) return;
 	echo '<fieldset><div class="inline-edit-col"><label><span class="title">' . __( 'Order' , 'comiceasel') . '</span><span class="input-text-wrap"><input class="ptitle" name="ceo_chapter_order" type="text" value="" /></span></label></div></fieldset>';
 }
@@ -29,12 +29,12 @@ function ceo_chapters_save_value($term_id, $tt_id) {
 		$itwork = $wpdb->update($wpdb->terms, array('menu_order' => (int)$_POST['ceo_chapter_order']), array('term_id' => $term_id));
 }
 
-function ceo_chapters_columns($theme_columns) {
+function ceo_chapters_columns($chapter_columns) {
 	$new_columns['cb'] = '<input type="checkbox" />';
 	$new_columns['name'] = __('Name', 'comiceasel');
 	$new_columns['slug'] = __('Slug', 'comiceasel');
 	$new_columns['description'] = __('Description', 'comiceasel');
-	$new_columns['posts'] = __('Posts', 'comiceasel');
+	$new_columns['posts'] = __('Comics', 'comiceasel');
 	$new_columns['menu_order'] = __('Order', 'comiceasel');
 	return $new_columns;
 }
@@ -193,5 +193,3 @@ function ceo_chapters_deactivate() {
 	$sql = "ALTER TABLE `{$wpdb->terms}` DROP COLUMN `menu_order`;";
 	$result = $wpdb->query($sql);	
 }
-
-?>

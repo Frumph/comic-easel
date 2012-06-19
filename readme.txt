@@ -108,7 +108,6 @@ Sidebars for Comic Easel are added automatically since 05/28/2012 They should ap
 
 Go to your settings -> permalinks and just click save, the wp_rewrite will refresh.  You need to go to the settings -> permalinks if you ever upgrade enable or disable the Comic Easel plugin.
 
-
 = Where is Comic Easel's navigation widget? =
 
 The comic navigation widget is only seen if you have the comic sidebar's enabled; even then it only works in the comic sidebars themself, nowhere else.
