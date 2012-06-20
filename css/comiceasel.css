@@ -4,24 +4,22 @@ Defaults for the Comic Easel Elements.
 */
 
 table#comic-nav-wrapper {
-    background: none;
+    background: #333;
     border: 0;
 	text-align: center;
 	border-collapse: collapse;
-	margin: 0 auto;
-	    background: #333 !important;
-		margin: 6px auto;
-		border: solid 1px #000;
-	    -moz-border-radius: 5px;
-	    -khtml-border-radius: 5px;
-	    -webkit-border-radius: 5px;
-	    border-radius: 5px;
-	    padding: 3px;
-	    display: inline-block;
+	margin: 6px auto;
+	border: solid 1px #000;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	padding: 3px;
+	display: inline-block;
 }
 
 	td.comic-nav {
-	    border: 0 !important;
+	    border: 0;
 		display: inline-block;
 		padding: 0 10px;
 	}

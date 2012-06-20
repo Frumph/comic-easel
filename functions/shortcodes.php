@@ -5,7 +5,7 @@ add_shortcode( 'cast-page', 'ceo_cast_page' );
 add_shortcode( 'comic-archive', 'ceo_comic_archive_multi');
 // [comic-archive list="default"]
 
-function ceo_cast_page( $atts, $content = null ) {
+function ceo_cast_page( $atts, $content = '' ) {
 	$cast_output = '';
 	$characters = get_terms( 'characters', 'orderby=count&order=desc&hide_empty=1' );
 	if (is_array($characters)) {
@@ -46,7 +46,7 @@ function ceo_cast_page( $atts, $content = null ) {
 	return $cast_output;
 }
 
-function ceo_comic_archive_multi(  $atts, $content = null ) {
+function ceo_comic_archive_multi(  $atts, $content = '' ) {
 extract( shortcode_atts( array(
 				'list' => 0,
 				'style' => 0,
@@ -54,19 +54,21 @@ extract( shortcode_atts( array(
 				'thumbnail' => 0,
 				'order' => 'ASC'
 				), $atts ) );
+	$output = '';
 	switch ($list) {
 		case 1:
-			ceo_archive_list_series($thumbnail);
+			$output = ceo_archive_list_series($thumbnail);
 		break;
 		case 0:
 		default:
 			if ($chapter) {
-				ceo_archive_list_single($chapter, $order, $thumbnail);
+				$output = ceo_archive_list_single($chapter, $order, $thumbnail);
 			} else {
-				ceo_archive_list_all($order, $thumbnail);
+				$output = ceo_archive_list_all($order, $thumbnail);
 			}
 		break;
 	}
+	return $output;
 }
 
 function ceo_archive_list_single($chapter = 0, $order = 'ASC', $thumbnail = 0) {
@@ -101,7 +103,7 @@ function ceo_archive_list_single($chapter = 0, $order = 'ASC', $thumbnail = 0) {
 	$output .= '</div>';
 	$output .= '<div style="clear:both;"></div></div>';
 	wp_reset_query();
-	echo apply_filters('ceo_archive_list_single', $output);
+	return $output;
 }
 
 function ceo_archive_list_all($order = 'ASC', $thumbnail = 0) {
@@ -145,7 +147,7 @@ function ceo_archive_list_all($order = 'ASC', $thumbnail = 0) {
 		}
 	}
 	wp_reset_query();
-	echo apply_filters('ceo_archive_list_all', $output);
+	return $output;
 }
 
 function ceo_archive_list_series($thumbnail = 0) {
@@ -196,7 +198,7 @@ function ceo_archive_list_series($thumbnail = 0) {
 				}
 			}
 		}
-		echo $output;
+		return $output;
 	}
 }
 
