@@ -3,7 +3,7 @@ Contributors: frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.0
 Tested up to: 3.4
-Stable tag: 1.0.7
+Stable tag: 1.0.8
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -117,6 +117,9 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.0.8 =
+Bug fixes for shortcodes, and placement of shortcodes.
+
 = 1.0.7 =
 Chapter ordering is now part of the plugin, if you see any errors report them, deactivate the plugin and reactivate.
 
@@ -146,8 +149,11 @@ Updated: 05/26/2012 5:25pm Pacific
 
 
 == Upgrade Notice ==
+= 1.0.8 =
+You MAY need to deactivate the plugin and reactivate it.  Remove the term order additional plugin (if you have it), it's no longer needed!  Ton's of little bug fixes.
+
 = 1.0.7 =
-You MAY need to deactivate the plugin and reactivate it.  Remove the term order additional plugin (if you have it), it's no longer needed!
+Removal of term addition plugin. ^ see above
 
 = 1.0.5 =
 Don't forget to ask for features for 1.0.6!
