@@ -68,17 +68,17 @@ function ceo_initialize_post_types() {
 				));
 
 	$labels = array(
-			'name' => _x( 'Chapters', 'taxonomy general name' ),
-			'singular_name' => _x( 'Chapter', 'taxonomy singular name' ),
-			'search_items' =>  __( 'Search Chapters' ),
-			'popular_items' => __( 'Popular Chapters' ),
-			'all_items' => __( 'All Chapters' ),
-			'parent_item' => __( 'Parent Chapter' ),
-			'parent_item_colon' => __( 'Parent Chapter:' ),
-			'edit_item' => __( 'Edit Chapters' ), 
-			'update_item' => __( 'Update Chapters' ),
-			'add_new_item' => __( 'Add New Chapter' ),
-			'new_item_name' => __( 'New Chapter Name' ),
+			'name' => __( 'Chapters', 'comiceasel' ),
+			'singular_name' => __( 'Chapter', 'comiceasel' ),
+			'search_items' =>  __( 'Search Chapters', 'comiceasel' ),
+			'popular_items' => __( 'Popular Chapters', 'comiceasel' ),
+			'all_items' => __( 'All Chapters', 'comiceasel' ),
+			'parent_item' => __( 'Parent Chapter', 'comiceasel' ),
+			'parent_item_colon' => __( 'Parent Chapter:', 'comiceasel' ),
+			'edit_item' => __( 'Edit Chapters', 'comiceasel' ), 
+			'update_item' => __( 'Update Chapters', 'comiceasel' ),
+			'add_new_item' => __( 'Add New Chapter', 'comiceasel' ),
+			'new_item_name' => __( 'New Chapter Name', 'comiceasel' ),
 			); 	
 
 	register_taxonomy('chapters', 'comic', array(
@@ -92,17 +92,17 @@ function ceo_initialize_post_types() {
 				));
 
 	$labels = array(
-			'name' => _x('Characters', 'taxonomy general name' ),
-			'singular_name' => _x( 'Character', 'taxonomy singular name' ),
-			'search_items' =>  __( 'Search Characters' ),
-			'popular_items' => __( 'Popular Characters' ),
-			'all_items' => __( 'All Characters' ),
-			'parent_item' => __( 'Parent Character' ),
-			'parent_item_colon' => __( 'Parent Character:' ),
-			'edit_item' => __( 'Edit Character' ), 
-			'update_item' => __( 'Update Character' ),
-			'add_new_item' => __( 'Add New Character' ),
-			'new_item_name' => __( 'New Character Name' ),
+			'name' => __('Characters', 'comiceasel' ),
+			'singular_name' => __( 'Character', 'comiceasel' ),
+			'search_items' =>  __( 'Search Characters', 'comiceasel' ),
+			'popular_items' => __( 'Popular Characters', 'comiceasel' ),
+			'all_items' => __( 'All Characters', 'comiceasel' ),
+			'parent_item' => __( 'Parent Character', 'comiceasel' ),
+			'parent_item_colon' => __( 'Parent Character:', 'comiceasel' ),
+			'edit_item' => __( 'Edit Character', 'comiceasel' ), 
+			'update_item' => __( 'Update Character', 'comiceasel' ),
+			'add_new_item' => __( 'Add New Character', 'comiceasel' ),
+			'new_item_name' => __( 'New Character Name', 'comiceasel' ),
 			); 	
 
 	register_taxonomy('characters', 'comic', array(
@@ -116,17 +116,17 @@ function ceo_initialize_post_types() {
 				));
 				
 	$labels = array(
-			'name' => _x( 'Locations', 'taxonomy general name' ),
-			'singular_name' => _x( 'Location', 'taxonomy singular name' ),
-			'search_items' =>  __( 'Search Locations' ),
-			'popular_items' => __( 'Popular Locations' ),
-			'all_items' => __( 'All Locations' ),
-			'parent_item' => __( 'Parent Locations' ),
-			'parent_item_colon' => __( 'Parent Location:' ),
-			'edit_item' => __( 'Edit Location' ), 
-			'update_item' => __( 'Update Location' ),
-			'add_new_item' => __( 'Add New Location' ),
-			'new_item_name' => __( 'New Location Name' ),
+			'name' => __( 'Locations', 'comiceasel'),
+			'singular_name' => __( 'Location', 'comiceasel' ),
+			'search_items' =>  __( 'Search Locations', 'comiceasel' ),
+			'popular_items' => __( 'Popular Locations', 'comiceasel' ),
+			'all_items' => __( 'All Locations', 'comiceasel' ),
+			'parent_item' => __( 'Parent Locations', 'comiceasel' ),
+			'parent_item_colon' => __( 'Parent Location:', 'comiceasel' ),
+			'edit_item' => __( 'Edit Location', 'comiceasel' ), 
+			'update_item' => __( 'Update Location', 'comiceasel' ),
+			'add_new_item' => __( 'Add New Location', 'comiceasel' ),
+			'new_item_name' => __( 'New Location Name', 'comiceasel' ),
 			); 	
 
 	register_taxonomy('locations', 'comic', array(
@@ -297,7 +297,7 @@ function ceo_load_options($reset = false) {
 			'click_comic_next' => true,
 			'navigate_only_chapters' => true,
 			'enable_chapter_nav' => false,
-			'enable_comments_nav' => true,
+			'enable_comment_nav' => true,
 			'enable_random_nav' => true,
 			'enable_embed_nav' => false,
 			'disable_default_nav' => false,

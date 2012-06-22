@@ -111,7 +111,7 @@
 				</tr>
 				<tr>
 					<td colspan="12">
-						<i><?php _e('NOTE: Edit a post, click update on it for the feeds to refresh with new copies; to see changes.', 'comiceasle'); ?></i>
+						<i><?php _e('NOTE: Edit a post, click update on it for the feeds to refresh with new copies; to see changes.','comiceasel'); ?></i>
 					</td>	
 				</tr>
 			</table>
@@ -120,7 +120,7 @@
 		<div class="ceo-options-save">
 			<div class="ceo-major-publishing-actions">
 				<div class="ceo-publishing-action">
-					<input name="ceo_save_config" type="submit" class="button-primary" value="Save Settings" />
+					<input name="ceo_save_config" type="submit" class="button-primary" value="<?php _e('Save Settings','comiceasel'); ?>" />
 					<input type="hidden" name="action" value="ceo_save_general" />
 				</div>
 				<div class="clear"></div>

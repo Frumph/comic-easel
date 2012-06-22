@@ -139,7 +139,7 @@ foreach ($gnav_directories as $gnav_dirs) {
 		<div class="ceo-options-save">
 			<div class="ceo-major-publishing-actions">
 				<div class="ceo-publishing-action">
-					<input name="ceo_save_config" type="submit" class="button-primary" value="Save Settings" />
+					<input name="ceo_save_config" type="submit" class="button-primary" value="<?php _e('Save Settings', 'comiceasel'); ?>" />
 					<input type="hidden" name="action" value="ceo_save_navigation" />
 				</div>
 				<div class="clear"></div>

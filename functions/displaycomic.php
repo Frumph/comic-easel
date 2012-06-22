@@ -2,6 +2,7 @@
 
 function ceo_display_comic($size = 'full') {
 	global $post;
+	$output = '';
 	$post_image_id = get_post_thumbnail_id($post->ID);
 	if ($post_image_id) {
 		$output = '';
@@ -16,9 +17,19 @@ function ceo_display_comic($size = 'full') {
 		if (ceo_pluginfo('click_comic_next') && !empty($next_comic)) {
 			$output .= '</a>';
 		}
+	}
+	$args = array(
+			'order'      => 'ASC',
+			'orderby'    => 'menu_order',
+			'id'         => $post->ID,
+			'columns'    => 5,
+			'exclude'    => $post_image_id
+			);
+	$output .= gallery_shortcode($args);	
+	if ($output) { 
 		return apply_filters('ceo_comics_display_comic', $output);
 	} else
-		return "No Comic (featured image) Found.  Set One.";
+		return __('No Gallery or featured image Found.', 'comiceasel');
 }
 
 function ceo_the_hovertext($override_post = null) {

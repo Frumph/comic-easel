@@ -2,17 +2,15 @@
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Comic Easel\n"
+"Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/comic-easel\n"
-"POT-Creation-Date: 2012-05-29 05:36:40+00:00\n"
+"POT-Creation-Date: 2012-06-21 13:34:48+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2012-05-28 22:42-0800\n"
-"Last-Translator: Philip M. Hofer (Frumph) <philip@frumph.net>\n"
-"Language-Team: LANGUAGE <philip@frumph.net>\n"
-"X-Poedit-Language: English\n"
-"X-Poedit-Country: UNITED STATES\n"
+"PO-Revision-Date: 2012-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 
 #: ceo-admin.php:14
 msgid "Comic Easel"
@@ -34,61 +32,41 @@ msgstr ""
 msgid "Comic Easel Settings RESET!"
 msgstr ""
 
-#: ceo-config.php:71
+#: ceo-config.php:74
 msgid "Comic Easel Settings SAVED!"
 msgstr ""
 
-#: ceo-config.php:81
+#: ceo-config.php:84
 msgid "General"
 msgstr ""
 
-#: ceo-config.php:82
+#: ceo-config.php:85
 msgid "Navigation"
 msgstr ""
 
-#: ceo-config.php:123
+#: ceo-config.php:126
 msgid "Created, Developed and maintained by"
 msgstr ""
 
-#: ceo-config.php:124
-msgid "If you like the Comic Easel plugin, please donate.  It will help in developing new features and versions."
+#: ceo-config.php:127
+msgid ""
+"If you like the Comic Easel plugin, please donate.  It will help in "
+"developing new features and versions."
 msgstr ""
 
-#: ceo-debug.php:8
-msgid "Directory Exists,"
+#: ceo-config.php:153
+msgid "French Translation by LiAn"
 msgstr ""
 
-#: ceo-debug.php:10
-msgid "and is writable."
-msgstr ""
-
-#: ceo-debug.php:12
-msgid "and is not writable."
-msgstr ""
-
-#: ceo-debug.php:15
-msgid "Directory does not exist,"
-msgstr ""
-
-#: ceo-debug.php:22
-msgid "Comic Easel - Debug"
-msgstr ""
-
-#: ceo-debug.php:26
-msgid "Variables"
-msgstr ""
-
-#: comiceasel.php:32
+#: comiceasel.php:32 functions/admin-meta.php:37
 msgid "Comics"
 msgstr ""
 
-#: comiceasel.php:33
-#: functions/admin-meta.php:84
+#: comiceasel.php:33 functions/admin-meta.php:143
 msgid "Comic"
 msgstr ""
 
-#: comiceasel.php:34
-#: comiceasel.php:35
+#: comiceasel.php:34 comiceasel.php:35
 msgid "Add Comic"
 msgstr ""
 
@@ -104,8 +82,7 @@ msgstr ""
 msgid "New Comic"
 msgstr ""
 
-#: comiceasel.php:39
-#: comiceasel.php:43
+#: comiceasel.php:39 comiceasel.php:43
 msgid "View Comic"
 msgstr ""
 
@@ -122,12 +99,10 @@ msgid "No comics found in Trash"
 msgstr ""
 
 #: comiceasel.php:71
-msgctxt "taxonomy general name"
 msgid "Chapters"
 msgstr ""
 
-#: comiceasel.php:72
-msgctxt "taxonomy singular name"
+#: comiceasel.php:72 functions/admin-meta.php:68
 msgid "Chapter"
 msgstr ""
 
@@ -167,13 +142,11 @@ msgstr ""
 msgid "New Chapter Name"
 msgstr ""
 
-#: comiceasel.php:95
-msgctxt "taxonomy general name"
+#: comiceasel.php:95 functions/admin-meta.php:69
 msgid "Characters"
 msgstr ""
 
 #: comiceasel.php:96
-msgctxt "taxonomy singular name"
 msgid "Character"
 msgstr ""
 
@@ -214,12 +187,10 @@ msgid "New Character Name"
 msgstr ""
 
 #: comiceasel.php:119
-msgctxt "taxonomy general name"
 msgid "Locations"
 msgstr ""
 
-#: comiceasel.php:120
-msgctxt "taxonomy singular name"
+#: comiceasel.php:120 functions/admin-meta.php:70
 msgid "Location"
 msgstr ""
 
@@ -259,61 +230,79 @@ msgstr ""
 msgid "New Location Name"
 msgstr ""
 
-#: comiceasel.php:151
+#: comiceasel.php:165
 msgid "Over Comic"
 msgstr ""
 
-#: comiceasel.php:152
+#: comiceasel.php:166
 msgid "Left of Comic"
 msgstr ""
 
-#: comiceasel.php:153
+#: comiceasel.php:167
 msgid "Right of Comic"
 msgstr ""
 
-#: comiceasel.php:154
+#: comiceasel.php:168
 msgid "Under Comic"
 msgstr ""
 
-#: comiceasel.php:159
+#: comiceasel.php:173
 msgid "Comic Easel Sidebar Location"
 msgstr ""
 
-#: comiceasel.php:307
+#: comiceasel.php:363
 msgid "Comic Easel - Test Information"
 msgstr ""
 
-#: functions/admin-meta.php:8
-#: widgets/navigation.php:186
+#: functions/admin-meta.php:22 functions/admin-meta.php:38
+msgid "Order"
+msgstr ""
+
+#: functions/admin-meta.php:34
+msgid "Name"
+msgstr ""
+
+#: functions/admin-meta.php:35
+msgid "Slug"
+msgstr ""
+
+#: functions/admin-meta.php:36
+msgid "Description"
+msgstr ""
+
+#: functions/admin-meta.php:54 functions/admin-meta.php:59
+msgid "Chapter Order"
+msgstr ""
+
+#: functions/admin-meta.php:54 functions/admin-meta.php:59
+msgid "This defines what order the chapter is in. 0 = do not order."
+msgstr ""
+
+#: functions/admin-meta.php:66 widgets/navigation.php:300
 msgid "Comic Title"
 msgstr ""
 
-#: functions/admin-meta.php:10
-msgid "Chapter"
-msgstr ""
-
-#: functions/admin-meta.php:11
-msgid "Characters"
-msgstr ""
-
-#: functions/admin-meta.php:12
-msgid "Location"
-msgstr ""
-
-#: functions/admin-meta.php:13
+#: functions/admin-meta.php:71
 msgid "Tags"
 msgstr ""
 
-#: functions/admin-meta.php:14
+#: functions/admin-meta.php:72
 msgctxt "column name"
 msgid "Date"
 msgstr ""
 
-#: functions/admin-meta.php:15
+#: functions/admin-meta.php:73 options/general.php:72 options/general.php:87
+#: options/general.php:102
 msgid "Thumbnail"
 msgstr ""
 
-#: functions/admin-meta.php:85
+#: functions/admin-meta.php:127
+msgid ""
+"To add a comic image, use the featured image link to add a featured image.  "
+"After it uploads, click the \"use as featured image\"."
+msgstr ""
+
+#: functions/admin-meta.php:144
 msgid "Alt (Hover) Text"
 msgstr ""
 
@@ -321,37 +310,35 @@ msgstr ""
 msgid "<br />Edit Comic."
 msgstr ""
 
-#: functions/injections.php:35
+#: functions/injections.php:44
 msgid "&lsaquo;&lsaquo; First"
 msgstr ""
 
-#: functions/injections.php:37
+#: functions/injections.php:45
 msgid "Last &rsaquo;&rsaquo;"
 msgstr ""
 
-#: functions/injections.php:39
+#: functions/injections.php:46
 msgid "Next &rsaquo;"
 msgstr ""
 
-#: functions/injections.php:41
+#: functions/injections.php:47
 msgid "&lsaquo; Prev"
 msgstr ""
 
-#: functions/injections.php:48
-#: widgets/navigation.php:194
+#: functions/injections.php:55 widgets/navigation.php:308
 msgid "Comments"
 msgstr ""
 
-#: functions/injections.php:51
-#: widgets/navigation.php:198
+#: functions/injections.php:58 widgets/navigation.php:312
 msgid "Random"
 msgstr ""
 
-#: functions/injections.php:151
+#: functions/injections.php:155
 msgid "&rsaquo;"
 msgstr ""
 
-#: functions/injections.php:153
+#: functions/injections.php:157
 msgid "&lsaquo;"
 msgstr ""
 
@@ -367,9 +354,8 @@ msgstr ""
 msgid "You do not have any characters yet."
 msgstr ""
 
-#: functions/shortcodes.php:99
-#: functions/shortcodes.php:136
-#: functions/shortcodes.php:187
+#: functions/shortcodes.php:101 functions/shortcodes.php:143
+#: functions/shortcodes.php:194
 msgid "Permanent Link:"
 msgstr ""
 
@@ -390,7 +376,9 @@ msgid "Disable Comic on the Home Page?"
 msgstr ""
 
 #: options/general.php:29
-msgid "Checking this will stop the display of the comic and comic area on the home page"
+msgid ""
+"Checking this will stop the display of the comic and comic area on the home "
+"page"
 msgstr ""
 
 #: options/general.php:33
@@ -398,7 +386,87 @@ msgid "Disable the Comic Post on the Home Page?"
 msgstr ""
 
 #: options/general.php:38
-msgid "Checking this will stop the display of the comic's blog on the home page."
+msgid ""
+"Checking this will stop the display of the comic's blog on the home page."
+msgstr ""
+
+#: options/general.php:42
+msgid "Enable comments to appear on the home page for comic posts?"
+msgstr ""
+
+#: options/general.php:47
+msgid ""
+"If the blog loop is disabled and the comic post is enabled on the home page, "
+"enabling this will allow the comments for the comic post to appear."
+msgstr ""
+
+#: options/general.php:51
+msgid "Enable comic sidebar locations?"
+msgstr ""
+
+#: options/general.php:56
+msgid ""
+"Checking this option makes 4 new sidebars appear in the appearance - widgets "
+"section, above comic, below comic, left of comic and right of comic."
+msgstr ""
+
+#: options/general.php:64
+msgid "Thumbnail sizes for locations where used."
+msgstr ""
+
+#: options/general.php:69
+msgid "Thumbnail size for main RSS Feed"
+msgstr ""
+
+#: options/general.php:71 options/general.php:86 options/general.php:101
+#: widgets/scheduledcomics.php:28
+msgid "None"
+msgstr ""
+
+#: options/general.php:73 options/general.php:88 options/general.php:103
+msgid "Medium"
+msgstr ""
+
+#: options/general.php:74 options/general.php:89 options/general.php:104
+msgid "Large"
+msgstr ""
+
+#: options/general.php:75 options/general.php:90 options/general.php:105
+msgid "Full"
+msgstr ""
+
+#: options/general.php:79
+msgid "The thumbnail for the main RSS /feed/"
+msgstr ""
+
+#: options/general.php:84
+msgid "Thumbnail size for the direct comic & chapter RSS Feeds"
+msgstr ""
+
+#: options/general.php:94
+msgid ""
+"The thumbnail for the direct comic and chapter RSS /comic/feed/ and /chapter/"
+"chapter-slug/feed/ "
+msgstr ""
+
+#: options/general.php:99
+msgid "Thumbnail size for archive and search"
+msgstr ""
+
+#: options/general.php:109
+msgid ""
+"The thumbnail shown inside posts when viewed in the archive and search "
+"functions of WordPress"
+msgstr ""
+
+#: options/general.php:114
+msgid ""
+"NOTE: Edit a post, click update on it for the feeds to refresh with new "
+"copies; to see changes."
+msgstr ""
+
+#: options/general.php:123 options/navigation.php:142
+msgid "Save Settings"
 msgstr ""
 
 #: options/navigation.php:11
@@ -406,63 +474,105 @@ msgid "Navigation Options"
 msgstr ""
 
 #: options/navigation.php:15
-msgid "Navigate through only the chapters and not all comics?"
-msgstr ""
-
-#: options/navigation.php:20
-msgid "Enabling this make the navigation only navigate through individual chapters."
-msgstr ""
-
-#: options/navigation.php:24
 msgid "Clicking the comic goes to next comic?"
 msgstr ""
 
+#: options/navigation.php:20
+msgid ""
+"When this is enabled, when the comic is mouse over and clicked it will go to "
+"the next comic in the chapter."
+msgstr ""
+
+#: options/navigation.php:24
+msgid "Disable the Menubar Mini-navigation? (if implemented)"
+msgstr ""
+
 #: options/navigation.php:29
-msgid "When this is enabled, when the comic is mouse over and clicked it will go to the next comic in the chapter."
+msgid ""
+"Checking this will disable the mini navigation in the menubar if the theme "
+"you are using supports it."
 msgstr ""
 
 #: options/navigation.php:37
-msgid "Default Navigation"
-msgstr ""
-
-#: options/navigation.php:41
-msgid "Disable default navigation?"
-msgstr ""
-
-#: options/navigation.php:46
-msgid "Checking this will disable the default navigation, you could use and skin the navigation widget."
-msgstr ""
-
-#: options/navigation.php:50
-msgid "Enable the chapter navigation drop down in the comic navigation?"
+msgid "Navigation Widget"
 msgstr ""
 
 #: options/navigation.php:55
-msgid "When this is enabled, a drop down archive box will appear in the navigation that lets you go to the start of each chapter"
+msgid "Graphic Navigation Set"
 msgstr ""
 
-#: options/navigation.php:59
-msgid "Enable the random comic link in the comic navigation?"
+#: options/navigation.php:70
+msgid ""
+"Choose a directory to get the graphic navigation styling from. To create "
+"your own custom graphic navigation menu buttons just create a directory "
+"under <i>images/nav/</i> in your child theme and place your image files and "
+"navstyle.css file inside of it to determine the style of your navigation "
+"display."
 msgstr ""
 
-#: options/navigation.php:64
-msgid "When this is enabled, a link will appear in the navigation that lets you go to a random comic in all chapters."
-msgstr ""
-
-#: options/navigation.php:68
-msgid "Enable the comment link in the comic navigation?"
-msgstr ""
-
-#: options/navigation.php:73
-msgid "When this is enabled, a link will appear in the navigation that lets you go to the comments section of the current post, it also shows how many comments there currently are."
-msgstr ""
-
-#: options/navigation.php:77
-msgid "Enable the \"embed this comic\" textarea in the comic navigation?"
+#: options/navigation.php:78
+msgid "Default Navigation"
 msgstr ""
 
 #: options/navigation.php:82
-msgid "When this is enabled, a textarea will appear under the navigation with the href and image link to have users embed this comic on their site."
+msgid "Disable default navigation?"
+msgstr ""
+
+#: options/navigation.php:87
+msgid ""
+"Checking this will disable the default navigation, you could use and skin "
+"the navigation widget."
+msgstr ""
+
+#: options/navigation.php:91
+msgid "Navigate through only the chapters and not all comics?"
+msgstr ""
+
+#: options/navigation.php:96
+msgid ""
+"Enabling this make the navigation only navigate through individual chapters "
+"with the default navigation."
+msgstr ""
+
+#: options/navigation.php:100
+msgid "Enable the chapter navigation drop down in the comic navigation?"
+msgstr ""
+
+#: options/navigation.php:105
+msgid ""
+"When this is enabled, a drop down archive box will appear in the navigation "
+"that lets you go to the start of each chapter"
+msgstr ""
+
+#: options/navigation.php:109
+msgid "Enable the random comic link in the comic navigation?"
+msgstr ""
+
+#: options/navigation.php:114
+msgid ""
+"When this is enabled, a link will appear in the navigation that lets you go "
+"to a random comic in all chapters."
+msgstr ""
+
+#: options/navigation.php:118
+msgid "Enable the comment link in the comic navigation?"
+msgstr ""
+
+#: options/navigation.php:123
+msgid ""
+"When this is enabled, a link will appear in the navigation that lets you go "
+"to the comments section of the current post, it also shows how many comments "
+"there currently are."
+msgstr ""
+
+#: options/navigation.php:127
+msgid "Enable the \"embed this comic\" textarea in the comic navigation?"
+msgstr ""
+
+#: options/navigation.php:132
+msgid ""
+"When this is enabled, a textarea will appear under the navigation with the "
+"href and image link to have users embed this comic on their site."
 msgstr ""
 
 #: widgets/archive-dropdown.php:22
@@ -481,121 +591,147 @@ msgstr ""
 msgid "Comic Chapters"
 msgstr ""
 
-#: widgets/archive-dropdown.php:98
-#: widgets/recentcomics.php:47
-#: widgets/scheduledcomics.php:50
-#: widgets/thumbnail.php:67
+#: widgets/archive-dropdown.php:98 widgets/recentcomics.php:47
+#: widgets/scheduledcomics.php:50 widgets/thumbnail.php:76
 msgid "Title:"
 msgstr ""
 
 #. translators: Calendar caption: 1: month name, 2: 4-digit year
-#: widgets/calendar.php:98
+#: widgets/comic-calendar.php:100
 msgctxt "calendar caption"
 msgid "%1$s %2$s"
 msgstr ""
 
-#: widgets/calendar.php:99
+#: widgets/comic-calendar.php:101
 msgid "Calendar"
 msgstr ""
 
-#: widgets/calendar.php:124
-#: widgets/calendar.php:132
+#: widgets/comic-calendar.php:126 widgets/comic-calendar.php:134
 msgid "View posts for %1$s %2$s"
 msgstr ""
 
-#: widgets/calendar.php:248
-msgid "Display a calendar showing this months posts. (this calendar does not drop lines if there is no title given.)"
+#: widgets/comic-calendar.php:250
+msgid ""
+"Display a calendar showing this months posts. (this calendar does not drop "
+"lines if there is no title given.)"
 msgstr ""
 
-#: widgets/calendar.php:249
+#: widgets/comic-calendar.php:251
 msgid "Comic Easel - Calendar"
 msgstr ""
 
-#: widgets/calendar.php:271
+#: widgets/comic-calendar.php:273
 msgid "DOWNLOAD"
 msgstr ""
 
-#: widgets/calendar.php:274
+#: widgets/comic-calendar.php:276
 msgid "Download Small"
 msgstr ""
 
-#: widgets/calendar.php:274
+#: widgets/comic-calendar.php:276
 msgid "S"
 msgstr ""
 
-#: widgets/calendar.php:275
+#: widgets/comic-calendar.php:277
 msgid "Download Medium"
 msgstr ""
 
-#: widgets/calendar.php:275
+#: widgets/comic-calendar.php:277
 msgid "M"
 msgstr ""
 
-#: widgets/calendar.php:276
+#: widgets/comic-calendar.php:278
 msgid "Download Large"
 msgstr ""
 
-#: widgets/calendar.php:276
+#: widgets/comic-calendar.php:278
 msgid "L"
 msgstr ""
 
-#: widgets/calendar.php:315
+#: widgets/comic-calendar.php:317
 msgid "Thumbnail URL (178px by 130px):"
 msgstr ""
 
-#: widgets/calendar.php:316
+#: widgets/comic-calendar.php:318
 msgid "Add link on thumbnails:"
 msgstr ""
 
-#: widgets/calendar.php:317
+#: widgets/comic-calendar.php:319
 msgid "Wallpaper URL (Small):"
 msgstr ""
 
-#: widgets/calendar.php:318
+#: widgets/comic-calendar.php:320
 msgid "Wallpaper URL (Medium):"
 msgstr ""
 
-#: widgets/calendar.php:319
+#: widgets/comic-calendar.php:321
 msgid "Wallpaper URL (Large):"
 msgstr ""
 
 #: widgets/navigation.php:14
-msgid "Displays navigation links for navigating your comics.  This widget works best in the above-comic and under-comic sidebars if you set them in the theme you use."
+msgid ""
+"Displays navigation links for navigating your comics.  This widget works "
+"best in the above-comic and under-comic sidebars if you set them in the "
+"theme you use."
 msgstr ""
 
 #: widgets/navigation.php:15
 msgid "Comic Easel - Navigation"
 msgstr ""
 
-#: widgets/navigation.php:102
+#: widgets/navigation.php:152
 msgid "Image URL (for hotlinking/embedding): "
 msgstr ""
 
-#: widgets/navigation.php:170
+#: widgets/navigation.php:260
 msgid "First"
 msgstr ""
 
-#: widgets/navigation.php:174
+#: widgets/navigation.php:264
 msgid "Last"
 msgstr ""
 
-#: widgets/navigation.php:178
+#: widgets/navigation.php:268
 msgid "Previous"
 msgstr ""
 
-#: widgets/navigation.php:182
+#: widgets/navigation.php:272
 msgid "Next"
 msgstr ""
 
-#: widgets/navigation.php:189
+#: widgets/navigation.php:276
+msgid "First in Chapter"
+msgstr ""
+
+#: widgets/navigation.php:280
+msgid "Last in Chapter"
+msgstr ""
+
+#: widgets/navigation.php:284
+msgid "Previous in Chapter"
+msgstr ""
+
+#: widgets/navigation.php:288
+msgid "Next in Chapter"
+msgstr ""
+
+#: widgets/navigation.php:292
+msgid "Previous Chapter"
+msgstr ""
+
+#: widgets/navigation.php:296
+msgid "Next Chapter"
+msgstr ""
+
+#: widgets/navigation.php:303
 msgid "Archives"
 msgstr ""
 
-#: widgets/navigation.php:202
+#: widgets/navigation.php:316
 msgid "Subscribe"
 msgstr ""
 
-#: widgets/navigation.php:206
+#: widgets/navigation.php:320
 msgid "ImageURL"
 msgstr ""
 
@@ -623,31 +759,40 @@ msgstr ""
 msgid "Scheduled Comics"
 msgstr ""
 
-#: widgets/scheduledcomics.php:28
-msgid "None"
-msgstr ""
-
 #: widgets/thumbnail.php:13
-msgid "Display a thumbnail of a comic, by chapter, newest, first or random, clickable to go to the comic."
+msgid ""
+"Display a thumbnail of a comic, by chapter, newest, first or random, "
+"clickable to go to the comic."
 msgstr ""
 
 #: widgets/thumbnail.php:14
 msgid "Comic Easel - Thumbnail"
 msgstr ""
 
-#: widgets/thumbnail.php:68
+#: widgets/thumbnail.php:77
 msgid "Which Chapter?"
 msgstr ""
 
-#: widgets/thumbnail.php:87
+#: widgets/thumbnail.php:96
 msgid "Get first in chapter instead?"
 msgstr ""
 
-#: widgets/thumbnail.php:88
+#: widgets/thumbnail.php:97
 msgid "Display a random Thumbnail?"
 msgstr ""
 
-#: widgets/thumbnail.php:89
+#: widgets/thumbnail.php:98
 msgid "*note: Random thumbnail overrides the get first in chapter option."
 msgstr ""
 
+#: widgets/thumbnail.php:99
+msgid "Display how many thumbnails?"
+msgstr ""
+
+#: widgets/thumbnail.php:100
+msgid "Include comic title?"
+msgstr ""
+
+#: widgets/thumbnail.php:101
+msgid "Add centering html?"
+msgstr ""
