@@ -38,6 +38,7 @@ To Convert your existing ComicPress theme comics to Comic Easel's post type ther
 - Using translate plugins, every comic and post can be multilanguage
 - Navigation widget that mimics ComicPress's navigation widget including custom graphic sets that can be pulled from themes
 - chapter navigation in a variety of different methods
+- can create a gallery of comics for a post
 - And more!
 
 = Widgets =

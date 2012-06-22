@@ -18,14 +18,16 @@ function ceo_display_comic($size = 'full') {
 			$output .= '</a>';
 		}
 	}
-	$args = array(
-			'order'      => 'ASC',
-			'orderby'    => 'menu_order',
-			'id'         => $post->ID,
-			'columns'    => 5,
-			'exclude'    => $post_image_id
-			);
-	$output .= gallery_shortcode($args);	
+	if (get_post_meta( $post->ID, 'comic-gallery', true )) {
+		$columns = get_post_meta( $post->ID, 'comic-gallery-columns', true );
+		if (empty($columns)) $columns = 5;
+		$args = array(
+				'id'         => $post->ID,
+				'columns'    => $columns,
+				'exclude'    => $post_image_id
+				);
+		$output .= gallery_shortcode($args);
+	}
 	if ($output) { 
 		return apply_filters('ceo_comics_display_comic', $output);
 	} else

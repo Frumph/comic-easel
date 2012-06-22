@@ -131,22 +131,47 @@ function ceo_edit_comic_in_post($post) {  ?>
 <?php
 }
 
+function ceo_edit_toggles_in_post($post) { 
+	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
+?>
+<table class="widefat">
+	<tr>
+		<th scope="row"><label for="comic-gallery"><?php _e('Use Gallery of Comics?','comiceasel'); ?></label></th>
+		<td>
+			<input id="comic-gallery" name="comic-gallery" type="checkbox" value="1" <?php checked(1, get_post_meta( $post->ID, 'comic-gallery', true )); ?> />
+		</td>
+	</tr>
+	<tr>
+		<th scope="row"><label for="comic-gallery-columns"><?php _e('Gallery rows to use?','comiceasel'); ?></label></th>
+		<td style="width: 30%">
+			<?php
+				$column_count = esc_attr( get_post_meta( $post->ID, 'comic-gallery-columns', true ));
+				if (empty($column_count) || ($column_count > 10) || ($column_count < 1)) $column_count = 5;
+			?>
+			<input id="comic-gallery-columns" name="comic-gallery-columns" style="width: 40px;" type="text" value="<?php echo $column_count; ?>"  />
+		</td>
+	</tr>
+</table>
+<?php
+}
+
 function ceo_edit_hovertext_in_post($post) { 
-	wp_nonce_field( basename( __FILE__ ), 'comic_hovertext_nonce' );
+	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
 ?>
 	The text placed here will appear when you mouse over the comic.<br />
-	<textarea name="comic-hovertext" id="comic-hovertext" class="admin-comic-hovertext" style="width:100%"><?php echo esc_attr( get_post_meta( $post->ID, 'hovertext', true ) ); ?></textarea>
+	<textarea name="comic-hovertext" id="comic-hovertext" class="admin-comic-hovertext" style="width:100%"><?php echo esc_attr( get_post_meta( $post->ID, 'comic-hovertext', true ) ); ?></textarea>
 <?php
 }
 
 function ceo_add_comic_in_post() {
 	add_meta_box('ceo_comic_in_post', __('Comic', 'comiceasel'), 'ceo_edit_comic_in_post', 'comic', 'side', 'high');
+	add_meta_box('ceo_toggle_in_post', __('Misc. Comic Functionality', 'comiceasel'), 'ceo_edit_toggles_in_post', 'comic', 'side', 'high');
 	add_meta_box('ceo_hovertext_in_post', __('Alt (Hover) Text', 'comiceasel'), 'ceo_edit_hovertext_in_post', 'comic', 'normal', 'high');
 }
 
 function ceo_handle_edit_save_comic($post_id, $post) {
 	/* Verify the nonce before proceeding. */
-	if ( !isset( $_POST['comic_hovertext_nonce'] ) || !wp_verify_nonce( $_POST['comic_hovertext_nonce'], basename( __FILE__ ) ) )
+	if ( !isset( $_POST['comic_nonce'] ) || !wp_verify_nonce( $_POST['comic_nonce'], basename( __FILE__ ) ) )
 		return $post_id;
 	
 	/* Get the post type object. */
@@ -155,25 +180,21 @@ function ceo_handle_edit_save_comic($post_id, $post) {
 	/* Check if the current user has permission to edit the post. */
 	if ( !current_user_can( $post_type->cap->edit_post, $post_id ) )
 		return $post_id;
-	
-	/* Get the posted data and sanitize it for use as an HTML class. */
-	$new_meta_value = ( isset( $_POST['comic-hovertext'] ) ? esc_textarea( $_POST['comic-hovertext'] ) : '' );
-	
-	/* Get the meta key. */
-	$meta_key = 'hovertext';
-	
-	/* Get the meta value of the custom field key. */
-	$meta_value = get_post_meta( $post_id, $meta_key, true );
-	
-	/* If a new meta value was added and there was no previous value, add it. */
-	if ( $new_meta_value && '' == $meta_value )
-		add_post_meta( $post_id, $meta_key, $new_meta_value, true );
-	
-	/* If the new meta value does not match the old value, update it. */
-	elseif ( $new_meta_value && $new_meta_value != $meta_value )
-		update_post_meta( $post_id, $meta_key, $new_meta_value );
-	
-	/* If there is no new meta value but an old value exists, delete it. */
-	elseif ( '' == $new_meta_value && $meta_value )
-		delete_post_meta( $post_id, $meta_key, $meta_value );
+
+	$meta_array = array(
+			'comic-hovertext',
+			'comic-gallery',
+			'comic-gallery-columns'
+			);
+			
+	foreach ($meta_array as $meta_key) {
+		$new_meta_value = ( isset( $_POST[$meta_key] ) ? esc_textarea( $_POST[$meta_key] ) : '' );
+		$meta_value = get_post_meta( $post_id, $meta_key, true );
+		if ( $new_meta_value && '' == $meta_value )
+			add_post_meta( $post_id, $meta_key, $new_meta_value, true );
+		elseif ( $new_meta_value && $new_meta_value != $meta_value )
+			update_post_meta( $post_id, $meta_key, $new_meta_value );
+		elseif ( '' == $new_meta_value && $meta_value )
+			delete_post_meta( $post_id, $meta_key, $meta_value );
+	}
 }
