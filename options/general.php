@@ -69,10 +69,13 @@
 						<label for="thumbnail_size_for_rss"><?php _e('Thumbnail size for main RSS Feed','comiceasel'); ?></label>
 						<select name="thumbnail_size_for_rss" id="thumbnail_size_for_rss">
 							<option class="level-0" value="none" <?php selected( $ceo_options['thumbnail_size_for_rss'],'none'); ?>><?php _e('None', 'comiceasel'); ?></option>
-							<option class="level-0" value="thumbnail" <?php selected( $ceo_options['thumbnail_size_for_rss'],'thumbnail'); ?>><?php _e('Thumbnail', 'comiceasel'); ?></option>
-							<option class="level-0" value="medium" <?php selected( $ceo_options['thumbnail_size_for_rss'],'medium'); ?>><?php _e('Medium', 'comiceasel'); ?></option>
-							<option class="level-0" value="large" <?php selected( $ceo_options['thumbnail_size_for_rss'],'large'); ?>><?php _e('Large', 'comiceasel'); ?></option>
-							<option class="level-0" value="full" <?php selected( $ceo_options['thumbnail_size_for_rss'],'full'); ?>><?php _e('Full', 'comiceasel'); ?></option>							
+<?php 
+$thumbnail_sizes = get_intermediate_image_sizes();
+if (!in_array($ceo_options['thumbnail_size_for_rss'], $thumbnail_sizes) && ($ceo_options['thumbnail_size_for_rss'] != 'none') && ($ceo_options['thumbnail_size_for_rss'] != 'full')) $ceo_options['thumbnail_size_for_rss'] = 'full';
+foreach ($thumbnail_sizes as $size) { ?>
+							<option class="level-0" value="<?php echo $size; ?>" <?php selected( $ceo_options['thumbnail_size_for_rss'], $size); ?>><?php echo ucfirst($size); ?></option>
+<?php } ?>
+							<option class="level-0" value="full" <?php selected( $ceo_options['thumbnail_size_for_rss'],'full'); ?>><?php _e('Full', 'comiceasel'); ?></option>
 						</select>
 					</th>
 					<td>
@@ -84,9 +87,11 @@
 						<label for="thumbnail_size_for_direct_rss"><?php _e('Thumbnail size for the direct comic & chapter RSS Feeds','comiceasel'); ?></label>
 						<select name="thumbnail_size_for_direct_rss" id="thumbnail_size_for_direct_rss">
 							<option class="level-0" value="none" <?php selected( $ceo_options['thumbnail_size_for_direct_rss'],'none'); ?>><?php _e('None', 'comiceasel'); ?></option>
-							<option class="level-0" value="thumbnail" <?php selected( $ceo_options['thumbnail_size_for_direct_rss'],'thumbnail'); ?>><?php _e('Thumbnail', 'comiceasel'); ?></option>
-							<option class="level-0" value="medium" <?php selected( $ceo_options['thumbnail_size_for_direct_rss'],'medium'); ?>><?php _e('Medium', 'comiceasel'); ?></option>
-							<option class="level-0" value="large" <?php selected( $ceo_options['thumbnail_size_for_direct_rss'],'large'); ?>><?php _e('Large', 'comiceasel'); ?></option>
+<?php 
+if (!in_array($ceo_options['thumbnail_size_for_direct_rss'], $thumbnail_sizes) && ($ceo_options['thumbnail_size_for_direct_rss'] != 'none') && ($ceo_options['thumbnail_size_for_direct_rss'] != 'full')) $ceo_options['thumbnail_size_for_direct_rss'] = 'full';
+foreach ($thumbnail_sizes as $size) { ?>
+							<option class="level-0" value="<?php echo $size; ?>" <?php selected( $ceo_options['thumbnail_size_for_direct_rss'], $size); ?>><?php echo ucfirst($size); ?></option>
+<?php } ?>
 							<option class="level-0" value="full" <?php selected( $ceo_options['thumbnail_size_for_direct_rss'],'full'); ?>><?php _e('Full', 'comiceasel'); ?></option>
 						</select>
 					</th>
@@ -99,9 +104,11 @@
 						<label for="thumbnail_size_for_archive"><?php _e('Thumbnail size for archive and search','comiceasel'); ?></label>
 						<select name="thumbnail_size_for_archive" id="thumbnail_size_for_archive">
 							<option class="level-0" value="none" <?php selected( $ceo_options['thumbnail_size_for_archive'],'none'); ?>><?php _e('None', 'comiceasel'); ?></option>
-							<option class="level-0" value="thumbnail" <?php selected( $ceo_options['thumbnail_size_for_archive'],'thumbnail'); ?>><?php _e('Thumbnail', 'comiceasel'); ?></option>
-							<option class="level-0" value="medium" <?php selected( $ceo_options['thumbnail_size_for_archive'],'medium'); ?>><?php _e('Medium', 'comiceasel'); ?></option>
-							<option class="level-0" value="large" <?php selected( $ceo_options['thumbnail_size_for_archive'],'large'); ?>><?php _e('Large', 'comiceasel'); ?></option>
+<?php 
+if (!in_array($ceo_options['thumbnail_size_for_archive'], $thumbnail_sizes) && ($ceo_options['thumbnail_size_for_archive'] != 'none') && ($ceo_options['thumbnail_size_for_archive'] != 'full')) $ceo_options['thumbnail_size_for_archive'] = 'large';
+foreach ($thumbnail_sizes as $size) { ?>
+							<option class="level-0" value="<?php echo $size; ?>" <?php selected( $ceo_options['thumbnail_size_for_archive'], $size); ?>><?php echo ucfirst($size); ?></option>
+<?php } ?>
 							<option class="level-0" value="full" <?php selected( $ceo_options['thumbnail_size_for_archive'],'full'); ?>><?php _e('Full', 'comiceasel'); ?></option>							
 						</select>
 					</th>

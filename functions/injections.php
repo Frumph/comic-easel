@@ -9,11 +9,12 @@ add_action('comic-post-info', 'ceo_display_comic_characters');
 add_action('comic-mini-navigation', 'ceo_inject_mini_navigation');
 add_action('comic-blog-area', 'ceo_display_comic_post_home');
 add_action('wp_head', 'ceo_facebook_comic_thumbnail');
+// add_action('comic-post-foot', 'ceo_display_related_comics');
 
 function ceo_display_edit_link() {
 	global $post;
 	if ($post->post_type == 'comic') {
-		edit_post_link(__('<br />Edit Comic.','comiceasel'), '', ''); 
+		echo '<a href="'.get_edit_post_link().'">'.__('Edit Comic.','comiceasel')."</a><br />\r\n";
 	}
 }
 
@@ -228,4 +229,53 @@ function ceo_facebook_comic_thumbnail() {
 			echo '<meta property="og:image" content="'.$thumbnail.'" />'."\r\n";
 		}
 	}
+}
+
+function ceo_display_related_comics() {
+global $post, $wp_query;
+	if ($post->post_type == 'comic') {
+		$do_not_duplicate[] = $post->ID;
+		ceo_Protect();
+		$all_terms = array();
+		$character_terms = wp_get_post_terms( $post->ID, 'characters' );
+		if (is_array($character_terms) && (count($character_terms) > 0) && !is_wp_error($character_terms)) {
+			$all_terms = array_merge( $all_terms, $character_terms );
+		}
+		$location_terms = wp_get_post_terms( $post->ID, 'locations' );
+		if (is_array($location_terms) && (count($location_terms) > 0) && !is_wp_error($location_terms)) {
+			$all_terms = array_merge( $all_terms, $location_terms );
+		}
+		$post_tag_terms = wp_get_post_terms( $post->ID, 'post_tag' );
+		if (is_array($post_tag_terms) && (count($post_tag_terms) > 0) && !is_wp_error($post_tag_terms)) {
+			$all_terms = array_merge( $all_terms, $post_tag_terms );
+		}
+		if (is_array($all_terms) && !is_wp_error($all_terms) && (count($all_terms) > 0)) {
+			$loop_count = 1;
+			shuffle($all_terms);
+			foreach ($all_terms as $term) {
+				$args = array(
+					'numberposts' => 5,
+					'post_type' => 'comic',
+					'orderby' => 'post_date',
+					'order' => 'ASC',
+					'post_status' => 'publish',
+					$term->taxonomy => $term->slug,
+					'post__not_in' => $do_not_duplicate
+				);
+				$qposts = get_posts( $args );
+				if (is_array($qposts) && !is_wp_error($qposts)) {
+					foreach ($qposts as $post) {
+						$loop_count++;
+						if ($loop_count > 4) break;
+						$post_output .= $post->post_title."<br />\r\n";
+						
+					}
+				}
+				if ($loop_count > 4) break;
+			}
+			$output = '<br /><h4>'.__('Related Comics')."</h4>\r\n".$post_output;
+			ceo_UnProtect();
+		}
+	}
+	echo $output;
 }
