@@ -5,43 +5,63 @@ add_shortcode( 'cast-page', 'ceo_cast_page' );
 add_shortcode( 'comic-archive', 'ceo_comic_archive_multi');
 // [comic-archive list="default"]
 
-function ceo_cast_page( $atts, $content = '' ) {
+function ceo_cast_display($character) {
 	$cast_output = '';
-	$characters = get_terms( 'characters', 'orderby=count&order=desc&hide_empty=1' );
-	if (is_array($characters)) {
-		foreach ($characters as $character) {
-			$cast_output .= '<div class="cast-box">';
-			$cast_output .= '<div class="cast-pic character-'.$character->slug.'">';
-			$cast_output .= '</div>';
-			$cast_output .= '<div class="cast-info cast-info-'.$character->slug.'">';
-			$cast_output .= '<h4 class="cast-name"><a href="'.get_term_link($character->slug, 'characters').'">'.$character->name.'</a></h4>';
-			$cast_output .= '<p class="cast-description">';
-			$cast_output .= $character->description;
-			$cast_output .= '</p>';
-			$cast_output .= '<p class="cast-character-stats">';
-			$cast_output .= '<i>'.__('Comics:','comiceasel').'</i> <strong>'.$character->count.'</strong><br />';
-			$args = array(
-					'numberposts' => 1,
-					'post_type' => 'comic',
-					'orderby' => 'post_date',
-					'order' => 'ASC',
-					'post_status' => 'publish',
-					'characters' => $character->slug,
-					);
-			$qposts = get_posts( $args );
-			if (!empty($qposts)) {
-				$first_seen = $qposts[0]->post_title;
-				$first_seen_id = $qposts[0]->ID;
-				$cast_output .= '<i>'.__('First Appearance:','comiceasel').'</i> <a href="'.get_permalink($first_seen_id).'">'.$first_seen.'</a><br />';
+	if ($character) {
+		$cast_output .= '<div class="cast-box">';
+		$cast_output .= '<div class="cast-pic character-'.$character->slug.'">';
+		$cast_output .= '</div>';
+		$cast_output .= '<div class="cast-info cast-info-'.$character->slug.'">';
+		$cast_output .= '<h4 class="cast-name"><a href="'.get_term_link($character->slug, 'characters').'">'.$character->name.'</a></h4>';
+		$cast_output .= '<p class="cast-description">';
+		$cast_output .= $character->description;
+		$cast_output .= '</p>';
+		$cast_output .= '<p class="cast-character-stats">';
+		$cast_output .= '<i>'.__('Comics:','comiceasel').'</i> <strong>'.$character->count.'</strong><br />';
+		$args = array(
+				'numberposts' => 1,
+				'post_type' => 'comic',
+				'orderby' => 'post_date',
+				'order' => 'ASC',
+				'post_status' => 'publish',
+				'characters' => $character->slug,
+				);
+		$qposts = get_posts( $args );
+		ceo_Protect();
+		if (!empty($qposts)) {
+			$first_seen = $qposts[0]->post_title;
+			$first_seen_id = $qposts[0]->ID;
+			$cast_output .= '<i>'.__('First Appearance:','comiceasel').'</i> <a href="'.get_permalink($first_seen_id).'">'.$first_seen.'</a><br />';
+		}
+		ceo_UnProtect();
+		$cast_output .= '</p>';
+		$cast_output .= '</div>';
+		$cast_output .= '<div style="clear:both;"></div>';
+		$cast_output .= '</div>';
+	}
+	return $cast_output;
+}
+
+function ceo_cast_page( $atts, $content = '' ) {
+	extract( shortcode_atts( array(
+					'character' => ''
+					), $atts ) );
+	$cast_output = '';
+	if (empty($character)) {
+		$characters = get_terms( 'characters', 'orderby=count&order=desc&hide_empty=1' );
+		if (is_array($characters)) {
+			foreach ($characters as $character) {
+				$cast_output .= ceo_cast_display($character);
 			}
-			wp_reset_query();
-			$cast_output .= '</p>';
-			$cast_output .= '</div>';
-			$cast_output .= '<div style="clear:both;"></div>';
-			$cast_output .= '</div>';
+		} else {
+			$cast_output = __('You do not have any characters yet.','comiceasel')."<br />\r\n";
 		}
 	} else {
-		$cast_output = __('You do not have any characters yet.','comiceasel');
+		$single_character = get_term_by('slug', $character, 'characters');
+		if (!empty($single_character)) {
+			$cast_output .= ceo_cast_display($single_character);
+		} else 
+			$cast_output .= __('Unknown Character: ', 'comiceasel').$character."<br />\r\n";
 	}
 	return $cast_output;
 }

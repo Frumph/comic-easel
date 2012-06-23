@@ -165,13 +165,14 @@ class ceo_comic_navigation_widget extends WP_Widget {
 		global $wp_query, $post;
 		if (is_home() || is_front_page()) {
 			ceo_Protect();
-			$comic_query = 'showposts=1&post_type=comic';
-			$posts = &query_posts($comic_query);
-			if (have_posts()) {
-				while (have_posts()) : the_post();
-					$this->display_comic_nav_wrapper($args, $instance);
-					break;
-				endwhile;
+			$comic_args = array(
+					'showposts' => 1,
+					'posts_per_page' => 1,
+					'post_type' => 'comic'
+					);
+			$posts = get_posts($comic_args);
+			foreach ($posts as $post) {
+				$this->display_comic_nav_wrapper($args, $instance);
 			}
 			ceo_UnProtect();
 		} else {
