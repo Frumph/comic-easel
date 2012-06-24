@@ -99,6 +99,8 @@ There are other "action" area's that you can put into your theme, not just the c
 
 `do_action('comic-post-info');` - For inside of the single/archive/search post pages posts, showing more comic info.
 
+`do_action('comic-post-extras');` - Inside the individual post loop, preferably at the bottom after the post div.  Show's a list of related comics.
+
 = Adding the Comic area sidebars =
 
 Sidebars for Comic Easel are added automatically since 05/28/2012 They should appear above all of your other sidebars in the widget panel.
