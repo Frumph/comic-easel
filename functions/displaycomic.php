@@ -2,6 +2,9 @@
 
 function ceo_display_comic($size = 'full') {
 	global $post;
+    if ( post_password_required() ) { 
+		return __('This information is password protected.','comiceasel');
+    }
 	$output = '';
 	$post_image_id = get_post_thumbnail_id($post->ID);
 	if ($post_image_id) {
