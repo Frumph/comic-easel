@@ -58,13 +58,6 @@ class ceo_comic_navigation_widget extends WP_Widget {
 				<span class="navi navi-first-in navi-void"><?php echo $instance['first_in_title']; ?></span>
 			<?php } 
 		}
-		if ($instance['previous_chap']) {
-			if (!empty($previous_chap)) { ?>
-				<a href="<?php echo $previous_chap; ?>" class="navi navi-prev-chap" title="<?php echo $instance['previous_chap_title']; ?>"><?php echo $instance['previous_chap_title']; ?></a>
-			<?php } else { ?>
-				<span class="navi navi-prev-chap navi-void"><?php echo $instance['previous_chap_title']; ?></span>
-			<?php } 
-		}
 		if ($instance['previous']) {
 			if (!empty($prev_comic)) { ?>
 				<a href="<?php echo $prev_comic; ?>" class="navi navi-prev" title="<?php echo $instance['previous_title']; ?>"><?php echo $instance['previous_title']; ?></a>
@@ -78,6 +71,13 @@ class ceo_comic_navigation_widget extends WP_Widget {
 			<?php } else { ?>
 				<span class="navi navi-prev-in navi-void"><?php echo $instance['previous_in_title']; ?></span>
 			<?php }
+		}
+		if ($instance['previous_chap']) {
+			if (!empty($previous_chap)) { ?>
+				<a href="<?php echo $previous_chap; ?>" class="navi navi-prev-chap" title="<?php echo $instance['previous_chap_title']; ?>"><?php echo $instance['previous_chap_title']; ?></a>
+			<?php } else { ?>
+				<span class="navi navi-prev-chap navi-void"><?php echo $instance['previous_chap_title']; ?></span>
+			<?php } 
 		} 
 		?>
 		</td>
@@ -100,19 +100,19 @@ class ceo_comic_navigation_widget extends WP_Widget {
 		</td>
 		<td class="comic_navi_right">
 		<?php
-		if ($instance['next_in']) {
-			if (!empty($next_in_comic)) { ?>
-				<a href="<?php echo $next_in_comic; ?>" class="navi navi-next-in" title="<?php echo $instance['next_in_title']; ?>"><?php echo $instance['next_in_title']; ?></a>
-			<?php } else { ?>
-				<span class="navi navi-next-in navi-void"><?php echo $instance['next_in_title']; ?></span>
-			<?php }
-		}
 		if ($instance['next_chap']) {
 			if (!empty($next_chap)) { ?>
 				<a href="<?php echo $next_chap; ?>" class="navi navi-next-chap" title="<?php echo $instance['next_chap_title']; ?>"><?php echo $instance['next_chap_title']; ?></a>
 			<?php } else { ?>
 				<span class="navi navi-next-chap navi-void"><?php echo $instance['next_chap_title']; ?></span>
 			<?php } 
+		}
+		if ($instance['next_in']) {
+			if (!empty($next_in_comic)) { ?>
+				<a href="<?php echo $next_in_comic; ?>" class="navi navi-next-in" title="<?php echo $instance['next_in_title']; ?>"><?php echo $instance['next_in_title']; ?></a>
+			<?php } else { ?>
+				<span class="navi navi-next-in navi-void"><?php echo $instance['next_in_title']; ?></span>
+			<?php }
 		}
 		if ($instance['next']) {
 			if (!empty($next_comic)) { ?>
