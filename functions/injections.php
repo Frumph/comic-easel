@@ -21,7 +21,7 @@ function ceo_display_edit_link() {
 function ceo_display_comic_chapters($post_category) {
 	global $post;
 	if ($post->post_type == 'comic') {
-		$before = '<div class="comic-chapter">Story: ';
+		$before = '<div class="comic-chapter">'.__('Chapter','comiceasel').': ';
 		$sep = ', '; 
 		$after = '</div>';
 		$post_category = get_the_term_list( $post->ID, 'chapters', $before, $sep, $after );
@@ -108,7 +108,7 @@ function ceo_display_comic_wrapper() {
 function ceo_display_comic_locations() {
 	global $post;
 	if ($post->post_type == 'comic') {
-		$before = '<div class="comic-locations">Location: ';
+		$before = '<div class="comic-locations">'.__('Location','comiceasel').': ';
 		$sep = ', '; 
 		$after = '</div>';
 		$output = get_the_term_list( $post->ID, 'locations', $before, $sep, $after );
@@ -119,7 +119,7 @@ function ceo_display_comic_locations() {
 function ceo_display_comic_characters() {
 	global $post;
 	if ($post->post_type == 'comic') {
-		$before = '<div class="comic-characters">Characters: ';
+		$before = '<div class="comic-characters">'.__('Characters','comiceasel').': ';
 		$sep = ', '; 
 		$after = '</div>';
 		$post_characters = get_the_term_list( $post->ID, 'characters', $before, $sep, $after );
