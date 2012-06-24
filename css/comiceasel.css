@@ -161,3 +161,22 @@ h2.comic-archive-series-title {
 #comic-foot {
     text-align: center;
 }
+
+/* related posts */
+
+.related-comics {
+	margin: 10px 0;
+}
+
+ul.related-ul {
+	margin: 2px 0;
+	list-style-type: none;	
+}
+
+h4.related-title {
+	margin-top: 10px;
+}
+
+span.related-date {
+	width: 100px;
+}
