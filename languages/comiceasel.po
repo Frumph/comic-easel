@@ -2,28 +2,29 @@
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Comic Easel 1.0.8\n"
+"Project-Id-Version: Comic Easel 1.0.9\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/comic-easel\n"
-"POT-Creation-Date: 2012-06-21 13:34:48+00:00\n"
+"POT-Creation-Date: 2012-06-24 19:23:25+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2012-06-21 06:36-0800\n"
+"PO-Revision-Date: 2012-06-24 12:24-0800\n"
 "Last-Translator: Philip M. Hofer (Frumph) <philip@frumph.net>\n"
 "Language-Team: Frumph Agencies <philip@frumph.net>\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-Country: UNITED STATES\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: ceo-admin.php:14
+#: ceo-admin.php:16
+#: ceo-config.php:126
 msgid "Comic Easel"
 msgstr ""
 
-#: ceo-admin.php:15
+#: ceo-admin.php:17
 msgid "Config"
 msgstr ""
 
-#: ceo-admin.php:16
+#: ceo-admin.php:18
 msgid "Debug"
 msgstr ""
 
@@ -48,14 +49,22 @@ msgid "Navigation"
 msgstr ""
 
 #: ceo-config.php:126
-msgid "Created, Developed and maintained by"
+msgid "created, developed and maintained by"
 msgstr ""
 
 #: ceo-config.php:127
+msgid "For technical assistance go to the"
+msgstr ""
+
+#: ceo-config.php:127
+msgid "Frumph.NET Forums."
+msgstr ""
+
+#: ceo-config.php:128
 msgid "If you like the Comic Easel plugin, please donate.  It will help in developing new features and versions."
 msgstr ""
 
-#: ceo-config.php:153
+#: ceo-config.php:154
 msgid "French Translation by LiAn"
 msgstr ""
 
@@ -65,7 +74,7 @@ msgid "Comics"
 msgstr ""
 
 #: comiceasel.php:33
-#: functions/admin-meta.php:143
+#: functions/admin-meta.php:167
 msgid "Comic"
 msgstr ""
 
@@ -109,6 +118,7 @@ msgstr ""
 
 #: comiceasel.php:72
 #: functions/admin-meta.php:68
+#: functions/injections.php:24
 msgid "Chapter"
 msgstr ""
 
@@ -150,6 +160,7 @@ msgstr ""
 
 #: comiceasel.php:95
 #: functions/admin-meta.php:69
+#: functions/injections.php:122
 msgid "Characters"
 msgstr ""
 
@@ -199,6 +210,7 @@ msgstr ""
 
 #: comiceasel.php:120
 #: functions/admin-meta.php:70
+#: functions/injections.php:111
 msgid "Location"
 msgstr ""
 
@@ -290,7 +302,7 @@ msgid "This defines what order the chapter is in. 0 = do not order."
 msgstr ""
 
 #: functions/admin-meta.php:66
-#: widgets/navigation.php:300
+#: widgets/navigation.php:301
 msgid "Comic Title"
 msgstr ""
 
@@ -304,9 +316,6 @@ msgid "Date"
 msgstr ""
 
 #: functions/admin-meta.php:73
-#: options/general.php:72
-#: options/general.php:87
-#: options/general.php:102
 msgid "Thumbnail"
 msgstr ""
 
@@ -314,63 +323,91 @@ msgstr ""
 msgid "To add a comic image, use the featured image link to add a featured image.  After it uploads, click the \"use as featured image\"."
 msgstr ""
 
-#: functions/admin-meta.php:144
+#: functions/admin-meta.php:139
+msgid "Use Gallery of Comics?"
+msgstr ""
+
+#: functions/admin-meta.php:145
+msgid "Gallery rows to use?"
+msgstr ""
+
+#: functions/admin-meta.php:168
+msgid "Misc. Comic Functionality"
+msgstr ""
+
+#: functions/admin-meta.php:169
 msgid "Alt (Hover) Text"
 msgstr ""
 
-#: functions/injections.php:16
-msgid "<br />Edit Comic."
+#: functions/displaycomic.php:6
+msgid "This information is password protected."
 msgstr ""
 
-#: functions/injections.php:44
-msgid "&lsaquo;&lsaquo; First"
+#: functions/displaycomic.php:37
+msgid "No Gallery or featured image Found."
+msgstr ""
+
+#: functions/injections.php:17
+msgid "Edit Comic."
 msgstr ""
 
 #: functions/injections.php:45
-msgid "Last &rsaquo;&rsaquo;"
+msgid "&lsaquo;&lsaquo; First"
 msgstr ""
 
 #: functions/injections.php:46
-msgid "Next &rsaquo;"
+msgid "Last &rsaquo;&rsaquo;"
 msgstr ""
 
 #: functions/injections.php:47
+msgid "Next &rsaquo;"
+msgstr ""
+
+#: functions/injections.php:48
 msgid "&lsaquo; Prev"
 msgstr ""
 
-#: functions/injections.php:55
-#: widgets/navigation.php:308
+#: functions/injections.php:56
+#: widgets/navigation.php:309
 msgid "Comments"
 msgstr ""
 
-#: functions/injections.php:58
-#: widgets/navigation.php:312
+#: functions/injections.php:59
+#: widgets/navigation.php:313
 msgid "Random"
 msgstr ""
 
-#: functions/injections.php:155
+#: functions/injections.php:156
 msgid "&rsaquo;"
 msgstr ""
 
-#: functions/injections.php:157
+#: functions/injections.php:158
 msgid "&lsaquo;"
 msgstr ""
 
-#: functions/shortcodes.php:22
+#: functions/injections.php:279
+msgid "Related Comics &not;"
+msgstr ""
+
+#: functions/shortcodes.php:20
 msgid "Comics:"
 msgstr ""
 
-#: functions/shortcodes.php:35
+#: functions/shortcodes.php:34
 msgid "First Appearance:"
 msgstr ""
 
-#: functions/shortcodes.php:44
+#: functions/shortcodes.php:57
 msgid "You do not have any characters yet."
 msgstr ""
 
-#: functions/shortcodes.php:101
-#: functions/shortcodes.php:143
-#: functions/shortcodes.php:194
+#: functions/shortcodes.php:64
+msgid "Unknown Character: "
+msgstr ""
+
+#: functions/shortcodes.php:121
+#: functions/shortcodes.php:163
+#: functions/shortcodes.php:214
 msgid "Permanent Link:"
 msgstr ""
 
@@ -379,11 +416,11 @@ msgid "Configuration"
 msgstr ""
 
 #: options/general.php:15
-msgid "Enable Dashboard Feed to Frumph.NET"
+msgid "Enable Dashboard Feed to ComicEasel.com"
 msgstr ""
 
 #: options/general.php:20
-msgid "This is a feed that shows what is happening on Frumph.NET"
+msgid "This is a feed that shows what is happening on ComicEasel.com"
 msgstr ""
 
 #: options/general.php:24
@@ -427,55 +464,43 @@ msgid "Thumbnail size for main RSS Feed"
 msgstr ""
 
 #: options/general.php:71
-#: options/general.php:86
-#: options/general.php:101
+#: options/general.php:89
+#: options/general.php:106
 #: widgets/scheduledcomics.php:28
 msgid "None"
 msgstr ""
 
-#: options/general.php:73
-#: options/general.php:88
-#: options/general.php:103
-msgid "Medium"
-msgstr ""
-
-#: options/general.php:74
-#: options/general.php:89
-#: options/general.php:104
-msgid "Large"
-msgstr ""
-
-#: options/general.php:75
-#: options/general.php:90
-#: options/general.php:105
+#: options/general.php:78
+#: options/general.php:95
+#: options/general.php:112
 msgid "Full"
 msgstr ""
 
-#: options/general.php:79
+#: options/general.php:82
 msgid "The thumbnail for the main RSS /feed/"
 msgstr ""
 
-#: options/general.php:84
+#: options/general.php:87
 msgid "Thumbnail size for the direct comic & chapter RSS Feeds"
 msgstr ""
 
-#: options/general.php:94
+#: options/general.php:99
 msgid "The thumbnail for the direct comic and chapter RSS /comic/feed/ and /chapter/chapter-slug/feed/ "
 msgstr ""
 
-#: options/general.php:99
+#: options/general.php:104
 msgid "Thumbnail size for archive and search"
 msgstr ""
 
-#: options/general.php:109
+#: options/general.php:116
 msgid "The thumbnail shown inside posts when viewed in the archive and search functions of WordPress"
 msgstr ""
 
-#: options/general.php:114
+#: options/general.php:121
 msgid "NOTE: Edit a post, click update on it for the feeds to refresh with new copies; to see changes."
 msgstr ""
 
-#: options/general.php:123
+#: options/general.php:130
 #: options/navigation.php:142
 msgid "Save Settings"
 msgstr ""
@@ -658,6 +683,26 @@ msgstr ""
 msgid "Wallpaper URL (Large):"
 msgstr ""
 
+#: widgets/comicblogpost.php:18
+msgid "Comment&nbsp;"
+msgstr ""
+
+#: widgets/comicblogpost.php:18
+msgid "Comment "
+msgstr ""
+
+#: widgets/comicblogpost.php:18
+msgid "Comments "
+msgstr ""
+
+#: widgets/comicblogpost.php:28
+msgid "Displays the comic blog post for the day, best used when the comic blog post is disabled and you want to put this into a sidebar."
+msgstr ""
+
+#: widgets/comicblogpost.php:29
+msgid "Comic Easel - Blog Post"
+msgstr ""
+
 #: widgets/navigation.php:14
 msgid "Displays navigation links for navigating your comics.  This widget works best in the above-comic and under-comic sidebars if you set them in the theme you use."
 msgstr ""
@@ -670,55 +715,55 @@ msgstr ""
 msgid "Image URL (for hotlinking/embedding): "
 msgstr ""
 
-#: widgets/navigation.php:260
+#: widgets/navigation.php:261
 msgid "First"
 msgstr ""
 
-#: widgets/navigation.php:264
+#: widgets/navigation.php:265
 msgid "Last"
 msgstr ""
 
-#: widgets/navigation.php:268
+#: widgets/navigation.php:269
 msgid "Previous"
 msgstr ""
 
-#: widgets/navigation.php:272
+#: widgets/navigation.php:273
 msgid "Next"
 msgstr ""
 
-#: widgets/navigation.php:276
+#: widgets/navigation.php:277
 msgid "First in Chapter"
 msgstr ""
 
-#: widgets/navigation.php:280
+#: widgets/navigation.php:281
 msgid "Last in Chapter"
 msgstr ""
 
-#: widgets/navigation.php:284
+#: widgets/navigation.php:285
 msgid "Previous in Chapter"
 msgstr ""
 
-#: widgets/navigation.php:288
+#: widgets/navigation.php:289
 msgid "Next in Chapter"
 msgstr ""
 
-#: widgets/navigation.php:292
+#: widgets/navigation.php:293
 msgid "Previous Chapter"
 msgstr ""
 
-#: widgets/navigation.php:296
+#: widgets/navigation.php:297
 msgid "Next Chapter"
 msgstr ""
 
-#: widgets/navigation.php:303
+#: widgets/navigation.php:304
 msgid "Archives"
 msgstr ""
 
-#: widgets/navigation.php:316
+#: widgets/navigation.php:317
 msgid "Subscribe"
 msgstr ""
 
-#: widgets/navigation.php:320
+#: widgets/navigation.php:321
 msgid "ImageURL"
 msgstr ""
 
