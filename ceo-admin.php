@@ -65,11 +65,11 @@ function ceo_debug() {
  *
  */
 function ceo_dashboard_feed_widget() {
-	wp_widget_rss_output('http://frumph.net/?feed=rss2', array('items' => 3, 'show_summary' => true));
+	wp_widget_rss_output('http://comiceasel.com/?feed=rss2', array('items' => 3, 'show_summary' => true));
 } 
 
 function ceo_add_dashboard_widgets() {
-	wp_add_dashboard_widget('ceo_dashboard_widget', 'Frumph.NET News', 'ceo_dashboard_feed_widget');	
+	wp_add_dashboard_widget('ceo_dashboard_widget', 'Comic Easel News', 'ceo_dashboard_feed_widget');	
 }
 
 function ceo_enqueue_admin_cpt_style( $cpt, $handle, $src = false, $deps = array(), $ver = false, $media = 'all' ) {
