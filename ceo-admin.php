@@ -2,7 +2,9 @@
 
 // actions
 add_action('admin_menu', 'ceo_add_menu_pages');
-add_action('wp_dashboard_setup', 'ceo_add_dashboard_widgets' );
+
+if (ceo_pluginfo('add_dashboard_frumph_feed_widget'))
+	add_action('wp_dashboard_setup', 'ceo_add_dashboard_widgets' );
 
 // add_action( 'admin_notices', 'ceo_test_information' );
 

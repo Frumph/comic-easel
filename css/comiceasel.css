@@ -43,16 +43,17 @@ table#comic-nav-wrapper {
 }
 
 .mininav-wrapper {
-	font-size: 25px;
+	font-size: 24px;
+	padding-bottom: 1px;
 	display: inline-block;
 	float: right;
-	line-height: 22px
+	line-height: 25px
 }
 
 .mininav-prev a, .mininav-next a {
+	width: 14px;
 	display: inline-block;
 	float: left;
-	padding: 0 5px 4px 5px;
 }
 
 .mininav-prev a:hover, .mininav-next a:hover {

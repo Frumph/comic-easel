@@ -123,8 +123,9 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 
 	<div class="ceoadmin-footer">
 		<br />
-		<?php _e('Created, Developed and maintained by','comiceasel'); ?> <a href="http://frumph.net/">Philip M. Hofer</a> <small>(<a href="http://frumph.net/">Frumph</a>)</small><br />
-		<?php _e('If you like the Comic Easel plugin, please donate.  It will help in developing new features and versions.','comiceasel'); ?>
+		<a href="http://comiceasel.com"><?php _e('Comic Easel','comiceasel'); ?></a> <?php _e('created, developed and maintained by','comiceasel'); ?> <a href="http://frumph.net/">Philip M. Hofer</a> <small>(<a href="http://frumph.net/">Frumph</a>)</small><br />
+		<?php _e('For technical assistance go to the','comiceasel'); ?> <a href="http://forum.frumph.net"><?php _e('Frumph.NET Forums.','comiceasel'); ?></a><br />
+		<?php _e('If you like the Comic Easel plugin, please donate.  It will help in developing new features and versions.','comiceasel'); ?><br />
 		<table style="margin:0 auto;">
 			<tr>
 				<td style="width:200px;">
