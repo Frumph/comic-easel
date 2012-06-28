@@ -145,13 +145,21 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 				</td>
 			</tr>
 		</table>
-		<table>
-		<tr style="width: 100%">
+		<table style="text-align:left;">
+		<tr>
 			<td>
 				<img src="<?php echo ceo_pluginfo('plugin_url').'/languages/french.jpg'; ?>" alt="French" ?>
 			</td>
 			<td style="font-size: 11px;">
 				<a href="http://www.li-an.fr/blog/" target="_blank"><?php _e('French Translation by LiAn', 'comiceasel'); ?></a><br />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<img src="<?php echo ceo_pluginfo('plugin_url').'/languages/german.jpg'; ?>" alt="German" ?>
+			</td>
+			<td style="font-size: 11px;">
+				<a href="http://sarahburrini.com/wordpress/" target="_blank"><?php _e('German Translation by Sarah Burrini','comiceasel'); ?></a><br />
 			</td>
 		</tr>
 		</table>

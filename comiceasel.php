@@ -148,7 +148,7 @@ function ceo_initialize_post_types() {
 	load_plugin_textdomain('comiceasel', false, basename( dirname( __FILE__ ) ) . '/languages');
 	add_rewrite_rule(
 			'^comic/([^/]*)/([^/]*)/?',
-			'index.php?post_type=comic&chapter=$matches[1]&comic=$matches[2]',
+			'index.php?post_type=comic&chapters=$matches[1]&comic=$matches[2]',
 			'top'
 			);
 	add_rewrite_rule(

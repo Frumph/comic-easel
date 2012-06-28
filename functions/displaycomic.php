@@ -53,6 +53,7 @@ function ceo_display_comic_area() {
 		if ((is_home() || is_front_page()) && !is_paged() && !ceo_pluginfo('disable_comic_on_home_page'))  {
 			ceo_Protect();
 			$comic_args = array(
+					'showposts' => 1,
 					'posts_per_page' => 1,
 					'post_type' => 'comic'
 					);
