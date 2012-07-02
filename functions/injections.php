@@ -10,6 +10,7 @@ add_action('comic-mini-navigation', 'ceo_inject_mini_navigation');
 add_action('comic-blog-area', 'ceo_display_comic_post_home');
 add_action('wp_head', 'ceo_facebook_comic_thumbnail');
 add_action('comic-post-extras', 'ceo_display_related_comics');
+add_action('transition_post_status', 'ceo_transition_post_status',10,3);
 
 function ceo_display_edit_link() {
 	global $post;
@@ -286,6 +287,16 @@ global $post, $wp_query, $wpdb, $table_prefix;
 				}
 				echo $output;
 			}
+		}
+	}
+}
+
+function ceo_transition_post_status( $new_status, $old_status, $post ) {
+	// Clear W3 (total cache)'s page cache when a post transitions
+	if ($new_status == 'publish') {
+		if (class_exists('W3_Plugin_TotalCacheAdmin')) {
+			$plugin_totalcacheadmin = & w3_instance('W3_Plugin_TotalCacheAdmin');
+			$plugin_totalcacheadmin->flush_pgcache();
 		}
 	}
 }

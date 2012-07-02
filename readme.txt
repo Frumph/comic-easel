@@ -120,6 +120,10 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.0.10 = 
+Fix for RSS feeds, the problem was the action hook for it
+update: possible fix for clearing cache when custom post type is published with w3 total cache
+
 = 1.0.9 =
 Use hovertext as well as comic-hovertext in the meta fields for those coming from ComicPress
 

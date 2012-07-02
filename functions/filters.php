@@ -11,7 +11,7 @@ add_filter('next_post_rel_link', 'ceo_change_next_rel_link_two', $link);
 add_filter('pre_get_posts', 'ceo_query_post_type');
 add_filter('body_class', 'ceo_body_class');
 add_filter('get_terms_args', 'ceo_chapters_find_menu_orderby');
-add_filter('get_lastpostmodified', 'ceo_lastpostmodified');
+// add_filter('get_lastpostmodified', 'ceo_lastpostmodified');
 
 function ceo_rss_request($qv) {
 	if (isset($qv['feed']) && !isset($qv['post_type']) && !isset($qv['chapters'])) {
