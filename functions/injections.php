@@ -13,7 +13,7 @@ add_action('comic-post-extras', 'ceo_display_related_comics');
 
 function ceo_display_edit_link() {
 	global $post;
-	if ($post->post_type == 'comic') {
+	if (($post->post_type == 'comic') && current_user_can('edit_post', $post->ID)) {
 		echo '<a href="'.get_edit_post_link().'">'.__('Edit Comic.','comiceasel')."</a><br />\r\n";
 	}
 }

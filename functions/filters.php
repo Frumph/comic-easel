@@ -21,8 +21,8 @@ function ceo_rss_request($qv) {
 }
 
 function ceo_insert_comic_into_feed($content) {
-	global $post;
-	if (($post->post_type == 'comic') && !post_password_required()) {
+	global $post, $wp_query;
+	if (is_feed() && ($post->post_type == 'comic') && !post_password_required()) {
 		if ((ceo_pluginfo('thumbnail_size_for_rss') !== 'none') && !isset($wp_query->query_vars['chapters'])) {
 			$content = '<p>'. ceo_display_comic_thumbnail(ceo_pluginfo('thumbnail_size_for_rss'), $post) . '</p>' . $content;
 		}
