@@ -54,7 +54,7 @@ function ceo_initialize_post_types() {
 				'query_var' => true,
 				'capability_type' => 'post',
 				'taxonomies' => array( 'post_tag' ),
-				'rewrite' => array( 'slug' => 'comic', 'with_front' => false, 'feeds' => true ),
+				'rewrite' => array( 'slug' => 'comic', 'with_front' => true, 'feeds' => true ),
 				'hierarchical' => false,
 				'can_export' => true,
 				'show_in_menu' => true,
