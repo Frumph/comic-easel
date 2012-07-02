@@ -2,8 +2,8 @@
 /*
 Plugin Name: Comic Easel
 Plugin URI: http://comiceasel.com
-Description: Comic Easel allows you to incorporate a WebComic using the WordPress Media Library functionality with Navigation into almost any WordPress theme. With just a few modifications of adding *injection* action locations into a theme, you can have the theme of your choice display a comic.
-Version: 1.0.8
+Description: Comic Easel allows you to incorporate a WebComic using the WordPress Media Library functionality with Navigation into almost all WordPress themes. With just a few modifications of adding injection do_action locations into a theme, you can have the theme of your choice display and manage a webcomic.
+Version: 1.0.9
 Author: Philip M. Hofer (Frumph)
 Author URI: http://frumph.net/
 
@@ -146,16 +146,7 @@ function ceo_initialize_post_types() {
 
 	// load the comiceasel language translations
 	load_plugin_textdomain('comiceasel', false, basename( dirname( __FILE__ ) ) . '/languages');
-	add_rewrite_rule(
-			'^comic/([^/]*)/([^/]*)/?',
-			'index.php?post_type=comic&chapters=$matches[1]&comic=$matches[2]',
-			'top'
-			);
-	add_rewrite_rule(
-			'^comic/([0-9]+)/([0-9]{1,2})/([0-9]{1,2})/?$',
-			'index.php?post_type=comic&year=$matches[1]&monthnum=$matches[2]&day=$matches[3]',
-			'top'
-			);
+	add_action('generate_rewrite_rules', 'ceo_datearchives_rewrite_rules');
 }
 
 // Create CEO Specific Sidebars regardless if they already exist.
@@ -375,4 +366,38 @@ foreach (glob(ceo_pluginfo('plugin_path')  . '/widgets/*.php') as $widgefile) {
 	require_once($widgefile);
 }
 
-?>
+function ceo_datearchives_rewrite_rules($wp_rewrite) {
+	$rules = ceo_generate_date_archives('comic', $wp_rewrite);
+	$wp_rewrite->rules = $rules + $wp_rewrite->rules;
+	return $wp_rewrite;
+}
+
+function ceo_generate_date_archives($cpt, $wp_rewrite) {
+	$rules = array();
+	$post_type = get_post_type_object($cpt);
+	$slug_archive = $post_type->has_archive;
+	if ($slug_archive === false) return $rules;
+	if ($slug_archive === true) {
+		$slug_archive = $post_type->rewrite['slug'];
+		if (empty($slug_archive)) $slug_archive = $post_type->name;
+	}
+	$dates = array( 
+		array( 'rule' => "([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})", 'vars' => array('year', 'monthnum', 'day')),
+		array( 'rule' => "([0-9]{4})/([0-9]{1,2})", 'vars' => array('year', 'monthnum')),
+		array( 'rule' => "([0-9]{4})", 'vars' => array('year'))
+	);
+	foreach ($dates as $data) {
+		$query = 'index.php?post_type='.$cpt;
+		$rule = $slug_archive.'/'.$data['rule'];
+		$i = 1;
+		foreach ($data['vars'] as $var) {
+			$query.= '&'.$var.'='.$wp_rewrite->preg_index($i);
+			$i++;
+		}
+		$rules[$rule."/?$"] = $query;
+		$rules[$rule."/feed/(feed|rdf|rss|rss2|atom)/?$"] = $query."&feed=".$wp_rewrite->preg_index($i);
+		$rules[$rule."/(feed|rdf|rss|rss2|atom)/?$"] = $query."&feed=".$wp_rewrite->preg_index($i);
+		$rules[$rule."/page/([0-9]{1,})/?$"] = $query."&paged=".$wp_rewrite->preg_index($i);
+	} 
+	return $rules;
+}

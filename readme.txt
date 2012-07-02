@@ -3,7 +3,7 @@ Contributors: frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.0
 Tested up to: 3.4
-Stable tag: 1.0.8
+Stable tag: 1.0.9
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -120,6 +120,9 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.0.9 =
+Use hovertext as well as comic-hovertext in the meta fields for those coming from ComicPress
+
 = 1.0.8 =
 Bug fixes for shortcodes, and placement of shortcodes.
 
@@ -152,23 +155,8 @@ Updated: 05/26/2012 5:25pm Pacific
 
 
 == Upgrade Notice ==
-= 1.0.8 =
-You MAY need to deactivate the plugin and reactivate it.  Remove the term order additional plugin (if you have it), it's no longer needed!  Ton's of little bug fixes.
-
-= 1.0.7 =
-Removal of term addition plugin. ^ see above
-
-= 1.0.5 =
-Don't forget to ask for features for 1.0.6!
-
-= 1.0.4 =
-To make options work that are new, you save the tab that the option is on.
-
-= 1.0.3 = 
-Need to RESET CONFIG OPTIONS - Navigation Widget changes, Calendar Widget addition.
-
-= 1.0.1 =
-Additions and fixes of 1.0 - reinstall it.
+= 1.0.9 =
+You should go to settings -> permalinks and click save again.
 
 
 

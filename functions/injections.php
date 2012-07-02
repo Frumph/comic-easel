@@ -233,7 +233,7 @@ function ceo_facebook_comic_thumbnail() {
 
 function ceo_display_related_comics() {
 global $post, $wp_query, $wpdb, $table_prefix;
-	if ($post->post_type == 'comic') {
+	if ($post->post_type == 'comic' && !is_feed() && !is_archive() && !is_search()) {
 		$do_not_duplicate[] = $post->ID;
 		$termarray = array();
 		$character_terms = wp_get_post_terms( $post->ID, 'characters' );

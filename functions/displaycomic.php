@@ -40,7 +40,8 @@ function ceo_display_comic($size = 'full') {
 function ceo_the_hovertext($override_post = null) {
 	global $post;
 	$post_to_use = !is_null($override_post) ? $override_post : $post;
-	$hovertext = get_post_meta( $post_to_use->ID, "comic-hovertext", true );
+	$hovertext = esc_attr( get_post_meta( $post_to_use->ID, 'comic-hovertext', true ) );
+	if (empty($hovertext)) $hovertext = esc_attr( get_post_meta($post_to_use->ID, 'hovertext', true) ); // check if using old hovertext
 	return (empty($hovertext)) ? get_the_title($post_to_use->ID) : $hovertext;
 }
 

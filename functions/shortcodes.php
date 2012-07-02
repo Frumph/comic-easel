@@ -221,5 +221,3 @@ function ceo_archive_list_series($thumbnail = 0) {
 		return $output;
 	}
 }
-
-?>

@@ -16,9 +16,11 @@ function ceo_add_menu_pages() {
 	$plugin_title = __('Comic Easel', 'comiceasel');
 	$config_title = __('Config', 'comiceasel');
 	$debug_title = __('Debug', 'comiceasel');
+	$import_title = __('Import', 'comiceasel');
 	
 	// the ceo_pluginfo used here actually initiates it.
 //	$debug_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $debug_title, $debug_title, 'edit_theme_options', 'comiceasel-debug', 'ceo_debug');
+//	$import_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $import_title, $import_title, 'edit_theme_options', 'comiceasel-import', 'ceo_import');	
 	$config_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $config_title, $config_title, 'edit_theme_options', 'comiceasel-config', 'ceo_manager_config');
 	add_action('admin_head-' . $config_hook, 'ceo_admin_page_head');
 	add_action('admin_print_scripts-' . $config_hook, 'ceo_admin_print_scripts');
@@ -60,6 +62,10 @@ function ceo_manager_config() {
 
 function ceo_debug() {
 	require_once('ceo-debug.php');
+}
+
+function ceo_import() {
+	require_once('ceo-import.php');
 }
 
 /**

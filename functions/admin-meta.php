@@ -157,6 +157,8 @@ function ceo_edit_toggles_in_post($post) {
 
 function ceo_edit_hovertext_in_post($post) { 
 	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
+	$hovertext = esc_attr( get_post_meta( $post->ID, 'comic-hovertext', true ) );
+	if (empty($hovertext)) $hovertext = esc_attr( get_post_meta($post->ID, 'hovertext', true));
 ?>
 	The text placed here will appear when you mouse over the comic.<br />
 	<textarea name="comic-hovertext" id="comic-hovertext" class="admin-comic-hovertext" style="width:100%"><?php echo esc_attr( get_post_meta( $post->ID, 'comic-hovertext', true ) ); ?></textarea>
@@ -170,6 +172,12 @@ function ceo_add_comic_in_post() {
 }
 
 function ceo_handle_edit_save_comic($post_id, $post) {
+	global $post;
+
+	if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+		return $post->ID;
+	}
+
 	/* Verify the nonce before proceeding. */
 	if ( !isset( $_POST['comic_nonce'] ) || !wp_verify_nonce( $_POST['comic_nonce'], basename( __FILE__ ) ) )
 		return $post_id;
