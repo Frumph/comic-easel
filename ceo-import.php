@@ -1,10 +1,30 @@
 <?php
-// Start of the importer.
+
+function ceo_import_by_namedate($import_date_format = 'Y-m-d', $import_date_mask = '{DATE}*.*', $import_create_post = true) {
+	echo '<strong>'.__('Import type: by Filename w/date','comiceasel').'</strong><br />';
+}
+
+// Set Defaults or overrides if coming back from $_POST
+$import_type = isset($_POST['import-type']) ? esc_attr( $_POST['import-type'] ) : '';
+$import_date_format = isset($_POST['import-date-format']) ? esc_attr($_POST['import-date-format']) : 'Y-m-d';
+$import_date_mask = isset($_POST['import-date-mask']) ? esc_attr($_POST['import-date-mask']) : '{DATE}*.*';
+$import_create_post = (isset($_POST['import-create-post']) && $_POST['import-create-post']) ? true : false;
+// Catch the return $_POST and do something with them.
+if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'comiceasel-import') ) {
+	switch ($import_type) {
+		case 'namedate':
+			ceo_import_by_namedate($import_date_format, $import_date_mask, $import_create_post);
+			break;
+		default:
+			break;
+	}
+}
+
 ?>
 <div class="wrap">
 <h2><?php _e('Comic Easel - Import','cp2ce'); ?></h2>
 <form method="post" id="myForm-import" name="template">
-<?php wp_nonce_field('form-values') ?>
+<?php wp_nonce_field('comiceasel-import') ?>
 <table class="widefat">
 <thead>
 	<tr>
@@ -20,7 +40,7 @@
 	</tr>
 	<tr>
 		<td valign="top" align="right">
-			<input name="import-type" class="import-type" type="radio" value="namedate" checked />
+			<input name="import-type" class="import-type" type="radio" value="namedate" <?php checked($import_type, 'namedate'); ?> />
 		</td>
 		<td align="left" style="width:180px">
 			<?php _e('by Filename w/date','comiceasel'); ?> <cite>(*1)</cite>
@@ -28,12 +48,12 @@
 		<td align="left" style="width:260px">
 			<?php _e('Date Format','comiceasel'); ?><br />
 			<a href="http://codex.wordpress.org/Formatting_Date_and_Time" target="_blank"><?php _e('Documentation on date formats','comiceasel'); ?></a><br />
-			<input name="import-date-format" class="import-date-format" value="Y-m-d" />
+			<input name="import-date-format" class="import-date-format" value="<?php echo $import_date_format; ?>" />
 		</td>
 		<td align="left" colspan="8">
 			<?php _e('Date Mask','comiceasel'); ?><br />
 			{DATE} <?php _e('get\'s replaced with the Date Format','comiceasel'); ?><br />
-			<input name="import-date-mask" class="import-date-mask" value="{DATE}*.*" />
+			<input name="import-date-mask" class="import-date-mask" value="<?php echo $import_date_mask; ?>" />
 		</td>
 	</tr>
 	<tr>
@@ -57,7 +77,7 @@
 	</tr>
 	<tr>
 		<td align="right">
-			<input name="import-create-post" class="import-create-post" type="checkbox" value="1" checked disabled="disabled" />
+			<input name="import-create-post" class="import-create-post" type="checkbox" value="1" <?php checked($import_create_post, true); ?> />
 		</td>
 		<td align="left" colspan="12">
 			<?php _e('Create post where applicable.', 'comiceasel'); ?>
@@ -80,7 +100,7 @@ if (count($results = glob($directory_to_check.'*.*')) > 0) {
 	echo "<hr />\r\n";
 	natcasesort($results);
 	foreach ($results as $filename) {
-		echo '<span style="width:120px;display:inline-block;float:left;">'.basename($filename).'</span>';
+		echo '<span style="width:320px;display:inline-block;float:left;">'.basename($filename).'</span>';
 	}
 } else {
 	echo "No files found in ".$directory_to_check;
