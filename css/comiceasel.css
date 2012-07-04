@@ -43,11 +43,9 @@ table#comic-nav-wrapper {
 }
 
 .mininav-wrapper {
-	font-size: 24px;
-	padding-bottom: 1px;
+	font-size: 18px;
 	display: inline-block;
 	float: right;
-	line-height: 25px
 }
 
 .mininav-prev a, .mininav-next a {
