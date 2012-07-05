@@ -3,7 +3,7 @@ Contributors: frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.0
 Tested up to: 3.4
-Stable tag: 1.0.10
+Stable tag: 1.0.11
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -120,6 +120,10 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.0.11 =
+Removed URLRewrite /comic/#date#/ code since it was causing behavior problems
+Fixed the click to next and mini navigation to navigate per the setting in the config all chapters or just in chapter
+
 = 1.0.10 = 
 Fix for RSS feeds, the problem was the action hook for it
 update: possible fix for clearing cache when custom post type is published with w3 total cache

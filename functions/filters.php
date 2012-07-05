@@ -2,9 +2,9 @@
 /* Filters */
 
 add_filter('request', 'ceo_rss_request'); // Add comics to the main RSS
-add_filter('the_content','ceo_insert_comic_into_feed'); // Insert the comic image into the rss
+add_filter('the_content_feed','ceo_insert_comic_into_feed'); // Insert the comic image into the rss
 add_filter('the_excerpt_rss','ceo_insert_comic_into_feed');
-add_filter('the_content_feed', 'ceo_insert_comic_into_archive'); // Insert the comic into the archive and search pages
+add_filter('the_content_archive', 'ceo_insert_comic_into_archive'); // Insert the comic into the archive and search pages
 add_filter('the_excerpt', 'ceo_insert_comic_into_archive');
 add_filter('previous_post_rel_link', 'ceo_change_prev_rel_link_two', $link); // change the rel links for comic pages
 add_filter('next_post_rel_link', 'ceo_change_next_rel_link_two', $link);
@@ -103,8 +103,7 @@ function ceo_chapters_find_menu_orderby($args) {
 }
 
 // Fix for checking all posts whether or not custom post type or not for last modified.
-function ceo_lastpostmodified()
-{
+function ceo_lastpostmodified() {
 	$lastpostmodified = wp_cache_get( "lastpostmodified:custom:server", 'timeinfo' );
 	if ( $lastpostmodified ) return $lastpostmodified;
 	global $wpdb;
