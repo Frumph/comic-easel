@@ -17,6 +17,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 	function widget($args, $instance) {
 		global $post, $wp_query;		
 		extract($args, EXTR_SKIP);
+		$current_permalink = get_permalink($post->ID);
 		$current_post_id = '';
 		$chaptinfo = ';';
 		if ($instance['thumbchapt'] !== 'All') $chaptinfo = '&chapters='.$instance['thumbchapt'];
@@ -32,20 +33,23 @@ class ceo_thumbnail_widget extends WP_Widget {
 		$archive_image = null;
 		if ($thumbnail_query->have_posts()) {
 			while ($thumbnail_query->have_posts()) : $thumbnail_query->the_post();
-				echo $before_widget;
-				$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']); 
-				if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
-				echo '<div class="comic-thumb comic-thumb-'.$post->ID.'">';
-				if ($instance['centering']) echo "\r\n<center>\r\n";
-				if ( has_post_thumbnail($post->ID) ) {
-					echo "<a href=\"".get_permalink($post->ID)."\" rel=\"bookmark\" title=\"Permanent Link to ".get_the_title()."\">".get_the_post_thumbnail($post->ID, 'thumbnail')."</a>\r\n";
-				} else {
-					echo "No Thumbnail Found.";	
+				$the_permalink = get_permalink($post->ID);
+				if ($the_permalink != $current_permalink) {
+					echo $before_widget;
+					$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']); 
+					if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
+					echo '<div class="comic-thumb comic-thumb-'.$post->ID.'">';
+					if ($instance['centering']) echo "\r\n<center>\r\n";
+					if ( has_post_thumbnail($post->ID) ) {
+						echo "<a href=\"".$the_permalink."\" rel=\"bookmark\" title=\"Permanent Link to ".get_the_title()."\">".get_the_post_thumbnail($post->ID, 'thumbnail')."</a>\r\n";
+					} else {
+						echo "No Thumbnail Found.";	
+					}
+					if ($instance['linktitle']) { echo '<div class="comic-thumb-title">'; the_title(); echo '</div><div class="clear"></div>'; }
+					echo '</div>';
+					if ($instance['centering']) echo "\r\n</center>\r\n";
+					echo $after_widget;
 				}
-				if ($instance['linktitle']) { echo '<div class="comic-thumb-title">'; the_title(); echo '</div><div class="clear"></div>'; }
-				echo '</div>';
-				if ($instance['centering']) echo "\r\n</center>\r\n";
-				echo $after_widget;
 			endwhile;
 		}
 		ceo_unProtect();
