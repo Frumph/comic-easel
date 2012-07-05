@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Comic Easel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-05 04:12-0800\n"
-"PO-Revision-Date: 2012-07-05 04:12-0800\n"
+"POT-Creation-Date: 2012-07-05 11:07-0800\n"
+"PO-Revision-Date: 2012-07-05 11:07-0800\n"
 "Last-Translator: Philip M. Hofer (Frumph) <philip@frumph.net>\n"
 "Language-Team: Frumph Agencies <philip@frumph.net>\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: ..\n"
 
 #: ../ceo-admin.php:16
-#: ../ceo-config.php:126
+#: ../ceo-config.php:148
 msgid "Comic Easel"
 msgstr ""
 
@@ -42,39 +42,43 @@ msgstr ""
 msgid "Comic Easel Settings RESET!"
 msgstr ""
 
-#: ../ceo-config.php:74
+#: ../ceo-config.php:95
 msgid "Comic Easel Settings SAVED!"
 msgstr ""
 
-#: ../ceo-config.php:84
+#: ../ceo-config.php:105
 msgid "General"
 msgstr ""
 
-#: ../ceo-config.php:85
+#: ../ceo-config.php:106
 msgid "Navigation"
 msgstr ""
 
-#: ../ceo-config.php:126
+#: ../ceo-config.php:107
+msgid "Archive"
+msgstr ""
+
+#: ../ceo-config.php:148
 msgid "created, developed and maintained by"
 msgstr ""
 
-#: ../ceo-config.php:127
+#: ../ceo-config.php:149
 msgid "For technical assistance go to the"
 msgstr ""
 
-#: ../ceo-config.php:127
+#: ../ceo-config.php:149
 msgid "Frumph.NET Forums."
 msgstr ""
 
-#: ../ceo-config.php:128
+#: ../ceo-config.php:150
 msgid "If you like the Comic Easel plugin, please donate.  It will help in developing new features and versions."
 msgstr ""
 
-#: ../ceo-config.php:154
+#: ../ceo-config.php:176
 msgid "French Translation by LiAn"
 msgstr ""
 
-#: ../ceo-config.php:162
+#: ../ceo-config.php:184
 msgid "German Translation by Sarah Burrini"
 msgstr ""
 
@@ -356,7 +360,7 @@ msgstr ""
 msgid "Comic Easel Sidebar Location"
 msgstr ""
 
-#: ../comiceasel.php:354
+#: ../comiceasel.php:355
 msgid "Comic Easel - Test Information"
 msgstr ""
 
@@ -489,6 +493,24 @@ msgstr ""
 msgid "Permanent Link:"
 msgstr ""
 
+#: ../options/archive.php:11
+msgid "Archive Options"
+msgstr ""
+
+#: ../options/archive.php:15
+msgid "Include the comics in the blog archive?"
+msgstr ""
+
+#: ../options/archive.php:20
+msgid "When this is enabled, when you search through the year/date/month and other archiving WordPress functions, the comic will appear with the regular blog posts.  This feature automatically works for all tags already."
+msgstr ""
+
+#: ../options/archive.php:31
+#: ../options/general.php:130
+#: ../options/navigation.php:142
+msgid "Save Settings"
+msgstr ""
+
 #: ../options/general.php:11
 msgid "Configuration"
 msgstr ""
@@ -575,11 +597,6 @@ msgstr ""
 
 #: ../options/general.php:121
 msgid "NOTE: Edit a post, click update on it for the feeds to refresh with new copies; to see changes."
-msgstr ""
-
-#: ../options/general.php:130
-#: ../options/navigation.php:142
-msgid "Save Settings"
 msgstr ""
 
 #: ../options/navigation.php:11
@@ -864,31 +881,31 @@ msgstr ""
 msgid "Comic Easel - Thumbnail"
 msgstr ""
 
-#: ../widgets/thumbnail.php:77
+#: ../widgets/thumbnail.php:81
 msgid "Which Chapter?"
 msgstr ""
 
-#: ../widgets/thumbnail.php:96
+#: ../widgets/thumbnail.php:100
 msgid "Get first in chapter instead?"
 msgstr ""
 
-#: ../widgets/thumbnail.php:97
+#: ../widgets/thumbnail.php:101
 msgid "Display a random Thumbnail?"
 msgstr ""
 
-#: ../widgets/thumbnail.php:98
+#: ../widgets/thumbnail.php:102
 msgid "*note: Random thumbnail overrides the get first in chapter option."
 msgstr ""
 
-#: ../widgets/thumbnail.php:99
+#: ../widgets/thumbnail.php:103
 msgid "Display how many thumbnails?"
 msgstr ""
 
-#: ../widgets/thumbnail.php:100
+#: ../widgets/thumbnail.php:104
 msgid "Include comic title?"
 msgstr ""
 
-#: ../widgets/thumbnail.php:101
+#: ../widgets/thumbnail.php:105
 msgid "Add centering html?"
 msgstr ""
 

@@ -4,7 +4,7 @@
 add_filter('request', 'ceo_rss_request'); // Add comics to the main RSS
 add_filter('the_content_feed','ceo_insert_comic_into_feed'); // Insert the comic image into the rss
 add_filter('the_excerpt_rss','ceo_insert_comic_into_feed');
-add_filter('the_content_archive', 'ceo_insert_comic_into_archive'); // Insert the comic into the archive and search pages
+add_filter('the_content', 'ceo_insert_comic_into_archive'); // Insert the comic into the archive and search pages
 add_filter('the_excerpt', 'ceo_insert_comic_into_archive');
 add_filter('previous_post_rel_link', 'ceo_change_prev_rel_link_two', $link); // change the rel links for comic pages
 add_filter('next_post_rel_link', 'ceo_change_next_rel_link_two', $link);
@@ -64,7 +64,7 @@ function ceo_change_next_rel_link_two($link) {
 }
 
 function ceo_query_post_type($query) {
-	if ( ( is_tag() || is_archive()) && empty( $query->query_vars['suppress_filters'] ) ) {
+	if ( ( is_tag() || (is_archive() && ceo_pluginfo('include_comics_in_blog_archive'))) && empty( $query->query_vars['suppress_filters'] ) ) {
 		$post_type = get_query_var('post_type');
 		if ( is_array($post_type) && !empty($post_type) ) {
 			$post_type = array_merge($post_type, array('comic'));

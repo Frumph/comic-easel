@@ -44,6 +44,7 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 			$tab = 'general';
 			update_option('comiceasel-config', $ceo_options);
 		}
+		
 		if ($_REQUEST['action'] == 'ceo_save_navigation') {
 
 			foreach (array(
@@ -70,6 +71,26 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 			$tab = 'navigation';
 			update_option('comiceasel-config', $ceo_options);
 		}
+
+		if ($_REQUEST['action'] == 'ceo_save_archive') {
+
+/*			foreach (array(
+					) as $key) {
+							if (isset($_REQUEST[$key])) 
+								$ceo_options[$key] = wp_filter_nohtml_kses($_REQUEST[$key]);
+			} */
+
+			foreach (array(
+				'include_comics_in_blog_archive'
+			) as $key) {
+				if (!isset($_REQUEST[$key])) $_REQUEST[$key] = 0;
+				$ceo_options[$key] = (bool)( $_REQUEST[$key] == 1 ? true : false );
+			}
+			
+			$tab = 'archive';
+			update_option('comiceasel-config', $ceo_options);
+		}		
+		
 		if ($tab) { ?>
 			<div id="message" class="updated"><p><strong><?php _e('Comic Easel Settings SAVED!','comiceasel'); ?></strong></p></div>
 			<script>function hidemessage() { document.getElementById('message').style.display = 'none'; }</script>
@@ -82,7 +103,8 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 		  <?php
 		  	$tab_info = array(
 		  		'general' => __('General', 'comiceasel'),
-		  		'navigation' => __('Navigation', 'comiceasel')
+		  		'navigation' => __('Navigation', 'comiceasel'),
+				'archive' => __('Archive', 'comiceasel')
 		  	);
 		  	if (empty($tab)) { $tab = array_shift(array_keys($tab_info)); }
 
