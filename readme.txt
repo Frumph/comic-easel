@@ -163,7 +163,7 @@ Updated: 05/26/2012 5:25pm Pacific
 
 
 == Upgrade Notice ==
-= 1.0.9 =
+= 1.0.11 =
 You should go to settings -> permalinks and click save again.
 
 
