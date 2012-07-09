@@ -23,7 +23,13 @@ class ceo_scheduled_comics_widget extends WP_Widget {
 		echo $before_widget;
 		$title = empty($instance['title']) ? __('Scheduled Comics','comiceasel') : apply_filters('widget_title', $instance['title']); 
 		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; }; 
-		$scheduled_posts = get_posts('post_status=future&numberposts=-1&post_type=comic');
+		$args = array(
+				'post_status' => 'future',
+				'showposts' => -1,
+//				'numberposts' => -1,
+				'post_type' => 'comic'
+				);
+		$scheduled_posts = get_posts($args);
 		if (empty($scheduled_posts)) {
 			echo '<ul><li>'.__('None','comiceasel').'</li></ul>';
 		} else { ?>

@@ -22,12 +22,16 @@ class ceo_latest_comics_widget extends WP_Widget {
 		ceo_Protect();
 		echo $before_widget;
 		$title = empty($instance['title']) ? __('Latest Comics','comiceasel') : apply_filters('widget_title', $instance['title']); 
-		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; }; 
-		$latestmusic = get_posts('numberposts=5&post_type=comic'); ?>
+		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
+		$args = array(
+				'showposts' => 5,
+				'post_type' => 'comic'
+				);
+		$latestcomics = get_posts($args); ?>
 		<ul>
-		<?php foreach($latestmusic as $post) : ?>
+		<?php foreach($latestcomics as $post) : ?>
 			<li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
-			<?php endforeach; ?>
+		<?php endforeach; ?>
 		</ul>
 		<?php
 		ceo_UnProtect();
