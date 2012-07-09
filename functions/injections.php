@@ -1,11 +1,8 @@
 <?php
-
 // Injected with a poison.
 add_action('comic-post-foot', 'ceo_display_edit_link');
 add_action('comic-area', 'ceo_display_comic_area');
-add_action('comic-post-info', 'ceo_display_comic_chapters');
-add_action('comic-post-info', 'ceo_display_comic_locations');
-add_action('comic-post-info', 'ceo_display_comic_characters');
+add_action('comic-post-info', 'ceo_display_comic_post_info');
 add_action('comic-mini-navigation', 'ceo_inject_mini_navigation');
 add_action('comic-blog-area', 'ceo_display_comic_post_home');
 add_action('wp_head', 'ceo_facebook_comic_thumbnail');
@@ -19,14 +16,23 @@ function ceo_display_edit_link() {
 	}
 }
 
-function ceo_display_comic_chapters($post_category) {
+function ceo_display_comic_post_info() {
+	echo '<div class="comic-post-info">';
+	ceo_display_comic_chapters();
+	ceo_display_comic_characters();
+	ceo_display_comic_locations();
+	echo '</div>';
+	
+}
+
+function ceo_display_comic_chapters() {
 	global $post;
 	if ($post->post_type == 'comic') {
 		$before = '<div class="comic-chapter">'.__('Chapter','comiceasel').': ';
 		$sep = ', '; 
 		$after = '</div>';
 		$post_category = get_the_term_list( $post->ID, 'chapters', $before, $sep, $after );
-	}
+	} else return;
 	echo apply_filters('ceo_display_comic_chapters', $post_category);
 }
 

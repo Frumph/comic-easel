@@ -3,6 +3,10 @@ Comic Easel - Style.css
 Defaults for the Comic Easel Elements.
 */
 
+#comic-wrap {
+	clear:both;
+}
+
 table#comic-nav-wrapper {
     background: #333;
     border: 0;
