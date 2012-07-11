@@ -56,6 +56,15 @@
 						<?php _e('Checking this option makes 4 new sidebars appear in the appearance - widgets section, above comic, below comic, left of comic and right of comic.','comiceasel'); ?>
 					</td>
 				</tr>
+				<tr>
+					<th scope="row"><label for="disable_related_comics"><?php _e('Disable the displaying of related comics?','comiceasel'); ?></label></th>
+					<td>
+						<input id="disable_related_comics" name="disable_related_comics" type="checkbox" value="1" <?php checked(true, $ceo_options['disable_related_comics']); ?> />
+					</td>
+					<td>
+						<?php _e('If you have a theme that has related comics do_action code installed, this will disable it from displaying.','comiceasel'); ?>
+					</td>
+				</tr>				
 			</table>
 			<br />
 			<table class="widefat">

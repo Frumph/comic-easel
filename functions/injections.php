@@ -6,7 +6,8 @@ add_action('comic-post-info', 'ceo_display_comic_post_info');
 add_action('comic-mini-navigation', 'ceo_inject_mini_navigation');
 add_action('comic-blog-area', 'ceo_display_comic_post_home');
 add_action('wp_head', 'ceo_facebook_comic_thumbnail');
-add_action('comic-post-extras', 'ceo_display_related_comics');
+if (!ceo_pluginfo('disable_related_comics')) 
+	add_action('comic-post-extras', 'ceo_display_related_comics');
 add_action('transition_post_status', 'ceo_transition_post_status',10,3);
 
 function ceo_display_edit_link() {

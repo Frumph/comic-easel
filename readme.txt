@@ -3,7 +3,7 @@ Contributors: frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.0
 Tested up to: 3.4
-Stable tag: 1.0.12
+Stable tag: 1.0.13
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -120,6 +120,9 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.0.13 =
+Some additions to the language code, possible fox for the undefined problem with archive comic post types, various css fixes
+
 = 1.0.12 =
 Never program while mad at the world ;/ apparently you make some mistakes in backwards compatibility.
 
