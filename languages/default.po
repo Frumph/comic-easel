@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Comic Easel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-05 11:07-0800\n"
-"PO-Revision-Date: 2012-07-05 11:07-0800\n"
+"POT-Creation-Date: 2012-07-11 04:10-0800\n"
+"PO-Revision-Date: 2012-07-11 04:10-0800\n"
 "Last-Translator: Philip M. Hofer (Frumph) <philip@frumph.net>\n"
 "Language-Team: Frumph Agencies <philip@frumph.net>\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: ..\n"
 
 #: ../ceo-admin.php:16
-#: ../ceo-config.php:148
+#: ../ceo-config.php:149
 msgid "Comic Easel"
 msgstr ""
 
@@ -42,43 +42,43 @@ msgstr ""
 msgid "Comic Easel Settings RESET!"
 msgstr ""
 
-#: ../ceo-config.php:95
+#: ../ceo-config.php:96
 msgid "Comic Easel Settings SAVED!"
 msgstr ""
 
-#: ../ceo-config.php:105
+#: ../ceo-config.php:106
 msgid "General"
 msgstr ""
 
-#: ../ceo-config.php:106
+#: ../ceo-config.php:107
 msgid "Navigation"
 msgstr ""
 
-#: ../ceo-config.php:107
+#: ../ceo-config.php:108
 msgid "Archive"
 msgstr ""
 
-#: ../ceo-config.php:148
+#: ../ceo-config.php:149
 msgid "created, developed and maintained by"
 msgstr ""
 
-#: ../ceo-config.php:149
+#: ../ceo-config.php:150
 msgid "For technical assistance go to the"
 msgstr ""
 
-#: ../ceo-config.php:149
+#: ../ceo-config.php:150
 msgid "Frumph.NET Forums."
 msgstr ""
 
-#: ../ceo-config.php:150
+#: ../ceo-config.php:151
 msgid "If you like the Comic Easel plugin, please donate.  It will help in developing new features and versions."
 msgstr ""
 
-#: ../ceo-config.php:176
+#: ../ceo-config.php:177
 msgid "French Translation by LiAn"
 msgstr ""
 
-#: ../ceo-config.php:184
+#: ../ceo-config.php:185
 msgid "German Translation by Sarah Burrini"
 msgstr ""
 
@@ -208,7 +208,7 @@ msgstr ""
 
 #: ../comiceasel.php:72
 #: ../functions/admin-meta.php:68
-#: ../functions/injections.php:25
+#: ../functions/injections.php:32
 msgid "Chapter"
 msgstr ""
 
@@ -250,7 +250,7 @@ msgstr ""
 
 #: ../comiceasel.php:95
 #: ../functions/admin-meta.php:69
-#: ../functions/injections.php:123
+#: ../functions/injections.php:130
 msgid "Characters"
 msgstr ""
 
@@ -300,7 +300,7 @@ msgstr ""
 
 #: ../comiceasel.php:120
 #: ../functions/admin-meta.php:70
-#: ../functions/injections.php:112
+#: ../functions/injections.php:119
 msgid "Location"
 msgstr ""
 
@@ -360,7 +360,7 @@ msgstr ""
 msgid "Comic Easel Sidebar Location"
 msgstr ""
 
-#: ../comiceasel.php:355
+#: ../comiceasel.php:356
 msgid "Comic Easel - Test Information"
 msgstr ""
 
@@ -427,47 +427,47 @@ msgstr ""
 msgid "This information is password protected."
 msgstr ""
 
-#: ../functions/displaycomic.php:41
+#: ../functions/displaycomic.php:43
 msgid "No Gallery or featured image Found."
 msgstr ""
 
-#: ../functions/injections.php:18
+#: ../functions/injections.php:16
 msgid "Edit Comic."
 msgstr ""
 
-#: ../functions/injections.php:46
+#: ../functions/injections.php:53
 msgid "&lsaquo;&lsaquo; First"
 msgstr ""
 
-#: ../functions/injections.php:47
+#: ../functions/injections.php:54
 msgid "Last &rsaquo;&rsaquo;"
 msgstr ""
 
-#: ../functions/injections.php:48
+#: ../functions/injections.php:55
 msgid "Next &rsaquo;"
 msgstr ""
 
-#: ../functions/injections.php:49
+#: ../functions/injections.php:56
 msgid "&lsaquo; Prev"
 msgstr ""
 
-#: ../functions/injections.php:57
+#: ../functions/injections.php:64
 msgid "Comments"
 msgstr ""
 
-#: ../functions/injections.php:60
+#: ../functions/injections.php:67
 msgid "Random"
 msgstr ""
 
-#: ../functions/injections.php:167
+#: ../functions/injections.php:174
 msgid "&rsaquo;"
 msgstr ""
 
-#: ../functions/injections.php:168
+#: ../functions/injections.php:175
 msgid "&lsaquo;"
 msgstr ""
 
-#: ../functions/injections.php:289
+#: ../functions/injections.php:296
 msgid "Related Comics &not;"
 msgstr ""
 
@@ -506,7 +506,7 @@ msgid "When this is enabled, when you search through the year/date/month and oth
 msgstr ""
 
 #: ../options/archive.php:31
-#: ../options/general.php:130
+#: ../options/general.php:139
 #: ../options/navigation.php:142
 msgid "Save Settings"
 msgstr ""
@@ -555,47 +555,55 @@ msgstr ""
 msgid "Checking this option makes 4 new sidebars appear in the appearance - widgets section, above comic, below comic, left of comic and right of comic."
 msgstr ""
 
-#: ../options/general.php:64
+#: ../options/general.php:60
+msgid "Disable the displaying of related comics?"
+msgstr ""
+
+#: ../options/general.php:65
+msgid "If you have a theme that has related comics do_action code installed, this will disable it from displaying."
+msgstr ""
+
+#: ../options/general.php:73
 msgid "Thumbnail sizes for locations where used."
 msgstr ""
 
-#: ../options/general.php:69
+#: ../options/general.php:78
 msgid "Thumbnail size for main RSS Feed"
 msgstr ""
 
-#: ../options/general.php:71
-#: ../options/general.php:89
-#: ../options/general.php:106
+#: ../options/general.php:80
+#: ../options/general.php:98
+#: ../options/general.php:115
 msgid "None"
 msgstr ""
 
-#: ../options/general.php:78
-#: ../options/general.php:95
-#: ../options/general.php:112
+#: ../options/general.php:87
+#: ../options/general.php:104
+#: ../options/general.php:121
 msgid "Full"
 msgstr ""
 
-#: ../options/general.php:82
+#: ../options/general.php:91
 msgid "The thumbnail for the main RSS /feed/"
 msgstr ""
 
-#: ../options/general.php:87
+#: ../options/general.php:96
 msgid "Thumbnail size for the direct comic & chapter RSS Feeds"
 msgstr ""
 
-#: ../options/general.php:99
+#: ../options/general.php:108
 msgid "The thumbnail for the direct comic and chapter RSS /comic/feed/ and /chapter/chapter-slug/feed/ "
 msgstr ""
 
-#: ../options/general.php:104
+#: ../options/general.php:113
 msgid "Thumbnail size for archive and search"
 msgstr ""
 
-#: ../options/general.php:116
+#: ../options/general.php:125
 msgid "The thumbnail shown inside posts when viewed in the archive and search functions of WordPress"
 msgstr ""
 
-#: ../options/general.php:121
+#: ../options/general.php:130
 msgid "NOTE: Edit a post, click update on it for the feeds to refresh with new copies; to see changes."
 msgstr ""
 
@@ -783,6 +791,30 @@ msgstr ""
 
 #: ../widgets/comicblogpost.php:29
 msgid "Comic Easel - Blog Post"
+msgstr ""
+
+#: ../widgets/comicblogpost.php:91
+msgid "Heading:"
+msgstr ""
+
+#: ../widgets/comicblogpost.php:92
+msgid "Display only on the home page?"
+msgstr ""
+
+#: ../widgets/comicblogpost.php:93
+msgid "Show the title of the post?"
+msgstr ""
+
+#: ../widgets/comicblogpost.php:94
+msgid "Show the date of the post?"
+msgstr ""
+
+#: ../widgets/comicblogpost.php:95
+msgid "Show the comment link to the post?"
+msgstr ""
+
+#: ../widgets/comicblogpost.php:96
+msgid "Hide the display of the widget if there is no content?"
 msgstr ""
 
 #: ../widgets/navigation.php:14
