@@ -64,7 +64,7 @@ function ceo_change_next_rel_link_two($link) {
 }
 
 function ceo_query_post_type($query) {
-	if ( ( is_tag() || (is_archive() && ceo_pluginfo('include_comics_in_blog_archive'))) && empty( $query->query_vars['suppress_filters'] ) ) {
+	if ( ( is_tag() || (is_archive() && ceo_pluginfo('include_comics_in_blog_archive'))) && empty( $query->query_vars['suppress_filters'] ) && !$query->is_post_type_archive ) {
 		$post_type = get_query_var('post_type');
 		if ( is_array($post_type) && !empty($post_type) ) {
 			$post_type = array_merge($post_type, array('comic'));
