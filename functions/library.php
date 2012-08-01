@@ -56,3 +56,9 @@ function ceo_Unprotect() {
 	
 	$__post = $__wp_query = null;
 }
+
+function ceo_in_comic_category() {
+	global $post;
+	if ($post->post_type == 'comic') return true;
+	return false;
+}

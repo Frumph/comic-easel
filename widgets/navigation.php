@@ -322,8 +322,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 		<?php
 	}
 }
-
-if (ceo_pluginfo('enable_comic_sidebar_locations')) 
-	add_action( 'widgets_init', create_function('', 'return register_widget("ceo_comic_navigation_widget");') );
+ 
+add_action( 'widgets_init', create_function('', 'return register_widget("ceo_comic_navigation_widget");') );
 
 ?>

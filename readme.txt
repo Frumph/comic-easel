@@ -2,8 +2,8 @@
 Contributors: frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.0
-Tested up to: 3.4
-Stable tag: 1.0.13
+Tested up to: 3.4.1
+Stable tag: 1.0.14
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -120,6 +120,10 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.0.14 =
+Made it so that the navigation widget shows up whether the comic sidebars are active or not.  They should work in any sidebar now.
+added function ceo_in_comic_category() for a conditional statement to check if the page is in the comic category
+
 = 1.0.13 =
 Some additions to the language code, possible fox for the undefined problem with archive comic post types, various css fixes
 
@@ -169,7 +173,7 @@ Updated: 05/26/2012 5:25pm Pacific
 
 
 == Upgrade Notice ==
-= 1.0.12 =
+= 1.0.14 =
 You should go to settings -> permalinks and click save again.
 
 
