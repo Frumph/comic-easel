@@ -202,7 +202,7 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 			$calendar_output .= '<td>';
 
 		if ( in_array($day, $daywithpost) ) // any posts today?
-			$calendar_output .= '<a href="' . get_day_link($thisyear, $thismonth, $day) . $the_post_type.'" title="" '. esc_attr($ak_titles_for_day[$day]) . '">'.$day.'</a>';
+		    $calendar_output .= '<a href="' . get_day_link($thisyear, $thismonth, $day) . $the_post_type.'" title="'. esc_attr($ak_titles_for_day[$day]) . '">'.$day.'</a>';
 		else
 			$calendar_output .= $day;
 		$calendar_output .= '</td>';
