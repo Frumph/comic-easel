@@ -6,9 +6,9 @@ function ceo_display_comic($size = 'full') {
 		return __('This information is password protected.','comiceasel');
     }
 	$output = '';
+	if (ceo_the_above_html()) $output .= html_entity_decode(ceo_the_above_html())."\r\n";
 	$post_image_id = get_post_thumbnail_id($post->ID);
 	if ($post_image_id) {
-		$output = '';
 		$thumbnail = wp_get_attachment_image_src( $post_image_id, $size, false);
 		if (is_array($thumbnail)) {
 			$thumbnail = reset($thumbnail);
@@ -27,6 +27,7 @@ function ceo_display_comic($size = 'full') {
 			}
 		}
 	}
+	if (ceo_the_below_html()) $output .= html_entity_decode(ceo_the_below_html())."\r\n";
 	if (get_post_meta( $post->ID, 'comic-gallery', true )) {
 		$columns = get_post_meta( $post->ID, 'comic-gallery-columns', true );
 		if (empty($columns)) $columns = 5;
@@ -40,7 +41,7 @@ function ceo_display_comic($size = 'full') {
 	if ($output) { 
 		return apply_filters('ceo_comics_display_comic', $output);
 	} else
-		return __('No Gallery or featured image Found.', 'comiceasel');
+		return __('No HTML, Gallery or featured image Found.', 'comiceasel');
 }
 
 function ceo_the_hovertext($override_post = null) {
@@ -49,6 +50,20 @@ function ceo_the_hovertext($override_post = null) {
 	$hovertext = esc_attr( get_post_meta( $post_to_use->ID, 'comic-hovertext', true ) );
 	if (empty($hovertext)) $hovertext = esc_attr( get_post_meta($post_to_use->ID, 'hovertext', true) ); // check if using old hovertext
 	return (empty($hovertext)) ? get_the_title($post_to_use->ID) : $hovertext;
+}
+
+function ceo_the_above_html($override_post = null) {
+	global $post;
+	$post_to_use = !is_null($override_post) ? $override_post : $post;
+	$html_to_use = get_post_meta( $post_to_use->ID, 'comic-html-above', true);
+	return $html_to_use;
+}
+
+function ceo_the_below_html($override_post = null) {
+	global $post;
+	$post_to_use = !is_null($override_post) ? $override_post : $post;
+	$html_to_use = get_post_meta( $post_to_use->ID, 'comic-html-below', true);
+	return $html_to_use;
 }
 
 // We use this type of query so that $post is set, it's already set with is_single - but needs to be set on the home page

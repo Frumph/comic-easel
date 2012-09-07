@@ -161,7 +161,23 @@ function ceo_edit_hovertext_in_post($post) {
 	if (empty($hovertext)) $hovertext = esc_attr( get_post_meta($post->ID, 'hovertext', true));
 ?>
 	The text placed here will appear when you mouse over the comic.<br />
-	<textarea name="comic-hovertext" id="comic-hovertext" class="admin-comic-hovertext" style="width:100%"><?php echo esc_attr( get_post_meta( $post->ID, 'comic-hovertext', true ) ); ?></textarea>
+	<textarea name="comic-hovertext" id="comic-hovertext" class="admin-comic-hovertext" style="width:100%"><?php echo $hovertext; ?></textarea>
+<?php
+}
+
+function ceo_edit_html_above_comic($post) { 
+	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
+?>
+	The html placed here will appear above the comic.<br />
+	<textarea name="comic-html-above" id="comic-html-above" class="admin-comic-html-above" style="width:100%"><?php echo get_post_meta( $post->ID, 'comic-html-above', true ); ?></textarea>
+<?php
+}
+
+function ceo_edit_html_below_comic($post) { 
+	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
+?>
+	The html placed here will appear below the comic.<br />
+	<textarea name="comic-html-below" id="comic-html-below" class="admin-comic-html-below" style="width:100%"><?php echo get_post_meta( $post->ID, 'comic-html-below', true ); ?></textarea>
 <?php
 }
 
@@ -169,6 +185,8 @@ function ceo_add_comic_in_post() {
 	add_meta_box('ceo_comic_in_post', __('Comic', 'comiceasel'), 'ceo_edit_comic_in_post', 'comic', 'side', 'high');
 	add_meta_box('ceo_toggle_in_post', __('Misc. Comic Functionality', 'comiceasel'), 'ceo_edit_toggles_in_post', 'comic', 'side', 'high');
 	add_meta_box('ceo_hovertext_in_post', __('Alt (Hover) Text', 'comiceasel'), 'ceo_edit_hovertext_in_post', 'comic', 'normal', 'high');
+	add_meta_box('ceo_html_above_comic', __('HTML (Above) Comic', 'comiceasel'), 'ceo_edit_html_above_comic', 'comic', 'normal', 'high');
+	add_meta_box('ceo_html_below_comic', __('HTML (Below) Comic', 'comiceasel'), 'ceo_edit_html_below_comic', 'comic', 'normal', 'high');
 }
 
 function ceo_handle_edit_save_comic($post_id, $post) {
@@ -190,6 +208,8 @@ function ceo_handle_edit_save_comic($post_id, $post) {
 		return $post_id;
 
 	$meta_array = array(
+			'comic-html-above',
+			'comic-html-below',
 			'comic-hovertext',
 			'comic-gallery',
 			'comic-gallery-columns'
