@@ -53,7 +53,7 @@ Style: Comical
 }
 
 .navi-prev-in {
-	background: url('prev-in.png') no-repeat;
+	background: url('prev.png') no-repeat;
 }
 
 .navi-archive, .navi-archives {
@@ -94,7 +94,7 @@ a.navi-comments span:hover {
 }
 
 .navi-next-in {
-	background: url('next-in.png') no-repeat;
+	background: url('next.png') no-repeat;
 }
 
 .navi-last-in {
