@@ -202,6 +202,7 @@ function ceo_display_comic_post_home() {
 			comments_template('', true);
 		}
 		wp_reset_query();
+		echo '<div id="blogheader"></div>';
 	}
 }
 

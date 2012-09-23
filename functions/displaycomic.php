@@ -28,7 +28,8 @@ function ceo_display_comic($size = 'full') {
 		}
 	}
 	if (ceo_the_below_html()) $output .= html_entity_decode(ceo_the_below_html())."\r\n";
-	if (get_post_meta( $post->ID, 'comic-gallery', true )) {
+	$comic_galleries = get_post_meta( $post->ID, 'comic-gallery', true );
+	if (!empty($comic_galleries)) {
 		$columns = get_post_meta( $post->ID, 'comic-gallery-columns', true );
 		if (empty($columns)) $columns = 5;
 		$args = array(
