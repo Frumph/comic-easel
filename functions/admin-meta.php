@@ -6,8 +6,7 @@ function ceo_admin_init() {
 	add_filter('manage_edit-comic_columns', 'ceo_add_new_comic_columns');
 	add_action('manage_posts_custom_column', 'ceo_manage_comic_columns', 10, 2);
 	add_action('add_meta_boxes', 'ceo_add_comic_in_post');
-	add_action( 'save_post', 'ceo_handle_edit_save_comic', 10, 2 );
-	
+	add_action('save_post', 'ceo_handle_edit_save_comic', 10, 2 );
 	add_filter("manage_edit-chapters_columns", 'ceo_chapters_columns');
 	add_filter('manage_edit-chapters_sortable_columns', 'ceo_chapters_sortable_columns' );
 	add_filter('manage_chapters_custom_column', 'ceo_chapters_add_column_value', 10, 3);
@@ -30,7 +29,10 @@ function ceo_chapters_save_value($term_id, $tt_id) {
 }
 
 function ceo_chapters_columns($chapter_columns) {
+	wp_register_style('comiceasel-chapters-style', ceo_pluginfo('plugin_url').'/css/chapters.css');
+	wp_enqueue_style('comiceasel-chapters-style');
 	$new_columns['cb'] = '<input type="checkbox" />';
+	$new_columns['id'] = __('ID', 'comiceasel');
 	$new_columns['name'] = __('Name', 'comiceasel');
 	$new_columns['slug'] = __('Slug', 'comiceasel');
 	$new_columns['description'] = __('Description', 'comiceasel');
@@ -45,9 +47,16 @@ function ceo_chapters_sortable_columns( $columns ) {
 }
 
 function ceo_chapters_add_column_value($empty = '', $custom_column, $term_id) {
-	$taxonomy = (isset($_POST['taxonomy'])) ? $_POST['taxonomy'] : $_GET['taxonomy'];
-	$term = get_term($term_id, $taxonomy);
-	return $term->$custom_column;
+	switch ($custom_column) {
+		case 'id':
+			echo $term_id;
+			break;
+		case 'menu_order':
+			$taxonomy = (isset($_POST['taxonomy'])) ? $_POST['taxonomy'] : $_GET['taxonomy'];
+			$term = get_term($term_id, $taxonomy);
+			echo $term->$custom_column;
+			break;
+	}
 }
 
 function ceo_chapters_menu_order_add_form_field() {		

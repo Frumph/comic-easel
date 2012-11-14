@@ -22,37 +22,39 @@ function ceo_comic_archive_jump_to_chapter() {
 	$output .= '<option class="level-select" value="">'.__('Select Story','comiceasel').'</option>';
 	if (!is_null($parent_chapters)) {
 		foreach($parent_chapters as $parent_chapter) {
-			$count = '';
-			$parent_args = array( 
-				'numberposts' => 1, 
-				'post_type' => 'comic', 
-				'orderby' => 'post_date', 
-				'order' => 'ASC', 
-				'post_status' => 'publish', 
-				'chapters' => $parent_chapter->slug, 
-			);					
-			$qposts = get_posts( $parent_args );
-			if (is_array($qposts)) {
-				$qposts = reset($qposts);
-				if ($parent_chapter->count) $count = ' ('.$parent_chapter->count.') ';
-				$output .='<option class="level-0" value="'.get_permalink($qposts->ID).'">'.$parent_chapter->name.$count.'</option>';
-			}
-			$child_chapters = get_term_children( $parent_chapter->term_id, 'chapters' );
-			foreach ($child_chapters as $child) {
-				$child_term = get_term_by( 'id', $child, 'chapters' );
-				if ($child_term->count) {
-					$child_args = array( 
+			if ($parent_chapter->count > 0) {
+				$count = '';
+				$parent_args = array( 
 						'numberposts' => 1, 
-						'post_type' => 'comic',
+						'post_type' => 'comic', 
 						'orderby' => 'post_date', 
 						'order' => 'ASC', 
 						'post_status' => 'publish', 
-						'chapters' => $child_term->slug 
-					);					
-					$qcposts = get_posts( $child_args );
-					if (is_array($qcposts)) {
-						$qcposts = reset($qcposts);
-						$output .= '<option class="level-1" value="' . get_permalink($qcposts->ID) . '">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $child_term->name . ' ('.$child_term->count.') </option>';
+						'chapters' => $parent_chapter->slug, 
+						);					
+				$qposts = get_posts( $parent_args );
+				if (is_array($qposts) && !is_wp_error($qposts)) {
+					$qposts = reset($qposts);
+					if ($parent_chapter->count) $count = ' ('.$parent_chapter->count.') ';
+					$output .='<option class="level-0" value="'.get_permalink($qposts->ID).'">'.$parent_chapter->name.$count.'</option>';
+				}
+				$child_chapters = get_term_children( $parent_chapter->term_id, 'chapters' );
+				foreach ($child_chapters as $child) {
+					$child_term = get_term_by( 'id', $child, 'chapters' );
+					if ($child_term->count) {
+						$child_args = array( 
+								'numberposts' => 1, 
+								'post_type' => 'comic',
+								'orderby' => 'post_date', 
+								'order' => 'ASC', 
+								'post_status' => 'publish', 
+								'chapters' => $child_term->slug 
+								);					
+						$qcposts = get_posts( $child_args );
+						if (is_array($qcposts)) {
+							$qcposts = reset($qcposts);
+							$output .= '<option class="level-1" value="' . get_permalink($qcposts->ID) . '">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $child_term->name . ' ('.$child_term->count.') </option>';
+						}
 					}
 				}
 			}
