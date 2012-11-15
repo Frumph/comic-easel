@@ -1,9 +1,9 @@
 <?php
 /* Short Codes go Here */
 
-add_shortcode( 'cast-page', 'ceo_cast_page' );
-add_shortcode( 'comic-archive', 'ceo_comic_archive_multi');
-// [comic-archive list="default"]
+add_shortcode('cast-page', 'ceo_cast_page');
+add_shortcode('comic-archive', 'ceo_comic_archive_multi');
+add_shortcode('transcript', 'ceo_display_transcript');
 
 function ceo_cast_display($character) {
 	$cast_output = '';
@@ -219,5 +219,51 @@ function ceo_archive_list_series($thumbnail = 0) {
 			}
 		}
 		return $output;
+	}
+}
+
+function ceo_display_transcript($atts, $content = null) {
+	extract( shortcode_atts( array(
+					'display' => 'styled'
+					), $atts ) );
+	return ceo_the_transcript($display);
+}
+
+function ceo_display_the_transcript_action() {
+	echo ceo_the_transcript('styled');
+}
+
+function ceo_the_transcript($displaymode = 'raw') {
+	global $post;
+	$transcript = get_post_meta( $post->ID, "transcript", true );
+	if (!empty($transcript)) {			
+		switch ($displaymode) {
+			case "raw":
+				return $transcript;
+				break;
+			case "br":
+				return nl2br($transcript);
+				break;
+			case "styled":
+				$output = "<script type='text/javascript'>\r\n";
+				$output .= "<!--\r\n";
+				$output .= "function toggle_expander(id) {\r\n";
+				$output .= "	var e = document.getElementById(id);\r\n";
+				$output .= "	if(e.style.height == 'auto')\r\n";
+				$output .= "		e.style.height = '1px';\r\n";
+				$output .= "	else\r\n";
+				$output .= "		e.style.height = 'auto';\r\n";
+				$output .= "}\r\n";
+				$output .= "//-->\r\n";
+				$output .= "</script>\r\n";
+				$output .= "<div class=\"transcript-border\"><div id=\"transcript\"><a href=\"javascript:toggle_expander('transcript-content');\" class=\"transcript-title\">&darr; Transcript</a><div id=\"transcript-content\">".nl2br($transcript)."<br /><br /></div></div></div>\r\n";
+				$output .= "<script type='text/javascript'>\r\n";
+				$output .= "<!--\r\n";
+				$output .= "	document.getElementById('transcript-content').style.height = '1px';\r\n";
+				$output .= "//-->\r\n";
+				$output .= "</script>\r\n";
+				return $output;
+				break;
+		}
 	}
 }

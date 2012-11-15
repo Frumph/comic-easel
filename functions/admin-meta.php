@@ -174,6 +174,15 @@ function ceo_edit_hovertext_in_post($post) {
 <?php
 }
 
+function ceo_edit_transcript_in_post($post) { 
+	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
+	$transcript = esc_attr( get_post_meta($post->ID, 'transcript', true));
+?>
+	The text placed here will appear if you use the [transcript] shortcode.<br />
+	<textarea name="transcript" id="transcript" class="admin-transcript" style="width:100%; height: 100px;"><?php echo $transcript; ?></textarea>
+<?php
+}
+
 function ceo_edit_html_above_comic($post) { 
 	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
 ?>
@@ -194,6 +203,7 @@ function ceo_add_comic_in_post() {
 	add_meta_box('ceo_comic_in_post', __('Comic', 'comiceasel'), 'ceo_edit_comic_in_post', 'comic', 'side', 'high');
 	add_meta_box('ceo_toggle_in_post', __('Misc. Comic Functionality', 'comiceasel'), 'ceo_edit_toggles_in_post', 'comic', 'side', 'high');
 	add_meta_box('ceo_hovertext_in_post', __('Alt (Hover) Text', 'comiceasel'), 'ceo_edit_hovertext_in_post', 'comic', 'normal', 'high');
+	add_meta_box('ceo_transcript_in_post', __('Transcript', 'comiceasel'), 'ceo_edit_transcript_in_post', 'comic', 'normal', 'high');
 	add_meta_box('ceo_html_above_comic', __('HTML (Above) Comic', 'comiceasel'), 'ceo_edit_html_above_comic', 'comic', 'normal', 'high');
 	add_meta_box('ceo_html_below_comic', __('HTML (Below) Comic', 'comiceasel'), 'ceo_edit_html_below_comic', 'comic', 'normal', 'high');
 }
@@ -217,6 +227,7 @@ function ceo_handle_edit_save_comic($post_id, $post) {
 		return $post_id;
 
 	$meta_array = array(
+			'transcript',
 			'comic-html-above',
 			'comic-html-below',
 			'comic-hovertext',

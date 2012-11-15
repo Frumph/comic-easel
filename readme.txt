@@ -3,7 +3,7 @@ Contributors: frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.0
 Tested up to: 3.4.2
-Stable tag: 1.0.17
+Stable tag: 1.0.18
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -39,6 +39,7 @@ To Convert your existing ComicPress theme comics to Comic Easel's post type ther
 - Navigation widget that mimics ComicPress's navigation widget including custom graphic sets that can be pulled from themes
 - chapter navigation in a variety of different methods
 - can create a gallery of comics for a post
+- transcripts
 - And more!
 
 = Widgets =
@@ -63,6 +64,8 @@ Shortcodes are simple embed statements that you can put into pages/post that dis
 * list=1 if list=1 do it for series that has parent->child book->chapter (chapter= will not work)
 * thumbnail=1 display the thumbnail of the first post it finds 
 - `[cast-page]` Display a list of all of your characters, how many comics they were in and when they first appeared
+- `[transcript]` Display the transcript of the comic whereever you like within the post
+* display=(raw/br/styled*) styled = default [transcript display=raw] = no special output.
 
 = Action Injection Locations =
 
@@ -101,9 +104,11 @@ There are other "action" area's that you can put into your theme, not just the c
 
 `do_action('comic-post-extras');` - Inside the individual post loop, preferably at the bottom after the post div.  Show's a list of related comics.
 
+`do_action('comic-transcript');` - generally used under the_content() to display the transcript of the post, if you do not want to use the [transcript] shortcode, this will make it so that it always displays if there is a transcript
+
 = Adding the Comic area sidebars =
 
-Sidebars for Comic Easel are added automatically since 05/28/2012 They should appear above all of your other sidebars in the widget panel.
+Sidebars for Comic Easel are added automatically since 05/28/2012 They should appear above all of your other sidebars in the widget panel; and can be toggled on and off in the config.
 
 
 == Frequently Asked Questions ==

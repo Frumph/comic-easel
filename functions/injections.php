@@ -9,6 +9,7 @@ add_action('wp_head', 'ceo_facebook_comic_thumbnail');
 if (!ceo_pluginfo('disable_related_comics')) 
 	add_action('comic-post-extras', 'ceo_display_related_comics');
 add_action('transition_post_status', 'ceo_transition_post_status',10,3);
+add_action('comic-transcript', 'ceo_display_the_transcript_action');
 
 function ceo_display_edit_link() {
 	global $post;
