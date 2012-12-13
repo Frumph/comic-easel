@@ -22,7 +22,7 @@ function ceo_comic_archive_jump_to_chapter() {
 	$output .= '<option class="level-select" value="">'.__('Select Story','comiceasel').'</option>';
 	if (!is_null($parent_chapters)) {
 		foreach($parent_chapters as $parent_chapter) {
-			if ($parent_chapter->count > 0) {
+//			if ($parent_chapter->count > 0) {
 				$count = '';
 				$parent_args = array( 
 						'numberposts' => 1, 
@@ -56,7 +56,7 @@ function ceo_comic_archive_jump_to_chapter() {
 							$output .= '<option class="level-1" value="' . get_permalink($qcposts->ID) . '">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $child_term->name . ' ('.$child_term->count.') </option>';
 						}
 					}
-				}
+//				}
 			}
 		}
 	}
