@@ -42,7 +42,7 @@ function ceo_display_comic($size = 'full') {
 	if ($output) { 
 		return apply_filters('ceo_comics_display_comic', $output);
 	} else
-		return __('No HTML, Gallery or featured image Found.', 'comiceasel');
+		return __('<!-- No HTML, Gallery or featured image Found. //-->', 'comiceasel');
 }
 
 function ceo_the_hovertext($override_post = null) {

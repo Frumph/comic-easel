@@ -8,7 +8,8 @@ add_filter('the_content', 'ceo_insert_comic_into_archive'); // Insert the comic 
 add_filter('the_excerpt', 'ceo_insert_comic_into_archive');
 add_filter('previous_post_rel_link', 'ceo_change_prev_rel_link_two', $link); // change the rel links for comic pages
 add_filter('next_post_rel_link', 'ceo_change_next_rel_link_two', $link);
-add_filter('pre_get_posts', 'ceo_query_post_type');
+add_filter('request', 'ceo_post_type_tags_fix');
+// add_filter('pre_get_posts', 'ceo_query_post_type');
 add_filter('body_class', 'ceo_body_class');
 add_filter('get_terms_args', 'ceo_chapters_find_menu_orderby');
 // add_filter('get_lastpostmodified', 'ceo_lastpostmodified');
@@ -63,8 +64,14 @@ function ceo_change_next_rel_link_two($link) {
 	return $link;
 }
 
+function ceo_post_type_tags_fix($request) {
+	if ( isset($request['tag']) && !isset($request['post_type']) )
+		$request['post_type'] = 'any';
+	return $request;
+} 
+
 function ceo_query_post_type($query) {
-	if ( ( is_tag() || (is_archive() && ceo_pluginfo('include_comics_in_blog_archive'))) && empty( $query->query_vars['suppress_filters'] ) && !$query->is_post_type_archive ) {
+	if ( ($query->is_tag() && $query->is_category()) && $query->is_archive() && ceo_pluginfo('include_comics_in_blog_archive') && empty( $query->query_vars['suppress_filters'] ) && !$query->is_post_type_archive ) {
 		$post_type = get_query_var('post_type');
 		if ( is_array($post_type) && !empty($post_type) ) {
 			$post_type = array_merge($post_type, array('comic'));
