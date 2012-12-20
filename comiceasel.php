@@ -3,7 +3,7 @@
 Plugin Name: Comic Easel
 Plugin URI: http://comiceasel.com
 Description: Comic Easel allows you to incorporate a WebComic using the WordPress Media Library functionality with Navigation into almost all WordPress themes. With just a few modifications of adding injection do_action locations into a theme, you can have the theme of your choice display and manage a webcomic.
-Version: 1.0.18
+Version: 1.0.19
 Author: Philip M. Hofer (Frumph)
 Author URI: http://frumph.net/
 
@@ -28,126 +28,127 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 add_action('init', 'ceo_initialize_post_types');
 
 function ceo_initialize_post_types() {
-	$labels = array(
-			'name' => __('Comics', 'comiceasel'),
-			'singular_name' => __('Comic', 'comiceasel'),
-			'add_new' => __('Add Comic', 'comiceasel'),
-			'add_new_item' => __('Add Comic', 'comiceasel'),
-			'edit_item' => __('Edit Comic','comiceasel'),
-			'edit' => __('Edit', 'comiceasel'),
-			'new_item' => __('New Comic', 'comiceasel'),
-			'view_item' => __('View Comic', 'comiceasel'),
-			'search_items' => __('Search Comics', 'comiceasel'),
-			'not_found' =>  __('No comics found', 'comiceasel'),
-			'not_found_in_trash' => __('No comics found in Trash', 'comiceasel'), 
-			'view' =>  __('View Comic', 'comiceasel'),
-			'parent_item_colon' => ''
-			);
-	
-	register_post_type(
-		'comic', 
-			array(
-				'labels' => $labels,
-				'public' => true,
-				'public_queryable' => true,
-				'show_ui' => true,
-				'query_var' => true,
-				'capability_type' => 'post',
-				'taxonomies' => array( 'post_tag' ),
-				'rewrite' => array( 'slug' => 'comic', 'with_front' => true, 'feeds' => true ),
-				'hierarchical' => false,
-				'can_export' => true,
-				'show_in_menu' => true,
-				'menu_position' => 5,
-				'exclude_from_search' => false,
-				'has_archive' => true,
-				'query_var' => true,
-				'menu_icon' => ceo_pluginfo('plugin_url') . '/images/ceo-icon.png',
-				'supports' => array( 'title', 'editor', 'excerpt', 'author', 'comments', 'thumbnail', 'custom-fields', 'revisions', 'trackbacks' ),
-				'description' => 'Post type for Comics'
-				));
+	if (!post_type_exists('comic')) {
+		$labels = array(
+				'name' => __('Comics', 'comiceasel'),
+				'singular_name' => __('Comic', 'comiceasel'),
+				'add_new' => __('Add Comic', 'comiceasel'),
+				'add_new_item' => __('Add Comic', 'comiceasel'),
+				'edit_item' => __('Edit Comic','comiceasel'),
+				'edit' => __('Edit', 'comiceasel'),
+				'new_item' => __('New Comic', 'comiceasel'),
+				'view_item' => __('View Comic', 'comiceasel'),
+				'search_items' => __('Search Comics', 'comiceasel'),
+				'not_found' =>  __('No comics found', 'comiceasel'),
+				'not_found_in_trash' => __('No comics found in Trash', 'comiceasel'), 
+				'view' =>  __('View Comic', 'comiceasel'),
+				'parent_item_colon' => ''
+				);
+		
+		register_post_type(
+			'comic', 
+				array(
+					'labels' => $labels,
+					'public' => true,
+					'public_queryable' => true,
+					'show_ui' => true,
+					'query_var' => true,
+					'capability_type' => 'post',
+					'taxonomies' => array( 'post_tag' ),
+					'rewrite' => array( 'slug' => 'comic', 'with_front' => true, 'feeds' => true ),
+					'hierarchical' => false,
+					'can_export' => true,
+					'show_in_menu' => true,
+					'menu_position' => 5,
+					'exclude_from_search' => false,
+					'has_archive' => true,
+					'query_var' => true,
+					'menu_icon' => ceo_pluginfo('plugin_url') . '/images/ceo-icon.png',
+					'supports' => array( 'title', 'editor', 'excerpt', 'author', 'comments', 'thumbnail', 'custom-fields', 'revisions', 'trackbacks' ),
+					'description' => 'Post type for Comics'
+					));
 
-	$labels = array(
-			'name' => __( 'Chapters', 'comiceasel' ),
-			'singular_name' => __( 'Chapter', 'comiceasel' ),
-			'search_items' =>  __( 'Search Chapters', 'comiceasel' ),
-			'popular_items' => __( 'Popular Chapters', 'comiceasel' ),
-			'all_items' => __( 'All Chapters', 'comiceasel' ),
-			'parent_item' => __( 'Parent Chapter', 'comiceasel' ),
-			'parent_item_colon' => __( 'Parent Chapter:', 'comiceasel' ),
-			'edit_item' => __( 'Edit Chapters', 'comiceasel' ), 
-			'update_item' => __( 'Update Chapters', 'comiceasel' ),
-			'add_new_item' => __( 'Add New Chapter', 'comiceasel' ),
-			'new_item_name' => __( 'New Chapter Name', 'comiceasel' ),
-			); 	
+		$labels = array(
+				'name' => __( 'Chapters', 'comiceasel' ),
+				'singular_name' => __( 'Chapter', 'comiceasel' ),
+				'search_items' =>  __( 'Search Chapters', 'comiceasel' ),
+				'popular_items' => __( 'Popular Chapters', 'comiceasel' ),
+				'all_items' => __( 'All Chapters', 'comiceasel' ),
+				'parent_item' => __( 'Parent Chapter', 'comiceasel' ),
+				'parent_item_colon' => __( 'Parent Chapter:', 'comiceasel' ),
+				'edit_item' => __( 'Edit Chapters', 'comiceasel' ), 
+				'update_item' => __( 'Update Chapters', 'comiceasel' ),
+				'add_new_item' => __( 'Add New Chapter', 'comiceasel' ),
+				'new_item_name' => __( 'New Chapter Name', 'comiceasel' ),
+				); 	
 
-	register_taxonomy('chapters', 'comic', array(
-				'hierarchical' => true,
-				'public' => true,
-				'labels' => $labels,
-				'show_ui' => true,
-				'query_var' => true,
-				'show_tagcloud' => false,
-				'rewrite' => array( 'slug' => 'chapter', 'with_front' => true, 'feeds' => true ),
-				));
+		register_taxonomy('chapters', 'comic', array(
+					'hierarchical' => true,
+					'public' => true,
+					'labels' => $labels,
+					'show_ui' => true,
+					'query_var' => true,
+					'show_tagcloud' => false,
+					'rewrite' => array( 'slug' => 'chapter', 'with_front' => true, 'feeds' => true ),
+					));
 
-	$labels = array(
-			'name' => __('Characters', 'comiceasel' ),
-			'singular_name' => __( 'Character', 'comiceasel' ),
-			'search_items' =>  __( 'Search Characters', 'comiceasel' ),
-			'popular_items' => __( 'Popular Characters', 'comiceasel' ),
-			'all_items' => __( 'All Characters', 'comiceasel' ),
-			'parent_item' => __( 'Parent Character', 'comiceasel' ),
-			'parent_item_colon' => __( 'Parent Character:', 'comiceasel' ),
-			'edit_item' => __( 'Edit Character', 'comiceasel' ), 
-			'update_item' => __( 'Update Character', 'comiceasel' ),
-			'add_new_item' => __( 'Add New Character', 'comiceasel' ),
-			'new_item_name' => __( 'New Character Name', 'comiceasel' ),
-			); 	
+		$labels = array(
+				'name' => __('Characters', 'comiceasel' ),
+				'singular_name' => __( 'Character', 'comiceasel' ),
+				'search_items' =>  __( 'Search Characters', 'comiceasel' ),
+				'popular_items' => __( 'Popular Characters', 'comiceasel' ),
+				'all_items' => __( 'All Characters', 'comiceasel' ),
+				'parent_item' => __( 'Parent Character', 'comiceasel' ),
+				'parent_item_colon' => __( 'Parent Character:', 'comiceasel' ),
+				'edit_item' => __( 'Edit Character', 'comiceasel' ), 
+				'update_item' => __( 'Update Character', 'comiceasel' ),
+				'add_new_item' => __( 'Add New Character', 'comiceasel' ),
+				'new_item_name' => __( 'New Character Name', 'comiceasel' ),
+				); 	
 
-	register_taxonomy('characters', 'comic', array(
-				'hierarchical' => false,
-				'public' => true,
-				'labels' => $labels,
-				'show_ui' => true,
-				'query_var' => true,
-				'show_tagcloud' => false,
-				'rewrite' => array( 'slug' => 'character', 'with_front' => true, 'feeds' => true ),
-				));
-				
-	$labels = array(
-			'name' => __( 'Locations', 'comiceasel'),
-			'singular_name' => __( 'Location', 'comiceasel' ),
-			'search_items' =>  __( 'Search Locations', 'comiceasel' ),
-			'popular_items' => __( 'Popular Locations', 'comiceasel' ),
-			'all_items' => __( 'All Locations', 'comiceasel' ),
-			'parent_item' => __( 'Parent Locations', 'comiceasel' ),
-			'parent_item_colon' => __( 'Parent Location:', 'comiceasel' ),
-			'edit_item' => __( 'Edit Location', 'comiceasel' ), 
-			'update_item' => __( 'Update Location', 'comiceasel' ),
-			'add_new_item' => __( 'Add New Location', 'comiceasel' ),
-			'new_item_name' => __( 'New Location Name', 'comiceasel' ),
-			); 	
+		register_taxonomy('characters', 'comic', array(
+					'hierarchical' => false,
+					'public' => true,
+					'labels' => $labels,
+					'show_ui' => true,
+					'query_var' => true,
+					'show_tagcloud' => false,
+					'rewrite' => array( 'slug' => 'character', 'with_front' => true, 'feeds' => true ),
+					));
+					
+		$labels = array(
+				'name' => __( 'Locations', 'comiceasel'),
+				'singular_name' => __( 'Location', 'comiceasel' ),
+				'search_items' =>  __( 'Search Locations', 'comiceasel' ),
+				'popular_items' => __( 'Popular Locations', 'comiceasel' ),
+				'all_items' => __( 'All Locations', 'comiceasel' ),
+				'parent_item' => __( 'Parent Locations', 'comiceasel' ),
+				'parent_item_colon' => __( 'Parent Location:', 'comiceasel' ),
+				'edit_item' => __( 'Edit Location', 'comiceasel' ), 
+				'update_item' => __( 'Update Location', 'comiceasel' ),
+				'add_new_item' => __( 'Add New Location', 'comiceasel' ),
+				'new_item_name' => __( 'New Location Name', 'comiceasel' ),
+				); 	
 
-	register_taxonomy('locations', 'comic', array(
-				'hierarchical' => true,
-				'public' => true,
-				'labels' => $labels,
-				'show_ui' => true,
-				'query_var' => true,
-				'show_tagcloud' => false,
-				'rewrite' => array( 'slug' => 'location', 'with_front' => false, 'feeds' => true ),
-				));
+		register_taxonomy('locations', 'comic', array(
+					'hierarchical' => true,
+					'public' => true,
+					'labels' => $labels,
+					'show_ui' => true,
+					'query_var' => true,
+					'show_tagcloud' => false,
+					'rewrite' => array( 'slug' => 'location', 'with_front' => false, 'feeds' => true ),
+					));
 
-	register_taxonomy_for_object_type('post_tag', 'comic');
-	register_taxonomy_for_object_type('chapters', 'comic');
-	register_taxonomy_for_object_type('characters', 'comic');
-	register_taxonomy_for_object_type('locations', 'comic');
-
-	// load the comiceasel language translations
-	load_plugin_textdomain('comiceasel', false, basename( dirname( __FILE__ ) ) . '/languages');
-//	add_action('generate_rewrite_rules', 'ceo_datearchives_rewrite_rules');
+		register_taxonomy_for_object_type('post_tag', 'comic');
+		register_taxonomy_for_object_type('chapters', 'comic');
+		register_taxonomy_for_object_type('characters', 'comic');
+		register_taxonomy_for_object_type('locations', 'comic');
+	}
 }
+
+// load the comiceasel language translations
+load_plugin_textdomain('comiceasel', false, basename( dirname( __FILE__ ) ) . '/languages');
 
 // Create CEO Specific Sidebars regardless if they already exist.
 function ceo_register_sidebars() {
@@ -179,7 +180,7 @@ if (is_admin()) {
 	@require('ceo-admin.php');
 	@require('functions/admin-meta.php');
 } else {
-	add_action('wp_print_styles', 'ceo_run_css');
+	add_action('wp_print_styles', 'ceo_run_css', 10);
 }
 
 // This style needs to be loaded on all the comic-easel pages inside ceo-core.php instead.
@@ -209,6 +210,7 @@ function ceo_chapters_activate() {
 	}
 }
 
+// currently not hooked in
 function ceo_chapters_deactivate() {
 	global $wpdb;
 	$sql = "ALTER TABLE `{$wpdb->terms}` DROP COLUMN `menu_order`;";
@@ -217,17 +219,12 @@ function ceo_chapters_deactivate() {
 
 
 // Flush Rewrite Rules
+register_activation_hook( __FILE__, 'ceo_initialize_post_types' );
+register_activation_hook( __FILE__, 'flush_rewrite_rules' );
 register_activation_hook( __FILE__, 'ceo_activation' );
-register_deactivation_hook( __FILE__, 'ceo_flush_rewrite' );
 
 function ceo_activation() {
 	ceo_chapters_activate();
-	ceo_flush_rewrite();
-}
-
-function ceo_flush_rewrite() {
-	global $wp_rewrite;
-	$wp_rewrite->flush_rules();
 }
 
 // This file contains functions that is used elsewhere in the plugin 
