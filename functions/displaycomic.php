@@ -13,16 +13,20 @@ function ceo_display_comic($size = 'full') {
 		if (is_array($thumbnail)) {
 			$thumbnail = reset($thumbnail);
 			$hovertext = ceo_the_hovertext();
+			$comic_lightbox = get_post_meta( $post->ID, 'comic-open-lightbox', true );
 			if (ceo_pluginfo('navigate_only_chapters')) {
 				$next_comic = ceo_get_next_comic_in_chapter_permalink();
 			} else {
 				$next_comic = ceo_get_next_comic_permalink();
 			}
-			if (ceo_pluginfo('click_comic_next') && !empty($next_comic)) {
-				$output .= '<a href="'.$next_comic.'">';
+			if ($comic_lightbox) {
+				$output .= '<a href="'.$thumbnail.'" title="'.$hovertext.'" rel="lightbox">';
+			}
+			if (ceo_pluginfo('click_comic_next') && !empty($next_comic) && !$comic_lightbox) {
+				$output .= '<a href="'.$next_comic.'" title="'.$hovertext.'">';
 			}
 			$output .= '<img src="'.$thumbnail.'" alt="'.$hovertext.'" title="'.$hovertext.'" />';
-			if (ceo_pluginfo('click_comic_next') && !empty($next_comic)) {
+			if ((ceo_pluginfo('click_comic_next') && !empty($next_comic)) || $comic_lightbox) {
 				$output .= '</a>';
 			}
 		}

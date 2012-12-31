@@ -160,6 +160,12 @@ function ceo_edit_toggles_in_post($post) {
 			<input id="comic-gallery-columns" name="comic-gallery-columns" style="width: 40px;" type="text" value="<?php echo $column_count; ?>"  />
 		</td>
 	</tr>
+	<tr>
+		<th scope="row"><label for="comic-open-lightbox"><?php _e('Open comic up with Lightbox?','comiceasel'); ?></label></th>
+		<td>
+			<input id="comic-open-lightbox" name="comic-open-lightbox" type="checkbox" value="1" <?php checked(1, get_post_meta( $post->ID, 'comic-open-lightbox', true )); ?>"  />
+		</td>
+	</tr>
 </table>
 <?php
 }
@@ -232,7 +238,8 @@ function ceo_handle_edit_save_comic($post_id, $post) {
 			'comic-html-below',
 			'comic-hovertext',
 			'comic-gallery',
-			'comic-gallery-columns'
+			'comic-gallery-columns',
+			'comic-open-lightbox'
 			);
 			
 	foreach ($meta_array as $meta_key) {

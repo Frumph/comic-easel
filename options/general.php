@@ -1,10 +1,7 @@
 <div id="comiceasel-general">
-
 	<form method="post" id="myForm-general" enctype="multipart/form-data">
 	<?php wp_nonce_field('update-options') ?>
-
 		<div class="comiceasel-options">
-		
 			<table class="widefat">
 				<thead>
 					<tr>
@@ -131,8 +128,29 @@ foreach ($thumbnail_sizes as $size) { ?>
 					</td>	
 				</tr>
 			</table>
+			<br />
+			<table class="widefat">
+			<thead>
+				<tr>
+					<th colspan="3"><?php _e('Comic Post Type','comiceasel'); ?></th>
+				</tr>
+			</thead>
+				<tr class="alternate">
+					<?php if (empty($ceo_options['custom_post_type_slug_name'])) $ceo_options['custom_post_type_slug_name'] = 'comic'; ?>
+					<th scope="row"><label for="custom_post_type_slug_name"><?php _e('Custom Post Type slug name?','comiceasel'); ?></label></th>
+					<td>
+						<input id="custom_post_type_slug_name" name="custom_post_type_slug_name" type="text" value="<?php echo $ceo_options['custom_post_type_slug_name']; ?>" />
+					</td>
+					<td>
+						<?php _e('Default: "comic" changing this will modify the permalink name for the /comic/ how it is addressed in the url.  This is a slug name, no slashes or spaces allowed; only alpha characters and a single word.','comiceasel'); ?><br />
+						<br />
+						<span style='color: #f00;'><?php _e('IMPORTANT - If you change this from the default remember to go to settings -> permalink and click SAVE so that the permalink structure can be recognized by WordPress','comiceasel'); ?></span>
+					</td>
+				</tr>			
+			</table>
 		</div>
 		<br />
+
 		<div class="ceo-options-save">
 			<div class="ceo-major-publishing-actions">
 				<div class="ceo-publishing-action">
@@ -142,7 +160,5 @@ foreach ($thumbnail_sizes as $size) { ?>
 				<div class="clear"></div>
 			</div>
 		</div>
-
 	</form>
-
 </div>
