@@ -321,7 +321,7 @@ function ceo_pluginfo($whichinfo = null) {
 			$ceo_options['db_version'] = '1.0.7';
 			update_option('comiceasel-config', $ceo_options);
 		}
-		if (empty($ceo_options['custom_post_type_slug_name'])) $ceo_options['custom_post_type_slug_name'] == 'comic';
+		if (!isset($ceo_options['custom_post_type_slug_name']) || empty($ceo_options['custom_post_type_slug_name'])) $ceo_options['custom_post_type_slug_name'] == 'comic';
 		$ceo_coreinfo = wp_upload_dir();
 		$ceo_addinfo = array(
 				// if wp_upload_dir reports an error, capture it
