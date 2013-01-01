@@ -45,7 +45,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 					} else {
 						echo "No Thumbnail Found.";	
 					}
-					if ($instance['linktitle']) { echo '<div class="comic-thumb-title">'; the_title(); echo '</div><div class="clear"></div>'; }
+					if ($instance['linktitle']) { echo '<div class="comic-thumb-title"><a href="'.$the_permalink.'" rel="bookmark" title="Permanent Link to '.get_the_title().'">'.get_the_title().'</a></div><div class="clear"></div>'; }
 					echo '</div>';
 					if ($instance['centering']) echo "\r\n</center>\r\n";
 					echo $after_widget;
