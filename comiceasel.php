@@ -45,7 +45,7 @@ function ceo_initialize_post_types() {
 				'parent_item_colon' => ''
 				);
 		$comic_slug = ceo_pluginfo('custom_post_type_slug_name');
-		if (empty($comic_slug)) $comic_slug = 'comic';
+		if (empty($comic_slug) || is_array($comic_slug)) $comic_slug = 'comic';
 		register_post_type(
 			'comic', 
 				array(
