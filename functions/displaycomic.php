@@ -29,6 +29,7 @@ function ceo_display_comic($size = 'full') {
 			if ((ceo_pluginfo('click_comic_next') && !empty($next_comic)) || $comic_lightbox) {
 				$output .= '</a>';
 			}
+			if ($comic_lightbox) $output .= '<div class="comic-lightbox-text">'.__('Click comic to view larger version of comic.','comiceasel').'</div>';
 		}
 	}
 	if (ceo_the_below_html()) $output .= html_entity_decode(ceo_the_below_html())."\r\n";
