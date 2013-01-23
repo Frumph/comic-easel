@@ -85,11 +85,11 @@ function ceo_query_post_type($query) {
 
 function ceo_body_class($classes = '') {
 	global $post, $wp_query;
-	
+
 	if (!empty($post) && $post->post_type == 'comic') {
 		$terms = wp_get_object_terms( $post->ID, 'chapters');
-		foreach ($terms as $terms) {
-			$classes[] = 'story-'.$terms->slug;
+		foreach ($terms as $term) {
+			$classes[] = 'story-'.$term->slug;
 		}
 	}
 	

@@ -29,7 +29,7 @@ function ceo_display_comic($size = 'full') {
 			if ((ceo_pluginfo('click_comic_next') && !empty($next_comic)) || $comic_lightbox) {
 				$output .= '</a>';
 			}
-			if ($comic_lightbox) $output .= '<div class="comic-lightbox-text">'.__('Click comic to view larger version of comic.','comiceasel').'</div>';
+			if ($comic_lightbox) $output .= '<div class="comic-lightbox-text">'.__('Click comic to view larger version.','comiceasel').'</div>';
 		}
 	}
 	if (ceo_the_below_html()) $output .= html_entity_decode(ceo_the_below_html())."\r\n";
@@ -80,10 +80,12 @@ function ceo_display_comic_area() {
 	} else {
 		if ((is_home() || is_front_page()) && !is_paged() && !ceo_pluginfo('disable_comic_on_home_page'))  {
 			ceo_Protect();
+			$order = (ceo_pluginfo('display_first_comic_on_home_page')) ?  'asc' : 'desc';
 			$comic_args = array(
 					'showposts' => 1,
 					'posts_per_page' => 1,
-					'post_type' => 'comic'
+					'post_type' => 'comic',
+					'order' => $order
 					);
 			$wp_query->in_the_loop = true; $comicFrontpage = new WP_Query(); $comicFrontpage->query($comic_args);
 			while ($comicFrontpage->have_posts()) : $comicFrontpage->the_post();

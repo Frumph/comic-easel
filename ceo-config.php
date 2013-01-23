@@ -37,7 +37,8 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 				'disable_comic_blog_on_home_page',
 				'enable_comments_on_homepage',
 				'enable_comic_sidebar_locations',
-				'disable_related_comics'
+				'disable_related_comics',
+				'display_first_comic_on_home_page'
 			) as $key) {
 				if (!isset($_REQUEST[$key])) $_REQUEST[$key] = 0;
 				$ceo_options[$key] = (bool)( $_REQUEST[$key] == 1 ? true : false );

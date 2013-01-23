@@ -61,7 +61,16 @@
 					<td>
 						<?php _e('If you have a theme that has related comics do_action code installed, this will disable it from displaying.','comiceasel'); ?>
 					</td>
-				</tr>				
+				</tr>
+				<tr class="alternate">
+					<th scope="row"><label for="display_first_comic_on_home_page"><?php _e('Show the first comic on the home page?','comiceasel'); ?></label></th>
+					<td>
+						<input id="display_first_comic_on_home_page" name="display_first_comic_on_home_page" type="checkbox" value="1" <?php checked(true, $ceo_options['display_first_comic_on_home_page']); ?> />
+					</td>
+					<td>
+						<?php _e('Enabling this will make it so that the comic on the home page is the first comic.','comiceasel'); ?>
+					</td>
+				</tr>						
 			</table>
 			<br />
 			<table class="widefat">
