@@ -62,3 +62,22 @@ function ceo_in_comic_category() {
 	if ($post->post_type == 'comic') return true;
 	return false;
 }
+
+function ceo_is_comic() {
+	global $post;
+	if ($post->post_type == 'comic') return true;
+	return false;
+}
+
+function ceo_is_chapter($chapter = '') {
+	global $post;
+	if (!empty($post) && $post->post_type == 'comic') {
+		$chapters = array();
+		$terms = wp_get_object_terms( $post->ID, 'chapters');
+		foreach ($terms as $term) {
+			$chapters[] = $term->slug;
+		}
+		if (!empty($chapters) && in_array($chapter, $chapters)) return true;
+	}
+	return false;
+}
