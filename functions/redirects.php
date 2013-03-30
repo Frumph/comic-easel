@@ -8,6 +8,7 @@ if ( isset( $_GET['random'] ) )
 
 //to use simply create a URL link to "/?latestcomic"
 function ceo_latest_comic_jump() {
+	$chapter = 0;
 	if (isset($_GET['latest'])) $chapter = (int)esc_attr($_GET['latest']);
 	if (!empty($chapter)) {
 		$this_chapter = get_term_by('term_id', $chapter, 'chapters');

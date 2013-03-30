@@ -4,6 +4,7 @@
 */
 
 function ceo_get_sidebar($location = '') {
+	global $post;
 	if (!empty($location)) do_action($location.'-top');
 	if (file_exists(get_stylesheet_directory().'/sidebar-'.$location.'.php')) {
 		get_sidebar($location);

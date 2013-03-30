@@ -70,7 +70,16 @@
 					<td>
 						<?php _e('Enabling this will make it so that the comic on the home page is the first comic.','comiceasel'); ?>
 					</td>
-				</tr>						
+				</tr>
+				<tr>
+					<th scope="row"><label for="disable_style_sheet"><?php _e('Disable the default stylesheets. comiceasel.css and navstyle.css','comiceasel'); ?></label></th>
+					<td>
+						<input id="disable_style_sheet" name="disable_style_sheet" type="checkbox" value="1" <?php checked(true, $ceo_options['disable_style_sheet']); ?> />
+					</td>
+					<td>
+						<?php _e('Checkmarking this will make it so that the default stylesheets do not load, you would need to add those css elements yourself to your style.css','comiceasel'); ?>
+					</td>
+				</tr>
 			</table>
 			<br />
 			<table class="widefat">

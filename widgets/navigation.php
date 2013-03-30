@@ -162,22 +162,22 @@ class ceo_comic_navigation_widget extends WP_Widget {
 	}
 	
 	function widget($args, $instance) {
-		global $wp_query, $post;
+		global $post;
 		if (is_home() || is_front_page()) {
-			ceo_Protect();
+			$order = (ceo_pluginfo('display_first_comic_on_home_page')) ?  'asc' : 'desc';
 			$comic_args = array(
 					'showposts' => 1,
 					'posts_per_page' => 1,
-					'post_type' => 'comic'
+					'post_type' => 'comic',
+					'order' => $order
 					);
-			$posts = get_posts($comic_args);
-			foreach ($posts as $post) {
+			$wp_query->in_the_loop = true; $comicFrontpage = new WP_Query(); $comicFrontpage->query($comic_args);
+			while ($comicFrontpage->have_posts()) : $comicFrontpage->the_post();			
 				$this->display_comic_nav_wrapper($args, $instance);
-			}
-			ceo_UnProtect();
-		} else {
+			endwhile;
+		} else { 
 			$this->display_comic_nav_wrapper($args, $instance);
-		}
+		} 
 	}
 	
 	function update($new_instance, $old_instance) {
@@ -267,7 +267,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 		<br />
 		
 		<input id="<?php echo $this->get_field_id('previous'); ?>" name="<?php echo $this->get_field_name('previous'); ?>" type="checkbox" value="1" <?php checked(true, $instance['previous']); ?> /> <label for="<?php echo $this->get_field_id('previous'); ?>"><strong><?php _e('Previous','comiceasel'); ?></strong></label>
-		<input class="widefat" id="<?php echo $this->get_field_id('first_title'); ?>" name="<?php echo $this->get_field_name('previous_title'); ?>" type="text" value="<?php echo stripcslashes($instance['previous_title']); ?>" /></label><br />	
+		<input class="widefat" id="<?php echo $this->get_field_id('previous_title'); ?>" name="<?php echo $this->get_field_name('previous_title'); ?>" type="text" value="<?php echo stripcslashes($instance['previous_title']); ?>" /></label><br />
 		<br />
 		
 		<input id="<?php echo $this->get_field_id('next'); ?>" name="<?php echo $this->get_field_name('next'); ?>" type="checkbox" value="1" <?php checked(true, $instance['next']); ?> /> <label for="<?php echo $this->get_field_id('next'); ?>"><strong><?php _e('Next','comiceasel'); ?></strong></label>

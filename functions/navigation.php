@@ -22,7 +22,6 @@ function ceo_get_first_comic_in_chapter_permalink() {
 }
 
 function ceo_get_last_comic($in_chapter = false) {
-	global $post;
 	$current_chapter = get_the_terms( $post->ID, 'chapters');
 	$current_chapter_id = 0;
 	if (is_array($current_chapter) && $in_chapter) {
@@ -129,7 +128,6 @@ function ceo_get_terminal_post_of_chapter($chapterID = 0, $first = true) {
  */
 function ceo_get_adjacent_comic($previous = true, $in_same_chapter = false, $taxonomy = 'comic') {
 	global $post, $wpdb;
-	
 	if ( empty( $post ) ) return null;
 
 	$current_post_date = $post->post_date;
@@ -154,7 +152,7 @@ function ceo_get_adjacent_comic($previous = true, $in_same_chapter = false, $tax
 	$sort  = apply_filters( "get_{$adjacent}_{$taxonomy}_sort", "ORDER BY p.post_date $order LIMIT 1" );
 
 	$query = "SELECT p.* FROM $wpdb->posts AS p $join $where $sort";
-	$query_key = "adjacent_{$taxonomy}_" . md5($query);
+	$query_key = "adjacent_{$taxonomy}_{$post->ID}_{$previous}_{$in_same_chapter}"; // . md5($query);
 	$result = wp_cache_get($query_key, 'counts');
 	if ( false !== $result )
 		return $result;
@@ -162,7 +160,6 @@ function ceo_get_adjacent_comic($previous = true, $in_same_chapter = false, $tax
 	$result = $wpdb->get_row("SELECT p.* FROM $wpdb->posts AS p $join $where $sort");
 	if ( null === $result )
 		$result = '';
-
 	wp_cache_set($query_key, $result, 'counts');
 	return $result;
 }

@@ -3,7 +3,7 @@ Contributors: frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
 Tested up to: 3.5
-Stable tag: 1.1
+Stable tag: 1.2
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -125,6 +125,10 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.2 =
+Attempt at a navigation fix for the widget for front page ASC/DESC changes
+Also fixed (hopefully) the name change after saving the widget
+
 = 1.1 =
 Added option to allow making the first comic appear on the home page
 the comic's blog post now will search for content-comic.php in the theme/child themes directory and use that if it exists
