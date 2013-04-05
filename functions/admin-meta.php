@@ -252,4 +252,6 @@ function ceo_handle_edit_save_comic($post_id, $post) {
 		elseif ( '' == $new_meta_value && $meta_value )
 			delete_post_meta( $post_id, $meta_key, $meta_value );
 	}
+	// Clear the WP Supercache :: temporary hack to fix cache issues with page updates with wp-supercache
+	if (function_exists('wp_cache_clear_cache')) wp_cache_clear_cache();
 }
