@@ -109,7 +109,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 		<p><?php _e('Display how many thumbnails?', 'comiceasel'); ?><input style="width:40px;" id="<?php echo $this->get_field_id('thumbcount'); ?>" name="<?php echo $this->get_field_name('thumbcount'); ?>" type="text" value="<?php echo stripcslashes($instance['thumbcount']); ?>" /></label></p>
 		<p><label for="<?php echo $this->get_field_id('linktitle'); ?>"><?php _e('Include comic title?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('linktitle'); ?>" name="<?php echo $this->get_field_name('linktitle'); ?>" type="checkbox" value="1" <?php checked(true, $linktitle); ?> /></label></p>
 		<p><label for="<?php echo $this->get_field_id('centering'); ?>"><?php _e('Add centering html?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('centering'); ?>" name="<?php echo $this->get_field_name('centering'); ?>" type="checkbox" value="1" <?php checked(true, $centering); ?> /></label></p>
-		<p><label for="<?php echo $this->get_field_id('secondary'); ?>"><?php _e('Use Secondary Image if plugin active?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('secondary'); ?>" name="<?php echo $this->get_field_name('secondary'); ?>" type="checkbox" value="0" <?php checked(true, $secondary); ?> /></label></p>		
+		<p><label for="<?php echo $this->get_field_id('secondary'); ?>"><?php _e('Use Secondary Image if plugin active?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('secondary'); ?>" name="<?php echo $this->get_field_name('secondary'); ?>" type="checkbox" value="1" <?php checked(true, $secondary); ?> /></label></p>		
 		<br />
 	<?php
 	}
