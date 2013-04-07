@@ -254,4 +254,6 @@ function ceo_handle_edit_save_comic($post_id, $post) {
 	}
 	// Clear the WP Supercache :: temporary hack to fix cache issues with page updates with wp-supercache
 	if (function_exists('wp_cache_clear_cache')) wp_cache_clear_cache();
+	// Clear the w3tc cache if people use that cache'ing plugin
+	if (function_exists('w3tc_pgcache_flush' )) w3tc_pgcache_flush();
 }

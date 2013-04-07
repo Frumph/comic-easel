@@ -40,10 +40,14 @@ class ceo_thumbnail_widget extends WP_Widget {
 					if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
 					echo '<div class="comic-thumb comic-thumb-'.$post->ID.'">';
 					if ($instance['centering']) echo "\r\n<center>\r\n";
-					if ( has_post_thumbnail($post->ID) ) {
-						echo "<a href=\"".$the_permalink."\" rel=\"bookmark\" title=\"Permanent Link to ".get_the_title()."\">".get_the_post_thumbnail($post->ID, 'thumbnail')."</a>\r\n";
+					if ($instance['secondary'] && class_exists('MultiPostThumbnails')) {
+						echo "<a href=\"".$the_permalink."\" rel=\"bookmark\" title=\"Permanent Link to ".get_the_title()."\">".MultiPostThumbnails::get_post_thumbnail_url(get_post_type(), 'secondary-image', $post->ID)."</a>\r\n";
 					} else {
-						echo "No Thumbnail Found.";	
+						if ( has_post_thumbnail($post->ID) ) {
+							echo "<a href=\"".$the_permalink."\" rel=\"bookmark\" title=\"Permanent Link to ".get_the_title()."\">".get_the_post_thumbnail($post->ID, 'thumbnail')."</a>\r\n";
+						} else {
+							echo "No Thumbnail Found.";	
+						}
 					}
 					if ($instance['linktitle']) { echo '<div class="comic-thumb-title"><a href="'.$the_permalink.'" rel="bookmark" title="Permanent Link to '.get_the_title().'">'.get_the_title().'</a></div><div class="clear"></div>'; }
 					echo '</div>';
@@ -63,12 +67,13 @@ class ceo_thumbnail_widget extends WP_Widget {
 		$instance['first'] =  (bool)( $new_instance['first'] == 1 ? true : false );
 		$instance['random'] =  (bool)( $new_instance['random'] == 1 ? true : false );
 		$instance['linktitle'] = (bool)($new_instance['linktitle'] == 1 ? true : false );
-		$instance['centering'] = (bool)($new_instance['centering'] == 1 ? true : false );		
+		$instance['centering'] = (bool)($new_instance['centering'] == 1 ? true : false );
+		$instance['secondary'] = (bool)($new_instance['secondary'] == 1 ? true : false );
 		return $instance;
 	}
 	
 	function form($instance) {
-		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'thumbchapt' => '', 'first' => false, 'random' => false, 'thumbcount' => 1, 'linktitle' => false, 'centering' => false ) );
+		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'thumbchapt' => '', 'first' => false, 'random' => false, 'thumbcount' => 1, 'linktitle' => false, 'centering' => false, 'secondary' => false ) );
 		$title = strip_tags($instance['title']);
 		$thumbchapt = $instance['thumbchapt'];
 		$first = $instance['first'];
@@ -76,6 +81,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 		$thumbcount = $instance['thumbcount'];
 		$linktitle = $instance['linktitle'];
 		$centering = $instance['centering'];
+		$secondary = $instance['secondary'];
 		?>
 		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:', 'comiceasel'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
 		<p><?php _e('Which Chapter?', 'comiceasel'); ?><br />	
@@ -102,7 +108,8 @@ class ceo_thumbnail_widget extends WP_Widget {
 		<p><em><?php _e('*note: Random thumbnail overrides the get first in chapter option.','comiceasel'); ?></em></p>
 		<p><?php _e('Display how many thumbnails?', 'comiceasel'); ?><input style="width:40px;" id="<?php echo $this->get_field_id('thumbcount'); ?>" name="<?php echo $this->get_field_name('thumbcount'); ?>" type="text" value="<?php echo stripcslashes($instance['thumbcount']); ?>" /></label></p>
 		<p><label for="<?php echo $this->get_field_id('linktitle'); ?>"><?php _e('Include comic title?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('linktitle'); ?>" name="<?php echo $this->get_field_name('linktitle'); ?>" type="checkbox" value="1" <?php checked(true, $linktitle); ?> /></label></p>
-		<p><label for="<?php echo $this->get_field_id('centering'); ?>"><?php _e('Add centering html?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('centering'); ?>" name="<?php echo $this->get_field_name('centering'); ?>" type="checkbox" value="1" <?php checked(true, $centering); ?> /></label></p>		
+		<p><label for="<?php echo $this->get_field_id('centering'); ?>"><?php _e('Add centering html?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('centering'); ?>" name="<?php echo $this->get_field_name('centering'); ?>" type="checkbox" value="1" <?php checked(true, $centering); ?> /></label></p>
+		<p><label for="<?php echo $this->get_field_id('secondary'); ?>"><?php _e('Use Secondary Image if plugin active?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('secondary'); ?>" name="<?php echo $this->get_field_name('secondary'); ?>" type="checkbox" value="0" <?php checked(true, $secondary); ?> /></label></p>		
 		<br />
 	<?php
 	}
