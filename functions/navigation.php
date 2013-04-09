@@ -22,6 +22,7 @@ function ceo_get_first_comic_in_chapter_permalink() {
 }
 
 function ceo_get_last_comic($in_chapter = false) {
+	global $post;
 	$current_chapter = get_the_terms( $post->ID, 'chapters');
 	$current_chapter_id = 0;
 	if (is_array($current_chapter) && $in_chapter) {
