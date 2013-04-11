@@ -5,20 +5,53 @@ add_action('admin_init', 'ceo_admin_init');
 function ceo_admin_init() {
 	add_filter('manage_edit-comic_columns', 'ceo_add_new_comic_columns');
 	add_action('manage_posts_custom_column', 'ceo_manage_comic_columns', 10, 2);
+	
 	add_action('add_meta_boxes', 'ceo_add_comic_in_post');
 	add_action('save_post', 'ceo_handle_edit_save_comic', 10, 2 );
+	
 	add_filter("manage_edit-chapters_columns", 'ceo_chapters_columns');
 	add_filter('manage_edit-chapters_sortable_columns', 'ceo_chapters_sortable_columns' );
 	add_filter('manage_chapters_custom_column', 'ceo_chapters_add_column_value', 10, 3);
 	add_action('chapters_add_form_fields', 'ceo_chapters_menu_order_add_form_field');
 	add_action('chapters_edit_form_fields', 'ceo_chapters_menu_order_edit_form_field');
+	
 	add_action('edited_chapters', 'ceo_chapters_save_value', 10, 2);
 	add_action('quick_edit_custom_box', 'ceo_chapters_quick_edit_menu_order', 10, 3);
+	
+	add_action('create_term', 'ceo_chapters_add_edit_menu_order');
+//	add_filter('get_terms_args', 'ceo_chapters_find_menu_orderby');	
 }
 
-function ceo_chapters_quick_edit_menu_order($column_name, $screen, $name = '') {
-	if (($column_name != 'menu_order') && ($name != 'chapters') && ($screen != 'edit-tags')) return;
-	echo '<fieldset><div class="inline-edit-col"><label><span class="title">' . __( 'Order' , 'comiceasel') . '</span><span class="input-text-wrap"><input class="ptitle" name="ceo_chapter_order" type="text" value="" /></span></label></div></fieldset>';
+function ceo_chapters_add_edit_menu_order($term_id) {
+		global $wpdb;
+		if (isset($_POST['ceo_chapter_order'])) {
+			$wpdb->update($wpdb->terms, array('menu_order' => (int)$_POST['ceo_chapter_order']), array('term_id' => $term_id));	
+	}		
+}
+
+/*
+function ceo_chapters_find_menu_orderby($args) {
+	if ('menu_order' === $args['orderby']) {
+		add_filter('get_terms_orderby', 'ceo_chapters_edit_menu_orderby');
+	}
+	return $args;
+}
+
+
+function ceo_chapters_edit_menu_orderby() {
+	//This is a one-off, so that we don't disrupt queries that may not use menu_order.
+	remove_filter('get_terms_orderby', 'ceo_chapters_edit_menu_orderby');
+	return "menu_order";	
+}
+*/
+
+function ceo_chapters_quick_edit_menu_order ($column_name, $screen, $name = '') {
+	if ( did_action( 'quick_edit_custom_box' ) !== 1 ) return;
+	if (($column_name != 'menu_order') && ($name != 'chapters') && ($screen != 'edit-tags') && empty($name)) return;
+	$menu_order_field = '<fieldset><div class="inline-edit-col"><label><span class="title">' . __( 'Order' , 'term-menu-order') . '</span><span class="input-text-wrap"><input class="ptitle" name="ceo_chapter_order" type="text" value="" /></span></label></div></fieldset>';
+	$menu_order_field .= '<script type="text/javascript">
+	</script>';
+	echo $menu_order_field;
 }
 
 function ceo_chapters_save_value($term_id, $tt_id) {
@@ -252,8 +285,4 @@ function ceo_handle_edit_save_comic($post_id, $post) {
 		elseif ( '' == $new_meta_value && $meta_value )
 			delete_post_meta( $post_id, $meta_key, $meta_value );
 	}
-	// Clear the WP Supercache :: temporary hack to fix cache issues with page updates with wp-supercache
-	if (function_exists('wp_cache_clear_cache')) wp_cache_clear_cache();
-	// Clear the w3tc cache if people use that cache'ing plugin
-	if (function_exists('w3tc_pgcache_flush' )) w3tc_pgcache_flush();
 }
