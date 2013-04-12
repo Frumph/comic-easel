@@ -72,6 +72,7 @@
 					</td>
 				</tr>
 				<tr>
+					<?php if (!isset($ceo_options['disable_style_sheet'])) $ceo_options['disable_style_sheet'] = false; ?>
 					<th scope="row"><label for="disable_style_sheet"><?php _e('Disable the default stylesheets. comiceasel.css and navstyle.css','comiceasel'); ?></label></th>
 					<td>
 						<input id="disable_style_sheet" name="disable_style_sheet" type="checkbox" value="1" <?php checked(true, $ceo_options['disable_style_sheet']); ?> />
