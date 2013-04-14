@@ -323,10 +323,12 @@ function ceo_pluginfo($whichinfo = null) {
 		if ( !isset($ceo_options['db_version']) ||  empty($ceo_options['db_version']) || (version_compare($ceo_options['db_version'], '1.1', '<')) ) {
 			ceo_chapters_activate();
 			$ceo_options['db_version'] = '1.1';
+			$ceo_options['disable_style_sheet'] = false;
 			$ceo_options['display_first_comic_on_home_page'] = false;
 			$ceo_options['disable_style_sheet'] = false;
 			update_option('comiceasel-config', $ceo_options);
 		}
+		if (!isset($ceo_options['disable_style_sheet']) || empty($ceo_options['disable_style_sheet'])) $ceo_options['disable_style_sheet'] = false;
 		if (!isset($ceo_options['custom_post_type_slug_name']) || empty($ceo_options['custom_post_type_slug_name'])) $ceo_options['custom_post_type_slug_name'] == 'comic';
 		$ceo_coreinfo = wp_upload_dir();
 		$ceo_addinfo = array(
