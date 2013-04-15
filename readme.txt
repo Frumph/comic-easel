@@ -3,7 +3,7 @@ Contributors: frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
 Tested up to: 3.5.1
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -58,10 +58,11 @@ To Convert your existing ComicPress theme comics to Comic Easel's post type ther
 
 Shortcodes are simple embed statements that you can put into pages/post that display information.
 
-- `[comic-archive list=0/1 chapter=# thumbnail=0/1]` Display a list of your comics by individual chapters or all.
+- `[comic-archive list=0/1/2 chapter=# thumbnail=0/1]` Display a list of your comics by individual chapters or all.
 * list=0 (default) - All chapters, not in parent->child relationship
 * chapter=# if list=0 and chapter=# (# = chapter ID number) do a singular view
 * list=1 if list=1 do it for series that has parent->child book->chapter (chapter= will not work)
+* list=2 by year archive, will print a list of years the comic has been made in and show all comics for that year
 * thumbnail=1 display the thumbnail of the first post it finds 
 - `[cast-page]` Display a list of all of your characters, how many comics they were in and when they first appeared
 - `[transcript]` Display the transcript of the comic whereever you like within the post
@@ -125,6 +126,9 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.3.2 =
+Added new list= to the shortcode for [comic-archive list=2] will show a yearly archive of comics
+
 = 1.3 =
 Chapter Order Fields fixed
 
