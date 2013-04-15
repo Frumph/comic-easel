@@ -67,18 +67,21 @@ function ceo_cast_page( $atts, $content = '' ) {
 }
 
 function ceo_comic_archive_multi(  $atts, $content = '' ) {
-extract( shortcode_atts( array(
-				'list' => 0,
-				'style' => 0,
-				'chapter' => 0,
-				'thumbnail' => 0,
-				'order' => 'ASC'
-				), $atts ) );
+	extract( shortcode_atts( array(
+					'list' => 0,
+					'style' => 0,
+					'chapter' => 0,
+					'thumbnail' => 0,
+					'order' => 'ASC'
+					), $atts ) );
 	$output = '';
 	switch ($list) {
+		case 2: 
+			$output = ceo_archive_list_by_year($thumbnail);
+			break;
 		case 1:
 			$output = ceo_archive_list_series($thumbnail);
-		break;
+			break;
 		case 0:
 		default:
 			if ($chapter) {
@@ -86,7 +89,7 @@ extract( shortcode_atts( array(
 			} else {
 				$output = ceo_archive_list_all($order, $thumbnail);
 			}
-		break;
+			break;
 	}
 	return $output;
 }
@@ -107,11 +110,11 @@ function ceo_archive_list_single($chapter = 0, $order = 'ASC', $thumbnail = 0) {
 			'order' => $order,
 			'post_status' => 'publish',
 			'chapters' => $single_chapter->slug
-		);					
+			);					
 	$qposts = get_posts( $args );
 	$archive_count = 0;
 	if ($thumbnail) {
-			$output .= '<div class="comic-archive-thumbnail">'.get_the_post_thumbnail($qposts[0]->ID, 'thumbnail').'</div>';
+		$output .= '<div class="comic-archive-thumbnail">'.get_the_post_thumbnail($qposts[0]->ID, 'thumbnail').'</div>';
 	}
 	$output .= '<div class="comic-archive-list-wrap">';	
 	$css_alt = false;	
@@ -266,4 +269,40 @@ function ceo_the_transcript($displaymode = 'raw') {
 				break;
 		}
 	}
+}
+
+function ceo_archive_list_by_year($thumbnail = false) {
+	global $wpdb;
+	if (isset($_GET['archive_year'])) { 
+		$archive_year = (int)$_GET['archive_year']; 
+	} else { 
+		$latest_comic = ceo_get_last_comic(false);
+		$archive_year = get_post_time('Y', false, $latest_comic, true);
+	}
+	if (empty($archive_year)) $archive_year = date('Y');
+?>
+<div class="archive-yearlist">| 
+<?php 
+	$years = $wpdb->get_col("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type='comic' ORDER BY post_date ASC");
+	foreach ( $years as $year ) {
+		if ($year != (0) ) { ?>	
+			<a href="<?php echo add_query_arg('archive_year', $year) ?>"><strong><?php echo $year ?></strong></a> |
+	<?php } } ?>
+</div>
+<div class="clear"></div>
+	<table class="month-table">
+<?php
+	$comic_args = array(
+			'showposts' => -1,
+			'year' => (int)$archive_year,
+			'post_type' => 'comic',
+			'order' => 'ASC'
+			);
+	$comicArchive = new WP_Query(); $comicArchive->query($comic_args);
+	while ($comicArchive->have_posts()) : $comicArchive->the_post(); ?>
+		<tr><td class="archive-date"><?php the_time('M j') ?></td><td class="archive-title"><a href="<?php echo get_permalink($post->ID) ?>" rel="bookmark" title="<?php _e('Permanent Link:','comicpress'); ?> <?php the_title() ?>"><?php the_title() ?></a></td></tr>
+	<?php endwhile; ?>
+	</table>
+<?php
+	wp_reset_query();
 }
