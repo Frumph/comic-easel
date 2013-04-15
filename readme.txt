@@ -3,7 +3,7 @@ Contributors: frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
 Tested up to: 3.5.1
-Stable tag: 1.3.2
+Stable tag: 1.3.3
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -126,8 +126,11 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.3.3 =
+added new list= to the shortcode for [comic-archive list=3] will show yearly archive of comics, all on one page
+
 = 1.3.2 =
-Added new list= to the shortcode for [comic-archive list=2] will show a yearly archive of comics
+Added new list= to the shortcode for [comic-archive list=2] will show a yearly archive of comics split up into linkable pages
 
 = 1.3 =
 Chapter Order Fields fixed

@@ -76,6 +76,9 @@ function ceo_comic_archive_multi(  $atts, $content = '' ) {
 					), $atts ) );
 	$output = '';
 	switch ($list) {
+		case 3:
+			$output = ceo_archive_list_by_all_years($thumbnail, $order);
+			break;
 		case 2: 
 			$output = ceo_archive_list_by_year($thumbnail, $order);
 			break;
@@ -307,4 +310,33 @@ function ceo_archive_list_by_year($thumbnail = false, $order = 'ASC') {
 	</table>
 <?php
 	wp_reset_query();
+}
+
+function ceo_archive_list_by_all_years($thumbnail = false, $order = 'ASC') {
+	global $wpdb;
+	$latest_comic = ceo_get_last_comic(false);
+	$archive_year_latest = get_post_time('Y', false, $latest_comic, true);
+	$first_comic = ceo_get_first_comic(false);
+	$archive_year_first = get_post_time('Y', false, $first_comic, true);
+	$years = $wpdb->get_col("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type='comic' ORDER BY post_date ".$order);
+	foreach ( $years as $year ) {
+		if ($year != (0) ) { 
+?>	
+			<h3 class="year-title"><?php echo $year; ?></h3>
+	<table class="month-table">
+<?php
+	$comic_args = array(
+			'showposts' => -1,
+			'year' => (int)$year,
+			'post_type' => 'comic',
+			'order' => $order
+			);
+	$comicArchive = new WP_Query(); $comicArchive->query($comic_args);
+	while ($comicArchive->have_posts()) : $comicArchive->the_post(); ?>
+		<tr><td class="archive-date"><?php the_time('M j') ?></td><td class="archive-title"><a href="<?php echo get_permalink($post->ID) ?>" rel="bookmark" title="<?php _e('Permanent Link:','comicpress'); ?> <?php the_title() ?>"><?php the_title() ?></a></td></tr>
+	<?php endwhile; ?>
+	</table>			
+<?php
+		}
+	}
 }
