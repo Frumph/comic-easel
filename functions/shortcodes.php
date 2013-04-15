@@ -290,6 +290,7 @@ function ceo_archive_list_by_year($thumbnail = false) {
 	<?php } } ?>
 </div>
 <div class="clear"></div>
+<h2 class="year-title"><?php echo $archive_year; ?></h2>
 	<table class="month-table">
 <?php
 	$comic_args = array(
