@@ -77,10 +77,10 @@ function ceo_comic_archive_multi(  $atts, $content = '' ) {
 	$output = '';
 	switch ($list) {
 		case 3:
-			$output = ceo_archive_list_by_all_years($thumbnail, $order);
+			$output = ceo_archive_list_by_all_years($thumbnail, $order, $chapter);
 			break;
 		case 2: 
-			$output = ceo_archive_list_by_year($thumbnail, $order);
+			$output = ceo_archive_list_by_year($thumbnail, $order, $chapter);
 			break;
 		case 1:
 			$output = ceo_archive_list_series($thumbnail);
@@ -274,7 +274,7 @@ function ceo_the_transcript($displaymode = 'raw') {
 	}
 }
 
-function ceo_archive_list_by_year($thumbnail = false, $order = 'ASC') {
+function ceo_archive_list_by_year($thumbnail = false, $order = 'ASC', $chapter = 0) {
 	global $wpdb;
 	if (isset($_GET['archive_year'])) { 
 		$archive_year = (int)esc_attr($_GET['archive_year']); 
@@ -283,71 +283,85 @@ function ceo_archive_list_by_year($thumbnail = false, $order = 'ASC') {
 		$archive_year = get_post_time('Y', false, $latest_comic, true);
 	}
 	if (empty($archive_year)) $archive_year = date('Y');
-?>
-<h3 class="year-title"><?php echo $archive_year; ?></h3>
-<br />
-<div class="archive-yearlist">| 
-<?php 
-	$years = $wpdb->get_col("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type='comic' ORDER BY post_date ASC");
+	$output = '<h3 class="year-title">'.$archive_year.'</h3>';
+	$output .= '<br />';
+	$output .= '<div class="archive-yearlist">| ';
+
+	if ($chapter) {
+		$years = $wpdb->get_col("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) WHERE $wpdb->posts.post_status = 'publish' AND $wpdb->term_taxonomy.taxonomy = 'chapters' AND $wpdb->term_taxonomy.term_id = ".$chapter." ORDER BY post_date ".$order);
+	} else {
+		$years = $wpdb->get_col("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type='comic' ORDER BY post_date ASC");
+	}
 	foreach ( $years as $year ) {
-		if ($year != (0) ) { ?>	
-			<a href="<?php echo add_query_arg('archive_year', $year) ?>"><strong><?php echo $year ?></strong></a> |
-	<?php } } ?>
-</div>
-<div class="clear"></div>
-	<table class="month-table">
-<?php
-	$comic_args = array(
+		if ($year != (0) ) {
+			$output .= '<a href="'.add_query_arg('archive_year', $year).'"><strong>'.$year.'</strong></a> |';
+		} 
+	}
+	$output .= '</div>';
+	$output .= '<div class="clear"></div>';
+	$output .= '<table class="month-table">';
+	if ($chapter) {
+		$comic_args = array(
+			'showposts' => -1,
+			'year' => (int)$archive_year,
+			'post_type' => 'comic',
+			'chapter' => $chapter,
+			'order' => $order
+		);
+	} else {
+		$comic_args = array(
 			'showposts' => -1,
 			'year' => (int)$archive_year,
 			'post_type' => 'comic',
 			'order' => $order
-			);
-	$comicArchive = new WP_Query(); $comicArchive->query($comic_args);
-	if ($comicArchive->have_posts()) {
-		while ($comicArchive->have_posts()) : $comicArchive->the_post(); ?>
-			<tr><td class="archive-date"><?php the_time('M j') ?></td><td class="archive-title"><a href="<?php echo get_permalink($post->ID) ?>" rel="bookmark" title="<?php _e('Permanent Link:','comicpress'); ?> <?php the_title() ?>"><?php the_title() ?></a></td></tr>
-<?php 
-		endwhile; 
+		);	
 	}
-?>
-		</table>
-<?php
+	$theposts = get_posts($comic_args);
+	foreach ($theposts as $post) {
+		$output .= '<tr><td class="archive-date">'.get_the_time('M j', $post).'</td><td class="archive-title"><a href="'.get_permalink($post->ID).'" rel="bookmark" title="'.get_the_title($post->ID).'">'.get_the_title($post->ID).'</a></td></tr>';
+	}
+	$output .= '</table>';
+	return $output;
 	wp_reset_postdata();
 }
 
-function ceo_archive_list_by_all_years($thumbnail = false, $order = 'ASC') {
+function ceo_archive_list_by_all_years($thumbnail = false, $order = 'ASC', $chapter = 0) {
 	global $wpdb;
 	$latest_comic = ceo_get_last_comic(false);
 	$archive_year_latest = get_post_time('Y', false, $latest_comic, true);
 	$first_comic = ceo_get_first_comic(false);
 	$archive_year_first = get_post_time('Y', false, $first_comic, true);
-	$years = $wpdb->get_col("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type='comic' ORDER BY post_date ".$order);
+	if ($chapter) {
+		$years = $wpdb->get_col("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) WHERE $wpdb->posts.post_status = 'publish' AND $wpdb->term_taxonomy.taxonomy = 'chapters' AND $wpdb->term_taxonomy.term_id = ".$chapter." ORDER BY post_date ".$order);
+	} else {
+		$years = $wpdb->get_col("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type='comic' ORDER BY post_date ".$order);
+	}
+	$output = '';
 	foreach ( $years as $year ) {
-		if ($year != (0) ) { 
+		if ($chapter) {
+			$comic_args = array(
+				'showposts' => -1,
+				'year' => (int)$year,
+				'post_type' => 'comic',
+				'chapter' => $chapter,
+				'order' => $order
+			);			
+		} else {
 			$comic_args = array(
 				'showposts' => -1,
 				'year' => (int)$year,
 				'post_type' => 'comic',
 				'order' => $order
 			);
-			$comicArchive = new WP_Query(); 
-			$comicArchive->query($comic_args);
-			if ($comicArchive->have_posts()) {
-?>
-				<h3 class="year-title"><?php echo $year; ?></h3>
-				<table class="month-table">
-<?php
-				while ($comicArchive->have_posts()) : $comicArchive->the_post(); 
-?>
-					<tr><td class="archive-date"><?php the_time('M j') ?></td><td class="archive-title"><a href="<?php echo get_permalink($post->ID) ?>" rel="bookmark" title="<?php _e('Permanent Link:','comicpress'); ?> <?php the_title() ?>"><?php the_title() ?></a></td></tr>
-<?php 
-				endwhile;  
-			} 
-?>
-				</table>			
-<?php
 		}
+		$theposts = get_posts($comic_args);
+		$output .= '<h3 class="year-title">'.$year.'</h3>';
+		$output .= '<table class="month-table">';			
+		foreach ($theposts as $post) {
+			$output .= '<tr><td class="archive-date">'.get_the_time('M j', $post->ID).'</td><td class="archive-title"><a href="'.get_permalink($post->ID).'" rel="bookmark" title="'.get_the_title($post->ID).'">'.get_the_title().'</a></td></tr>';
+		}
+		$output .= '</table>';
 	}
+	return $output;
 	wp_reset_postdata();
 }
