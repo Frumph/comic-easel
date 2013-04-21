@@ -294,7 +294,7 @@ function ceo_archive_list_by_year($thumbnail = false, $order = 'ASC', $chapter =
 	}
 	foreach ( $years as $year ) {
 		if ($year != (0) ) {
-			$output .= '<a href="'.add_query_arg('archive_year', $year).'"><strong>'.$year.'</strong></a> |';
+			$output .= '<a href="'.add_query_arg('archive_year', $year).'"><strong>'.$year.'</strong></a> | ';
 		} 
 	}
 	$output .= '</div>';
@@ -358,7 +358,7 @@ function ceo_archive_list_by_all_years($thumbnail = false, $order = 'ASC', $chap
 		$output .= '<h3 class="year-title">'.$year.'</h3>';
 		$output .= '<table class="month-table">';			
 		foreach ($theposts as $post) {
-			$output .= '<tr><td class="archive-date">'.get_the_time('M j', $post->ID).'</td><td class="archive-title"><a href="'.get_permalink($post->ID).'" rel="bookmark" title="'.get_the_title($post->ID).'">'.get_the_title().'</a></td></tr>';
+			$output .= '<tr><td class="archive-date">'.get_the_time('M j', $post->ID).'</td><td class="archive-title"><a href="'.get_permalink($post->ID).'" rel="bookmark" title="'.get_the_title($post->ID).'">'.get_the_title($post->ID).'</a></td></tr>';
 		}
 		$output .= '</table>';
 	}
