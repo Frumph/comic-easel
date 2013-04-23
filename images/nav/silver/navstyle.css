@@ -4,11 +4,18 @@ Style: Silver
 */
 
 .comic_navi_wrapper {
+	margin: 0 auto;
+	width: 100%;
+	font-size: 10px;
+	vertical-align:text-top;
+}
+
+.comic_navi {
 	display: table;
 	border-collapse: collapse;
 	text-align: center;
 	margin: 0 auto;
-}
+} 
 
 .navi-comictitle {
 	padding-top: 26px;
@@ -42,6 +49,10 @@ Style: Silver
 
 .navi-prev-in {
 	background: url('prev-in.png') no-repeat;
+}
+
+.navi-prev-chap {
+	background: url('prevchap.png') no-repeat;
 }
 
 .navi-archive, .navi-archives {
@@ -83,6 +94,10 @@ a.navi-comments span:hover {
 
 .navi-next-in {
 	background: url('next-in.png') no-repeat;
+}
+
+.navi-next-chap {
+	background: url('nextchap.png') no-repeat;
 }
 
 .navi-last {

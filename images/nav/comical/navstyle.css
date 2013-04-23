@@ -56,6 +56,10 @@ Style: Comical
 	background: url('prev.png') no-repeat;
 }
 
+.navi-prev-chap {
+	background: url('prevchap.png') no-repeat;
+}
+
 .navi-archive, .navi-archives {
 	background: url('archive.png') no-repeat;
 }
@@ -95,6 +99,10 @@ a.navi-comments span:hover {
 
 .navi-next-in {
 	background: url('next.png') no-repeat;
+}
+
+.navi-next-chap {
+	background: url('nextchap.png') no-repeat;
 }
 
 .navi-last-in {
