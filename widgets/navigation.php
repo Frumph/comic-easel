@@ -218,7 +218,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 					'comments_title',
 					'subscribe_title',
 					) as $key) {
-			$instance[$key] = $new_instance[$key];
+			$instance[$key] = esc_attr($new_instance[$key]);
 		}		
 		$instance['archive_path'] = $new_instance['archive_path'];
 		return $instance;
