@@ -63,7 +63,6 @@ function ceo_initialize_post_types() {
 					'menu_position' => 5,
 					'exclude_from_search' => false,
 					'has_archive' => true,
-					'query_var' => true,
 					'menu_icon' => ceo_pluginfo('plugin_url') . '/images/ceo-icon.png',
 					'supports' => array( 'title', 'editor', 'excerpt', 'author', 'comments', 'thumbnail', 'custom-fields', 'revisions', 'trackbacks' ),
 					'description' => 'Post type for Comics'
