@@ -42,7 +42,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 					if ($instance['centering']) echo "\r\n<center>\r\n";
 					if ($instance['secondary'] && class_exists('MultiPostThumbnails')) {
 						$secondary_image = MultiPostThumbnails::get_the_post_thumbnail(get_post_type(), 'secondary-image', $post->ID,  'secondary-image');
-						if (!empty($url)) {
+						if (!empty($secondary_image)) {
 							echo "<a href=\"".$the_permalink."\" rel=\"bookmark\" title=\"Permanent Link to ".get_the_title()."\">".$secondary_image."</a>\r\n";
 						} else {
 							if ( has_post_thumbnail($post->ID) ) {
