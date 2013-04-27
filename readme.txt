@@ -1,5 +1,5 @@
 === Comic Easel ===
-Contributors: frumph
+Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
 Tested up to: 3.5.1
