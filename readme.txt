@@ -126,6 +126,12 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.3.5 =
+Added multi thumbnail plugin coding so you can have 2 images per comic, one teaser image used  in the thumbnail widget and wherever else you code it in.
+CSS Adjustments to some of the navigation images
+added esc_attr checks to the thumbnail widget for extra security
+
+
 = 1.3.3 =
 added new list= to the shortcode for [comic-archive list=3] will show yearly archive of comics, all on one page
 
