@@ -3,7 +3,7 @@ Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
 Tested up to: 3.5.1
-Stable tag: 1.3.5
+Stable tag: 1.3.6
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -126,6 +126,9 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.3.6 =
+Introducing Comic Easel - Import  (comic -> import in the wp-admin)
+
 = 1.3.5 =
 Added multi thumbnail plugin coding so you can have 2 images per comic, one teaser image used  in the thumbnail widget and wherever else you code it in.
 CSS Adjustments to some of the navigation images

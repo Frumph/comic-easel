@@ -3,7 +3,7 @@
 Plugin Name: Comic Easel
 Plugin URI: http://comiceasel.com
 Description: Comic Easel allows you to incorporate a WebComic using the WordPress Media Library functionality with Navigation into almost all WordPress themes. With just a few modifications of adding injection do_action locations into a theme, you can have the theme of your choice display and manage a webcomic.
-Version: 1.3.5
+Version: 1.3.6
 Author: Philip M. Hofer (Frumph)
 Author URI: http://frumph.net/
 
@@ -174,6 +174,21 @@ function ceo_register_sidebars() {
 
 add_action('widgets_init', 'ceo_register_sidebars');
 
+/**
+ * This is function ceo_clean_filename
+ *
+ * @param string $filename the BASE filename
+ * @return string returns the rawurlencoded filename with the %2F put back to /
+ *
+ */
+function ceo_clean_filename($filename) {
+	return str_replace("%2F", "/", rawurlencode($filename));
+}
+
+function ceo_revert_filename($filename) {
+	return rawurldecode($filename);
+}
+
 // THIS STUFF ONLY RUNS IN THE WP-ADMIN
 if (is_admin()) {
 	// only load the plugin code of we're in the administration part of WordPress.
@@ -250,16 +265,6 @@ function ceo_activation() {
 // Redirects /?latest /?random etc.
 @require('functions/redirects.php');
 
-/**
- * This is function ceo_clean_filename
- *
- * @param string $filename the BASE filename
- * @return string returns the rawurlencoded filename with the %2F put back to /
- *
- */
-function ceo_clean_filename($filename) {
-	return str_replace("%2F", "/", rawurlencode($filename));
-}
 
 /**
  * Get the path to the plugin folder.

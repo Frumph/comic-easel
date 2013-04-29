@@ -20,7 +20,7 @@ function ceo_add_menu_pages() {
 	
 	// the ceo_pluginfo used here actually initiates it.
 //	$debug_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $debug_title, $debug_title, 'edit_theme_options', 'comiceasel-debug', 'ceo_debug');
-//	$import_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $import_title, $import_title, 'edit_theme_options', 'comiceasel-import', 'ceo_import');	
+	$import_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $import_title, $import_title, 'edit_theme_options', 'comiceasel-import', 'ceo_import');	
 	$config_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $config_title, $config_title, 'edit_theme_options', 'comiceasel-config', 'ceo_manager_config');
 	add_action('admin_head-' . $config_hook, 'ceo_admin_page_head');
 	add_action('admin_print_scripts-' . $config_hook, 'ceo_admin_print_scripts');
