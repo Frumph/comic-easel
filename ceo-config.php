@@ -18,7 +18,6 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'comiceasel_reset') {
 }
 $ceo_options = get_option('comiceasel-config');
 if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-options') ) {
-		
 		if ($_REQUEST['action'] == 'ceo_save_general') {
 
 			foreach (array(
@@ -39,7 +38,8 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 				'enable_comic_sidebar_locations',
 				'disable_related_comics',
 				'display_first_comic_on_home_page',
-				'disable_style_sheet'
+				'disable_style_sheet',
+				'enable_transcripts_in_comic_posts'
 			) as $key) {
 				if (!isset($_REQUEST[$key])) $_REQUEST[$key] = 0;
 				$ceo_options[$key] = (bool)( $_REQUEST[$key] == 1 ? true : false );

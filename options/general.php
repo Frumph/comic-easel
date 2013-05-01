@@ -80,6 +80,15 @@
 						<?php _e('Checkmarking this will make it so that the default stylesheets do not load, you would need to add those css elements yourself to your style.css','comiceasel'); ?>
 					</td>
 				</tr>
+				<tr>
+					<th scope="row"><label for="enable_transcripts_in_comic_posts"><?php _e('Enable the transcripts to automatically show at the bottom of posts if they exist?','comiceasel'); ?></label></th>
+					<td>
+						<input id="enable_transcripts_in_comic_posts" name="enable_transcripts_in_comic_posts" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_transcripts_in_comic_posts']); ?> />
+					</td>
+					<td>
+						<?php _e('Enabling this will make transcripts show at the bottom of comic posts, if the comic has a transcript.','comiceasel'); ?>
+					</td>
+				</tr>				
 			</table>
 			<br />
 			<table class="widefat">

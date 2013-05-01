@@ -13,6 +13,7 @@ add_filter('request', 'ceo_post_type_tags_fix');
 add_filter('body_class', 'ceo_body_class');
 add_filter('get_terms_args', 'ceo_chapters_find_menu_orderby');
 // add_filter('get_lastpostmodified', 'ceo_lastpostmodified');
+add_filter('the_content', 'ceo_insert_comic_transcript_into_posts');
 
 function ceo_rss_request($qv) {
 	if (isset($qv['feed']) && !isset($qv['post_type']) && !isset($qv['chapters'])) {
@@ -85,7 +86,7 @@ function ceo_query_post_type($query) {
 
 function ceo_body_class($classes = '') {
 	global $post, $wp_query;
-
+	
 	if (!empty($post) && $post->post_type == 'comic') {
 		$terms = wp_get_object_terms( $post->ID, 'chapters');
 		foreach ($terms as $term) {
@@ -119,3 +120,13 @@ function ceo_lastpostmodified() {
 	wp_cache_set( "lastpostmodified:custom:server", $lastpostmodified, 'timeinfo', 3600 );
 	return $lastpostmodified;
 }
+
+function ceo_insert_comic_transcript_into_posts($content) {
+	global $post;
+	if (ceo_pluginfo('enable_transcripts_in_comic_posts') && $post->post_type == 'comic') {
+		$transcript = ceo_the_transcript('styled');
+		return $content.$transcript;
+	}
+	return $content;
+}
+
