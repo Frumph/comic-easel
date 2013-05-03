@@ -232,11 +232,13 @@ function ceo_display_transcript($atts, $content = null) {
 	extract( shortcode_atts( array(
 					'display' => 'styled'
 					), $atts ) );
+	if (ceo_pluginfo('enable_transcripts_in_comic_posts')) return;
 	return ceo_the_transcript($display);
 }
 
 function ceo_display_the_transcript_action() {
-	echo ceo_the_transcript('styled');
+	if (ceo_pluginfo('enable_transcripts_in_comic_posts')) return;
+	return ceo_the_transcript('styled');
 }
 
 function ceo_the_transcript($displaymode = 'raw') {

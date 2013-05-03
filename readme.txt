@@ -3,7 +3,7 @@ Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
 Tested up to: 3.5.1
-Stable tag: 1.3.6
+Stable tag: 1.3.7
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -129,6 +129,8 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 = 1.3.7 =
 New debug screen for variables and system information. (for me to help people with mainly)
 New option to enable transcripts to appear at the bottom of posts if the transcript exists instead of using the shortcode.  Disable if you want to use the shortcode instead.
+added: 
+bug fix for default values not setting when plugin updates, if the option for transcripts is enables in the config disable use of the shortcode [transcript] while it's active
 
 = 1.3.6 =
 Introducing Comic Easel - Import  (comic -> import in the wp-admin)

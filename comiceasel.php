@@ -353,8 +353,14 @@ function ceo_pluginfo($whichinfo = null) {
 		// Combine em.
 		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_addinfo);
 		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_options);
+		if (!isset($ceo_pluginfo['disable_style_sheet'])) $ceo_pluginfo['disable_style_sheet'] = false;
+		if (!isset($ceo_pluginfo['enable_transcripts_in_comic_posts'])) $ceo_pluginfo['enable_transcripts_in_comic_posts'] = false;
 	}
-	if ($whichinfo && isset($ceo_pluginfo[$whichinfo])) return $ceo_pluginfo[$whichinfo];
+	if ($whichinfo) {
+		if (isset($ceo_pluginfo[$whichinfo])) {
+			return $ceo_pluginfo[$whichinfo];
+		} else return false;
+	}
 	return $ceo_pluginfo;
 }
 
