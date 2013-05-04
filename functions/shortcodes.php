@@ -50,7 +50,7 @@ function ceo_cast_display($character) {
 function ceo_cast_page( $atts, $content = '' ) {
 	extract( shortcode_atts( array(
 					'character' => '',
-					'limit' => '10',
+					'limit' => '',
 					'order' => 'desc'
 					), $atts ) );
 	$cast_output = '';
