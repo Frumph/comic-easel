@@ -126,6 +126,9 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.3.8 =
+Revamped the cast-page shortcode, in tables now, also shows most recent comic the character was in, cast-page now accepts order=(asc/desc) and limit=# arguments
+
 = 1.3.7 =
 New debug screen for variables and system information. (for me to help people with mainly)
 New option to enable transcripts to appear at the bottom of posts if the transcript exists instead of using the shortcode.  Disable if you want to use the shortcode instead.

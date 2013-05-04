@@ -8,10 +8,10 @@ add_shortcode('transcript', 'ceo_display_transcript');
 function ceo_cast_display($character) {
 	$cast_output = '';
 	if ($character) {
-		$cast_output .= '<div class="cast-box">';
+		$cast_output .= '<tr><td class="cast-image">';
 		$cast_output .= '<div class="cast-pic character-'.$character->slug.'">';
-		$cast_output .= '</div>';
-		$cast_output .= '<div class="cast-info cast-info-'.$character->slug.'">';
+		$cast_output .= '</div></td>';
+		$cast_output .= '<td class="cast-info cast-info-'.$character->slug.'">';
 		$cast_output .= '<h4 class="cast-name"><a href="'.get_term_link($character->slug, 'characters').'">'.$character->name.'</a></h4>';
 		$cast_output .= '<p class="cast-description">';
 		$cast_output .= $character->description;
@@ -19,7 +19,6 @@ function ceo_cast_display($character) {
 		$cast_output .= '<p class="cast-character-stats">';
 		$cast_output .= '<i>'.__('Comics:','comiceasel').'</i> <strong>'.$character->count.'</strong><br />';
 		$args = array(
-				'numberposts' => 1,
 				'post_type' => 'comic',
 				'orderby' => 'post_date',
 				'order' => 'ASC',
@@ -27,39 +26,54 @@ function ceo_cast_display($character) {
 				'characters' => $character->slug,
 				);
 		$qposts = get_posts( $args );
-		ceo_Protect();
 		if (!empty($qposts)) {
-			$first_seen = $qposts[0]->post_title;
-			$first_seen_id = $qposts[0]->ID;
-			$cast_output .= '<i>'.__('First Appearance:','comiceasel').'</i> <a href="'.get_permalink($first_seen_id).'">'.$first_seen.'</a><br />';
+			$first_seen_object = reset($qposts);
+			$first_seen_title = $first_seen_object->post_title;
+			$first_seen_id = $first_seen_object->ID;
+			$last_seen_object = end($qposts);
+			$last_seen_title = $last_seen_object->post_title;
+			$last_seen_id = $last_seen_object->ID;
+			if ($first_seen_id == $last_seen_id) {
+				$cast_output .= '<i>'.__('Only Appearance:','comiceasel').'</i> <a href="'.get_permalink($first_seen_id).'">'.$first_seen_title.'</a><br />';
+			} else {
+				$cast_output .= '<i>'.__('Recent Appearance:','comiceasel').'</i> <a href="'.get_permalink($last_seen_id).'">'.$last_seen_title.'</a><br />';
+				$cast_output .= '<i>'.__('First Appearance:','comiceasel').'</i> <a href="'.get_permalink($first_seen_id).'">'.$first_seen_title.'</a><br />';			
+			}
 		}
-		ceo_UnProtect();
+		$qposts = null;
 		$cast_output .= '</p>';
-		$cast_output .= '</div>';
-		$cast_output .= '<div style="clear:both;"></div>';
-		$cast_output .= '</div>';
+		$cast_output .= '</td></tr>';
 	}
 	return $cast_output;
 }
 
 function ceo_cast_page( $atts, $content = '' ) {
 	extract( shortcode_atts( array(
-					'character' => ''
+					'character' => '',
+					'limit' => '10',
+					'order' => 'desc'
 					), $atts ) );
 	$cast_output = '';
 	if (empty($character)) {
-		$characters = get_terms( 'characters', 'orderby=count&order=desc&hide_empty=1' );
+		if ($limit) {
+			$args = 'orderby=count&order='.$order.'&hide_empty=1&number='.$limit;
+		} else $args = 'orderby=count&order='.$order.'&hide_empty=1';
+		$characters = get_terms( 'characters', $args );
 		if (is_array($characters)) {
+			$cast_output .= '<table class="cast-wrapper">'."\r\n";
 			foreach ($characters as $character) {
-				$cast_output .= ceo_cast_display($character);
+				$cast_output .= ceo_cast_display($character)."\r\n";
 			}
+			$cast_output .= '</table>'."\r\n";
 		} else {
 			$cast_output = __('You do not have any characters yet.','comiceasel')."<br />\r\n";
 		}
 	} else {
 		$single_character = get_term_by('slug', $character, 'characters');
 		if (!empty($single_character)) {
-			$cast_output .= ceo_cast_display($single_character);
+			$cast_output .= '<table class="cast-wrapper">'."\r\n";
+			$cast_output .= ceo_cast_display($single_character)."\r\n";
+			$cast_output .= '</table>'."\r\n";
 		} else 
 			$cast_output .= __('Unknown Character: ', 'comiceasel').$character."<br />\r\n";
 	}
@@ -94,6 +108,7 @@ function ceo_comic_archive_multi(  $atts, $content = '' ) {
 			}
 			break;
 	}
+	wp_reset_postdata();
 	return $output;
 }
 
@@ -128,7 +143,6 @@ function ceo_archive_list_single($chapter = 0, $order = 'ASC', $thumbnail = 0) {
 	}
 	$output .= '</div>';
 	$output .= '<div style="clear:both;"></div></div>';
-	wp_reset_query();
 	return $output;
 }
 
@@ -172,7 +186,6 @@ function ceo_archive_list_all($order = 'ASC', $thumbnail = 0) {
 			$output .= '<div style="clear:both;"></div></div>';
 		}
 	}
-	wp_reset_query();
 	return $output;
 }
 
@@ -324,7 +337,6 @@ function ceo_archive_list_by_year($thumbnail = false, $order = 'ASC', $chapter =
 	}
 	$output .= '</table>';
 	return $output;
-	wp_reset_postdata();
 }
 
 function ceo_archive_list_by_all_years($thumbnail = false, $order = 'ASC', $chapter = 0) {
@@ -365,5 +377,4 @@ function ceo_archive_list_by_all_years($thumbnail = false, $order = 'ASC', $chap
 		$output .= '</table>';
 	}
 	return $output;
-	wp_reset_postdata();
 }

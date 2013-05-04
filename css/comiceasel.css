@@ -80,31 +80,24 @@ table#comic-nav-wrapper {
 /* cast archive shorttag */
 
 .cast-box {
-    width: 520px;
     padding: 2px;
     margin: 10px auto;
-    border: solid 1px #ccc;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	-moz-box-shadow: 2px 2px 2px #000;
-	-webkit-box-shadow: 2px 2px 2px #000;
-	-khtml-box-shadow: 2px 2px 2px #000;
-	box-shadow: 2px 2px 2px #000;
+}
+
+.cast-image {
+	width: 150px;
+	vertical-align: top;
 }
 
 .cast-pic {
-    float: left;
     width: 150px;
     height: 150px;
     border: solid 1px #bff;
 }
 
 .cast-info {
-    width: 358px;
-    float: left;
     padding: 5px;
+    vertical-align: text-top;
 }
 
 .cast-comic-link {
