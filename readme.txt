@@ -3,7 +3,7 @@ Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
 Tested up to: 3.5.1
-Stable tag: 1.3.7
+Stable tag: 1.3.8
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -127,7 +127,7 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 == Changelog ==
 = 1.3.8 =
-Revamped the cast-page shortcode, in tables now, also shows most recent comic the character was in, cast-page now accepts order=(asc/desc) and limit=# arguments
+Revamped the cast-page shortcode, in tables now, also shows most recent comic the character was in, cast-page now accepts order=(asc/desc) and limit=# arguments documentation now available at comiceasel.com
 
 = 1.3.7 =
 New debug screen for variables and system information. (for me to help people with mainly)

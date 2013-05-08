@@ -23,6 +23,9 @@ function ceo_cast_display($character, $stats, $image) {
 			$cast_output .= '<p class="cast-character-stats">';
 			$cast_output .= '<i>'.__('Comics:','comiceasel').'</i> <strong>'.$character->count.'</strong><br />';
 			$args = array(
+					'nopaging' => true,
+					'numberposts' => 9999,
+					'posts_per_page'  => 9999,
 					'post_type' => 'comic',
 					'orderby' => 'post_date',
 					'order' => 'ASC',
