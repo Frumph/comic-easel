@@ -1,0 +1,84 @@
+/*
+Plugin Name: Cast Hovercard
+Plugin URI: http://cosmichellcats.com/pluginhomepagehere
+Description: Creates a Hovercard with the bio of a cast member on a comic easel site. Created by Christopher Maverick of <A href="http://www.cosmichellcats.com">Cosmic Hellcats</a> fame.
+Version: 1.0
+Author: Christoper Maverick
+Author URI: http://chrismaverick.com
+License: GPL2
+*/
+
+div.casthover-hovercard {
+    display: block;
+    position: absolute;
+    z-index: 9999;
+    width: 520px;
+    visibility: hidden;
+    height: 190px;
+    width: 600px;
+}
+
+div.casthover-hovercard div.cast-box, div.casthover-hovercard table.cast-wrapper {
+    background: #CCCCCC;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(238, 238, 238, 1.0)),to(rgba(170, 170, 170, 3.0)));
+    border-radius: 10px;
+    padding: 4px;
+    border: 2px solid black;
+    position: absolute;
+    display: block;
+    top: 10px;
+    -moz-box-shadow: 1px 2px 10px #000;
+    -webkit-box-shadow: 1px 2px 10px #000;
+    -khtml-box-shadow: 1px 2px 10px #000;    
+    box-shadow: 1px 2px 10px #000;
+}
+
+div.casthover-hovercard div.cast-box div.cast-info p.cast-description, div.casthover-hovercard table.cast-wrapper td.cast-info p.cast-description {
+    max-height: 70px;
+    overflow-y: scroll;
+    border: 1px solid black;
+    padding: 4px;
+}
+
+/* The Triangle */
+
+div.casthover-hovercard:after {
+    content:"";
+    position:absolute;
+    top:-9px; /* value = - border-top-width - border-bottom-width */
+    left:50px; /* controls horizontal position */
+    border-width:0px 20px 20px; /* vary these values to change the angle of the vertex */
+    border-style:solid;
+    border-color:#000 transparent;
+    /* reduce the damage in FF3.0 */
+    display:block; 
+    width:0;
+}
+
+/* Cast Reference Widget */
+
+div.castrefwidget-wrapper {
+    text-align: left;
+}
+
+div.castrefwidget-block {
+    height: 50px;
+    width: 50px;
+    background-size: contain;
+    margin: 5px;
+    border: 1px solid #000;
+}
+
+div.castrefwidget-block {
+    vertical-align: middle;
+    display: inline-block;
+}
+
+div.castrefwidget-wrapper div.casthover-hovercard {
+    color: #000;
+    font-size: 12px;
+}
+
+div.castrefwidget-wrapper div.casthover-hovercard a {
+    color: #F00;
+}
