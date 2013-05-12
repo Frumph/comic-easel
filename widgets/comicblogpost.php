@@ -66,6 +66,7 @@ class ceo_comic_blog_post_widget extends WP_Widget {
 				echo $after_widget;
 			}
 		}
+		wp_reset_query();
 	}
 	
 	function update($new_instance, $old_instance) {
