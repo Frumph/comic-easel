@@ -5,7 +5,7 @@ Widget URI: http://comiceasel.com/
 Description: Display a list of comic posts that are due to be scheduled.
 Author: Philip M. Hofer (Frumph)
 Author URI: http://frumph.net/
-Version: 1.03
+Version: 1.04
 */
 
 class ceo_scheduled_comics_widget extends WP_Widget {
@@ -18,7 +18,6 @@ class ceo_scheduled_comics_widget extends WP_Widget {
 	}
 	
 	function widget($args, $instance) {
-		Protect();
 		extract($args, EXTR_SKIP); 
 		echo $before_widget;
 		$title = empty($instance['title']) ? __('Scheduled Comics','comiceasel') : apply_filters('widget_title', $instance['title']); 
@@ -40,7 +39,7 @@ class ceo_scheduled_comics_widget extends WP_Widget {
 			</ul>
 		<?php } 
 		echo $after_widget;
-		UnProtect();
+		wp_reset_query();
 	}
 	
 	function update($new_instance, $old_instance) {
@@ -57,6 +56,11 @@ class ceo_scheduled_comics_widget extends WP_Widget {
 		<?php
 	}
 }
-add_action( 'widgets_init', create_function('', 'return register_widget("ceo_scheduled_comics_widget");') );
+
+function ceo_scheduled_comics_widget_register() {
+	register_widget('ceo_scheduled_comics_widget');
+}
+
+add_action( 'widgets_init', 'ceo_scheduled_comics_widget_register');
 
 ?>
