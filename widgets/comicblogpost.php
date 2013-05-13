@@ -100,4 +100,8 @@ class ceo_comic_blog_post_widget extends WP_Widget {
 	}
 }
 
-add_action( 'widgets_init', create_function('', 'return register_widget("ceo_comic_blog_post_widget");') );
+function ceo_comic_blog_post_widget_register() {
+	register_widget('ceo_comic_blog_post_widget');
+}
+
+add_action( 'widgets_init', 'ceo_comic_blog_post_widget_register');

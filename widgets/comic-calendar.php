@@ -337,5 +337,8 @@ class ceo_calendar_widget extends WP_Widget {
 	}
 }
 
-add_action( 'widgets_init', create_function('', 'return register_widget("ceo_calendar_widget");') );
-?>
+function ceo_calendar_widget_register() {
+	register_widget('ceo_calendar_widget');
+}
+
+add_action( 'widgets_init', 'ceo_calendar_widget_register');

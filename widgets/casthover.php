@@ -117,9 +117,9 @@ class ceo_casthover_reference_widget extends WP_Widget {
 }
 
 
-function ceo_register_casthover_reference_widget() {
+function ceo_casthover_reference_widget_register() {
 	register_widget('ceo_casthover_reference_widget');
 }
 
-add_action('widgets_init', 'ceo_register_casthover_reference_widget');
+add_action('widgets_init', 'ceo_casthover_reference_widget_register');
 ?>

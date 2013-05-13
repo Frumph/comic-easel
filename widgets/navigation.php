@@ -340,10 +340,10 @@ class ceo_comic_navigation_widget extends WP_Widget {
 	}
 }
 
-function ceo_register_widget_comic_navigation() {
+function ceo_widget_comic_navigation_register() {
 	register_widget('ceo_comic_navigation_widget');
 }
 
-add_action( 'widgets_init', 'ceo_register_widget_comic_navigation'); 
+add_action( 'widgets_init', 'ceo_widget_comic_navigation_register');
 
 ?>
