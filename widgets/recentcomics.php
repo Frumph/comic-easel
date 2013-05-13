@@ -19,7 +19,6 @@ class ceo_latest_comics_widget extends WP_Widget {
 	function widget($args, $instance) {
 		global $post;
 		extract($args, EXTR_SKIP); 
-		ceo_Protect();
 		echo $before_widget;
 		$title = empty($instance['title']) ? __('Latest Comics','comiceasel') : apply_filters('widget_title', $instance['title']); 
 		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
@@ -34,8 +33,8 @@ class ceo_latest_comics_widget extends WP_Widget {
 		<?php endforeach; ?>
 		</ul>
 		<?php
-		ceo_UnProtect();
 		echo $after_widget;
+		wp_reset_query();
 	}
 	
 	function update($new_instance, $old_instance) {
@@ -53,6 +52,10 @@ class ceo_latest_comics_widget extends WP_Widget {
 	}
 }
 
-add_action( 'widgets_init', create_function('', 'return register_widget("ceo_latest_comics_widget");') );
+function ceo_latest_comics_widget_register() {
+	register_widget('ceo_latest_comics_widget');
+}
+
+add_action('widgets_init', 'ceo_latest_comics_widget_register');
 
 ?>
