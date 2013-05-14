@@ -185,7 +185,6 @@ class ceo_comic_navigation_widget extends WP_Widget {
 		} else { 
 			$this->display_comic_nav_wrapper($args, $instance);
 		}
-		wp_reset_query();
 	}
 	
 	function update($new_instance, $old_instance) {
