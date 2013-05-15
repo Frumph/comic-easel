@@ -106,7 +106,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 				$chapter_options .= '<option name="'.$term->slug.'" value="'.$term->slug.'" '.$chaptselected.'> '.$term->name.' </option>';
 			}
 			?>
-			<select name=<?php echo $this->get_field_name('thumbchapt'); ?>" id="<?php echo $this->get_field_id('thumbchapt'); ?>">
+			<select name="<?php echo $this->get_field_name('thumbchapt'); ?>" id="<?php echo $this->get_field_id('thumbchapt'); ?>">
 			<?php echo $chapter_options; ?>
 			</select>
 		<?php } ?>

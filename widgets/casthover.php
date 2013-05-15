@@ -54,10 +54,12 @@ function ceo_add_characters_hovercards($post_characters) {
 	global $post;
 	$mychars = '<div class="comic-characters">'.__('Characters', 'comiceasel').': ';
 	$terms = get_the_terms( $post->ID, 'characters' );
+	$return = '';
 	if ( !empty( $terms ) ) {
 		$out = array();
-		foreach ( $terms as $term )
+		foreach ( $terms as $term ) {
 			$out[] = '<span class="casthover-hovercard-hook"><a href="'.get_term_link($term->slug, 'characters').'">'.$term->name.'</a>'.ceo_insert_character_hovercard($term->slug).'</span>';
+		}
 		$return = join( ', ', $out );
 	}
 	$mychars .= $return . '</div>';
