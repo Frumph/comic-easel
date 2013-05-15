@@ -3,7 +3,7 @@
 function ceo_display_comic($size = 'full') {
 	global $post;
     if ( post_password_required() ) { 
-		return __('This information is password protected.','comiceasel');
+		return __('This comic is password protected.','comiceasel');
     }
 	$output = '';
 	if (ceo_the_above_html()) $output .= html_entity_decode(ceo_the_above_html())."\r\n";

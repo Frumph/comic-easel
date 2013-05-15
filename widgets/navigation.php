@@ -217,7 +217,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 					'first_in_title',
 					'last_in_title',
 					'previous_in_title',
-					'next_in_title',         
+					'next_in_title',
 					'first_title',
 					'last_title',
 					'previous_title',
