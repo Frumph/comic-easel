@@ -8,6 +8,7 @@ Version: 1.02
 */
 
 function ceo_comic_archive_jump_to_chapter() {
+	Protect();
 	$args = array(
 		'pad_counts' => 1,
 		'orderby' => 'menu_order',
@@ -32,7 +33,7 @@ function ceo_comic_archive_jump_to_chapter() {
 					'chapters' => $parent_chapter->slug, 
 					);					
 			$qposts = get_posts( $parent_args );
-			if (is_array($qposts) && !is_wp_error($qposts)) {
+			if (is_array($qposts) && !is_wp_error($qposts) && !empty($qposts)) {
 				$qposts = reset($qposts);
 				if ($parent_chapter->count) $count = ' ('.$parent_chapter->count.') ';
 				$output .='<option class="level-0" value="'.get_permalink($qposts->ID).'">'.$parent_chapter->name.$count.'</option>';
@@ -64,6 +65,7 @@ function ceo_comic_archive_jump_to_chapter() {
 	$output .= '</noscript>';
 	$output .= '</form>';
 	echo $output;
+	UnProtect();
 }
 
 class ceo_comic_archive_dropdown_widget extends WP_Widget {

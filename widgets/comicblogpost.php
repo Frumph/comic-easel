@@ -35,6 +35,7 @@ class ceo_comic_blog_post_widget extends WP_Widget {
 		if (!is_home() && $instance['onlyhome']) return;
 		if (is_page() || is_archive() || is_search()) return;
 		extract($args, EXTR_SKIP);
+		Protect();
 		if ((is_home() || is_front_page()) && !is_paged() && !ceo_pluginfo('disable_comic_on_home_page')) {
 			$order = (ceo_pluginfo('display_first_comic_on_home_page')) ?  'asc' : 'desc';
 			$args = array(
@@ -66,7 +67,7 @@ class ceo_comic_blog_post_widget extends WP_Widget {
 				echo $after_widget;
 			}
 		}
-		wp_reset_query();
+		UnProtect();
 	}
 	
 	function update($new_instance, $old_instance) {

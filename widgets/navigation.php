@@ -170,6 +170,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 	
 	function widget($args, $instance) {
 		global $post;
+		Protect();
 		if (is_home() || is_front_page()) {
 			$order = (ceo_pluginfo('display_first_comic_on_home_page')) ?  'asc' : 'desc';
 			$comic_args = array(
@@ -185,6 +186,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 		} else { 
 			$this->display_comic_nav_wrapper($args, $instance);
 		}
+		UnProtect();
 	}
 	
 	function update($new_instance, $old_instance) {

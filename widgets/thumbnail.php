@@ -17,6 +17,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 	function widget($args, $instance) {
 		global $post, $wp_query;		
 		extract($args, EXTR_SKIP);
+		Protect();
 		$current_permalink = get_permalink($post->ID);
 		$current_post_id = '';
 		$chaptinfo = ';';
@@ -39,7 +40,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 					if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
 					echo '<div class="comic-thumb comic-thumb-'.$post->ID.'">';
 					if ($instance['centering']) echo "\r\n<center>\r\n";
-					if ($instance['secondary'] && class_exists('MultiPostThumbnails')) {
+					if (isset($instance['secondary']) && $instance['secondary'] && class_exists('MultiPostThumbnails')) {
 						$secondary_image = MultiPostThumbnails::get_the_post_thumbnail(get_post_type(), 'secondary-image', $post->ID,  'secondary-image');
 						if (!empty($secondary_image)) {
 							echo "<a href=\"".$the_permalink."\" rel=\"bookmark\" title=\"Permanent Link to ".get_the_title()."\">".$secondary_image."</a>\r\n";
@@ -64,7 +65,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 				}
 			endwhile;
 		}
-		wp_reset_query();
+		UnProtect();
 	}
 	
 	function update($new_instance, $old_instance) {
