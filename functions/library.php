@@ -20,7 +20,7 @@ function ceo_get_sidebar($location = '') {
  * Protect global $post and $wp_query.
  * @param object $use_this_post If provided, after saving the current post, set up this post for template tag use.
  */
-function ceo_Protect($use_this_post = null) {
+function ceo_protect($use_this_post = null) {
 	global $post, $wp_query, $__post, $__wp_query;
 	if (!empty($post)) {
 		$__post = $post;
@@ -37,7 +37,7 @@ function ceo_Protect($use_this_post = null) {
 /**
  * Temporarily restore the global $post variable and set it up for use.
  */
-function ceo_Restore() {
+function ceo_restore() {
 	global $post, $__post;
 	$post = $__post;
 	setup_postdata($post);
@@ -46,7 +46,7 @@ function ceo_Restore() {
 /**
  * Restore global $post and $wp_query.
  */
-function ceo_Unprotect() {
+function ceo_unprotect() {
 	global $post, $wp_query, $__post, $__wp_query;
 	if (!empty($__post)) {
 		$post = $__post;

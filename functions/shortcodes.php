@@ -55,15 +55,85 @@ function ceo_cast_display($character, $stats, $image) {
 	return $cast_output;
 }
 
+// , $limit, $stats, $image, $order
+function ceo_get_character_list($chapter) {
+	global $wpdb;
+	$sql_string = "SELECT DISTINCT
+				terms2.term_id as character_ID,
+				terms2.name as character_name
+				FROM
+				$wpdb->posts as p1
+				LEFT JOIN $wpdb->term_relationships as r1 ON p1.ID = r1.object_ID
+				LEFT JOIN $wpdb->term_taxonomy as t1 ON r1.term_taxonomy_id = t1.term_taxonomy_id
+				LEFT JOIN $wpdb->terms as terms1 ON t1.term_id = terms1.term_id,
+				
+				$wpdb->posts as p2
+				LEFT JOIN $wpdb->term_relationships as r2 ON p2.ID = r2.object_ID
+				LEFT JOIN $wpdb->term_taxonomy as t2 ON r2.term_taxonomy_id = t2.term_taxonomy_id
+				LEFT JOIN $wpdb->terms as terms2 ON t2.term_id = terms2.term_id
+				WHERE (
+				t1.taxonomy = 'chapters' AND
+				p1.post_status = 'publish' AND
+				terms1.term_id = '$chapter' AND
+				t2.taxonomy = 'characters' AND
+				p2.post_status = 'publish' AND
+				p1.ID = p2.ID
+				)
+				";
+	$sql_string2 = "SELECT DISTINCT terms2.term_id as tag_id, terms2.name as tag_name, null as tag_link
+		FROM
+			wp_posts as p1
+			LEFT JOIN wp_term_relationships as r1 ON p1.ID = r1.object_ID
+			LEFT JOIN wp_term_taxonomy as t1 ON r1.term_taxonomy_id = t1.term_taxonomy_id
+			LEFT JOIN wp_terms as terms1 ON t1.term_id = terms1.term_id,
+
+			wp_posts as p2
+			LEFT JOIN wp_term_relationships as r2 ON p2.ID = r2.object_ID
+			LEFT JOIN wp_term_taxonomy as t2 ON r2.term_taxonomy_id = t2.term_taxonomy_id
+			LEFT JOIN wp_terms as terms2 ON t2.term_id = terms2.term_id
+		WHERE
+			t1.taxonomy = 'chapters' AND p1.post_status = 'publish' AND terms1.term_id IN (".$chapter.") AND
+			t2.taxonomy = 'characters' AND p2.post_status = 'publish'
+			AND p1.ID = p2.ID
+			ORDER by tag_name";
+	$sql_string3 = "SELECT DISTINCT terms2.name as tag
+			FROM
+			wp_posts as p1
+			LEFT JOIN wp_term_relationships as r1 ON p1.ID = r1.object_ID
+			LEFT JOIN wp_term_taxonomy as t1 ON r1.term_taxonomy_id = t1.term_taxonomy_id
+			LEFT JOIN wp_terms as terms1 ON t1.term_id = terms1.term_id,
+			
+			wp_posts as p2
+			LEFT JOIN wp_term_relationships as r2 ON p2.ID = r2.object_ID
+			LEFT JOIN wp_term_taxonomy as t2 ON r2.term_taxonomy_id = t2.term_taxonomy_id
+			LEFT JOIN wp_terms as terms2 ON t2.term_id = terms2.term_id
+			WHERE
+			t1.taxonomy = 'chapters' AND p1.post_status = 'publish' AND terms1.term_id = ".$chapter." AND
+			t2.taxonomy = 'characters' AND p2.post_status = 'publish'
+			AND p1.ID = p2.ID";
+		
+	var_dump($sql_string3);
+	$chacter_list = $wpdb->get_results($sql_string3);
+	if (!empty($character_list)) return $character_list;
+	return false;
+}
+
 function ceo_cast_page( $atts, $content = '' ) {
 	extract( shortcode_atts( array(
 					'character' => '',
 					'limit' => '',
 					'order' => 'desc',
 					'stats' => 1,
-					'image' => 1
+					'image' => 1,
+					'chapter' => 0
 					), $atts ) );
 	$cast_output = '';
+	if ($chapter) {
+		$character_list = ceo_get_character_list($chapter);
+		var_dump($character_list);
+//		echo $cast_output;
+		return;
+	}
 	if (empty($character)) {
 		if ($limit) {
 			$args = 'orderby=count&order='.$order.'&hide_empty=1&number='.$limit;

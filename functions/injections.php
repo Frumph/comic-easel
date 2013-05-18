@@ -1,5 +1,6 @@
 <?php
 // Injected with a poison.
+add_action('wp_head', 'ceo_version_meta');
 add_action('comic-post-foot', 'ceo_display_edit_link');
 add_action('comic-area', 'ceo_display_comic_area');
 add_action('comic-post-info', 'ceo_display_comic_post_info');
@@ -8,8 +9,12 @@ add_action('comic-blog-area', 'ceo_display_comic_post_home');
 add_action('wp_head', 'ceo_facebook_comic_thumbnail');
 if (!ceo_pluginfo('disable_related_comics')) 
 	add_action('comic-post-extras', 'ceo_display_related_comics');
-add_action('transition_post_status', 'ceo_transition_post_status',10,3);
+add_action('transition_post_status', 'ceo_transition_post_status', 10, 3);
 add_action('comic-transcript', 'ceo_display_the_transcript_action');
+
+function ceo_version_meta() {
+	echo apply_filters('ceo_version_meta', '<meta name="Comic-Easel" content="'.ceo_pluginfo('version').'" />'."\r\n");
+}
 
 function ceo_display_edit_link() {
 	global $post;
@@ -33,9 +38,8 @@ function ceo_display_comic_chapters() {
 		$before = '<div class="comic-chapter">'.__('Chapter','comiceasel').': ';
 		$sep = ', '; 
 		$after = '</div>';
-		$post_category = get_the_term_list( $post->ID, 'chapters', $before, $sep, $after );
-	} else return;
-	echo apply_filters('ceo_display_comic_chapters', $post_category);
+		echo get_the_term_list( $post->ID, 'chapters', $before, $sep, $after );
+	}
 }
 
 function ceo_display_comic_navigation() {
@@ -120,8 +124,7 @@ function ceo_display_comic_locations() {
 		$before = '<div class="comic-locations">'.__('Location','comiceasel').': ';
 		$sep = ', '; 
 		$after = '</div>';
-		$output = get_the_term_list( $post->ID, 'locations', $before, $sep, $after );
-		echo apply_filters('ceo_display_comic_locations', $output);
+		echo get_the_term_list( $post->ID, 'locations', $before, $sep, $after );
 	}
 }
 
@@ -131,8 +134,7 @@ function ceo_display_comic_characters() {
 		$before = '<div class="comic-characters">'.__('Characters','comiceasel').': ';
 		$sep = ', '; 
 		$after = '</div>';
-		$post_characters = get_the_term_list( $post->ID, 'characters', $before, $sep, $after );
-		echo apply_filters('ceo_display_comic_characters', $post_characters);		
+		echo get_the_term_list( $post->ID, 'characters', $before, $sep, $after );
 	}
 }
 

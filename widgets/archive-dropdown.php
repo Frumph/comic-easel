@@ -8,7 +8,7 @@ Version: 1.02
 */
 
 function ceo_comic_archive_jump_to_chapter() {
-	Protect();
+	ceo_protect();
 	$args = array(
 		'pad_counts' => 1,
 		'orderby' => 'menu_order',
@@ -65,7 +65,7 @@ function ceo_comic_archive_jump_to_chapter() {
 	$output .= '</noscript>';
 	$output .= '</form>';
 	echo $output;
-	UnProtect();
+	ceo_unprotect();
 }
 
 class ceo_comic_archive_dropdown_widget extends WP_Widget {

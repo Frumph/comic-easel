@@ -17,7 +17,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 	function widget($args, $instance) {
 		global $post, $wp_query;		
 		extract($args, EXTR_SKIP);
-		Protect();
+		ceo_protect();
 		$current_permalink = get_permalink($post->ID);
 		$current_post_id = '';
 		$chaptinfo = ';';
@@ -65,7 +65,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 				}
 			endwhile;
 		}
-		UnProtect();
+		ceo_unprotect();
 	}
 	
 	function update($new_instance, $old_instance) {

@@ -20,7 +20,7 @@ class ceo_scheduled_comics_widget extends WP_Widget {
 	function widget($args, $instance) {
 		extract($args, EXTR_SKIP); 
 		echo $before_widget;
-		Protect();
+		ceo_protect();
 		$title = empty($instance['title']) ? __('Scheduled Comics','comiceasel') : apply_filters('widget_title', $instance['title']); 
 		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; }; 
 		$args = array(
@@ -40,7 +40,7 @@ class ceo_scheduled_comics_widget extends WP_Widget {
 			</ul>
 		<?php } 
 		echo $after_widget;
-		UnProtect();
+		ceo_unprotect();
 	}
 	
 	function update($new_instance, $old_instance) {

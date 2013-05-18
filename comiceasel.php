@@ -3,7 +3,7 @@
 Plugin Name: Comic Easel
 Plugin URI: http://comiceasel.com
 Description: Comic Easel allows you to incorporate a WebComic using the WordPress Media Library functionality with Navigation into almost all WordPress themes. With just a few modifications of adding injection do_action locations into a theme, you can have the theme of your choice display and manage a webcomic.
-Version: 1.3.9
+Version: 1.3.10
 Author: Philip M. Hofer (Frumph)
 Author URI: http://frumph.net/
 
@@ -89,7 +89,7 @@ function ceo_initialize_post_types() {
 					'show_ui' => true,
 					'query_var' => true,
 					'show_tagcloud' => false,
-					'rewrite' => array( 'slug' => 'chapter', 'with_front' => true, 'feeds' => true ),
+					'rewrite' => array( 'slug' => 'chapter', 'with_front' => true, 'feeds' => false ),
 					));
 
 		$labels = array(
@@ -113,7 +113,7 @@ function ceo_initialize_post_types() {
 					'show_ui' => true,
 					'query_var' => true,
 					'show_tagcloud' => false,
-					'rewrite' => array( 'slug' => 'character', 'with_front' => true, 'feeds' => true ),
+					'rewrite' => array( 'slug' => 'character', 'with_front' => true, 'feeds' => false ),
 					));
 					
 		$labels = array(
@@ -128,7 +128,7 @@ function ceo_initialize_post_types() {
 				'update_item' => __( 'Update Location', 'comiceasel' ),
 				'add_new_item' => __( 'Add New Location', 'comiceasel' ),
 				'new_item_name' => __( 'New Location Name', 'comiceasel' ),
-				); 	
+				);
 
 		register_taxonomy('locations', 'comic', array(
 					'hierarchical' => true,
@@ -137,13 +137,14 @@ function ceo_initialize_post_types() {
 					'show_ui' => true,
 					'query_var' => true,
 					'show_tagcloud' => false,
-					'rewrite' => array( 'slug' => 'location', 'with_front' => false, 'feeds' => true ),
-					));
+					'rewrite' => array( 'slug' => 'location', 'with_front' => true, 'feeds' => false ),
+					));				
 
 		register_taxonomy_for_object_type('post_tag', 'comic');
 		register_taxonomy_for_object_type('chapters', 'comic');
 		register_taxonomy_for_object_type('characters', 'comic');
 		register_taxonomy_for_object_type('locations', 'comic');
+
 	}
 }
 
@@ -320,7 +321,7 @@ function ceo_load_options($reset = false) {
 
 function ceo_pluginfo($whichinfo = null) {
 	global $ceo_pluginfo;
-//	ceo_load_options('reset');
+//	ceo_load_options('reset');	
 	if (empty($ceo_pluginfo) || $whichinfo == 'reset') {
 		// Important to assign pluginfo as an array to begin with.
 		$ceo_pluginfo = array();
@@ -348,7 +349,8 @@ function ceo_pluginfo($whichinfo = null) {
 				'style_path' => get_stylesheet_directory(),
 				// comic-easel plugin directory/url
 				'plugin_url' => plugin_dir_url(dirname (__FILE__)) . 'comic-easel',
-				'plugin_path' => trailingslashit(ABSPATH) . ceo_get_plugin_path()
+				'plugin_path' => trailingslashit(ABSPATH) . ceo_get_plugin_path(),
+				'version' => '1.3.10'
 		);
 		// Combine em.
 		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_addinfo);

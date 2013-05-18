@@ -79,7 +79,7 @@ function ceo_display_comic_area() {
 		ceo_display_comic_wrapper();
 	} else {
 		if ((is_home() || is_front_page()) && !is_paged() && !ceo_pluginfo('disable_comic_on_home_page'))  {
-			ceo_Protect();
+			ceo_protect();
 			$order = (ceo_pluginfo('display_first_comic_on_home_page')) ?  'asc' : 'desc';
 			$comic_args = array(
 					'showposts' => 1,
@@ -91,7 +91,7 @@ function ceo_display_comic_area() {
 			while ($comicFrontpage->have_posts()) : $comicFrontpage->the_post();
 				ceo_display_comic_wrapper();
 			endwhile;
-			ceo_UnProtect();
+			ceo_unprotect();
 		}
 	}
 }

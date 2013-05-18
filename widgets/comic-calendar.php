@@ -257,7 +257,7 @@ class ceo_calendar_widget extends WP_Widget {
 		extract($args, EXTR_SKIP);
 
 		echo $before_widget;
-		Protect();
+		ceo_protect();
 		if (!empty($instance)) { extract($instance); } ?>
 			<div id="wp-calendar-head"></div>
 			<div id="wp-calendar-wrap">
@@ -292,7 +292,7 @@ class ceo_calendar_widget extends WP_Widget {
 			<div id="wp-calendar-foot"></div>
 		<?php
 		echo $after_widget;
-		UnProtect();
+		ceo_unprotect();
 	}
 
 	function update($new_instance, $old_instance = array()) {

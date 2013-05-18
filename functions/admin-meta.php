@@ -107,9 +107,9 @@ function ceo_add_new_comic_columns($comic_columns) {
 
 	$new_columns['title'] = __('Comic Title', 'comiceasel');
  
-	$new_columns['chapter'] = __('Chapter','comiceasel');
-	$new_columns['characters'] = __('Characters','comiceasel');
-	$new_columns['locations'] = __('Location','comiceasel');
+	$new_columns['chapter'] = __('Chapter', 'comiceasel');
+	$new_columns['characters'] = __('Characters', 'comiceasel');
+	$new_columns['locations'] = __('Location', 'comiceasel');
 	$new_columns['tags'] = __('Tags', 'comiceasel');
 	$new_columns['date'] = _x('Date', 'column name');
 	$new_columns['comicimages'] = __('Thumbnail', 'comiceasel');
@@ -124,7 +124,7 @@ function ceo_manage_comic_columns($column_name, $id) {
 			$allterms = get_the_terms( $id, 'chapters');
 			if (!empty($allterms) && !isset($allterms->errors)) {
 				foreach ($allterms as $term) {
-					$term_list_chapters[] = '<a href="'.home_url(ceo_clean_filename('/wp-admin/edit.php?post_type=comic&chapters='.$term->name)).'">'.$term->name.'</a>';
+					$term_list_chapters[] = '<a href="'.admin_url('edit.php?post_type=comic&chapters='.$term->name).'">'.$term->name.'</a>';
 				}
 				echo join(', ', $term_list_chapters );
 			}
@@ -133,7 +133,7 @@ function ceo_manage_comic_columns($column_name, $id) {
 			$allterms = get_the_terms( $id, 'characters');
 			if (!empty($allterms) && !isset($allterms->errors)) {
 				foreach ($allterms as $term) {
-					$term_list_characters[] = '<a href="'.home_url(ceo_clean_filename('/wp-admin/edit.php?post_type=comic&characters='.$term->name)).'">'.$term->name.'</a>';
+					$term_list_characters[] = '<a href="'.admin_url('edit.php?post_type=comic&characters='.$term->name).'">'.$term->name.'</a>';
 				}
 				echo join(', ', $term_list_characters );
 			}
@@ -142,7 +142,7 @@ function ceo_manage_comic_columns($column_name, $id) {
 			$allterms = get_the_terms( $id, 'locations');
 			if (!empty($allterms) && !isset($allterms->errors)) {
 				foreach ($allterms as $term) {
-					$term_list_locations[] = '<a href="'.home_url(ceo_clean_filename('/wp-admin/edit.php?post_type=comic&locations='.$term->name)).'">'.$term->name.'</a>';
+					$term_list_locations[] = '<a href="'.admin_url('/wp-admin/edit.php?post_type=comic&locations='.$term->name).'">'.$term->name.'</a>';
 				}
 				echo join(', ', $term_list_locations );
 			}
