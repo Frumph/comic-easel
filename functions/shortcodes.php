@@ -108,12 +108,11 @@ function ceo_get_character_list($chapter) {
 			LEFT JOIN wp_term_taxonomy as t2 ON r2.term_taxonomy_id = t2.term_taxonomy_id
 			LEFT JOIN wp_terms as terms2 ON t2.term_id = terms2.term_id
 			WHERE
-			t1.taxonomy = 'chapters' AND p1.post_status = 'publish' AND terms1.term_id = ".$chapter." AND
+			t1.taxonomy = 'chapters' AND p1.post_status = 'publish' AND terms1.term_id = '".$chapter."' AND
 			t2.taxonomy = 'characters' AND p2.post_status = 'publish'
 			AND p1.ID = p2.ID";
 		
-	var_dump($sql_string3);
-	$chacter_list = $wpdb->get_results($sql_string3);
+	$character_list = $wpdb->get_results($sql_string3);
 	if (!empty($character_list)) return $character_list;
 	return false;
 }
@@ -130,9 +129,13 @@ function ceo_cast_page( $atts, $content = '' ) {
 	$cast_output = '';
 	if ($chapter) {
 		$character_list = ceo_get_character_list($chapter);
-		var_dump($character_list);
-//		echo $cast_output;
-		return;
+		$cast_output .= '<table class="cast-wrapper">'."\r\n";
+		foreach ($character_list as $character) {
+			$character_object = get_term_by('slug', $character->tag, 'characters');
+			$cast_output .= ceo_cast_display($character_object, $stats, $image)."\r\n";
+		}
+		$cast_output .= '</table>'."\r\n";
+		return $cast_output;
 	}
 	if (empty($character)) {
 		if ($limit) {
