@@ -133,6 +133,7 @@ restored the protect/unprotect but renamed them ceo_protect ceo_unprotect, wp_re
 added injection of the comic-easel version number as a meta tag for the <head> section
 fixed some injection code where it was returning at the wrong time for the post-info
 started working on adding chapter= references to the cast-page (not working yet, don't use)
+chapter= argument now works inside cast-page so that you can seperate the casts between different comics
 
 
 = 1.3.9 =
