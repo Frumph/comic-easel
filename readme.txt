@@ -127,116 +127,114 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 == Changelog ==
 = 1.3.10 =
-removed some taxonomies from having their own feed, caused search engines to freak out
-replaced some home_url with admin_url for admin location links in the admin_meta
-restored the protect/unprotect but renamed them ceo_protect ceo_unprotect, wp_reset_query was having 'issues'
-added injection of the comic-easel version number as a meta tag for the <head> section
-fixed some injection code where it was returning at the wrong time for the post-info
-started working on adding chapter= references to the cast-page (not working yet, don't use)
-chapter= argument now works inside cast-page so that you can seperate the casts between different comics
+* removed some taxonomies from having their own feed, caused search engines to freak out
+* replaced some home_url with admin_url for admin location links in the admin_meta
+* restored the protect/unprotect but renamed them ceo_protect ceo_unprotect, wp_reset_query was having 'issues'
+* added injection of the comic-easel version number as a meta tag for the <head> section
+* fixed some injection code where it was returning at the wrong time for the post-info
+* chapter= argument now works inside cast-page so that you can seperate the casts between different comics
 
 
 = 1.3.9 =
-New widget, which displays mini thumbnails with hovercards of the cast members who are in the current comic - courtesy of Chris Maverick.   Fixed navigation issues, added another option to navigation widget; It no longer erases the titles when clicking save on first time adding it to the sidebar.  Cleaned up some coding in all of the other widgets. Replaced most of the protect() unProtect() with wp_reset_query().  Comic blog post widget now has an Ordering based on the option in the config.  
+* New widget, which displays mini thumbnails with hovercards of the cast members who are in the current comic - courtesy of Chris Maverick.   Fixed navigation issues, added another option to navigation widget; It no longer erases the titles when clicking save on first time adding it to the sidebar.  Cleaned up some coding in all of the other widgets. Replaced most of the protect() unProtect() with wp_reset_query().  Comic blog post widget now has an Ordering based on the option in the config.  
 
 = 1.3.8 =
-Revamped the cast-page shortcode, in tables now, also shows most recent comic the character was in, cast-page now accepts order=(asc/desc) and limit=# arguments documentation now available at comiceasel.com
+* Revamped the cast-page shortcode, in tables now, also shows most recent comic the character was in, cast-page now accepts order=(asc/desc) and limit=# arguments documentation now available at comiceasel.com
 
 = 1.3.7 =
-New debug screen for variables and system information. (for me to help people with mainly)
-New option to enable transcripts to appear at the bottom of posts if the transcript exists instead of using the shortcode.  Disable if you want to use the shortcode instead.
-added: 
-bug fix for default values not setting when plugin updates, if the option for transcripts is enables in the config disable use of the shortcode [transcript] while it's active
+* New debug screen for variables and system information. (for me to help people with mainly)
+* New option to enable transcripts to appear at the bottom of posts if the transcript exists instead of using the shortcode.  Disable if you want to use the shortcode instead.
+* bug fix for default values not setting when plugin updates, if the option for transcripts is enables in the config disable use of the shortcode [transcript] while it's active
 
 = 1.3.6 =
-Introducing Comic Easel - Import  (comic -> import in the wp-admin)
+* Introducing Comic Easel - Import  (comic -> import in the wp-admin)
 
 = 1.3.5 =
-Added multi thumbnail plugin coding so you can have 2 images per comic, one teaser image used  in the thumbnail widget and wherever else you code it in.
-CSS Adjustments to some of the navigation images
-added esc_attr checks to the thumbnail widget for extra security
+* Added multi thumbnail plugin coding so you can have 2 images per comic, one teaser image used  in the thumbnail widget and wherever else you code it in.
+* CSS Adjustments to some of the navigation images
+* added esc_attr checks to the thumbnail widget for extra security
 
 
 = 1.3.3 =
-added new list= to the shortcode for [comic-archive list=3] will show yearly archive of comics, all on one page
+* added new list= to the shortcode for [comic-archive list=3] will show yearly archive of comics, all on one page
 
 = 1.3.2 =
-Added new list= to the shortcode for [comic-archive list=2] will show a yearly archive of comics split up into linkable pages
+* Added new list= to the shortcode for [comic-archive list=2] will show a yearly archive of comics split up into linkable pages
 
 = 1.3 =
-Chapter Order Fields fixed
+* Chapter Order Fields fixed
 
 = 1.2 =
-Attempt at a navigation fix for the widget for front page ASC/DESC changes
-Also fixed (hopefully) the name change after saving the widget
+* Attempt at a navigation fix for the widget for front page ASC/DESC changes
+* Also fixed (hopefully) the name change after saving the widget
 
 = 1.1 =
-Added option to allow making the first comic appear on the home page
-the comic's blog post now will search for content-comic.php in the theme/child themes directory and use that if it exists
+* Added option to allow making the first comic appear on the home page
+* the comic's blog post now will search for content-comic.php in the theme/child themes directory and use that if it exists
 
 = 1.0.19 = 
-Fixed problem with tags and the archive
-reverted previous change to not showing chapters that were empty in the archive dropdown
-not flushing wp_rewrite on deactivation - should set the permalinks properly now on activation
+* Fixed problem with tags and the archive
+* reverted previous change to not showing chapters that were empty in the archive dropdown
+* not flushing wp_rewrite on deactivation - should set the permalinks properly now on activation
 
 = 1.0.16 =
-Added #blogheader div that appears under the comic's blog post on the home page.
+* Added #blogheader div that appears under the comic's blog post on the home page.
 
 = 1.0.14 =
-Made it so that the navigation widget shows up whether the comic sidebars are active or not.  They should work in any sidebar now.
-added function ceo_in_comic_category() for a conditional statement to check if the page is in the comic category
+* Made it so that the navigation widget shows up whether the comic sidebars are active or not.  They should work in any sidebar now.
+* added function ceo_in_comic_category() for a conditional statement to check if the page is in the comic category
 
 = 1.0.13 =
-Some additions to the language code, possible fox for the undefined problem with archive comic post types, various css fixes
+* Some additions to the language code, possible fox for the undefined problem with archive comic post types, various css fixes
 
 = 1.0.12 =
-Never program while mad at the world ;/ apparently you make some mistakes in backwards compatibility.
+* Never program while mad at the world ;/ apparently you make some mistakes in backwards compatibility.
 
 = 1.0.11 =
-Removed URLRewrite /comic/#date#/ code since it was causing behavior problems
-Fixed the click to next and mini navigation to navigate per the setting in the config all chapters or just in chapter
+* Removed URLRewrite /comic/#date#/ code since it was causing behavior problems
+* Fixed the click to next and mini navigation to navigate per the setting in the config all chapters or just in chapter
 
 = 1.0.10 = 
-Fix for RSS feeds, the problem was the action hook for it
-update: possible fix for clearing cache when custom post type is published with w3 total cache
+* Fix for RSS feeds, the problem was the action hook for it
+* update: possible fix for clearing cache when custom post type is published with w3 total cache
 
 = 1.0.9 =
-Use hovertext as well as comic-hovertext in the meta fields for those coming from ComicPress
+* Use hovertext as well as comic-hovertext in the meta fields for those coming from ComicPress
 
 = 1.0.8 =
-Bug fixes for shortcodes, and placement of shortcodes.
+* Bug fixes for shortcodes, and placement of shortcodes.
 
 = 1.0.7 =
-Chapter ordering is now part of the plugin, if you see any errors report them, deactivate the plugin and reactivate.
+* Chapter ordering is now part of the plugin, if you see any errors report them, deactivate the plugin and reactivate.
 
 = 1.0.5 =
-Chapter Navigation (prev/next chapter)
-Various little bug fixes here and there
+* Chapter Navigation (prev/next chapter)
+* Various little bug fixes here and there
 
 = 1.0.4 =
-Fixed wrong function in filter for archive
-added option for turning off the mininav if it's implemented
-fixed the mininav to not be enabled of on the home page the comic is diabled
+* Fixed wrong function in filter for archive
+* added option for turning off the mininav if it's implemented
+* fixed the mininav to not be enabled of on the home page the comic is diabled
 
 = 1.0.3 =
-Navigation Widget, Calendar widget, bug fixes and new code for navigating in chapters/all.
-New options for setting the thumbnail size for various locations that use thumbnails
+* Navigation Widget, Calendar widget, bug fixes and new code for navigating in chapters/all.
+* New options for setting the thumbnail size for various locations that use thumbnails
 
 = 1.0.2 =
-Added Sidebar generators for no matter what theme you use.
-Added the Navigation Widget, which replaces the default navigation, it shares the same skinning as ComicPress and will often times be able to use the navstyle from ComicPress.
+* Added Sidebar generators for no matter what theme you use.
+* Added the Navigation Widget, which replaces the default navigation, it shares the same skinning as ComicPress and will often times be able to use the navstyle from ComicPress.
 
 = 1.0.1 =
-Updated: 05/26/2012 12:25am Pacific
+* Updated: 05/26/2012 12:25am Pacific
 - Made the prev/next link rel's properly navigate for comic posts
 
 Updated: 05/26/2012 5:25pm Pacific
-- Sidebar locations for the comic-area
+* Sidebar locations for the comic-area
 
 
 == Upgrade Notice ==
 = 1.0.16 =
-You should go to settings -> permalinks and click save again.
+* You should go to settings -> permalinks and click save again.
 
 
 
