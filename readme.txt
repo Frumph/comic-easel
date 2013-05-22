@@ -3,7 +3,7 @@ Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
 Tested up to: 3.5.1
-Stable tag: 1.3.10
+Stable tag: 1.3.11
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -126,6 +126,10 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.3.11 =
+* Option added to the thumbnail widget to set the thumbnail to not display on posts that the thumbnail displays (used to be always) now it default as off
+
+
 = 1.3.10 =
 * removed some taxonomies from having their own feed, caused search engines to freak out
 * replaced some home_url with admin_url for admin location links in the admin_meta
@@ -136,7 +140,10 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 = 1.3.9 =
-* New widget, which displays mini thumbnails with hovercards of the cast members who are in the current comic - courtesy of Chris Maverick.   Fixed navigation issues, added another option to navigation widget; It no longer erases the titles when clicking save on first time adding it to the sidebar.  Cleaned up some coding in all of the other widgets. Replaced most of the protect() unProtect() with wp_reset_query().  Comic blog post widget now has an Ordering based on the option in the config.  
+* New widget, which displays mini thumbnails with hovercards of the cast members who are in the current comic - courtesy of Chris Maverick.   
+* Fixed navigation issues, added another option to navigation widget; It no longer erases the titles when clicking save on first time adding it to the sidebar.
+* Cleaned up some coding in all of the other widgets. Replaced most of the protect() unProtect() with wp_reset_query().
+* Comic blog post widget now has an Ordering based on the option in the config.  
 
 = 1.3.8 =
 * Revamped the cast-page shortcode, in tables now, also shows most recent comic the character was in, cast-page now accepts order=(asc/desc) and limit=# arguments documentation now available at comiceasel.com
