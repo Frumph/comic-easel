@@ -128,6 +128,7 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 == Changelog ==
 = 1.3.11 =
 * Option added to the thumbnail widget to set the thumbnail to not display on posts that the thumbnail displays (used to be always) now it default as off
+* disabled the multi-comic in post using old attachements gallery, set to the post ID because wordpress no longer supports it; i'll re-add it if wordpress supports it again
 
 
 = 1.3.10 =
