@@ -177,7 +177,6 @@ function ceo_edit_toggles_in_post($post) {
 	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
 ?>
 <table class="widefat">
-<?php /*
 	<tr>
 		<th scope="row"><label for="comic-gallery"><?php _e('Use Gallery of Comics?','comiceasel'); ?></label></th>
 		<td>
@@ -185,9 +184,15 @@ function ceo_edit_toggles_in_post($post) {
 		</td>
 	</tr>
 	<tr>
-		<th scope="row"><label for="comic-gallery-full"><?php _e('If Gallery is set, display the comics as full sized?','comiceasel'); ?></label></th>
+		<th scope="row"><label for="comic-gallery-full"><?php _e('If Gallery is set, display the comics as full sized? (Multi-Comics)','comiceasel'); ?></label></th>
 		<td>
 			<input id="comic-gallery-full" name="comic-gallery-full" type="checkbox" value="1" <?php checked(1, get_post_meta( $post->ID, 'comic-gallery-full', true )); ?> />
+		</td>
+	</tr>
+	<tr>
+		<th scope="row"><label for="comic-gallery-jquery"><?php _e('If Multi-Comics is enabled use the jQuery page flipper?','comiceasel'); ?></label></th>
+		<td>
+			<input id="comic-gallery-jquery" name="comic-gallery-jquery" type="checkbox" value="1" <?php checked(1, get_post_meta( $post->ID, 'comic-gallery-jquery', true )); ?> />
 		</td>
 	</tr>
 	<tr>
@@ -200,7 +205,6 @@ function ceo_edit_toggles_in_post($post) {
 			<input id="comic-gallery-columns" name="comic-gallery-columns" style="width: 40px;" type="text" value="<?php echo $column_count; ?>"  />
 		</td>
 	</tr>
-*/ ?>
 	<tr>
 		<th scope="row"><label for="comic-open-lightbox"><?php _e('Open comic up with Lightbox?','comiceasel'); ?></label></th>
 		<td>
@@ -281,7 +285,8 @@ function ceo_handle_edit_save_comic($post_id, $post) {
 			'comic-gallery',
 			'comic-gallery-columns',
 			'comic-open-lightbox',
-			'comic-gallery-full'
+			'comic-gallery-full',
+			'comic-gallery-jquery'
 			);
 			
 	foreach ($meta_array as $meta_key) {

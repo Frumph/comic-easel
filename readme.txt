@@ -128,7 +128,8 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 == Changelog ==
 = 1.3.11 =
 * Option added to the thumbnail widget to set the thumbnail to not display on posts that the thumbnail displays (used to be always) now it default as off
-* disabled the multi-comic in post using old attachements gallery, set to the post ID because wordpress no longer supports it; i'll re-add it if wordpress supports it again
+* toggle in comic post editor to allow [all] comics attached to the post to display for the day full sized with or without a jquery page flipper
+* COME ON Read the line above! It says MULTI COMIC per day support, not only that it's PER COMIC POST not an all or nothing thing.
 
 
 = 1.3.10 =

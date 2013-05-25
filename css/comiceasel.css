@@ -219,3 +219,8 @@ a.transcript-title {
 	width: 100%;
 	text-align: center;
 }
+
+.comicbutton {
+	margin: 0 5px;
+	display: inline-block;
+}
