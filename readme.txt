@@ -129,7 +129,7 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 = 1.3.11 =
 * Option added to the thumbnail widget to set the thumbnail to not display on posts that the thumbnail displays (used to be always) now it default as off
 * toggle in comic post editor to allow [all] comics attached to the post to display for the day full sized with or without a jquery page flipper
-* COME ON Read the line above! It says MULTI COMIC per day support, not only that it's PER COMIC POST not an all or nothing thing.
+* COME ON Read the line above! It says MULTI COMIC per day support, not only that it's PER comic post NOT an all or nothing thing.
 
 
 = 1.3.10 =

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Comic Easel v1.3.11\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-05-26 04:07:24+0000\n"
+"PO-Revision-Date: 2013-05-26 04:20:09+0000\n"
 "Last-Translator: frumph <philip@frumph.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -635,11 +635,6 @@ msgstr ""
 #: functions/admin-meta.php:169
 #@ comiceasel
 msgid "To add a comic image, use the featured image link to add a featured image.  After it uploads, click the \"use as featured image\"."
-msgstr ""
-
-#: functions/admin-meta.php:181
-#@ comiceasel
-msgid "Use Gallery of Comics?"
 msgstr ""
 
 #: functions/admin-meta.php:209
@@ -1441,16 +1436,6 @@ msgstr ""
 msgid "Use Secondary Image if plugin active?"
 msgstr ""
 
-#: functions/admin-meta.php:187
-#@ comiceasel
-msgid "If Gallery is set, display the comics as full sized? (Multi-Comics)"
-msgstr ""
-
-#: functions/admin-meta.php:193
-#@ comiceasel
-msgid "If Multi-Comics is enabled use the jQuery page flipper?"
-msgstr ""
-
 #: functions/admin-meta.php:199
 #@ comiceasel
 msgid "If not full sized, how many gallery rows to use?"
@@ -1459,5 +1444,20 @@ msgstr ""
 #: widgets/thumbnail.php:124
 #@ comiceasel
 msgid "Disable thumbnail from showing on same page the comic in the thumbnail displays?"
+msgstr ""
+
+#: functions/admin-meta.php:181
+#@ comiceasel
+msgid "Multi-Comic Support?"
+msgstr ""
+
+#: functions/admin-meta.php:187
+#@ comiceasel
+msgid "Display the comics as full sized? (Multi-Comics)"
+msgstr ""
+
+#: functions/admin-meta.php:193
+#@ comiceasel
+msgid "Use the jQuery page flipper?"
 msgstr ""
 

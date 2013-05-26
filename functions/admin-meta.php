@@ -178,19 +178,19 @@ function ceo_edit_toggles_in_post($post) {
 ?>
 <table class="widefat">
 	<tr>
-		<th scope="row"><label for="comic-gallery"><?php _e('Use Gallery of Comics?','comiceasel'); ?></label></th>
+		<th scope="row"><label for="comic-gallery"><?php _e('Multi-Comic Support?','comiceasel'); ?></label></th>
 		<td>
 			<input id="comic-gallery" name="comic-gallery" type="checkbox" value="1" <?php checked(1, get_post_meta( $post->ID, 'comic-gallery', true )); ?> />
 		</td>
 	</tr>
 	<tr>
-		<th scope="row"><label for="comic-gallery-full"><?php _e('If Gallery is set, display the comics as full sized? (Multi-Comics)','comiceasel'); ?></label></th>
+		<th scope="row"><label for="comic-gallery-full"><?php _e('Display the comics as full sized? (Multi-Comics)','comiceasel'); ?></label></th>
 		<td>
 			<input id="comic-gallery-full" name="comic-gallery-full" type="checkbox" value="1" <?php checked(1, get_post_meta( $post->ID, 'comic-gallery-full', true )); ?> />
 		</td>
 	</tr>
 	<tr>
-		<th scope="row"><label for="comic-gallery-jquery"><?php _e('If Multi-Comics is enabled use the jQuery page flipper?','comiceasel'); ?></label></th>
+		<th scope="row"><label for="comic-gallery-jquery"><?php _e('Use the jQuery page flipper?','comiceasel'); ?></label></th>
 		<td>
 			<input id="comic-gallery-jquery" name="comic-gallery-jquery" type="checkbox" value="1" <?php checked(1, get_post_meta( $post->ID, 'comic-gallery-jquery', true )); ?> />
 		</td>
@@ -252,7 +252,7 @@ function ceo_edit_html_below_comic($post) {
 
 function ceo_add_comic_in_post() {
 	add_meta_box('ceo_comic_in_post', __('Comic', 'comiceasel'), 'ceo_edit_comic_in_post', 'comic', 'side', 'high');
-	add_meta_box('ceo_toggle_in_post', __('Misc. Comic Functionality', 'comiceasel'), 'ceo_edit_toggles_in_post', 'comic', 'side', 'high');
+	add_meta_box('ceo_toggle_in_post', __('Misc. Comic Functionality', 'comiceasel'), 'ceo_edit_toggles_in_post', 'comic', 'side', 'low');
 	add_meta_box('ceo_hovertext_in_post', __('Alt (Hover) Text', 'comiceasel'), 'ceo_edit_hovertext_in_post', 'comic', 'normal', 'high');
 	add_meta_box('ceo_transcript_in_post', __('Transcript', 'comiceasel'), 'ceo_edit_transcript_in_post', 'comic', 'normal', 'high');
 	add_meta_box('ceo_html_above_comic', __('HTML (Above) Comic', 'comiceasel'), 'ceo_edit_html_above_comic', 'comic', 'normal', 'high');
