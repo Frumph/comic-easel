@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Comic Easel v1.3.11\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-05-26 04:20:09+0000\n"
+"PO-Revision-Date: 2013-05-26 04:25:01+0000\n"
 "Last-Translator: frumph <philip@frumph.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -321,7 +321,7 @@ msgid "Comics"
 msgstr ""
 
 #: comiceasel.php:34
-#: functions/admin-meta.php:254
+#: functions/admin-meta.php:257
 #@ comiceasel
 msgid "Comic"
 msgstr ""
@@ -637,32 +637,32 @@ msgstr ""
 msgid "To add a comic image, use the featured image link to add a featured image.  After it uploads, click the \"use as featured image\"."
 msgstr ""
 
-#: functions/admin-meta.php:209
+#: functions/admin-meta.php:212
 #@ comiceasel
 msgid "Open comic up with Lightbox?"
 msgstr ""
 
-#: functions/admin-meta.php:255
+#: functions/admin-meta.php:258
 #@ comiceasel
 msgid "Misc. Comic Functionality"
 msgstr ""
 
-#: functions/admin-meta.php:256
+#: functions/admin-meta.php:259
 #@ comiceasel
 msgid "Alt (Hover) Text"
 msgstr ""
 
-#: functions/admin-meta.php:257
+#: functions/admin-meta.php:260
 #@ comiceasel
 msgid "Transcript"
 msgstr ""
 
-#: functions/admin-meta.php:258
+#: functions/admin-meta.php:261
 #@ comiceasel
 msgid "HTML (Above) Comic"
 msgstr ""
 
-#: functions/admin-meta.php:259
+#: functions/admin-meta.php:262
 #@ comiceasel
 msgid "HTML (Below) Comic"
 msgstr ""
@@ -1436,7 +1436,7 @@ msgstr ""
 msgid "Use Secondary Image if plugin active?"
 msgstr ""
 
-#: functions/admin-meta.php:199
+#: functions/admin-meta.php:202
 #@ comiceasel
 msgid "If not full sized, how many gallery rows to use?"
 msgstr ""
@@ -1451,13 +1451,18 @@ msgstr ""
 msgid "Multi-Comic Support?"
 msgstr ""
 
-#: functions/admin-meta.php:187
-#@ comiceasel
-msgid "Display the comics as full sized? (Multi-Comics)"
-msgstr ""
-
-#: functions/admin-meta.php:193
+#: functions/admin-meta.php:196
 #@ comiceasel
 msgid "Use the jQuery page flipper?"
+msgstr ""
+
+#: functions/admin-meta.php:188
+#@ comiceasel
+msgid "Display the comics as full sized?"
+msgstr ""
+
+#: functions/admin-meta.php:189
+#@ comiceasel
+msgid "Not checking this will use the gallery thumbnail view, if multi-comic is enabled."
 msgstr ""
 

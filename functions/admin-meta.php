@@ -184,7 +184,10 @@ function ceo_edit_toggles_in_post($post) {
 		</td>
 	</tr>
 	<tr>
-		<th scope="row"><label for="comic-gallery-full"><?php _e('Display the comics as full sized? (Multi-Comics)','comiceasel'); ?></label></th>
+		<th scope="row">
+			<label for="comic-gallery-full"><?php _e('Display the comics as full sized?','comiceasel'); ?></label>
+			<span style="font-size: 9px;"><?php _e('Not checking this will use the gallery thumbnail view, if multi-comic is enabled.','comiceasel'); ?></span>
+		</th>
 		<td>
 			<input id="comic-gallery-full" name="comic-gallery-full" type="checkbox" value="1" <?php checked(1, get_post_meta( $post->ID, 'comic-gallery-full', true )); ?> />
 		</td>
