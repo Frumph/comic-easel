@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Comic Easel v1.3.9\n"
+"Project-Id-Version: Comic Easel v1.3.11\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-05-15 12:21:57+0000\n"
+"PO-Revision-Date: 2013-05-26 04:07:24+0000\n"
 "Last-Translator: frumph <philip@frumph.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -321,7 +321,7 @@ msgid "Comics"
 msgstr ""
 
 #: comiceasel.php:34
-#: functions/admin-meta.php:242
+#: functions/admin-meta.php:254
 #@ comiceasel
 msgid "Comic"
 msgstr ""
@@ -375,7 +375,7 @@ msgstr ""
 
 #: comiceasel.php:73
 #: functions/admin-meta.php:110
-#: functions/injections.php:33
+#: functions/injections.php:38
 #@ comiceasel
 msgid "Chapter"
 msgstr ""
@@ -428,7 +428,7 @@ msgstr ""
 #: comiceasel.php:96
 #: functions/admin-meta.php:111
 #: functions/casthover.php:55
-#: functions/injections.php:131
+#: functions/injections.php:134
 #: widgets/casthover.php:55
 #@ comiceasel
 msgid "Characters"
@@ -491,7 +491,7 @@ msgstr ""
 
 #: comiceasel.php:121
 #: functions/admin-meta.php:112
-#: functions/injections.php:120
+#: functions/injections.php:124
 #@ comiceasel
 msgid "Location"
 msgstr ""
@@ -541,32 +541,32 @@ msgstr ""
 msgid "New Location Name"
 msgstr ""
 
-#: comiceasel.php:157
+#: comiceasel.php:158
 #@ comiceasel
 msgid "Over Comic"
 msgstr ""
 
-#: comiceasel.php:158
+#: comiceasel.php:159
 #@ comiceasel
 msgid "Left of Comic"
 msgstr ""
 
-#: comiceasel.php:159
+#: comiceasel.php:160
 #@ comiceasel
 msgid "Right of Comic"
 msgstr ""
 
-#: comiceasel.php:160
+#: comiceasel.php:161
 #@ comiceasel
 msgid "Under Comic"
 msgstr ""
 
-#: comiceasel.php:165
+#: comiceasel.php:166
 #@ comiceasel
 msgid "Comic Easel Sidebar Location"
 msgstr ""
 
-#: comiceasel.php:373
+#: comiceasel.php:375
 #@ comiceasel
 msgid "Comic Easel - Test Information"
 msgstr ""
@@ -611,7 +611,7 @@ msgid "This defines what order the chapter is in. 0 = do not order."
 msgstr ""
 
 #: functions/admin-meta.php:108
-#: widgets/navigation.php:315
+#: widgets/navigation.php:317
 #@ comiceasel
 msgid "Comic Title"
 msgstr ""
@@ -642,37 +642,32 @@ msgstr ""
 msgid "Use Gallery of Comics?"
 msgstr ""
 
-#: functions/admin-meta.php:187
-#@ comiceasel
-msgid "Gallery rows to use?"
-msgstr ""
-
-#: functions/admin-meta.php:197
+#: functions/admin-meta.php:209
 #@ comiceasel
 msgid "Open comic up with Lightbox?"
 msgstr ""
 
-#: functions/admin-meta.php:243
+#: functions/admin-meta.php:255
 #@ comiceasel
 msgid "Misc. Comic Functionality"
 msgstr ""
 
-#: functions/admin-meta.php:244
+#: functions/admin-meta.php:256
 #@ comiceasel
 msgid "Alt (Hover) Text"
 msgstr ""
 
-#: functions/admin-meta.php:245
+#: functions/admin-meta.php:257
 #@ comiceasel
 msgid "Transcript"
 msgstr ""
 
-#: functions/admin-meta.php:246
+#: functions/admin-meta.php:258
 #@ comiceasel
 msgid "HTML (Above) Comic"
 msgstr ""
 
-#: functions/admin-meta.php:247
+#: functions/admin-meta.php:259
 #@ comiceasel
 msgid "HTML (Below) Comic"
 msgstr ""
@@ -690,78 +685,79 @@ msgid "Comic Easel - Cast Hover"
 msgstr ""
 
 #: functions/casthover.php:118
-#: widgets/archive-dropdown.php:98
-#: widgets/casthover.php:117
-#: widgets/recentcomics.php:50
-#: widgets/scheduledcomics.php:55
-#: widgets/thumbnail.php:94
+#: widgets/archive-dropdown.php:100
+#: widgets/casthover.php:119
+#: widgets/recentcomics.php:51
+#: widgets/scheduledcomics.php:56
+#: widgets/thumbnail.php:97
 #@ comiceasel
 msgid "Title:"
 msgstr ""
 
-#: functions/displaycomic.php:6
+#: functions/displaycomic.php:26
 #@ comiceasel
 msgid "This comic is password protected."
 msgstr ""
 
-#: functions/displaycomic.php:32
+#: functions/displaycomic.php:54
+#: functions/displaycomic.php:99
 #@ comiceasel
 msgid "Click comic to view larger version."
 msgstr ""
 
-#: functions/displaycomic.php:50
+#: functions/displaycomic.php:115
 #@ comiceasel
 msgid "<!-- No HTML, Gallery or featured image Found. //-->"
 msgstr ""
 
-#: functions/injections.php:17
+#: functions/injections.php:22
 #@ comiceasel
 msgid "Edit Comic."
 msgstr ""
 
-#: functions/injections.php:54
+#: functions/injections.php:58
 #@ comiceasel
 msgid "&lsaquo;&lsaquo; First"
 msgstr ""
 
-#: functions/injections.php:55
+#: functions/injections.php:59
 #@ comiceasel
 msgid "Last &rsaquo;&rsaquo;"
 msgstr ""
 
-#: functions/injections.php:56
+#: functions/injections.php:60
 #@ comiceasel
 msgid "Next &rsaquo;"
 msgstr ""
 
-#: functions/injections.php:57
+#: functions/injections.php:61
 #@ comiceasel
 msgid "&lsaquo; Prev"
 msgstr ""
 
-#: functions/injections.php:65
-#: widgets/navigation.php:326
+#: functions/injections.php:69
+#: widgets/navigation.php:328
 #@ comiceasel
 msgid "Comments"
 msgstr ""
 
-#: functions/injections.php:68
-#: widgets/navigation.php:330
+#: functions/injections.php:72
+#: widgets/navigation.php:332
 #@ comiceasel
 msgid "Random"
 msgstr ""
 
-#: functions/injections.php:176
+#: functions/injections.php:178
 #@ comiceasel
 msgid "&rsaquo;"
 msgstr ""
 
-#: functions/injections.php:177
+#: functions/injections.php:179
 #@ comiceasel
 msgid "&lsaquo;"
 msgstr ""
 
-#: functions/injections.php:302
+#: functions/injections.php:304
 #@ comiceasel
 msgid "Related Comics &not;"
 msgstr ""
@@ -786,19 +782,19 @@ msgstr ""
 msgid "First Appearance:"
 msgstr ""
 
-#: functions/shortcodes.php:79
+#: functions/shortcodes.php:114
 #@ comiceasel
 msgid "You do not have any characters yet."
 msgstr ""
 
-#: functions/shortcodes.php:88
+#: functions/shortcodes.php:123
 #@ comiceasel
 msgid "Unknown Character: "
 msgstr ""
 
-#: functions/shortcodes.php:152
-#: functions/shortcodes.php:193
-#: functions/shortcodes.php:243
+#: functions/shortcodes.php:187
+#: functions/shortcodes.php:228
+#: functions/shortcodes.php:278
 #@ comiceasel
 msgid "Permanent Link:"
 msgstr ""
@@ -933,7 +929,7 @@ msgstr ""
 #: options/general.php:104
 #: options/general.php:122
 #: options/general.php:139
-#: widgets/scheduledcomics.php:33
+#: widgets/scheduledcomics.php:34
 #@ comiceasel
 msgid "None"
 msgstr ""
@@ -1115,22 +1111,22 @@ msgstr ""
 msgid "When this is enabled, a textarea will appear under the navigation with the href and image link to have users embed this comic on their site."
 msgstr ""
 
-#: widgets/archive-dropdown.php:22
+#: widgets/archive-dropdown.php:23
 #@ comiceasel
 msgid "Select Story"
 msgstr ""
 
-#: widgets/archive-dropdown.php:73
+#: widgets/archive-dropdown.php:75
 #@ comiceasel
 msgid "Display dropdown list of comic chapters."
 msgstr ""
 
-#: widgets/archive-dropdown.php:74
+#: widgets/archive-dropdown.php:76
 #@ comiceasel
 msgid "Comic Easel - Comic Chapters"
 msgstr ""
 
-#: widgets/archive-dropdown.php:82
+#: widgets/archive-dropdown.php:84
 #@ comiceasel
 msgid "Comic Chapters"
 msgstr ""
@@ -1250,32 +1246,32 @@ msgstr ""
 msgid "Comic Easel - Blog Post"
 msgstr ""
 
-#: widgets/comicblogpost.php:92
+#: widgets/comicblogpost.php:93
 #@ comiceasel
 msgid "Heading:"
 msgstr ""
 
-#: widgets/comicblogpost.php:93
+#: widgets/comicblogpost.php:94
 #@ comiceasel
 msgid "Display only on the home page?"
 msgstr ""
 
-#: widgets/comicblogpost.php:94
+#: widgets/comicblogpost.php:95
 #@ comiceasel
 msgid "Show the title of the post?"
 msgstr ""
 
-#: widgets/comicblogpost.php:95
+#: widgets/comicblogpost.php:96
 #@ comiceasel
 msgid "Show the date of the post?"
 msgstr ""
 
-#: widgets/comicblogpost.php:96
+#: widgets/comicblogpost.php:97
 #@ comiceasel
 msgid "Show the comment link to the post?"
 msgstr ""
 
-#: widgets/comicblogpost.php:97
+#: widgets/comicblogpost.php:98
 #@ comiceasel
 msgid "Hide the display of the widget if there is no content?"
 msgstr ""
@@ -1295,72 +1291,72 @@ msgstr ""
 msgid "Image URL (for hotlinking/embedding): "
 msgstr ""
 
-#: widgets/navigation.php:275
+#: widgets/navigation.php:277
 #@ comiceasel
 msgid "First"
 msgstr ""
 
-#: widgets/navigation.php:279
+#: widgets/navigation.php:281
 #@ comiceasel
 msgid "Last"
 msgstr ""
 
-#: widgets/navigation.php:283
+#: widgets/navigation.php:285
 #@ comiceasel
 msgid "Previous"
 msgstr ""
 
-#: widgets/navigation.php:287
+#: widgets/navigation.php:289
 #@ comiceasel
 msgid "Next"
 msgstr ""
 
-#: widgets/navigation.php:291
+#: widgets/navigation.php:293
 #@ comiceasel
 msgid "First in Chapter"
 msgstr ""
 
-#: widgets/navigation.php:295
+#: widgets/navigation.php:297
 #@ comiceasel
 msgid "Last in Chapter"
 msgstr ""
 
-#: widgets/navigation.php:299
+#: widgets/navigation.php:301
 #@ comiceasel
 msgid "Previous in Chapter"
 msgstr ""
 
-#: widgets/navigation.php:303
+#: widgets/navigation.php:305
 #@ comiceasel
 msgid "Next in Chapter"
 msgstr ""
 
-#: widgets/navigation.php:307
+#: widgets/navigation.php:309
 #@ comiceasel
 msgid "Previous Chapter"
 msgstr ""
 
-#: widgets/navigation.php:311
+#: widgets/navigation.php:313
 #@ comiceasel
 msgid "Next Chapter"
 msgstr ""
 
-#: widgets/navigation.php:318
+#: widgets/navigation.php:320
 #@ comiceasel
 msgid "Comic Chapter"
 msgstr ""
 
-#: widgets/navigation.php:321
+#: widgets/navigation.php:323
 #@ comiceasel
 msgid "Archives"
 msgstr ""
 
-#: widgets/navigation.php:334
+#: widgets/navigation.php:336
 #@ comiceasel
 msgid "Subscribe"
 msgstr ""
 
-#: widgets/navigation.php:338
+#: widgets/navigation.php:340
 #@ comiceasel
 msgid "ImageURL"
 msgstr ""
@@ -1375,7 +1371,7 @@ msgstr ""
 msgid "Comic Easel - Latest Comics"
 msgstr ""
 
-#: widgets/recentcomics.php:23
+#: widgets/recentcomics.php:24
 #@ comiceasel
 msgid "Latest Comics"
 msgstr ""
@@ -1390,7 +1386,7 @@ msgstr ""
 msgid "Comic Easel - Scheduled Posts"
 msgstr ""
 
-#: widgets/scheduledcomics.php:23
+#: widgets/scheduledcomics.php:24
 #@ comiceasel
 msgid "Scheduled Comics"
 msgstr ""
@@ -1405,43 +1401,63 @@ msgstr ""
 msgid "Comic Easel - Thumbnail"
 msgstr ""
 
-#: widgets/thumbnail.php:95
+#: widgets/thumbnail.php:98
 #@ comiceasel
 msgid "Which Chapter?"
 msgstr ""
 
-#: widgets/thumbnail.php:114
+#: widgets/thumbnail.php:117
 #@ comiceasel
 msgid "Get first in chapter instead?"
 msgstr ""
 
-#: widgets/thumbnail.php:115
+#: widgets/thumbnail.php:118
 #@ comiceasel
 msgid "Display a random Thumbnail?"
 msgstr ""
 
-#: widgets/thumbnail.php:116
+#: widgets/thumbnail.php:119
 #@ comiceasel
 msgid "*note: Random thumbnail overrides the get first in chapter option."
 msgstr ""
 
-#: widgets/thumbnail.php:117
+#: widgets/thumbnail.php:120
 #@ comiceasel
 msgid "Display how many thumbnails?"
 msgstr ""
 
-#: widgets/thumbnail.php:118
+#: widgets/thumbnail.php:121
 #@ comiceasel
 msgid "Include comic title?"
 msgstr ""
 
-#: widgets/thumbnail.php:119
+#: widgets/thumbnail.php:122
 #@ comiceasel
 msgid "Add centering html?"
 msgstr ""
 
-#: widgets/thumbnail.php:120
+#: widgets/thumbnail.php:123
 #@ comiceasel
 msgid "Use Secondary Image if plugin active?"
+msgstr ""
+
+#: functions/admin-meta.php:187
+#@ comiceasel
+msgid "If Gallery is set, display the comics as full sized? (Multi-Comics)"
+msgstr ""
+
+#: functions/admin-meta.php:193
+#@ comiceasel
+msgid "If Multi-Comics is enabled use the jQuery page flipper?"
+msgstr ""
+
+#: functions/admin-meta.php:199
+#@ comiceasel
+msgid "If not full sized, how many gallery rows to use?"
+msgstr ""
+
+#: widgets/thumbnail.php:124
+#@ comiceasel
+msgid "Disable thumbnail from showing on same page the comic in the thumbnail displays?"
 msgstr ""
 
