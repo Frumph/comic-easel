@@ -10,7 +10,8 @@ add_action('wp_head', 'ceo_facebook_comic_thumbnail');
 if (!ceo_pluginfo('disable_related_comics')) 
 	add_action('comic-post-extras', 'ceo_display_related_comics');
 add_action('transition_post_status', 'ceo_transition_post_status', 10, 3);
-add_action('comic-transcript', 'ceo_display_the_transcript_action');
+if (!defined('CEO_FEATURE_DISABLE_TRANSCRIPT'))
+	add_action('comic-transcript', 'ceo_display_the_transcript_action');
 
 function ceo_version_meta() {
 	echo apply_filters('ceo_version_meta', '<meta name="Comic-Easel" content="'.ceo_pluginfo('version').'" />'."\r\n");
