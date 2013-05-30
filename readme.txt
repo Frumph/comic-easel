@@ -3,7 +3,7 @@ Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
 Tested up to: 3.5.1
-Stable tag: 1.3.11
+Stable tag: 1.3.12
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -126,6 +126,11 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.3.12 =
+make it so the chapter dropdown doesn't show empty chapters it just doesn't work
+check for 404 pages for the thumbnail casthover and comblogpost widgets and do not execute if it's a 404 page
+
+
 = 1.3.11 =
 * Option added to the thumbnail widget to set the thumbnail to not display on posts that the thumbnail displays (used to be always) now it default as off
 * toggle in comic post editor to allow [all] comics attached to the post to display for the day full sized with or without a jquery page flipper

@@ -66,7 +66,7 @@ function ceo_in_comic_category() {
 
 function ceo_is_comic() {
 	global $post;
-	if ($post->post_type == 'comic') return true;
+	if (!is_404() && ($post->post_type == 'comic')) return true;
 	return false;
 }
 

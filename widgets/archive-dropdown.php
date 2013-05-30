@@ -13,7 +13,7 @@ function ceo_comic_archive_jump_to_chapter() {
 		'pad_counts' => 1,
 		'orderby' => 'menu_order',
 		'order' => 'DESC',
-		'hide_empty' => 0,
+		'hide_empty' => 1,
 		'parent' => 0
 	);
 	$parent_chapters = get_terms( 'chapters', $args );

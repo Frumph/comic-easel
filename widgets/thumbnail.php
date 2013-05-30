@@ -18,7 +18,8 @@ class ceo_thumbnail_widget extends WP_Widget {
 		global $post, $wp_query;		
 		extract($args, EXTR_SKIP);
 		ceo_protect();
-		$current_permalink = get_permalink($post->ID);
+		$current_permalink = '';
+		if (!is_404()) $current_permalink = get_permalink($post->ID);
 		$current_post_id = '';
 		$chaptinfo = ';';
 		if ($instance['thumbchapt'] !== 'All') $chaptinfo = '&chapters='.$instance['thumbchapt'];

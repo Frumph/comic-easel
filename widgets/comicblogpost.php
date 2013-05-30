@@ -33,7 +33,7 @@ class ceo_comic_blog_post_widget extends WP_Widget {
 	function widget($args, $instance) {
 		global $post, $wp_query;
 		if (!is_home() && $instance['onlyhome']) return;
-		if (is_page() || is_archive() || is_search()) return;
+		if (is_page() || is_archive() || is_search() || is_404())  return;
 		extract($args, EXTR_SKIP);
 		ceo_protect();
 		if ((is_home() || is_front_page()) && !is_paged() && !ceo_pluginfo('disable_comic_on_home_page')) {

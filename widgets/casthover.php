@@ -79,7 +79,7 @@ class ceo_casthover_reference_widget extends WP_Widget {
 		extract($args, EXTR_SKIP);
 		ceo_protect();
 		// don't execute widget if the comic is disabled on the home page and/or the site is paged
-		if (is_single() && ($post->post_type !== 'comic')) return;
+		if (is_404() || (is_single() && ($post->post_type !== 'comic'))) return;
 		if ( ((is_home() || is_front_page()) && (is_paged() || ceo_pluginfo('disable_comic_on_home_page'))) ) return;
 		// This section allows the plugin to work in any sidebar even on home, except (paged) files
 		if ((is_home() || is_front_page()) && !is_paged() && !ceo_pluginfo('disable_comic_on_home_page')) {
