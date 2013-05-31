@@ -28,7 +28,17 @@
 					<td>
 						<?php _e('Checking this will disable the mini navigation in the menubar if the theme you are using supports it.','comiceasel'); ?>
 					</td>
-				</tr>				
+				</tr>
+				<tr class="alternate">
+					<?php if (!isset($ceo_options['enable_chapter_only_random'])) $ceo_options['enable_chapter_only_random'] = false; ?>
+					<th scope="row"><label for="enable_chapter_only_random"><?php _e('Random button (both default and widget) jumps only in the same chapter?','comiceasel'); ?></label></th>
+					<td>
+						<input id="enable_chapter_only_random" name="enable_chapter_only_random" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_chapter_only_random']); ?> />
+					</td>
+					<td>
+						<?php _e('Make the random button only jump to the comics within the same chapter?','comiceasel'); ?>
+					</td>
+				</tr>
 			</table>
 			<br />
 			<table class="widefat">

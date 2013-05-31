@@ -69,8 +69,16 @@ function ceo_display_comic_navigation() {
 <?php if (ceo_pluginfo('enable_comment_nav')) { ?>
 			<td class="comic-nav"><a href="<?php comments_link(); ?>" class="comic-nav-comments" title="<?php the_title(); ?>"><?php _e('Comments','comiceasel'); ?>(<span class="comic-nav-comment-count"><?php comments_number( '0', '1', '%' ); ?></span>)</a></td>
 <?php } ?>
-<?php if (ceo_pluginfo('enable_random_nav')) { ?>
-			<td class="comic-nav"><a href="<?php bloginfo('url') ?>?random&nocache=1" class="comic-nav-random" title="Random Comic"><?php _e('Random','comiceasel'); ?></a></td>
+<?php 
+	if (ceo_pluginfo('enable_random_nav')) { 
+		$stay = '';
+		if (ceo_pluginfo('enable_chapter_only_random')) {
+			$chapter = get_the_terms($post->ID, 'chapters');
+			if (!empty($chapter)) $stay = '&stay='.reset($chapter)->term_id;
+		}
+			
+?>
+			<td class="comic-nav"><a href="<?php bloginfo('url') ?>?random&nocache=1<?php echo $stay; ?>" class="comic-nav-random" title="Random Comic"><?php _e('Random','comiceasel'); ?></a></td>
 <?php } ?>
 	<td class="comic-nav"><?php if ($next_comic) { ?><a href="<?php echo $next_comic ?>" class="comic-nav-next<?php if (!$next_comic) { ?> comic-nav-inactive<?php } ?>"><?php echo $next_text; ?></a><?php } else { echo $next_text; } ?></td>
 	<td class="comic-nav"><?php if ( get_permalink() != $last_comic ) { ?><a href="<?php echo $last_comic ?>" class="comic-nav-last<?php if ( get_permalink() == $last_comic ) { ?> comic-nav-inactive<?php } ?>"><?php echo $last_text; ?></a><?php } else { echo $last_text; } ?></td>

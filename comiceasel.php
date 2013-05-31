@@ -309,7 +309,8 @@ function ceo_load_options($reset = false) {
 			'custom_post_type_slug_name' => 'comic',
 			'display_first_comic_on_home_page' => false,
 			'disable_style_sheet' => false,
-			'enable_transcripts_in_comic_posts' => false
+			'enable_transcripts_in_comic_posts' => false,
+			'enable_chapter_only_random' => false
 		) as $field => $value) {
 			$ceo_config[$field] = $value;
 		}
@@ -350,7 +351,7 @@ function ceo_pluginfo($whichinfo = null) {
 				// comic-easel plugin directory/url
 				'plugin_url' => plugin_dir_url(dirname (__FILE__)) . 'comic-easel',
 				'plugin_path' => trailingslashit(ABSPATH) . ceo_get_plugin_path(),
-				'version' => '1.3.11-github'
+				'version' => '1.3.12-github'
 		);
 		// Combine em.
 		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_addinfo);

@@ -99,12 +99,14 @@ class ceo_casthover_reference_widget extends WP_Widget {
 			echo $before_title . $title . $after_title;
 		}
 		$post_characters = get_the_terms( $post->ID, 'characters');
-		?><div class="castrefwidget-wrapper"><?php 
-		foreach ( $post_characters as $mychar ) {
-			$out[] = '<span class="castrefwidget-line casthover-hovercard-hook"><a href="'.get_term_link($mychar->slug, 'characters').'"><div class="castrefwidget-block character-'.$mychar->slug.'"></div></a>'.ceo_insert_character_hovercard($mychar->slug).'</span>';
+		if (!empty($post_characters)) {
+			?><div class="castrefwidget-wrapper"><?php 
+			foreach ( $post_characters as $mychar ) {
+				$out[] = '<span class="castrefwidget-line casthover-hovercard-hook"><a href="'.get_term_link($mychar->slug, 'characters').'"><div class="castrefwidget-block character-'.$mychar->slug.'"></div></a>'.ceo_insert_character_hovercard($mychar->slug).'</span>';
+			}
+			echo join('',$out);
+			?></div><?php 
 		}
-		echo join('',$out);
-		?></div><?php 
 		echo $after_widget;
 		ceo_unprotect();
 	}

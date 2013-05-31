@@ -130,6 +130,7 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 make it so the chapter dropdown doesn't show empty chapters it just doesn't work
 check for 404 pages for the thumbnail casthover and comblogpost widgets and do not execute if it's a 404 page
 added constants-checking to disable features for developers who do not want their users have access
+option to make the random button stay within the same chapter/story
 
 
 = 1.3.11 =
