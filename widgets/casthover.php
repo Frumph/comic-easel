@@ -78,37 +78,37 @@ class ceo_casthover_reference_widget extends WP_Widget {
 		global $post;
 		extract($args, EXTR_SKIP);
 		ceo_protect();
-		// don't execute widget if the comic is disabled on the home page and/or the site is paged
-		if (is_404() || (is_single() && ($post->post_type !== 'comic'))) return;
-		if ( ((is_home() || is_front_page()) && (is_paged() || ceo_pluginfo('disable_comic_on_home_page'))) ) return;
-		// This section allows the plugin to work in any sidebar even on home, except (paged) files
-		if ((is_home() || is_front_page()) && !is_paged() && !ceo_pluginfo('disable_comic_on_home_page')) {
-			$order = (ceo_pluginfo('display_first_comic_on_home_page')) ?  'asc' : 'desc';
-			$args = array(
-					'showposts' => 1,
-					'posts_per_page' => 1,
-					'order' => $order,
-					'post_type' => 'comic'
-					);
-			$posts = get_posts($args);
-			$post = reset($posts);
-		}
-		echo $before_widget;
-		$title = apply_filters( 'widget_title', $instance['title'] );
-		if ($title) {
-			echo $before_title . $title . $after_title;
-		}
-		$post_characters = get_the_terms( $post->ID, 'characters');
-		if (!empty($post_characters)) {
-			?><div class="castrefwidget-wrapper"><?php 
-			foreach ( $post_characters as $mychar ) {
-				$out[] = '<span class="castrefwidget-line casthover-hovercard-hook"><a href="'.get_term_link($mychar->slug, 'characters').'"><div class="castrefwidget-block character-'.$mychar->slug.'"></div></a>'.ceo_insert_character_hovercard($mychar->slug).'</span>';
+		if ((is_single() && ($post->post_type == 'comic')) || is_home() || is_front_page()) {
+			if ( ((is_home() || is_front_page()) && (is_paged() || ceo_pluginfo('disable_comic_on_home_page'))) ) return;
+			// This section allows the plugin to work in any sidebar even on home, except (paged) files
+			if ((is_home() || is_front_page()) && !is_paged() && !ceo_pluginfo('disable_comic_on_home_page')) {
+				$order = (ceo_pluginfo('display_first_comic_on_home_page')) ?  'asc' : 'desc';
+				$args = array(
+						'showposts' => 1,
+						'posts_per_page' => 1,
+						'order' => $order,
+						'post_type' => 'comic'
+						);
+				$posts = get_posts($args);
+				$post = reset($posts);
 			}
-			echo join('',$out);
-			?></div><?php 
+			echo $before_widget;
+			$title = apply_filters( 'widget_title', $instance['title'] );
+			if ($title) {
+				echo $before_title . $title . $after_title;
+			}
+			$post_characters = get_the_terms( $post->ID, 'characters');
+			if (!empty($post_characters)) {
+				?><div class="castrefwidget-wrapper"><?php 
+				foreach ( $post_characters as $mychar ) {
+					$out[] = '<span class="castrefwidget-line casthover-hovercard-hook"><a href="'.get_term_link($mychar->slug, 'characters').'"><div class="castrefwidget-block character-'.$mychar->slug.'"></div></a>'.ceo_insert_character_hovercard($mychar->slug).'</span>';
+				}
+				echo join('',$out);
+				?></div><?php 
+			}
+			echo $after_widget;
+			ceo_unprotect();
 		}
-		echo $after_widget;
-		ceo_unprotect();
 	}
 	
 	function form($instance) {
