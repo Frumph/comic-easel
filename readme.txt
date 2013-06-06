@@ -133,6 +133,7 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 * option to make the random button stay within the same chapter/story
 * cleaned up the navigation.php file, removed the 'syndication' part since it's not supposed to be there
 * removed unused code from the displaycomic.php file
+* redid displaycomic logic and added a whole bunch of error checking
 
 
 = 1.3.11 =
