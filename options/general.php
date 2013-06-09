@@ -89,10 +89,32 @@
 					<td>
 						<?php _e('Enabling this will make transcripts show at the bottom of comic posts, if the comic has a transcript.','comiceasel'); ?>
 					</td>
-				</tr>				
+				</tr>
 <?php } ?>
 			</table>
 			<br />
+<?php 
+if (!defined('CEO_FEATURE_DISABLE_MOTION_ARTIST')) { 
+	if (!isset($ceo_options['enable_motion_artist_support'])) $ceo_options['enable_motion_artist_support'] = false;
+?>
+			<table class="widefat">
+				<thead>
+					<tr>
+						<th colspan="3"><?php _e('Motion Artist Comics','comiceasel'); ?></th>
+					</tr>
+				</thead>
+				<tr class="alternate">
+					<th scope="row"><label for="enable_motion_artist_support"><?php _e('Enable support for Motion Artist Comics','comiceasel'); ?></label></th>
+					<td>
+						<input id="enable_motion_artist_support" name="enable_motion_artist_support" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_motion_artist_support']); ?> />
+					</td>
+					<td>
+						<?php _e('When enabled, this will provide a drop down box that you can select which directory to use for the motion comic for that post.','comiceasel'); ?>
+					</td>
+				</tr>			
+			</table>
+			<br />
+<?php } ?>
 			<table class="widefat">
 				<thead>
 					<tr>

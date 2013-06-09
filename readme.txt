@@ -3,7 +3,7 @@ Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
 Tested up to: 3.5.1
-Stable tag: 1.3.12
+Stable tag: 1.3.13
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -126,6 +126,12 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.4 COMING SOON =
+* Added support for 'motion artist' comics.   Read documentation at comiceasel.com
+
+= 1.3.13 =
+* Added the random comic in navigation to work like the default one if set to chapter only
+
 = 1.3.12 =
 * make it so the chapter dropdown doesn't show empty chapters it just doesn't work
 * check for 404 pages for the thumbnail casthover and comblogpost widgets and do not execute if it's a 404 page, or even page

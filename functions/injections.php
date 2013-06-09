@@ -74,7 +74,7 @@ function ceo_display_comic_navigation() {
 		$stay = '';
 		if (ceo_pluginfo('enable_chapter_only_random')) {
 			$chapter = get_the_terms($post->ID, 'chapters');
-			if (!empty($chapter)) $stay = '&stay='.reset($chapter)->term_id;
+			if (!empty($chapter) && !is_wp_error($chapter)) $stay = '&stay='.reset($chapter)->term_id;
 		}
 			
 ?>

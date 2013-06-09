@@ -224,3 +224,8 @@ a.transcript-title {
 	margin: 0 5px;
 	display: inline-block;
 }
+
+.MADoc {
+	margin: 0 auto !important;
+	padding: 0 !important;
+}
