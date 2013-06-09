@@ -24,7 +24,7 @@ class ceo_latest_comics_widget extends WP_Widget {
 		$title = empty($instance['title']) ? __('Latest Comics','comiceasel') : apply_filters('widget_title', $instance['title']); 
 		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
 		$args = array(
-				'showposts' => 5,
+				'showposts' => (int)$instance['count'],
 				'post_type' => 'comic'
 				);
 		$latestcomics = get_posts($args); ?>
@@ -41,14 +41,18 @@ class ceo_latest_comics_widget extends WP_Widget {
 	function update($new_instance, $old_instance) {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
+		$instance['count'] = (int)$new_instance['count'];
 		return $instance;
 	}
 	
 	function form($instance) {
-		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
+		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'count' => 5 ) );
 		$title = strip_tags($instance['title']);
+		$count = (int)$instance['count'];
+		if (($count > 50) || ($count < 1)) $count = 5;
 		?>
 		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','comiceasel'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
+		<p><label for="<?php echo $this->get_field_id('count'); ?>"><?php _e('Display Amount (1-50):','comiceasel'); ?> <input class="widefat" id="<?php echo $this->get_field_id('count'); ?>" name="<?php echo $this->get_field_name('count'); ?>" type="text" value="<?php echo esc_attr($count); ?>" /></label></p>
 		<?php
 	}
 }
