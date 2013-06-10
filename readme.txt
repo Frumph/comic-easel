@@ -131,6 +131,7 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 = 1.3.13 =
 * Added the random comic in navigation to work like the default one if set to chapter only
+* Added some arguments to the ceo_comic_archive_jump_to_chapter() function
 
 = 1.3.12 =
 * make it so the chapter dropdown doesn't show empty chapters it just doesn't work

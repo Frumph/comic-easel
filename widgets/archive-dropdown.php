@@ -7,14 +7,15 @@ Author: Philip M. Hofer (Frumph)
 Version: 1.02
 */
 
-function ceo_comic_archive_jump_to_chapter() {
+function ceo_comic_archive_jump_to_chapter($unhide = false, $exclude = '') {
 	ceo_protect();
 	$args = array(
 		'pad_counts' => 1,
 		'orderby' => 'menu_order',
 		'order' => 'DESC',
-		'hide_empty' => 1,
-		'parent' => 0
+		'hide_empty' => $unhide,
+		'parent' => 0,
+		'exclude' => $exclude
 	);
 	$parent_chapters = get_terms( 'chapters', $args );
 	$output = '<form method="get">';
@@ -83,21 +84,27 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 		echo $before_widget;
 		$title = empty($instance['title']) ? __('Comic Chapters','comiceasel') : apply_filters('widget_title', $instance['title']); 
 		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; }; 
-		ceo_comic_archive_jump_to_chapter();
+		ceo_comic_archive_jump_to_chapter($instance['unhide'], $instance['exclude']);
 		echo $after_widget;
 	}
 	
 	function update($new_instance, $old_instance) {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
+		$instance['exclude'] = strip_tags($new_instance['exclude']);
+		$instance['unhide'] = ($new_instance['unhide']) ? true : false;
 		return $instance;
 	}
 	
 	function form($instance) {
-		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
+		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'exclude' => '', 'unhide' => true ) );
 		$title = strip_tags($instance['title']);
+		$exclude = strip_tags($instance['exclude']);
+		$unhide = $instance['unhide'] ? true : false;
 		?>
 		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','comiceasel'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
+		<p><label for="<?php echo $this->get_field_id('exclude'); ?>"><?php _e('Exclude Chapters (comma seperated):','comiceasel'); ?> <input class="widefat" id="<?php echo $this->get_field_id('exclude'); ?>" name="<?php echo $this->get_field_name('exclude'); ?>" type="text" value="<?php echo esc_attr($exclude); ?>" /></label></p>
+		<p><label for="<?php echo $this->get_field_id('unhide'); ?>"><?php _e('Show all empty chapters?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('unhide'); ?>" name="<?php echo $this->get_field_name('unhide'); ?>" type="checkbox" value="true" <?php checked(true, $unhide); ?> /></label></p>		
 		<?php
 	}
 }
