@@ -5,10 +5,24 @@ if (!defined('CEO_FEATURE_DISABLE_MOTION_ARTIST'))
 
 function ceo_add_motion_artist_header_info() {
 	global $post;
+	if ((is_home() || is_front_page()) && !is_paged() && !ceo_pluginfo('disable_comic_on_home_page')) {
+		$order = (ceo_pluginfo('display_first_comic_on_home_page')) ?  'asc' : 'desc';
+		$args = array(
+				'showposts' => 1,
+				'posts_per_page' => 1,
+				'order' => $order,
+				'post_type' => 'comic'
+				);
+		$posts = get_posts($args);
+		foreach ($posts as $post) {
+			setup_postdata($post);
+		}
+	}
 	if (!empty($post)) {
 		$motion_artist_comic = get_post_meta( $post->ID, 'ma-directory', true );
 		$motion_artist_id = get_post_meta( $post->ID, 'ma-id', true );
 		if (!empty($motion_artist_comic)) {
+			echo '<base href="'.get_stylesheet_directory_uri().'/motion-artist/'.$motion_artist_comic.'/" />';
 			echo '<link rel="stylesheet" type="text/css" href="'.get_stylesheet_directory_uri().'/motion-artist/'.$motion_artist_comic.'/css/MA_style.css">'."\r\n";
 			echo '<script src="http://motionartist.smithmicro.com/public/motionartist_1.0.js"></script>'."\r\n";
 			echo '<script src="'.get_stylesheet_directory_uri().'/motion-artist/'.$motion_artist_comic.'/scripts/'.$motion_artist_id.'.js"></script>';
@@ -26,13 +40,13 @@ function ceo_display_comic($size = 'full') {
 	
 	$motion_artist_comic = get_post_meta( $post->ID, 'ma-directory', true );
 	if (!empty($motion_artist_comic) && !is_wp_error($motion_artist_comic) && !defined('CEO_FEATURE_DISABLE_MOTION_ARTIST')) {
-		
+				
 		$motion_artist_id = get_post_meta( $post->ID, 'ma-id', true );
 		$motion_artist_height = get_post_meta( $post->ID, 'ma-height', true);
 		$motion_artist_width = get_post_meta( $post->ID, 'ma-width', true);
 		echo "<center>\r\n";
 		echo '<div class="MADoc">'."\r\n";
-		echo '    <canvas id="'.$motion_artist_id.'_canvas" width="'.$motion_artist_width.'" height="'.$motion_artist_height.'"></canvas>'."\r\n";
+		echo '    <canvas id="'.$motion_artist_id.'_canvas" width="'.$motion_artist_width.'px" height="'.$motion_artist_height.'px"></canvas>'."\r\n";
 		echo '</div>'."\r\n";
 		echo '<div class="MAButtons">'."\r\n";
 		echo '    <ul class="MAButtonSet">'."\r\n";

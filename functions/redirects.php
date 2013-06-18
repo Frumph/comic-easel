@@ -6,7 +6,7 @@ if ( isset( $_GET['latest'] ) )
 if ( isset( $_GET['random'] ) )
 	add_action( 'template_redirect', 'ceo_random_comic' );
 
-//to use simply create a URL link to "/?latestcomic"
+//to use simply create a URL link to "/?latest"
 function ceo_latest_comic_jump() {
 	$chapter = 0;
 	if (isset($_GET['latest'])) $chapter = (int)esc_attr($_GET['latest']);

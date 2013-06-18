@@ -135,6 +135,9 @@ function ceo_comic_archive_multi(  $atts, $content = '' ) {
 					), $atts ) );
 	$output = '';
 	switch ($list) {
+		case 4:
+			$output = ceo_archive_list_by_chapter_thumbnails($order);
+			break;
 		case 3:
 			$output = ceo_archive_list_by_all_years($thumbnail, $order, $chapter);
 			break;
@@ -282,6 +285,43 @@ function ceo_archive_list_series($thumbnail = 0) {
 				}
 			}
 		}
+		return $output;
+	}
+}
+
+function ceo_archive_list_by_chapter_thumbnails($order = 'asc', $showtitle = false) {
+	$output = '';
+	$archive_count = 0;
+	$args = array(
+			'pad_counts' => 0,
+			'orderby' => 'menu_order',
+			'order' => $order,
+			'hide_empty' => 1
+			);
+	$chapters = get_terms( 'chapters', $args );
+	if (is_array($chapters) && !is_wp_error($chapters)) {
+		$output .= '<table class="comic-archive-list-4"><tr>';
+		foreach($chapters as $chapter) {
+			$qcposts = null;
+			if (!empty($chapter->menu_order)) {
+				$output .= '<td>';
+				$child_args = array( 
+						'numberposts' => 1, 
+						'post_type' => 'comic',
+						'orderby' => 'post_date', 
+						'order' => 'ASC', 
+						'post_status' => 'publish', 
+						'chapters' => $chapter->slug 
+						);					
+				$qcposts = get_posts( $child_args );
+				$qcposts = reset($qcposts);
+				if (has_post_thumbnail($qcposts->ID)) {
+					$output .= '<div class="comic-archive-thumbnail"><a href="'.get_permalink($qcposts).'">'.get_the_post_thumbnail($qcposts->ID, 'thumbnail').'</a></div>';
+				} else $output .= 'No Thumbnail Found';
+				$output .= '</td>';
+			}
+		}
+		$output .= '</tr></table>';
 		return $output;
 	}
 }
