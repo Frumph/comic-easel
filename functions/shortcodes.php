@@ -300,11 +300,10 @@ function ceo_archive_list_by_chapter_thumbnails($order = 'asc', $showtitle = fal
 			);
 	$chapters = get_terms( 'chapters', $args );
 	if (is_array($chapters) && !is_wp_error($chapters)) {
-		$output .= '<table class="comic-archive-list-4"><tr>';
+		$output .= '<div class="comic-archive-list-4">';
 		foreach($chapters as $chapter) {
 			$qcposts = null;
 			if (!empty($chapter->menu_order)) {
-				$output .= '<td>';
 				$child_args = array( 
 						'numberposts' => 1, 
 						'post_type' => 'comic',
@@ -318,10 +317,9 @@ function ceo_archive_list_by_chapter_thumbnails($order = 'asc', $showtitle = fal
 				if (has_post_thumbnail($qcposts->ID)) {
 					$output .= '<div class="comic-archive-thumbnail"><a href="'.get_permalink($qcposts).'">'.get_the_post_thumbnail($qcposts->ID, 'thumbnail').'</a></div>';
 				} else $output .= 'No Thumbnail Found';
-				$output .= '</td>';
 			}
 		}
-		$output .= '</tr></table>';
+		$output .= '<div class="clear"></div></div>';
 		return $output;
 	}
 }
