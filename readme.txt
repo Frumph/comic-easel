@@ -3,7 +3,7 @@ Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
 Tested up to: 3.5.1
-Stable tag: 1.3.13
+Stable tag: 1.4
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -126,8 +126,10 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
-= 1.4 COMING SOON =
+= 1.4 =
 * Added support for 'motion artist' comics.   Read documentation at comiceasel.com
+* Fixed some visual issues on the comic - comics page, where the thumbnail was being cut off
+* made the admin-editor.css file enqueue on the comics list page as well
 
 = 1.3.13 =
 * Added the random comic in navigation to work like the default one if set to chapter only
