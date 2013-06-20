@@ -29,7 +29,7 @@ function ceo_add_menu_pages() {
 	}
 	if (!defined('CEO_FEATURE_DISABLE_DEBUG'))
 		$debug_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $debug_title, $debug_title, 'edit_theme_options', 'comiceasel-debug', 'ceo_debug');	
-	ceo_enqueue_admin_cpt_style('comic', 'comic-admin-editor-style', ceo_pluginfo('plugin_url').'/css/admin-editor.css');	
+	ceo_enqueue_admin_cpt_style('comic', 'comic-admin-editor-style', ceo_pluginfo('plugin_url').'/css/admin-editor.css');
 }
 
 function ceo_load_scripts_chapter_manager() {
@@ -93,12 +93,12 @@ function ceo_enqueue_admin_cpt_style( $cpt, $handle, $src = false, $deps = array
 	$enqueue = null;
  
 	/* Enqueue style only if we are on the correct CPT editor page. */
-	if ( isset($_GET['post_type']) && $_GET['post_type'] == $cpt && $pagenow == "post-new.php" ) {
+	if ( isset($_GET['post_type']) && $_GET['post_type'] == $cpt && ($pagenow == "post-new.php" || $pagenow == 'edit.php')) {
 		$enqueue = true;
 	}
  
 	/* Enqueue style only if we are on the correct CPT editor page. */
-	if ( isset($_GET['post']) && $pagenow == "post.php" ) {
+	if ( isset($_GET['post']) && ($pagenow == "post.php" || $pagenow == 'edit.php')) {
 		$post_id = $_GET['post'];
 		$post_obj = get_post( $post_id );
 		if( $post_obj->post_type == $cpt )

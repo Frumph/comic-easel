@@ -19,7 +19,7 @@ function ceo_admin_init() {
 	add_action('quick_edit_custom_box', 'ceo_chapters_quick_edit_menu_order', 10, 3);
 	
 	add_action('create_term', 'ceo_chapters_add_edit_menu_order');
-//	add_filter('get_terms_args', 'ceo_chapters_find_menu_orderby');	
+//	add_filter('get_terms_args', 'ceo_chapters_find_menu_orderby');
 }
 
 function ceo_chapters_add_edit_menu_order($term_id) {
@@ -104,16 +104,14 @@ function ceo_chapters_menu_order_edit_form_field($term) {
 
 function ceo_add_new_comic_columns($comic_columns) {
 	$new_columns['cb'] = '<input type="checkbox" />';
-
 	$new_columns['title'] = __('Comic Title', 'comiceasel');
- 
 	$new_columns['chapter'] = __('Chapter', 'comiceasel');
 	$new_columns['characters'] = __('Characters', 'comiceasel');
 	$new_columns['locations'] = __('Location', 'comiceasel');
 	$new_columns['tags'] = __('Tags', 'comiceasel');
 	$new_columns['date'] = _x('Date', 'column name');
-	$new_columns['comicimages'] = __('Thumbnail', 'comiceasel');
- 
+	$new_columns['comicimages'] = __('Thumbnail', 'comiceasel');	
+
 	return $new_columns;
 }
  
@@ -150,7 +148,7 @@ function ceo_manage_comic_columns($column_name, $id) {
 	case 'comicimages':
 			$post = &get_post($id);
 			$comicthumb = ceo_display_comic_thumbnail('thumbnail', $post); 
-			if (!$comicthumb) { echo 'No Comic Found.'; } else {
+			if (!$comicthumb) { echo __('No thumbnail Found.','comiceasel'); } else {
 				echo $comicthumb;
 			}
 		break;
@@ -164,8 +162,6 @@ function ceo_edit_select_motion_artist_directory_in_post($post) {
 	$current_directory = get_post_meta( $post->ID, 'ma-directory', true );
 	
 	if (empty($current_directory) || is_wp_error($current_directory)) $current_directory = '';
-	
-	$dirs_to_search = array_unique(array(get_template_directory(),get_stylesheet_directory()));
 
 	$ma_directories = array();
 	$ma_dir = get_stylesheet_directory() .  '/motion-artist';
@@ -175,7 +171,6 @@ function ceo_edit_select_motion_artist_directory_in_post($post) {
 		$thisdir = glob($ma_dir. '/*');
 		$ma_directories = array_merge($ma_directories, $thisdir);
 	}
-	if (empty($ma_directories) || is_wp_error($ma_directories)) echo "No 'motion-artist' directory found in theme.";
 ?>
 <div class="admin-motion-artist" style="">
 <table>
@@ -197,13 +192,14 @@ function ceo_edit_select_motion_artist_directory_in_post($post) {
 							</select>
 	</td>
 	</tr>
-<?php } else { ?>
-	No 'motion-artist' directory found in theme.<br />
-<?php } 
-$current_height = get_post_meta( $post->ID, 'ma-height', true );
-$current_width = get_post_meta( $post->ID, 'ma-width', true );
-if (empty($current_height) || is_wp_error($current_height)) $current_height = '';
-if (empty($current_height) || is_wp_error($current_width)) $current_width = '';
+<?php } else {
+		echo __('No motion-artist directory found in theme or no comics found in motion-artist folder.', 'comiceasel');
+	} 
+	$current_height = get_post_meta( $post->ID, 'ma-height', true );
+	$current_width = get_post_meta( $post->ID, 'ma-width', true );
+	if (empty($current_height) || is_wp_error($current_height)) $current_height = '';
+	if (empty($current_height) || is_wp_error($current_width)) $current_width = '';
+	if (!empty($ma_directories) && !is_wp_error($ma_directories)) {
 ?>
 <tr>
 <td>
@@ -216,6 +212,7 @@ Width: <input id="ma-width" name="ma-width" style="width: 40px;" type="text" val
 </table>
 </div>
 <?php
+	}
 }
 
 

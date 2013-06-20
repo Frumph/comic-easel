@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 add_action('init', 'ceo_initialize_post_types');
 
-define('CEO_FEATURE_DISABLE_MOTION_ARTIST', true);
+// define('CEO_FEATURE_DISABLE_MOTION_ARTIST', true);
 
 function ceo_initialize_post_types() {
 	if (!post_type_exists('comic')) {
@@ -355,7 +355,7 @@ function ceo_pluginfo($whichinfo = null) {
 				// comic-easel plugin directory/url
 				'plugin_url' => plugin_dir_url(dirname (__FILE__)) . 'comic-easel',
 				'plugin_path' => trailingslashit(ABSPATH) . ceo_get_plugin_path(),
-				'version' => '1.3.13-github'
+				'version' => '1.3.13'
 		);
 		// Combine em.
 		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_addinfo);

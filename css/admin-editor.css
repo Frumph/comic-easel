@@ -2,5 +2,13 @@
 
 .admin-comicbox img {
     max-width: 100%;
+    display: block;
 }
 
+.column-comicimages {
+	width: 200px;
+}
+
+.fixed .column-locations {
+	width: 200px;
+}
