@@ -130,6 +130,7 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 * Added support for 'motion artist' comics.   Read documentation at comiceasel.com
 * Fixed some visual issues on the comic - comics page, where the thumbnail was being cut off
 * made the admin-editor.css file enqueue on the comics list page as well
+* added 'this day in history' to the thumbnail widget, needs testing
 
 = 1.3.13 =
 * Added the random comic in navigation to work like the default one if set to chapter only

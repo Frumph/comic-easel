@@ -21,10 +21,20 @@ class ceo_thumbnail_widget extends WP_Widget {
 		$current_permalink = '';
 		if (!is_404()) $current_permalink = get_permalink($post->ID);
 		$current_post_id = '';
-		$chaptinfo = ';';
+		$chaptinfo = '';
+		$dateset = '';
+		
+		if ($instance['inhistory']) {
+			$day = get_the_date('d');
+			$month = get_the_date('m');
+			$dateset = '&month='.$month.'&day='.$day;
+			$instance['random'] = true;  /* set random to true even if false */
+		}
 		if ($instance['thumbchapt'] !== 'All') $chaptinfo = '&chapters='.$instance['thumbchapt'];
 		if ($instance['first']) { $order = 'ASC'; } else { $order = 'DESC'; }
-		$comic_query = 'showposts='.$instance['thumbcount'].'&order='.$order.'&post_type=comic'.$chaptinfo;
+		
+		$comic_query = 'showposts='.$instance['thumbcount'].'&order='.$order.'&post_type=comic'.$chaptinfo.$dateset;
+		
 		if ($instance['random']) $comic_query .= '&orderby=rand';
 		if (!empty($post) && $instance['random']) {
 			$current_post_id = $post->ID;
@@ -80,11 +90,12 @@ class ceo_thumbnail_widget extends WP_Widget {
 		$instance['centering'] = (bool)($new_instance['centering'] == 1 ? true : false );
 		$instance['secondary'] = (bool)($new_instance['secondary'] == 1 ? true : false );
 		$instance['same'] = (bool)($new_instance['same'] == 1 ? true : false );
+		$instance['inhistory'] = (bool)($new_instance['inhistory'] == 1 ? true : false );
 		return $instance;
 	}
 	
 	function form($instance) {
-		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'thumbchapt' => '', 'first' => false, 'random' => false, 'thumbcount' => 1, 'linktitle' => false, 'centering' => false, 'secondary' => false, 'same' => false ) );
+		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'thumbchapt' => '', 'first' => false, 'random' => false, 'thumbcount' => 1, 'linktitle' => false, 'centering' => false, 'secondary' => false, 'same' => false, 'inhistory' => false ) );
 		$title = strip_tags($instance['title']);
 		$thumbchapt = $instance['thumbchapt'];
 		$first = $instance['first'];
@@ -94,6 +105,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 		$centering = $instance['centering'];
 		$secondary = $instance['secondary'];
 		$same = $instance['same'];
+		$inhistory = $instance['inhistory'];
 		?>
 		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:', 'comiceasel'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
 		<p><?php _e('Which Chapter?', 'comiceasel'); ?><br />	
@@ -123,6 +135,8 @@ class ceo_thumbnail_widget extends WP_Widget {
 		<p><label for="<?php echo $this->get_field_id('centering'); ?>"><?php _e('Add centering html?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('centering'); ?>" name="<?php echo $this->get_field_name('centering'); ?>" type="checkbox" value="1" <?php checked(true, $centering); ?> /></label></p>
 		<p><label for="<?php echo $this->get_field_id('secondary'); ?>"><?php _e('Use Secondary Image if plugin active?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('secondary'); ?>" name="<?php echo $this->get_field_name('secondary'); ?>" type="checkbox" value="1" <?php checked(true, $secondary); ?> /></label></p>		
 		<p><label for="<?php echo $this->get_field_id('same'); ?>"><?php _e('Disable thumbnail from showing on same page the comic in the thumbnail displays?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('same'); ?>" name="<?php echo $this->get_field_name('same'); ?>" type="checkbox" value="1" <?php checked(true, $same); ?> /></label></p>
+		<hr />
+		<p><label for="<?php echo $this->get_field_id('inhistory'); ?>"><?php _e('This date in history?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('inhistory'); ?>" name="<?php echo $this->get_field_name('inhistory'); ?>" type="checkbox" value="1" <?php checked(true, $inhistory); ?> /></label></p>
 		<br />
 	<?php
 	}

@@ -7,10 +7,10 @@ add_action('comic-post-info', 'ceo_display_comic_post_info');
 add_action('comic-mini-navigation', 'ceo_inject_mini_navigation');
 add_action('comic-blog-area', 'ceo_display_comic_post_home');
 add_action('wp_head', 'ceo_facebook_comic_thumbnail');
-if (!ceo_pluginfo('disable_related_comics')) 
+if (!ceo_pluginfo('disable_related_comics') && !defined('CEO_FEATURE_DISABLE_RELATED')) 
 	add_action('comic-post-extras', 'ceo_display_related_comics');
-add_action('transition_post_status', 'ceo_transition_post_status', 10, 3);
-if (!defined('CEO_FEATURE_DISABLE_TRANSCRIPT'))
+add_action('transition_post_status', 'ceo_transition_post_status', 10, 3); 
+if (!defined('CEO_FEATURE_DISABLE_TRANSCRIPT')) 
 	add_action('comic-transcript', 'ceo_display_the_transcript_action');
 
 function ceo_version_meta() {
@@ -313,6 +313,7 @@ global $post, $wp_query, $wpdb, $table_prefix;
 					$output .= '<h4 class="related-title">'.__('Related Comics &not;','comiceasel').'</h4>'."\r\n";
 					$output .= '<ul class="related-ul">'."\r\n";
 					foreach ($related as $post_info) {
+						if (has_post_thumbnail($post_info->ID)) the_post_thumbnail($post_info->ID);
 						$output .= 	'<li class="related-comic"><a title="'.wptexturize($post_info->post_title).'" href="'.get_permalink($post_info->ID).'">'.wptexturize($post_info->post_title).'</a></li>'."\r\n";
 					}
 					$output .= "</ul>\r\n";
