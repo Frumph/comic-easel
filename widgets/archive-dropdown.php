@@ -10,12 +10,12 @@ Version: 1.02
 function ceo_comic_archive_jump_to_chapter($unhide = false, $exclude = '') {
 	ceo_protect();
 	$args = array(
-		'pad_counts' => 1,
-		'orderby' => 'menu_order',
-		'order' => 'DESC',
-		'hide_empty' => $unhide,
-		'parent' => 0,
-		'exclude' => $exclude
+			'pad_counts' => 1,
+			'orderby' => 'menu_order',
+			'order' => 'DESC',
+			'hide_empty' => $unhide,
+			'parent' => 0,
+			'exclude' => array($exclude)
 	);
 	$parent_chapters = get_terms( 'chapters', $args );
 	$output = '<form method="get">';
