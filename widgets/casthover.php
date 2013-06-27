@@ -79,7 +79,7 @@ class ceo_casthover_reference_widget extends WP_Widget {
 		extract($args, EXTR_SKIP);
 		ceo_protect();
 		if ((is_single() && ($post->post_type == 'comic')) || is_home() || is_front_page()) {
-			if ( ((is_home() || is_front_page()) && (is_paged() || ceo_pluginfo('disable_comic_on_home_page'))) ) return;
+			if ( ((is_home() || is_front_page()) && (is_paged() || ceo_pluginfo('disable_comic_on_home_page') || is_page())) ) return;
 			// This section allows the plugin to work in any sidebar even on home, except (paged) files
 			if ((is_home() || is_front_page()) && !is_paged() && !ceo_pluginfo('disable_comic_on_home_page')) {
 				$order = (ceo_pluginfo('display_first_comic_on_home_page')) ?  'asc' : 'desc';
@@ -92,21 +92,22 @@ class ceo_casthover_reference_widget extends WP_Widget {
 				$posts = get_posts($args);
 				$post = reset($posts);
 			}
-			echo $before_widget;
-			$title = apply_filters( 'widget_title', $instance['title'] );
-			if ($title) {
-				echo $before_title . $title . $after_title;
-			}
+
 			$post_characters = get_the_terms( $post->ID, 'characters');
 			if (!empty($post_characters)) {
+				echo $before_widget;
+				$title = apply_filters( 'widget_title', $instance['title'] );
+				if ($title) {
+					echo $before_title . $title . $after_title;
+				}				
 				?><div class="castrefwidget-wrapper"><?php 
 				foreach ( $post_characters as $mychar ) {
 					$out[] = '<span class="castrefwidget-line casthover-hovercard-hook"><a href="'.get_term_link($mychar->slug, 'characters').'"><div class="castrefwidget-block character-'.$mychar->slug.'"></div></a>'.ceo_insert_character_hovercard($mychar->slug).'</span>';
 				}
 				echo join('',$out);
 				?></div><?php 
+				echo $after_widget;
 			}
-			echo $after_widget;
 			ceo_unprotect();
 		}
 	}

@@ -2,8 +2,8 @@
 Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
-Tested up to: 3.5.1
-Stable tag: 1.4
+Tested up to: 3.5.2
+Stable tag: 1.4.1
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -126,6 +126,11 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.4.1 =
+* Remove testing code for thumbnails in the related comics section 
+* changed facebook display function to social_meta and add some twitter meta to it - in testing
+* shuffle some logic around in the casthover widget so it doesn't display title if there are no cast members set
+
 = 1.4 =
 * Added support for 'motion artist' comics.   Read documentation at comiceasel.com
 * Fixed some visual issues on the comic - comics page, where the thumbnail was being cut off

@@ -1,6 +1,6 @@
 <?php
 
-if (!defined('CEO_FEATURE_DISABLE_MOTION_ARTIST')) 
+if (!defined('CEO_FEATURE_DISABLE_MOTION_ARTIST') && ceo_pluginfo('enable_motion_artist_support')) 
 	add_action('wp_head', 'ceo_add_motion_artist_header_info');
 
 function ceo_add_motion_artist_header_info() {
