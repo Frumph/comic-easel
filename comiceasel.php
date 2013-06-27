@@ -353,7 +353,7 @@ function ceo_pluginfo($whichinfo = null) {
 				// comic-easel plugin directory/url
 				'plugin_url' => plugin_dir_url(dirname (__FILE__)) . 'comic-easel',
 				'plugin_path' => trailingslashit(ABSPATH) . ceo_get_plugin_path(),
-				'version' => '1.4-github'
+				'version' => '1.4'
 		);
 		// Combine em.
 		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_addinfo);

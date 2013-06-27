@@ -6,12 +6,13 @@ add_action('comic-area', 'ceo_display_comic_area');
 add_action('comic-post-info', 'ceo_display_comic_post_info');
 add_action('comic-mini-navigation', 'ceo_inject_mini_navigation');
 add_action('comic-blog-area', 'ceo_display_comic_post_home');
-add_action('wp_head', 'ceo_facebook_comic_thumbnail');
 if (!ceo_pluginfo('disable_related_comics') && !defined('CEO_FEATURE_DISABLE_RELATED')) 
 	add_action('comic-post-extras', 'ceo_display_related_comics');
 add_action('transition_post_status', 'ceo_transition_post_status', 10, 3); 
 if (!defined('CEO_FEATURE_DISABLE_TRANSCRIPT')) 
 	add_action('comic-transcript', 'ceo_display_the_transcript_action');
+add_action('wp_head', 'ceo_social_meta');
+
 
 function ceo_version_meta() {
 	echo apply_filters('ceo_version_meta', '<meta name="Comic-Easel" content="'.ceo_pluginfo('version').'" />'."\r\n");
@@ -253,18 +254,6 @@ global $post, $wp_query; ?>
 <?php 
 }
 
-function ceo_facebook_comic_thumbnail() {
-	global $post;
-	if (!empty($post) && $post->post_type == 'comic') {
-		$post_image_id = get_post_thumbnail_id($post->ID);
-		$thumbnail = wp_get_attachment_image_src( $post_image_id, 'thumbnail', false);
-		if (is_array($thumbnail)) { 
-			$thumbnail = reset($thumbnail);
-			echo '<meta property="og:image" content="'.$thumbnail.'" />'."\r\n";
-		}
-	}
-}
-
 function ceo_display_related_comics() {
 global $post, $wp_query, $wpdb, $table_prefix;
 	if ($post->post_type == 'comic' && !is_feed() && !is_archive() && !is_search()) {
@@ -313,7 +302,7 @@ global $post, $wp_query, $wpdb, $table_prefix;
 					$output .= '<h4 class="related-title">'.__('Related Comics &not;','comiceasel').'</h4>'."\r\n";
 					$output .= '<ul class="related-ul">'."\r\n";
 					foreach ($related as $post_info) {
-						if (has_post_thumbnail($post_info->ID)) the_post_thumbnail($post_info->ID);
+//						if (has_post_thumbnail($post_info->ID)) the_post_thumbnail($post_info->ID);
 						$output .= 	'<li class="related-comic"><a title="'.wptexturize($post_info->post_title).'" href="'.get_permalink($post_info->ID).'">'.wptexturize($post_info->post_title).'</a></li>'."\r\n";
 					}
 					$output .= "</ul>\r\n";
@@ -332,5 +321,28 @@ function ceo_transition_post_status( $new_status, $old_status, $post ) {
 			$plugin_totalcacheadmin = & w3_instance('W3_Plugin_TotalCacheAdmin');
 			$plugin_totalcacheadmin->flush_pgcache();
 		}
+	}
+}
+
+function ceo_social_meta() {
+	global $post;
+	if (!empty($post) && $post->post_type == 'comic') {
+		echo '<meta name="twitter:card" content="summary">'."\r\n";
+		echo '<meta name="twitter:site" content="'.get_bloginfo('name').'">'."\r\n";
+		if (is_single() || is_page()) {
+			$quick_excerpt = esc_attr(get_the_excerpt());
+			echo '<meta name="twitter:description" content="'.$quick_excerpt.'" />'."\r\n";
+			echo '<meta name="twitter:title" content="'.get_the_title().'" />'."\r\n";
+		} else {
+			echo '<meta name="twitter:description" content="'.get_bloginfo('description').'" />'."\r\n";         
+			echo '<meta name="twitter:title" content="" />'."\r\n";
+		}
+		$post_image_id = get_post_thumbnail_id($post->ID);
+		$thumbnail = wp_get_attachment_image_src( $post_image_id, 'thumbnail', false);
+		if (is_array($thumbnail)) { 
+			$thumbnail = reset($thumbnail);
+			echo '<meta property="og:image" content="'.$thumbnail.'" />'."\r\n";
+			echo '<meta name="twitter:image" content="'.$thumbnail.'" />'."\r\n";
+		}		
 	}
 }
