@@ -64,29 +64,30 @@ function ceo_import_add_comic_and_post($comic_to_add, $date_to_add, $title_to_ad
 		$file_url = esc_url(home_url().'/'.$import_directory.'/'.$comic_to_add);
 		$comic = new WP_Http();
 		$comic = $comic->request( $file_url );
-		$comic_date = isset($comic['headers']['last-modified']) ? $comic['headers']['last-modified'] : $comic['headers']['date'];
-		$attachment = wp_upload_bits( $comic_to_add, null, $comic['body'], date("Y-m", strtotime( $comic_date ) ) );
-		if (!is_wp_error($attachment)) {
-			$filetype = wp_check_filetype( basename( $attachment['file'] ), null );
-			$postinfo_args = array(
-					'guid' => $attachment['file'],
-					'post_mime_type'	=> $filetype['type'],
-					'post_title'		=> 'comic-'.$comic_to_add,
-					'post_content'		=> '',
-					'post_status'		=> 'inherit',
-					);
-			$attached_filename = $attachment['file'];
-			$attach_id = wp_insert_attachment( $postinfo_args, $attached_filename, $post_id );
-			$attach_data = wp_generate_attachment_metadata( $attach_id, $attached_filename );
-			wp_update_attachment_metadata($attach_id,  $attach_data);
-			// set it as the post featured image
-			add_post_meta($post_id, '_thumbnail_id', $attach_id, true);
-			set_post_thumbnail($post_id, $attach_id);
-			return __('Comic Post made and Comic Attached','comiceasel');
-		} else {
-			return $attachment->get_error_message();
-		}
-	} else return $attachment->get_error_message();
+		if (!is_wp_error($comic)) {
+			$comic_date = isset($comic['headers']['last-modified']) ? $comic['headers']['last-modified'] : $comic['headers']['date'];
+			$attachment = wp_upload_bits( $comic_to_add, null, $comic['body'], date("Y-m", strtotime( $comic_date ) ) );
+			if (!is_wp_error($attachment)) {
+				$filetype = wp_check_filetype( basename( $attachment['file'] ), null );
+				$postinfo_args = array(
+						'guid' => $attachment['file'],
+						'post_mime_type'	=> $filetype['type'],
+						'post_title'		=> 'comic-'.$comic_to_add,
+						'post_content'		=> '',
+						'post_status'		=> 'inherit',
+						);
+				$attached_filename = $attachment['file'];
+				$attach_id = wp_insert_attachment( $postinfo_args, $attached_filename, $post_id );
+				$attach_data = wp_generate_attachment_metadata( $attach_id, $attached_filename );
+				wp_update_attachment_metadata($attach_id,  $attach_data);
+				// set it as the post featured image
+				add_post_meta($post_id, '_thumbnail_id', $attach_id, true);
+				set_post_thumbnail($post_id, $attach_id);
+				return __('Comic Post made and Comic Attached','comiceasel');
+				
+			} else return $attachment->get_error_message();
+		} else return $comic->get_error_message();
+	} else return $post_id->get_error_message();
 	return false;
 }
 
