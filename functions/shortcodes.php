@@ -221,7 +221,8 @@ function ceo_archive_list_all($order = 'ASC', $thumbnail = 0) {
 			$qposts = get_posts( $args );
 			$archive_count = 0;
 			if ($thumbnail) {
-				$output .= '<div class="comic-archive-thumbnail">'.get_the_post_thumbnail($qposts[0]->ID, 'thumbnail').'</div>';
+				$get_thumbnail = ($order == 'asc') ? get_the_post_thumbnail(reset($qposts)->ID, 'thumbnail') : get_the_post_thumbnail(end($qposts)->ID, 'thumbnail');
+				$output .= '<div class="comic-archive-thumbnail">'.$get_thumbnail.'</div>';
 			}
 			$output .= '<div class="comic-archive-list-wrap">';
 			$css_alt = false;
@@ -233,6 +234,7 @@ function ceo_archive_list_all($order = 'ASC', $thumbnail = 0) {
 			$output .= '</div>';
 			$output .= '<div style="clear:both;"></div></div>';
 		}
+		$qposts = null;
 	}
 	return $output;
 }
