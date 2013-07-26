@@ -44,7 +44,9 @@ function ceo_initialize_post_types() {
 				'view' =>  __('View Comic', 'comiceasel'),
 				'parent_item_colon' => ''
 				);
+
 		$comic_slug = ceo_pluginfo('custom_post_type_slug_name');
+		
 		if (empty($comic_slug) || is_array($comic_slug)) $comic_slug = 'comic';
 		register_post_type(
 			'comic', 
@@ -307,7 +309,7 @@ function ceo_load_options($reset = false) {
 			'disable_mininav' => false,
 			'include_comics_in_blog_archive' => false,
 			'disable_related_comics' => false,
-			'custom_post_type_slug_name' => 'comic',
+			'custom_post_type_slug_name' => __('comic','comiceasel'),
 			'display_first_comic_on_home_page' => false,
 			'disable_style_sheet' => false,
 			'enable_transcripts_in_comic_posts' => false,

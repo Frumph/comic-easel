@@ -23,7 +23,7 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 	global $wpdb, $m, $monthnum, $year, $wp_locale, $posts;
 
 	if (empty($taxonomy)) $taxonomy = 'post';
-	$taxonomy = $wpdb->escape($taxonomy);
+	$taxonomy = esc_attr($taxonomy);
 
 	if ( get_option('permalink_structure') ) { $the_post_type = '?post_type='.$taxonomy; } else { $the_post_type = '&post_type='.$taxonomy; }
 	

@@ -8,8 +8,9 @@ if ( isset( $_GET['random'] ) )
 
 //to use simply create a URL link to "/?latest"
 function ceo_latest_comic_jump() {
-	$chapter = 0;
+	$chapter = 0; $respond = ''; 
 	if (isset($_GET['latest'])) $chapter = (int)esc_attr($_GET['latest']);
+	if (isset($_GET['comment'])) $respond = '#respond';
 	if (!empty($chapter)) {
 		$this_chapter = get_term_by('term_id', $chapter, 'chapters');
 		$args = array( 
@@ -23,7 +24,7 @@ function ceo_latest_comic_jump() {
 		$qposts = get_posts( $args );
 		if (is_array($qposts)) {
 			$qposts = reset($qposts);
-			wp_redirect( get_permalink( $qposts->ID ) );
+			wp_redirect( get_permalink( $qposts->ID ).$respond );
 		} else {
 			wp_redirect( bloginfo('url') );
 		}
@@ -38,7 +39,7 @@ function ceo_latest_comic_jump() {
 		$qposts = get_posts( $args );
 		if (is_array($qposts)) {
 			$qposts = reset($qposts);
-			wp_redirect( get_permalink( $qposts->ID ) );
+			wp_redirect( get_permalink( $qposts->ID ).$respond );
 		}
 	}
 	wp_reset_query();

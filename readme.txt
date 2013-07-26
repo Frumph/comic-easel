@@ -126,6 +126,11 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.4.2 =
+* fixed the 'ordering' of the thumbnail=1 in the comic-archive for list=0
+* used proper site url find for is_multisite() installs - hopefully
+* adding &comment to the /?latest=# line like /?latest=#&comment will make it add the #respond to the url line to go straight to the comments section
+
 = 1.4.1 =
 * Remove testing code for thumbnails in the related comics section 
 * changed facebook display function to social_meta and add some twitter meta to it - in testing
