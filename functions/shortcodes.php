@@ -194,22 +194,29 @@ function ceo_archive_list_single($chapter = 0, $order = 'ASC', $thumbnail = 0) {
 	return $output;
 }
 
+function ceo_get_terms_orderby($orderby, $args) {
+	$orderby = 't.menu_order';
+	return $orderby;
+}
+
 function ceo_archive_list_all($order = 'ASC', $thumbnail = 0) {
 	$output = '';
 	$main_args = array(
-			'hide_empty' => 1,
-			'orderby' => 'menu_order',
-			'order' => $order
+			'hide_empty' => true,
+			'order' => $order,
+			'hierarchical' => 1
 			);
+	add_filter('get_terms_orderby', 'ceo_get_terms_orderby', 10, 2 );
 	$all_chapters = get_terms('chapters', $main_args);
+	remove_filter('get_terms_orderby', 'ceo_get_terms_orderby');
 	if (is_null($all_chapters)) { echo 'There are no chapters available.'; return; }
 	$output = '';
 	foreach ($all_chapters as $chapter) {
 		if ($chapter->count) {
-			$output .= '<div class="comic-archive-chapter-wrap">';
-			$output .= '<h3 class="comic-archive-chapter">'.$chapter->name.'</h3>';
-			$output .= '<div class="comic-archive-image-'.$chapter->slug.'"></div>';
-			$output .= '<div class="comic-archive-chapter-description">'.$chapter->description.'</div>';			
+			$output .= '<div class="comic-archive-chapter-wrap">'."\r\n";
+			$output .= '<h3 class="comic-archive-chapter">'.$chapter->name.'</h3>'."\r\n";
+			$output .= '<div class="comic-archive-image-'.$chapter->slug.'"></div>'."\r\n";
+			$output .= '<div class="comic-archive-chapter-description">'.$chapter->description.'</div>'."\r\n";			
 			$args = array(
 					'numberposts' => -1,
 					'post_type' => 'comic',
@@ -222,17 +229,17 @@ function ceo_archive_list_all($order = 'ASC', $thumbnail = 0) {
 			$archive_count = 0;
 			if ($thumbnail) {
 				$get_thumbnail = ($order == 'asc') ? get_the_post_thumbnail(reset($qposts)->ID, 'thumbnail') : get_the_post_thumbnail(end($qposts)->ID, 'thumbnail');
-				$output .= '<div class="comic-archive-thumbnail">'.$get_thumbnail.'</div>';
+				$output .= '<div class="comic-archive-thumbnail">'.$get_thumbnail.'</div>'."\r\n";
 			}
-			$output .= '<div class="comic-archive-list-wrap">';
+			$output .= '<div class="comic-archive-list-wrap">'."\r\n";
 			$css_alt = false;
 			foreach ($qposts as $qpost) {
 				$archive_count++;
 				if ($css_alt) { $alternate = ' comic-list-alt'; $css_alt = false; } else { $alternate = ''; $css_alt=true; }
-				$output .= '<div class="comic-list comic-list-'.$archive_count.$alternate.'"><span class="comic-archive-date">'.get_the_time('M d, Y', $qpost->ID).'</span><span class="comic-archive-title"><a href="'.get_permalink($qpost->ID).'" rel="bookmark" title="'.__('Permanent Link:','comiceasel').' '.$qpost->post_title.'">'.$qpost->post_title.'</a></span></div>';
+				$output .= '<div class="comic-list comic-list-'.$archive_count.$alternate.'"><span class="comic-archive-date">'.get_the_time('M d, Y', $qpost->ID).'</span><span class="comic-archive-title"><a href="'.get_permalink($qpost->ID).'" rel="bookmark" title="'.__('Permanent Link:','comiceasel').' '.$qpost->post_title.'">'.$qpost->post_title.'</a></span></div>'."\r\n";
 			}
-			$output .= '</div>';
-			$output .= '<div style="clear:both;"></div></div>';
+			$output .= '</div>'."\r\n";
+			$output .= '<div style="clear:both;"></div></div>'."\r\n";
 		}
 		$qposts = null;
 	}
@@ -244,12 +251,13 @@ function ceo_archive_list_series($thumbnail = 0) {
 	$archive_count = 0;
 	$args = array(
 			'pad_counts' => 0,
-			'orderby' => 'menu_order',
 			'order' => 'DESC',
 			'hide_empty' => 0,
 			'parent' => 0
 			);
-	$parent_chapters = get_terms( 'chapters', $args );
+	add_filter('get_terms_orderby', 'ceo_get_terms_orderby', 10, 2 );
+	$parent_chapters = get_terms('chapters', $args);
+	remove_filter('get_terms_orderby', 'ceo_get_terms_orderby');
 	if (is_array($parent_chapters)) {
 		foreach($parent_chapters as $parent_chapter) {
 			$output .= '<h2 class="comic-archive-series-title">'.$parent_chapter->name.'</h2>';
@@ -296,11 +304,12 @@ function ceo_archive_list_by_chapter_thumbnails($order = 'asc', $showtitle = fal
 	$archive_count = 0;
 	$args = array(
 			'pad_counts' => 0,
-			'orderby' => 'menu_order',
 			'order' => $order,
 			'hide_empty' => 1
 			);
-	$chapters = get_terms( 'chapters', $args );
+	add_filter('get_terms_orderby', 'ceo_get_terms_orderby', 10, 2 );
+	$chapters = get_terms('chapters', $args);
+	remove_filter('get_terms_orderby', 'ceo_get_terms_orderby');				
 	if (is_array($chapters) && !is_wp_error($chapters)) {
 		$output .= '<div class="comic-archive-list-4">';
 		foreach($chapters as $chapter) {
