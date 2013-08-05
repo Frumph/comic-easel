@@ -2,8 +2,8 @@
 Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
-Tested up to: 3.5.2
-Stable tag: 1.4.1
+Tested up to: 3.6
+Stable tag: 1.4.2
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -127,10 +127,11 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 == Changelog ==
 = 1.4.2 =
-* fixed the 'ordering' of the thumbnail=1 in the comic-archive for list=0
-* used proper site url find for is_multisite() installs - hopefully
-* adding &comment to the /?latest=# line like /?latest=#&comment will make it add the #respond to the url line to go straight to the comments section
-* shortcodes: fixed the get_terms to use a filter for the orderby since orderby itself is not allowed with menu_order
+* shortcodes: fixed the 'ordering' of the thumbnail=1 in the comic-archive for list=0
+* import: used proper site url find for is_multisite() installs - hopefully
+* redirect: adding &comment to the /?latest=# line like /?latest=#&comment will make it add the #respond to the url line to go straight to the comments section
+* shortcodes: fixed the 'ASC' 'DESC' display of thumbnails on the list_all list=0 (see first fix in 1.4.2, same thing just fixed the fix)
+* CSS: changed the archive pages list-wrap's to be width: auto; to auto determine size available
 
 = 1.4.1 =
 * Remove testing code for thumbnails in the related comics section 
