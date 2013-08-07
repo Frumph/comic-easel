@@ -28,7 +28,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 add_action('init', 'ceo_initialize_post_types');
 
 function ceo_initialize_post_types() {
+
 	if (!post_type_exists('comic')) {
+		$menu_position = 5;
+		if (class_exists('Jetpack_Comic')) $menu_position = 6; /* Allow Jetpack to have 5 */
+		
 		$labels = array(
 				'name' => __('Comics', 'comiceasel'),
 				'singular_name' => __('Comic', 'comiceasel'),
@@ -55,18 +59,20 @@ function ceo_initialize_post_types() {
 					'public' => true,
 					'public_queryable' => true,
 					'show_ui' => true,
-					'query_var' => true,
+					'query_var' => 'comic', // was true
 					'capability_type' => 'post',
 					'taxonomies' => array( 'post_tag' ),
 					'rewrite' => array( 'slug' => $comic_slug, 'with_front' => true, 'feeds' => true ),
 					'hierarchical' => false,
 					'can_export' => true,
 					'show_in_menu' => true,
-					'menu_position' => 5,
+					'menu_position' => $menu_position,
 					'exclude_from_search' => false,
+					'map_meta_cap' => true,
 					'has_archive' => true,
 					'menu_icon' => ceo_pluginfo('plugin_url') . '/images/ceo-icon.png',
-					'supports' => array( 'title', 'editor', 'excerpt', 'author', 'comments', 'thumbnail', 'custom-fields', 'revisions', 'trackbacks' ),
+					'supports' => array( 'title', 'editor', 'excerpt', 'author', 'comments', 'thumbnail', 'custom-fields', 'revisions', 'trackbacks', 'publicize', 'shortlinks' ),
+					/* publicize and shortlinks from jetpack plugin */
 					'description' => 'Post type for Comics'
 					));
 
