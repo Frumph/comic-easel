@@ -139,13 +139,13 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'comicease
 
 ?>
 <div class="wrap">
-<h2><?php _e('Comic Easel - Import','cp2ce'); ?></h2>
+<h2><?php _e('Comic Easel - Import','comiceasel'); ?></h2>
 <form method="post" id="myForm-import" name="template">
 <?php wp_nonce_field('comiceasel-import') ?>
 <table class="widefat">
 <thead>
 	<tr>
-	<th colspan="10"><?php _e('Options','cp2ce'); ?></th>
+	<th colspan="10"><?php _e('Options','comiceasel'); ?></th>
 	</tr>
 <?php 
 	/*

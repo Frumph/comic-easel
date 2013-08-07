@@ -127,8 +127,9 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 == Changelog ==
 = 1.4.3 = 
-Support for Jetpack's Publicize and shortlinks for comics.
-Change menu position to 6 if Jetpack comics is activated so they don't overwrite each other.
+* Support for Jetpack's Publicize and shortlinks for comics.
+* Change menu position to 6 if Jetpack comics is activated so they don't overwrite each other.
+* Fixed some localization strings being the wrong designation
 
 = 1.4.2 =
 * shortcodes: fixed the 'ordering' of the thumbnail=1 in the comic-archive for list=0

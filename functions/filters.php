@@ -1,6 +1,6 @@
 <?php
 /* Filters */
-
+add_filter('rest_api_allowed_post_types', 'ceo_allow_my_post_types'); // Jetpack Rest API
 add_filter('request', 'ceo_rss_request'); // Add comics to the main RSS
 add_filter('the_content_feed','ceo_insert_comic_into_feed'); // Insert the comic image into the rss
 add_filter('the_excerpt_rss','ceo_insert_comic_into_feed');
@@ -14,6 +14,11 @@ add_filter('body_class', 'ceo_body_class');
 add_filter('get_terms_args', 'ceo_chapters_find_menu_orderby');
 // add_filter('get_lastpostmodified', 'ceo_lastpostmodified');
 add_filter('the_content', 'ceo_insert_comic_transcript_into_posts');
+
+function ceo_allow_my_post_types($allowed_post_types) {
+	$allowed_post_types[] = 'comic';
+	return $allowed_post_types;
+}
 
 function ceo_rss_request($qv) {
 	if (isset($qv['feed']) && !isset($qv['post_type']) && !isset($qv['chapters'])) {

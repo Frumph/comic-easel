@@ -48,7 +48,7 @@ function ceo_chapters_edit_menu_orderby() {
 function ceo_chapters_quick_edit_menu_order ($column_name, $screen, $name = '') {
 	if ( did_action( 'quick_edit_custom_box' ) !== 1 ) return;
 	if (($column_name != 'menu_order') && ($name != 'chapters') && ($screen != 'edit-tags') && empty($name)) return;
-	$menu_order_field = '<fieldset><div class="inline-edit-col"><label><span class="title">' . __( 'Order' , 'term-menu-order') . '</span><span class="input-text-wrap"><input class="ptitle" name="ceo_chapter_order" type="text" value="" /></span></label></div></fieldset>';
+	$menu_order_field = '<fieldset><div class="inline-edit-col"><label><span class="title">' . __( 'Order' , 'comiceasel') . '</span><span class="input-text-wrap"><input class="ptitle" name="ceo_chapter_order" type="text" value="" /></span></label></div></fieldset>';
 	$menu_order_field .= '<script type="text/javascript">
 	</script>';
 	echo $menu_order_field;
