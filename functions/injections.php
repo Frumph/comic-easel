@@ -65,8 +65,8 @@ function ceo_display_comic_navigation() {
 	?>
 	<table id="comic-nav-wrapper">
 		<tr class="comic-nav-container">
-			<td class="comic-nav"><?php if ( get_permalink() != $first_comic ) { ?><a href="<?php echo $first_comic ?>" class="comic-nav-first<?php if ( get_permalink() == $first_comic ) { ?> comic-nav-inactive<?php } ?>"><?php echo $first_text; ?></a><?php } else { echo $first_text; } ?></td>
-			<td class="comic-nav"><?php if ($prev_comic) { ?><a href="<?php echo $prev_comic ?>" class="comic-nav-previous<?php if (!$prev_comic) { ?> comic-nav-inactive<?php } ?>"><?php echo $prev_text; ?></a><?php } else { echo $prev_text; } ?></td>
+			<td class="comic-nav"><?php if ( get_permalink() != $first_comic ) { ?><a href="<?php echo $first_comic ?>" class="comic-nav-base comic-nav-first<?php if ( get_permalink() == $first_comic ) { ?> comic-nav-inactive<?php } ?>"><?php echo $first_text; ?></a><?php } else { echo '<span class="comic-nav-base comic-nav-first comic-nav-void">'.$first_text.'</span>'; } ?></td>
+			<td class="comic-nav"><?php if ($prev_comic) { ?><a href="<?php echo $prev_comic ?>" class="comic-nav-base comic-nav-previous<?php if (!$prev_comic) { ?> comic-nav-inactive<?php } ?>"><?php echo $prev_text; ?></a><?php } else { echo '<span class="comic-nav-base comic-nav-previous comic-nav-void ">'.$prev_text.'</span>'; } ?></td>
 <?php if (ceo_pluginfo('enable_comment_nav')) { ?>
 			<td class="comic-nav"><a href="<?php comments_link(); ?>" class="comic-nav-comments" title="<?php the_title(); ?>"><?php _e('Comments','comiceasel'); ?>(<span class="comic-nav-comment-count"><?php comments_number( '0', '1', '%' ); ?></span>)</a></td>
 <?php } ?>
@@ -81,8 +81,8 @@ function ceo_display_comic_navigation() {
 ?>
 			<td class="comic-nav"><a href="<?php bloginfo('url') ?>?random&nocache=1<?php echo $stay; ?>" class="comic-nav-random" title="Random Comic"><?php _e('Random','comiceasel'); ?></a></td>
 <?php } ?>
-	<td class="comic-nav"><?php if ($next_comic) { ?><a href="<?php echo $next_comic ?>" class="comic-nav-next<?php if (!$next_comic) { ?> comic-nav-inactive<?php } ?>"><?php echo $next_text; ?></a><?php } else { echo $next_text; } ?></td>
-	<td class="comic-nav"><?php if ( get_permalink() != $last_comic ) { ?><a href="<?php echo $last_comic ?>" class="comic-nav-last<?php if ( get_permalink() == $last_comic ) { ?> comic-nav-inactive<?php } ?>"><?php echo $last_text; ?></a><?php } else { echo $last_text; } ?></td>
+	<td class="comic-nav"><?php if ($next_comic) { ?><a href="<?php echo $next_comic ?>" class="comic-nav-base comic-nav-next<?php if (!$next_comic) { ?> comic-nav-inactive<?php } ?>"><?php echo $next_text; ?></a><?php } else { echo '<span class="comic-nav-base comic-nav-next comic-nav-void ">'.$next_text.'</span>'; } ?></td>
+	<td class="comic-nav"><?php if ( get_permalink() != $last_comic ) { ?><a href="<?php echo $last_comic ?>" class="comic-nav-base comic-nav-last<?php if ( get_permalink() == $last_comic ) { ?> comic-nav-inactive<?php } ?>"><?php echo $last_text; ?></a><?php } else { echo '<span class="comic-nav-base comic-nav-last comic-nav-void ">'.$last_text.'</span>'; } ?></td>
 <?php if (ceo_pluginfo('enable_chapter_nav')) { ?>				
 			<td class="comic-nav comic-nav-jumpto"><?php ceo_comic_archive_jump_to_chapter(); ?></td>
 <?php } ?>
@@ -111,16 +111,17 @@ function ceo_display_comic_wrapper() {
 	global $post, $wp_query;
 	if ($post->post_type == 'comic') { ?>
 		<div id="comic-wrap" class="comic-id-<?php echo $post->ID; ?>">
-			<div id="comic-head">
-				<?php ceo_get_sidebar('over-comic'); ?>
-			</div>
-			<?php ceo_get_sidebar('left-of-comic'); ?>
-			<div id="comic">
-				<?php echo ceo_display_comic(); ?>
-			</div>
-			<?php ceo_get_sidebar('right-of-comic'); ?>
+			<div id="comic-head"></div>
+			<?php ceo_get_sidebar('over-comic'); ?>
+			<div class="comic-table">				
+				<?php ceo_get_sidebar('left-of-comic'); ?>
+				<div id="comic">
+					<?php echo ceo_display_comic(); ?>
+				</div>
+				<?php ceo_get_sidebar('right-of-comic'); ?>
+			</div>				
+			<?php ceo_get_sidebar('under-comic'); ?>
 			<div id="comic-foot">
-				<?php ceo_get_sidebar('under-comic'); ?>
 				<?php if (!ceo_pluginfo('disable_default_nav')) ceo_display_comic_navigation(); ?>
 			</div>
 			<div class="clear"></div>
