@@ -48,20 +48,16 @@ function ceo_get_previous_comic($in_chapter = false) {
 
 function ceo_get_previous_comic_permalink() {
 	$prev_comic = ceo_get_previous_comic(false);
-	if (is_object($prev_comic)) {
-		if (isset($prev_comic->ID)) {
-			return get_permalink($prev_comic->ID);
-		}
+	if (is_object($prev_comic) && isset($prev_comic->ID)) {
+		return get_permalink($prev_comic->ID);
 	}
 	return false;
 }
 
 function ceo_get_previous_comic_in_chapter_permalink() {
 	$prev_comic = ceo_get_previous_comic(true);
-	if (is_object($prev_comic)) {
-		if (isset($prev_comic->ID)) {
-			return get_permalink($prev_comic->ID);
-		}
+	if (is_object($prev_comic) && isset($prev_comic->ID)) {
+		return get_permalink($prev_comic->ID);
 	}
 	return false;
 }
@@ -72,20 +68,16 @@ function ceo_get_next_comic($in_chapter = false) {
 
 function ceo_get_next_comic_permalink() {
 	$next_comic = ceo_get_next_comic(false);
-	if (is_object($next_comic)) {
-		if (isset($next_comic->ID)) {
-			return get_permalink($next_comic->ID);
-		}
+	if (is_object($next_comic) && isset($next_comic->ID)) {
+		return get_permalink($next_comic->ID);
 	}
 	return false;
 }
 
 function ceo_get_next_comic_in_chapter_permalink() {
 	$next_comic = ceo_get_next_comic(true);
-	if (is_object($next_comic)) {
-		if (isset($next_comic->ID)) {
-			return get_permalink($next_comic->ID);
-		}
+	if (is_object($next_comic) && isset($next_comic->ID)) {
+		return get_permalink($next_comic->ID);
 	}
 	return false;
 }
@@ -97,7 +89,7 @@ function ceo_get_terminal_post_of_chapter($chapterID = 0, $first = true) {
 	$sortOrder = $first ? "asc" : "desc";	
 	
 	if (!empty($chapterID)) {
-		$chapter = &get_term_by('id', $chapterID, 'chapters');
+		$chapter = get_term_by('id', $chapterID, 'chapters');
 		$chapter_slug = $chapter->slug;
 		$args = array(
 				'chapters' => $chapter_slug,

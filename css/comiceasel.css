@@ -4,8 +4,41 @@ Defaults for the Comic Easel Elements.
 */
 
 #comic-wrap {
-	clear:both;
+	clear: both;
 }
+
+.comic-table {
+	display: table;
+	width: 100%;
+	table-layout: fixed;
+}
+
+#sidebar-over-comic {}
+
+#sidebar-left-of-comic {
+	display: table-cell;
+	vertical-align: top;
+	width: 206px;
+	padding: 2px;
+}
+
+#comic {
+	text-align: center;
+	display: table-cell;
+	vertical-align: top;
+	width: 100%;
+	padding: 2px;
+}
+
+#sidebar-right-of-comic {
+	display: table-cell;
+	vertical-align: top;
+	width: 206px;
+	padding: 2px;
+}
+
+#sidebar-under-comic {}
+
 
 table#comic-nav-wrapper {
     background: #333;
@@ -62,14 +95,13 @@ table#comic-nav-wrapper {
 	color: #ffcf00;
 }
 
-#comic {
-	text-align: center;
-}
+
 
 #comic img {
-    margin: 0 auto;
+    margin: 0;
     padding: 0;
     max-width: 100%;
+    text-align: center;
 }
 
 #blogheader {

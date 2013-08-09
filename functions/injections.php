@@ -113,7 +113,7 @@ function ceo_display_comic_wrapper() {
 		<div id="comic-wrap" class="comic-id-<?php echo $post->ID; ?>">
 			<div id="comic-head"></div>
 			<?php ceo_get_sidebar('over-comic'); ?>
-			<div class="comic-table">				
+			<div class="comic-table">	
 				<?php ceo_get_sidebar('left-of-comic'); ?>
 				<div id="comic">
 					<?php echo ceo_display_comic(); ?>
