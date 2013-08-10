@@ -140,6 +140,7 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 * redirect: adding &comment to the /?latest=# line like /?latest=#&comment will make it add the #respond to the url line to go straight to the comments section
 * shortcodes: fixed the 'ASC' 'DESC' display of thumbnails on the list_all list=0 (see first fix in 1.4.2, same thing just fixed the fix)
 * CSS: changed the archive pages list-wrap's to be width: auto; to auto determine size available
+* Jetpack Photon support, if Photon is enabled, all comic images will be served from the WordPress CDN saving you bandwidth.
 
 = 1.4.1 =
 * Remove testing code for thumbnails in the related comics section 
