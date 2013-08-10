@@ -131,6 +131,8 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 * Change menu position to 6 if Jetpack comics is activated so they don't overwrite each other.
 * Fixed some localization strings being the wrong designation
 * added some extra classes to the nav buttons in the default nav so it can be skinned properly
+* sep. the comic_display_comic() function into individual parts so it isn't as lengthy to read
+* new feature, Hoverbox, aka ComicPress Rascal - TODO: Needs new mascot
 
 = 1.4.2 =
 * shortcodes: fixed the 'ordering' of the thumbnail=1 in the comic-archive for list=0

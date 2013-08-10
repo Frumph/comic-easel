@@ -54,6 +54,15 @@
 					</td>
 				</tr>
 				<tr>
+					<th scope="row"><label for="enable_hoverbox"><?php _e('Enable Hoverbox?','comiceasel'); ?></label></th>
+					<td>
+						<input id="enable_hoverbox" name="enable_hoverbox" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_hoverbox']); ?> />
+					</td>
+					<td>
+						<?php _e('Hoverbox is the equivelant of Rascal in ComicPress, mouse-hover over comic leads to a skinnable section that can be customized for viewing the hovertext.','comiceasel'); ?>
+					</td>
+				</tr>				
+				<tr class="alternate">
 					<th scope="row"><label for="disable_related_comics"><?php _e('Disable the displaying of related comics?','comiceasel'); ?></label></th>
 					<td>
 						<input id="disable_related_comics" name="disable_related_comics" type="checkbox" value="1" <?php checked(true, $ceo_options['disable_related_comics']); ?> />
@@ -62,7 +71,7 @@
 						<?php _e('If you have a theme that has related comics do_action code installed, this will disable it from displaying.','comiceasel'); ?>
 					</td>
 				</tr>
-				<tr class="alternate">
+				<tr>
 					<th scope="row"><label for="display_first_comic_on_home_page"><?php _e('Show the first comic on the home page?','comiceasel'); ?></label></th>
 					<td>
 						<input id="display_first_comic_on_home_page" name="display_first_comic_on_home_page" type="checkbox" value="1" <?php checked(true, $ceo_options['display_first_comic_on_home_page']); ?> />
@@ -71,7 +80,7 @@
 						<?php _e('Enabling this will make it so that the comic on the home page is the first comic.','comiceasel'); ?>
 					</td>
 				</tr>
-				<tr>
+				<tr class="alternate">
 					<th scope="row"><label for="disable_style_sheet"><?php _e('Disable the default stylesheets. comiceasel.css and navstyle.css','comiceasel'); ?></label></th>
 					<td>
 						<input id="disable_style_sheet" name="disable_style_sheet" type="checkbox" value="1" <?php checked(true, $ceo_options['disable_style_sheet']); ?> />

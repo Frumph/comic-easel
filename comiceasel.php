@@ -320,7 +320,8 @@ function ceo_load_options($reset = false) {
 			'disable_style_sheet' => false,
 			'enable_transcripts_in_comic_posts' => false,
 			'enable_chapter_only_random' => false,
-			'enable_motion_artist_support' => false
+			'enable_motion_artist_support' => false,
+			'enable_hoverbox' => false
 		) as $field => $value) {
 			$ceo_config[$field] = $value;
 		}

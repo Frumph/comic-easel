@@ -40,7 +40,8 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 				'display_first_comic_on_home_page',
 				'disable_style_sheet',
 				'enable_transcripts_in_comic_posts',
-				'enable_motion_artist_support'
+				'enable_motion_artist_support',
+				'enable_hoverbox'
 			) as $key) {
 				if (!isset($_REQUEST[$key])) $_REQUEST[$key] = 0;
 				$ceo_options[$key] = (bool)( $_REQUEST[$key] == 1 ? true : false );
