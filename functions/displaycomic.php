@@ -63,6 +63,9 @@ function ceo_display_featured_image_comic($size = 'full') {
 		if (is_array($thumbnail)) {
 			$thumbnail = reset($thumbnail);
 			
+			if (function_exists('jetpack_photon_url')) 
+				$thumbnail = jetpack_photon_url($thumbnail);
+			
 			$comic_lightbox = get_post_meta( $post->ID, 'comic-open-lightbox', true );
 			if (is_wp_error($comic_lightbox)) $comic_lightbox = false;
 			
@@ -121,6 +124,9 @@ function ceo_display_comic_gallery($size = 'full') {
 				if ($comic_galleries_jquery) $output .= '<div id="comic-'.$count.'" class="comicpane">';
 				$thumbnail   = wp_get_attachment_image_src($image->ID, 'full');
 				$thumbnail = reset($thumbnail);
+
+				if (function_exists('jetpack_photon_url')) 
+					$thumbnail = jetpack_photon_url($thumbnail);
 
 				if ($comic_lightbox || ceo_pluginfo('enable_hoverbox')) {
 					$output .= '<a href="'.$thumbnail.'" title="'.$hovertext.'" rel="lightbox" '.$hoverbox_enabled.'>';
