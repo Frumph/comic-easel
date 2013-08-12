@@ -95,14 +95,12 @@ class ceo_comic_navigation_widget extends WP_Widget {
 			<a href="<?php echo $instance['archive_path']; ?>" class="navi navi-archives navi-archive" title="<?php echo $instance['archives_title']; ?>"><?php echo $instance['archives_title']; ?></a>
 		<?php } 
 		if ($instance['random']) {
-			$stay = '';
-			if (ceo_pluginfo('enable_random_nav')) { 
-				
-				if (ceo_pluginfo('enable_chapter_only_random')) {
-					$chapter = get_the_terms($post->ID, 'chapters');
-					if (!empty($chapter) && !is_wp_error($chapter)) $stay = '&stay='.reset($chapter)->term_id;
-				}
-			} ?>
+			$stay = '';	
+			if (ceo_pluginfo('enable_chapter_only_random')) {
+				$chapter = get_the_terms($post->ID, 'chapters');
+				if (!empty($chapter) && !is_wp_error($chapter)) $stay = '&stay='.reset($chapter)->term_id;
+			}
+			?>
 			<a href="<?php echo home_url(); ?>/?random&amp;nocache=1<?php echo $stay; ?>" class="navi navi-random" title="<?php echo $instance['random_title']; ?>"><?php echo $instance['random_title']; ?></a>
 		<?php }
 		do_action('inside-comic-navigation');

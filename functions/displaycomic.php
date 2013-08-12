@@ -57,13 +57,10 @@ function ceo_display_featured_image_comic($size = 'full') {
 	$output = '';
 	$post_image_id = get_post_thumbnail_id($post->ID);
 	if ($post_image_id) { // If there's a featured image.
-		$hoverbox_enabled = (ceo_pluginfo('enable_hoverbox')) ? ' class="tt"' : '';
 		$hovertext = ceo_the_hovertext();
 		$thumbnail = wp_get_attachment_image_src( $post_image_id, $size, false);
 		if (is_array($thumbnail)) {
 			$thumbnail = reset($thumbnail);
-			
-			$thumbnail = apply_filters('jetpack_photon_url', $thumbnail);
 			
 			$comic_lightbox = get_post_meta( $post->ID, 'comic-open-lightbox', true );
 			if (is_wp_error($comic_lightbox)) $comic_lightbox = false;
@@ -75,13 +72,13 @@ function ceo_display_featured_image_comic($size = 'full') {
 			}
 			
 			if ($comic_lightbox) {
-				$output .= '<a href="'.$thumbnail.'" title="'.$hovertext.'" rel="lightbox"'.$hoverbox_enabled.'>';
+				$output .= '<a href="'.$thumbnail.'" title="'.$hovertext.'" rel="lightbox">';
 			}
-			if (ceo_pluginfo('click_comic_next') && !empty($next_comic) && !$comic_lightbox) {
-				$output .= '<a href="'.$next_comic.'" title="'.$hovertext.'"'.$hoverbox_enabled.'>';
-			}
-			if (ceo_pluginfo('enable_hoverbox') && !empty($hovertext)) $output .= '<span class="tooltip"><span class="top">&nbsp;</span><span class="middle">'.$hovertext.'</span><span class="bottom">&nbsp;</span></span>';
 			
+			if (ceo_pluginfo('click_comic_next') && !empty($next_comic) && !$comic_lightbox) {
+				$output .= '<a href="'.$next_comic.'" title="'.$hovertext.'">';
+			}
+						
 			$output .= '<img src="'.$thumbnail.'" alt="'.$hovertext.'" title="'.$hovertext.'" />';
 			if ((ceo_pluginfo('click_comic_next') && !empty($next_comic)) || $comic_lightbox) {
 				$output .= '</a>';
@@ -103,7 +100,6 @@ function ceo_display_comic_gallery($size = 'full') {
 		}
 	}
 	$hovertext = ceo_the_hovertext();
-	$hoverbox_enabled = (ceo_pluginfo('enable_hoverbox')) ? ' class="tt"' : '';
 	$comic_galleries_full = get_post_meta( $post->ID, 'comic-gallery-full', true );
 	if ($comic_galleries_full) {
 		$comic_lightbox = get_post_meta( $post->ID, 'comic-open-lightbox', true );
@@ -124,19 +120,19 @@ function ceo_display_comic_gallery($size = 'full') {
 				$thumbnail   = wp_get_attachment_image_src($image->ID, 'full');
 				$thumbnail = reset($thumbnail);
 
-				$thumbnail = apply_filters('jetpack_photon_url', $thumbnail);
+//				$thumbnail = apply_filters('jetpack_photon_url', $thumbnail);
 
-				if ($comic_lightbox || ceo_pluginfo('enable_hoverbox')) {
-					$output .= '<a href="'.$thumbnail.'" title="'.$hovertext.'" rel="lightbox" '.$hoverbox_enabled.'>';
+				if ($comic_lightbox) {
+					$output .= '<a href="'.$thumbnail.'" title="'.$hovertext.'" rel="lightbox">';
 				}
 				if (ceo_pluginfo('click_comic_next') && !empty($next_comic) && !$comic_lightbox) {
-					$output .= '<a href="'.$next_comic.'" title="'.$hovertext.'" '.$hoverbox_enabled.'>';
+					$output .= '<a href="'.$next_comic.'" title="'.$hovertext.'">';
 				}
 				$output .= '<img src="'.$thumbnail.'" alt="'.$hovertext.'" title="'.$hovertext.'" />';
-				if ((ceo_pluginfo('click_comic_next') && !empty($next_comic)) || $comic_lightbox || ceo_pluginfo('enable_hoverbox')) {
+				if ((ceo_pluginfo('click_comic_next') && !empty($next_comic)) || $comic_lightbox) {
 					$output .= '</a>';
 				}
-				if (ceo_pluginfo('enable_hoverbox')) $output .= '<span class="tooltip"><span class="top">&nbsp;</span><span class="middle">'.$hovertext.'</span><span class="bottom">&nbsp;</span></span>';
+
 				if ($comic_galleries_jquery) $output .= "</div>\r\n";
 				$count += 1;
 			}

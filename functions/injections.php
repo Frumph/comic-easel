@@ -69,8 +69,7 @@ function ceo_display_comic_navigation() {
 			<td class="comic-nav"><?php if ($prev_comic) { ?><a href="<?php echo $prev_comic ?>" class="comic-nav-base comic-nav-previous<?php if (!$prev_comic) { ?> comic-nav-inactive<?php } ?>"><?php echo $prev_text; ?></a><?php } else { echo '<span class="comic-nav-base comic-nav-previous comic-nav-void ">'.$prev_text.'</span>'; } ?></td>
 <?php if (ceo_pluginfo('enable_comment_nav')) { ?>
 			<td class="comic-nav"><a href="<?php comments_link(); ?>" class="comic-nav-comments" title="<?php the_title(); ?>"><?php _e('Comments','comiceasel'); ?>(<span class="comic-nav-comment-count"><?php comments_number( '0', '1', '%' ); ?></span>)</a></td>
-<?php } ?>
-<?php 
+<?php } 
 	if (ceo_pluginfo('enable_random_nav')) { 
 		$stay = '';
 		if (ceo_pluginfo('enable_chapter_only_random')) {

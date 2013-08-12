@@ -53,6 +53,7 @@
 						<?php _e('Checking this option makes 4 new sidebars appear in the appearance - widgets section, above comic, below comic, left of comic and right of comic.','comiceasel'); ?>
 					</td>
 				</tr>
+<?php /*
 				<tr>
 					<th scope="row"><label for="enable_hoverbox"><?php _e('Enable Hoverbox?','comiceasel'); ?></label></th>
 					<td>
@@ -61,7 +62,8 @@
 					<td>
 						<?php _e('Hoverbox is the equivelant of Rascal in ComicPress, mouse-hover over comic leads to a skinnable section that can be customized for viewing the hovertext.','comiceasel'); ?>
 					</td>
-				</tr>				
+				</tr>
+*/				?>
 				<tr class="alternate">
 					<th scope="row"><label for="disable_related_comics"><?php _e('Disable the displaying of related comics?','comiceasel'); ?></label></th>
 					<td>
