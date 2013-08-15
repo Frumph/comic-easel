@@ -3,7 +3,7 @@ Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
 Tested up to: 3.6
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -133,6 +133,7 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 * added some extra classes to the nav buttons in the default nav so it can be skinned properly
 * sep. the comic_display_comic() function into individual parts so it isn't as lengthy to read
 * don't check for navigate only chapters button is enabled when there is an option for it already on the random button
+* removed w3 total cache transition post cache clear due to new change with w3 total cache
 
 = 1.4.2 =
 * shortcodes: fixed the 'ordering' of the thumbnail=1 in the comic-archive for list=0
