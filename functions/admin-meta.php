@@ -287,10 +287,9 @@ function ceo_edit_hovertext_in_post($post) {
 
 function ceo_edit_transcript_in_post($post) { 
 	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
-	$transcript = esc_attr( get_post_meta($post->ID, 'transcript', true));
 ?>
 	The text placed here will appear if you use the [transcript] shortcode.<br />
-	<textarea name="transcript" id="transcript" class="admin-transcript" style="width:100%; height: 100px;"><?php echo $transcript; ?></textarea>
+	<textarea name="transcript" id="transcript" class="admin-transcript" style="width:100%; height: 100px;"><?php echo get_post_meta($post->ID, 'transcript', true); ?></textarea>
 <?php
 }
 
