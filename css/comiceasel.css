@@ -13,7 +13,9 @@ Defaults for the Comic Easel Elements.
 	table-layout: fixed;
 }
 
-#sidebar-over-comic {}
+#sidebar-over-comic {
+	text-align: center;
+}
 
 #sidebar-left-of-comic {
 	display: table-cell;
@@ -37,8 +39,9 @@ Defaults for the Comic Easel Elements.
 	padding: 2px;
 }
 
-#sidebar-under-comic {}
-
+#sidebar-under-comic {
+	text-align: center;
+}
 
 table#comic-nav-wrapper {
     background: #333;

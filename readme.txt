@@ -3,7 +3,7 @@ Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
 Tested up to: 3.6
-Stable tag: 1.4.3
+Stable tag: 1.4.4
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -126,6 +126,10 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.4.4 =
+Made a filter to able to change the arguments for the home page comic and mini nav display
+added text-align: center; to #sidebar-over-comic and #sidebar-under-comic, can be overridden with !important
+
 = 1.4.3 = 
 * Support for Jetpack's Publicize and shortlinks for comics.
 * Change menu position to 6 if Jetpack comics is activated so they don't overwrite each other.
