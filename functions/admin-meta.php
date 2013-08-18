@@ -223,7 +223,7 @@ function ceo_edit_comic_in_post($post) {  ?>
 	if ( has_post_thumbnail()) {
 		echo ceo_display_comic_thumbnail('medium', $post); 
 } else { 
-		_e('To add a comic image, use the featured image link to add a featured image.  After it uploads, click the "use as featured image".','comiceasel'); ?><br />
+		_e('To add a comic image, use the featured image link to add a featured image.  After it uploads, click the - use as featured image -','comiceasel'); ?><br />
 <?php } ?>
 	</center>
 </div>
@@ -280,7 +280,7 @@ function ceo_edit_hovertext_in_post($post) {
 	$hovertext = esc_attr( get_post_meta( $post->ID, 'comic-hovertext', true ) );
 	if (empty($hovertext)) $hovertext = esc_attr( get_post_meta($post->ID, 'hovertext', true));
 ?>
-	The text placed here will appear when you mouse over the comic.<br />
+	<?php _e('The text placed here will appear when you mouse over the comic.','comiceasel'); ?><br />
 	<textarea name="comic-hovertext" id="comic-hovertext" class="admin-comic-hovertext" style="width:100%"><?php echo $hovertext; ?></textarea>
 <?php
 }
@@ -288,7 +288,7 @@ function ceo_edit_hovertext_in_post($post) {
 function ceo_edit_transcript_in_post($post) { 
 	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
 ?>
-	The text placed here will appear if you use the [transcript] shortcode.<br />
+	<?php _e('The text placed here will appear as the transcript.','comiceasel'); ?><br />
 	<textarea name="transcript" id="transcript" class="admin-transcript" style="width:100%; height: 100px;"><?php echo get_post_meta($post->ID, 'transcript', true); ?></textarea>
 <?php
 }
@@ -296,7 +296,7 @@ function ceo_edit_transcript_in_post($post) {
 function ceo_edit_html_above_comic($post) { 
 	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
 ?>
-	The html placed here will appear above the comic.<br />
+	<?php _e('The html placed here will appear above the comic.','comiceasel'); ?><br />
 	<textarea name="comic-html-above" id="comic-html-above" class="admin-comic-html-above" style="width:100%"><?php echo get_post_meta( $post->ID, 'comic-html-above', true ); ?></textarea>
 <?php
 }
@@ -304,7 +304,7 @@ function ceo_edit_html_above_comic($post) {
 function ceo_edit_html_below_comic($post) { 
 	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
 ?>
-	The html placed here will appear below the comic.<br />
+	<?php _e('The html placed here will appear below the comic.','comiceasel'); ?><br />
 	<textarea name="comic-html-below" id="comic-html-below" class="admin-comic-html-below" style="width:100%"><?php echo get_post_meta( $post->ID, 'comic-html-below', true ); ?></textarea>
 <?php
 }
