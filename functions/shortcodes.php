@@ -348,6 +348,7 @@ function ceo_display_the_transcript_action() {
 function ceo_the_transcript($displaymode = 'raw') {
 	global $post;
 	$transcript = get_post_meta( $post->ID, "transcript", true );
+	apply_filters('ceo_the_transcript_raw', $transcript);
 	if (!empty($transcript)) {			
 		switch ($displaymode) {
 			case "raw":
