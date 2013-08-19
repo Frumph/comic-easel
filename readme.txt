@@ -134,6 +134,7 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 * permalink / dates now work with the comic post type
 * removed title= in the comic calendar widget, which fixes the error messages
 * added p.comic-thumbnail-in-archive CSS element to handle the section in the archive/search pages of the thumbnail output
+* removed a couple uneeded links in the config
 
 = 1.4.3 = 
 * Support for Jetpack's Publicize and shortlinks for comics.
