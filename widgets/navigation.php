@@ -182,7 +182,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 					'post_type' => 'comic',
 					'order' => $order
 					);
-			apply_filters('comic_navigation_widget_home_query_args_array', $comic_args);
+			apply_filters('ceo_comic_navigation_widget_home_query_args_array', $comic_args);
 			$comicFrontpage = new WP_Query(); $comicFrontpage->query($comic_args);
 			while ($comicFrontpage->have_posts()) : $comicFrontpage->the_post();         
 				$this->display_comic_nav_wrapper($args, $instance);

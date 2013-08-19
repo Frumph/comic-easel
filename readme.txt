@@ -129,6 +129,8 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 = 1.4.4 =
 Made a filter to able to change the arguments for the home page comic and mini nav display
 added text-align: center; to #sidebar-over-comic and #sidebar-under-comic, can be overridden with !important
+made a filter for $transcript so it can be htmlspecialchars_decode() if you want to add html to the transcript
+fixed some stray text strings so they can be translated in the admin-meta.php
 
 = 1.4.3 = 
 * Support for Jetpack's Publicize and shortlinks for comics.
