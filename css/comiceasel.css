@@ -181,6 +181,11 @@ h2.comic-archive-series-title {
     width: auto;
 }
 
+p.comic-thumbnail-in-archive {
+	clear: both;
+	text-align: center;
+}
+
 .comic-list-alt {
 }
 

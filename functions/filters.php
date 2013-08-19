@@ -43,7 +43,7 @@ function ceo_insert_comic_into_feed($content) {
 function ceo_insert_comic_into_archive($content) {
 	global $wp_query, $post;
 	if ((is_archive() || is_search()) && ($post->post_type == 'comic') && !is_single() && !is_feed() && !post_password_required() && (ceo_pluginfo('thumbnail_size_for_archive') !== 'none')) {
-		$content = '<p>'.ceo_display_comic_thumbnail(ceo_pluginfo('thumbnail_size_for_archive'), $post) . '</p>' . $content;
+		$content = '<p class="comic-thumbnail-in-archive">'.ceo_display_comic_thumbnail(ceo_pluginfo('thumbnail_size_for_archive'), $post) . '</p>' . $content;
 	}
 	return apply_filters('ceo_insert_comic_into_archive', $content);
 }

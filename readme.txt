@@ -127,10 +127,13 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 == Changelog ==
 = 1.4.4 =
-Made a filter to able to change the arguments for the home page comic and mini nav display
-added text-align: center; to #sidebar-over-comic and #sidebar-under-comic, can be overridden with !important
-made a filter for $transcript so it can be htmlspecialchars_decode() if you want to add html to the transcript
-fixed some stray text strings so they can be translated in the admin-meta.php
+* Made a filter to able to change the arguments for the home page comic and mini nav display AND nav widget
+* added text-align: center; to #sidebar-over-comic and #sidebar-under-comic, can be overridden with !important
+* made a filter for $transcript so it can be htmlspecialchars_decode() if you want to add html to the transcript
+* fixed some stray text strings so they can be translated in the admin-meta.php
+* permalink / dates now work with the comic post type
+* removed title= in the comic calendar widget, which fixes the error messages
+* added p.comic-thumbnail-in-archive CSS element to handle the section in the archive/search pages of the thumbnail output
 
 = 1.4.3 = 
 * Support for Jetpack's Publicize and shortlinks for comics.
