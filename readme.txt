@@ -126,6 +126,10 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.4.5 =
+* Added Motion Artist comics default CSS to the comiceasel.css
+
+
 = 1.4.4 =
 * Made a filter to able to change the arguments for the home page comic and mini nav display AND nav widget
 * added text-align: center; to #sidebar-over-comic and #sidebar-under-comic, can be overridden with !important
