@@ -129,6 +129,8 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 = 1.4.5 =
 * Added Motion Artist comics default CSS to the comiceasel.css
 * removed erroneous quote in the admin-meta
+* removed extra padding in the #comic-foot in the comiceasel.css
+* major fix to admin-meta that was causing screen glitch for editor
 
 
 = 1.4.4 =

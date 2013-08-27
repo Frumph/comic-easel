@@ -172,13 +172,13 @@ function ceo_edit_select_motion_artist_directory_in_post($post) {
 		$ma_directories = array_merge($ma_directories, $thisdir);
 	}
 ?>
-<div class="admin-motion-artist" style="">
+<div class="admin-motion-artist">
 <table>
-	<tr>
-	<td colspan="2">
 <?php
 	if (!empty($ma_directories) && !is_wp_error($ma_directories)) { 
 ?>
+	<tr>
+	<td colspan="2">
 							<select name="ma-directory" id="ma-directory">
 								<option class="level-0" value="" <?php if (empty($current_directory)) { ?>selected="selected"<?php } ?>><?php echo __('None', 'comiceasel'); ?></option>
 								<?php
@@ -192,8 +192,11 @@ function ceo_edit_select_motion_artist_directory_in_post($post) {
 							</select>
 	</td>
 	</tr>
-<?php } else {
+<?php 
+	} else {
+		echo '<tr><td colspan="2">';
 		echo __('No motion-artist directory found in theme or no comics found in motion-artist folder.', 'comiceasel');
+		echo '</td></tr>';
 	} 
 	$current_height = get_post_meta( $post->ID, 'ma-height', true );
 	$current_width = get_post_meta( $post->ID, 'ma-width', true );
@@ -202,17 +205,17 @@ function ceo_edit_select_motion_artist_directory_in_post($post) {
 	if (!empty($ma_directories) && !is_wp_error($ma_directories)) {
 ?>
 <tr>
-<td>
+<td colspan="2">
 Height: <input id="ma-height" name="ma-height" style="width: 40px;" type="text" value="<?php echo $current_height; ?>"  />
 </td>
 <td>
 Width: <input id="ma-width" name="ma-width" style="width: 40px;" type="text" value="<?php echo $current_width; ?>"  />
 </td>
 </tr>
+<?php }	?>
 </table>
 </div>
 <?php
-	}
 }
 
 
@@ -322,7 +325,7 @@ function ceo_add_comic_in_post() {
 		add_meta_box('ceo_html_below_comic', __('HTML (Below) Comic', 'comiceasel'), 'ceo_edit_html_below_comic', 'comic', 'normal', 'high');
 	}
 	if (!defined('CEO_FEATURE_DISABLE_MOTION_ARTIST') && ceo_pluginfo('enable_motion_artist_support'))
-		add_meta_box('ceo_select_motion_artist_directory_in_post', __('Select Motion Artist Comic', 'comiceasel'), 'ceo_edit_select_motion_artist_directory_in_post', 'comic', 'side', 'high');
+		add_meta_box('ceo_select_motion_artist_directory_in_post', __('Select Motion Artist Comic', 'comiceasel'), 'ceo_edit_select_motion_artist_directory_in_post', 'comic', 'side', 'low');
 }
 
 function ceo_handle_edit_save_comic($post_id, $post) {
