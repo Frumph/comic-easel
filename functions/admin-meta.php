@@ -221,14 +221,20 @@ Width: <input id="ma-width" name="ma-width" style="width: 40px;" type="text" val
 
 function ceo_edit_comic_in_post($post) {  ?>
 <div class="admin-comicbox" style="margin:0; padding:0; overflow:hidden;">
-	<center>
 <?php 
-	if ( has_post_thumbnail()) {
-		echo ceo_display_comic_thumbnail('medium', $post); 
-} else { 
-		_e('To add a comic image, use the featured image link to add a featured image.  After it uploads, click the - use as featured image -','comiceasel'); ?><br />
-<?php } ?>
-	</center>
+		$output = '<ul><ol>';
+		$output .= '<li>'.__('Add a title to the comic.','comiceasel').'</li>';
+		$output .= '<li>'.__('Add some info to the blog section of the comic if you want to.','comiceasel').'</li>';
+		$output .= '<li>'.__('Set the date/time you want it to be published, leave it as Publish Immediately if you want it to post right now.','comiceasel').'</li>';
+		$output .= '<li>'.__('Set the featured image as the comic.  You can find the link to press to do this in right column in this editor.  After it uploads, click the [use as featured image]','comiceasel').'<br />';
+		$output .= '<li>'.__('Set the comic into a chapter, all comics must be in a chapter.  If you do not have one, make one.','comiceasel').'</li>';
+		$output .= '<li>'.__('Tag characters in the comic and location the comic takes place (not required).','comiceasel').'</li>';
+		$output .= '<li>'.__('Publish.','comiceasel').'</li>';
+		$output .= '</ol></ul>';
+		$output .= __('You can move the editors boxes around in the editor.  Drag them around to suit your individual tastes in where things are in the editor.','comiceasel').'<br /><br />';
+		$output .= __('Minimize these directions by clicking the title of the box.','comiceasel');
+		echo $output;
+?>
 </div>
 <?php
 }
@@ -312,14 +318,56 @@ function ceo_edit_html_below_comic($post) {
 <?php
 }
 
+function ceo_edit_buyprint_in_post() { 
+	global $post;
+	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
+	$currentbuyprintoption = get_post_meta( $post->ID, 'buyprint-status', true );
+	if (empty($currentbuyprintoption)) $currentbuyprintoption = 'Available';
+	$currentbuyorigoption = get_post_meta( $post->ID, 'buyorig-status', true );
+	if (empty($currentbuyorigoption)) $currentbuyorigoption = 'Available';
+	$currentbuyprintamount = get_post_meta($post->ID , 'buy_print_amount', true);
+	if (empty($currentbuyprintamount)) $currentbuyprintamount = ceo_pluginfo('buy_print_amount');
+	$currentbuyorigamount = get_post_meta($post->ID , 'buy_print_orig_amount', true);
+	if (empty($currentbuyorigamount)) $currentbuyorigamount = ceo_pluginfo('buy_print_orig_amount');
+?>
+		<table>
+		<tr>
+			<td align="left" valign="top" width="50%">
+				<?php _e('Print Cost','comiceasel'); ?> <input name="buy_print_amount" id="buy_print_amount" type="text" size="5" value="<?php echo $currentbuyprintamount ?>" />  <br />
+				<input name="buyprint-status" id="buyprint-available" type="radio" value="Available" <?php if ($currentbuyprintoption == 'Available' || empty($currentbuyprintoption)) { echo " checked"; } ?> /> <label for="buyprint-available">Available</label><br />
+				<input name="buyprint-status" id="buyprint-sold" type="radio" value="Sold" <?php if ($currentbuyprintoption == 'Sold') { echo " checked"; } ?> /> <label for="buyprint-sold">Sold</label><br />
+				<input name="buyprint-status" id="buyprint-outofstock" type="radio" value="Out Of Stock" <?php if ($currentbuyprintoption == 'Out Of Stock') { echo " checked"; } ?> /> <label for="buyprint-outofstock">Out of Stock</label><br />
+				<input name="buyprint-status" id="buyprint-notavail" type="radio" value="Not Available" <?php if ($currentbuyprintoption == 'Not Available') { echo " checked"; } ?> /> <label for="buyprint-notavail">Not Available</label><br />
+			</td>
+		<?php if (ceo_pluginfo('buy_print_sell_original')) { ?>
+			<td align="left" valign="top">
+				<?php _e('Original Cost','comiceasel'); ?> <input name="buy_print_orig_amount" id="buy_print_orig_amount" size="5" type="text" value="<?php echo $currentbuyorigamount; ?>" /><br />
+				<input name="buyorig-status" id="buyorig-available" type="radio" value="Available" <?php if ($currentbuyorigoption == 'Available' || empty($currentbuyorigoption)) { echo " checked"; } ?> /> <label for="buyorig-available">Available</label><br />
+				<input name="buyorig-status" id="buyorig-sold" type="radio" value="Sold" <?php if ($currentbuyorigoption == 'Sold') { echo " checked"; } ?> /> <label for="buyorig-sold">Sold</label><br />
+				<input name="buyorig-status" id="buyorig-notavail" type="radio" value="Not Available" <?php if ($currentbuyorigoption == 'Not Available') { echo " checked"; } ?> /> <label for="buyorig-notavail">Not Available</label><br />
+			</td>
+		<?php } ?>
+		</tr>
+		</table>
+	<?php 
+}
+
+
+
 function ceo_add_comic_in_post() {
-	add_meta_box('ceo_comic_in_post', __('Comic', 'comiceasel'), 'ceo_edit_comic_in_post', 'comic', 'side', 'high');
+	add_meta_box('ceo_comic_in_post', __('Comic Directions', 'comiceasel'), 'ceo_edit_comic_in_post', 'comic', 'side', 'high');
+	remove_meta_box('postimagediv', 'comic', 'side');
+	if ( current_theme_supports( 'post-thumbnails', 'comic' ) && post_type_supports('comic', 'thumbnail') )
+		add_meta_box('postimagediv', __('Set Comic/Featured Image'), 'post_thumbnail_meta_box', 'comic', 'side', 'high');
+	add_meta_box('ceo_comic_in_post', __('Comic Directions', 'comiceasel'), 'ceo_edit_comic_in_post', 'comic', 'side', 'high');
 	if (!defined('CEO_FEATURE_DISABLE_MISC'))
 		add_meta_box('ceo_toggle_in_post', __('Misc. Comic Functionality', 'comiceasel'), 'ceo_edit_toggles_in_post', 'comic', 'side', 'low');
 	if (!defined('CEO_FEATURE_DISABLE_HOVERTEXT'))
 		add_meta_box('ceo_hovertext_in_post', __('Alt (Hover) Text', 'comiceasel'), 'ceo_edit_hovertext_in_post', 'comic', 'normal', 'high');
 	if (!defined('CEO_FEATURE_DISABLE_TRANSCRIPT'))
 		add_meta_box('ceo_transcript_in_post', __('Transcript', 'comiceasel'), 'ceo_edit_transcript_in_post', 'comic', 'normal', 'high');
+	if (!defined('CEO_FEATURE_BUY_PRINT'))
+		add_meta_box('ceo_buyprint_in_post', __('Buy Print/Original', 'comiceasel'), 'ceo_edit_buyprint_in_post', 'comic', 'side', 'low');
 	if (!defined('CEO_FEATURE_DISABLE_HTML')) {
 		add_meta_box('ceo_html_above_comic', __('HTML (Above) Comic', 'comiceasel'), 'ceo_edit_html_above_comic', 'comic', 'normal', 'high');
 		add_meta_box('ceo_html_below_comic', __('HTML (Below) Comic', 'comiceasel'), 'ceo_edit_html_below_comic', 'comic', 'normal', 'high');
@@ -358,7 +406,11 @@ function ceo_handle_edit_save_comic($post_id, $post) {
 			'comic-gallery-jquery',
 			'ma-directory',
 			'ma-height',
-			'ma-width'
+			'ma-width',
+			'buy_print_amount',
+			'buyprint-status',
+			'buy_print_orig_amount',
+			'buyorig-status'
 			);
 			
 	foreach ($meta_array as $meta_key) {

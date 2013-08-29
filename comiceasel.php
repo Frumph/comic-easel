@@ -372,7 +372,14 @@ function ceo_load_options($reset = false) {
 			'enable_transcripts_in_comic_posts' => false,
 			'enable_chapter_only_random' => false,
 			'enable_motion_artist_support' => false,
-			'enable_hoverbox' => false
+			'enable_hoverbox' => false,
+			'enable_buy_print' => false,
+			'buy_print_email' => 'yourname@yourpaypalemail.com',
+			'buy_print_url' => '/shop/',
+			'buy_print_amount' => '25.00',
+			'buy_print_sell_original' => false,
+			'buy_print_orig_amount' => '65.00',
+			'buy_print_text' => __('*Additional shipping charges will applied at time of purchase.','comiceasel')
 		) as $field => $value) {
 			$ceo_config[$field] = $value;
 		}
@@ -389,12 +396,15 @@ function ceo_pluginfo($whichinfo = null) {
 		// Important to assign pluginfo as an array to begin with.
 		$ceo_pluginfo = array();
 		$ceo_options = ceo_load_options();
-		if ( !isset($ceo_options['db_version']) ||  empty($ceo_options['db_version']) || (version_compare($ceo_options['db_version'], '1.1', '<')) ) {
-			ceo_chapters_activate();
-			$ceo_options['db_version'] = '1.1';
-			$ceo_options['disable_style_sheet'] = false;
-			$ceo_options['display_first_comic_on_home_page'] = false;
-			$ceo_options['disable_style_sheet'] = false;
+		if ( !isset($ceo_options['db_version']) ||  empty($ceo_options['db_version']) || (version_compare($ceo_options['db_version'], '1.2', '<')) ) {
+			$ceo_options['db_version'] = '1.2';
+			$ceo_options['enable_buy_print'] = false;
+			$ceo_options['buy_print_email'] = 'yourname@yourpaypalemail.com';
+			$ceo_options['buy_print_url'] = '/shop/';
+			$ceo_options['buy_print_amount'] = '25.00';
+			$ceo_options['buy_print_sell_original'] = false;
+			$ceo_options['buy_print_orig_amount'] = '65.00';
+			$ceo_options['buy_print_text'] = __('*Additional shipping charges will applied at time of purchase.','comiceasel');
 			update_option('comiceasel-config', $ceo_options);
 		}
 		$ceo_coreinfo = wp_upload_dir();
@@ -413,7 +423,7 @@ function ceo_pluginfo($whichinfo = null) {
 				// comic-easel plugin directory/url
 				'plugin_url' => plugin_dir_url(dirname (__FILE__)) . 'comic-easel',
 				'plugin_path' => trailingslashit(ABSPATH) . ceo_get_plugin_path(),
-				'version' => '1.4.5'
+				'version' => '1.4.6'
 		);
 		// Combine em.
 		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_addinfo);

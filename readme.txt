@@ -126,6 +126,10 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.5 =
+Buy Print/Original shortcode & buttons
+Added Directions and changed the 'set featured image' to say 'Set Comic/Featured Image' in the comic editor.
+
 = 1.4.5 =
 * Added Motion Artist comics default CSS to the comiceasel.css
 * removed erroneous quote in the admin-meta
