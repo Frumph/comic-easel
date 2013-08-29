@@ -223,15 +223,16 @@ function ceo_edit_comic_in_post($post) {  ?>
 <div class="admin-comicbox" style="margin:0; padding:0; overflow:hidden;">
 <?php 
 		$output = '<ul><ol>';
-		$output .= '<li>'.__('Add a title to the comic.','comiceasel').'</li>';
-		$output .= '<li>'.__('Add some info to the blog section of the comic if you want to.','comiceasel').'</li>';
+		$output .= '<li>'.__('Add a title to the comic.&nbsp; Titles must be alpha-numerical, not just numbers.','comiceasel').'</li>';
+		$output .= '<li>'.__('Add some info to the blog section of the comic if you want to (not required).','comiceasel').'</li>';
 		$output .= '<li>'.__('Set the date/time you want it to be published, leave it as Publish Immediately if you want it to post right now.','comiceasel').'</li>';
-		$output .= '<li>'.__('Set the featured image as the comic.  You can find the link to press to do this in right column in this editor.  After it uploads, click the [use as featured image]','comiceasel').'<br />';
-		$output .= '<li>'.__('Set the comic into a chapter, all comics must be in a chapter.  If you do not have one, make one.','comiceasel').'</li>';
+		$output .= '<li>'.__('Set the featured image as the comic.&nbsp;  You can find the link to press to do this in right column in this editor.&nbsp;  After it uploads, click the [use as featured image]','comiceasel').'<br />';
+		$output .= '<li>'.__('Set the comic into a chapter, all comics must be in a chapter.&nbsp;  If you do not have one, make one.','comiceasel').'</li>';
 		$output .= '<li>'.__('Tag characters in the comic and location the comic takes place (not required).','comiceasel').'</li>';
+		$output .= '<li>'.__('Click the [screen options] in the upper right corner of the editor and enable [x] Discussion if it is not (one time only).&nbsp;  So you can enable/disable commenting.','comiceasel').'</li>';
 		$output .= '<li>'.__('Publish.','comiceasel').'</li>';
 		$output .= '</ol></ul>';
-		$output .= __('You can move the editors boxes around in the editor.  Drag them around to suit your individual tastes in where things are in the editor.','comiceasel').'<br /><br />';
+		$output .= __('You can move the editor boxes around.&nbsp;  Drag them to where it would suit your individual taste in where you want them.','comiceasel').'<br /><br />';
 		$output .= __('Minimize these directions by clicking the title of the box.','comiceasel');
 		echo $output;
 ?>

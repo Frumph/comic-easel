@@ -326,14 +326,6 @@ function ceo_activation() {
 // Redirects /?latest /?random etc.
 @require('functions/redirects.php');
 
-
-/**
- * Get the path to the plugin folder.
- */
-function ceo_get_plugin_path() {
-	return PLUGINDIR . '/' . preg_replace('#^.*/([^\/]*)#', '\\1', dirname(plugin_basename(__FILE__)));
-}
-
 /**
  * These set of functions are for the configuration ceo_pluginfo() information
  * 
@@ -346,7 +338,7 @@ function ceo_load_options($reset = false) {
 	if (empty($ceo_config)) {
 		delete_option('comiceasel-config');
 		foreach (array(
-			'db_version' => '1.1',
+			'db_version' => '1.2',
 			'add_dashboard_frumph_feed_widget' => true,
 			'disable_comic_on_home_page' => false,
 			'disable_comic_blog_on_home_page' => false,
@@ -421,9 +413,9 @@ function ceo_pluginfo($whichinfo = null) {
 				'style_url' => get_stylesheet_directory_uri(),
 				'style_path' => get_stylesheet_directory(),
 				// comic-easel plugin directory/url
-				'plugin_url' => plugin_dir_url(dirname (__FILE__)) . 'comic-easel',
-				'plugin_path' => trailingslashit(ABSPATH) . ceo_get_plugin_path(),
-				'version' => '1.4.6'
+				'plugin_url' => plugin_dir_url(__FILE__),
+				'plugin_path' => plugin_dir_path(__FILE__),
+				'version' => '1.5'
 		);
 		// Combine em.
 		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_addinfo);
@@ -456,7 +448,7 @@ function ceo_test_information($vartodump) { ?>
 
 // Load all the widgets
 
-foreach (glob(ceo_pluginfo('plugin_path')  . '/widgets/*.php') as $widgefile) {
+foreach (glob(ceo_pluginfo('plugin_path')  . 'widgets/*.php') as $widgefile) {
 	require_once($widgefile);
 }
 
