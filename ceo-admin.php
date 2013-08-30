@@ -29,7 +29,7 @@ function ceo_add_menu_pages() {
 	}
 	if (!defined('CEO_FEATURE_DISABLE_DEBUG'))
 		$debug_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $debug_title, $debug_title, 'edit_theme_options', 'comiceasel-debug', 'ceo_debug');	
-	ceo_enqueue_admin_cpt_style('comic', 'comic-admin-editor-style', ceo_pluginfo('plugin_url').'/css/admin-editor.css');
+	ceo_enqueue_admin_cpt_style('comic', 'comic-admin-editor-style', ceo_pluginfo('plugin_url').'css/admin-editor.css');
 	// Add contextual help
 }
 
@@ -48,7 +48,7 @@ function ceo_admin_print_styles() {
 	wp_admin_css('css/global');
 	wp_admin_css('css/colors');
 	wp_admin_css('css/ie');
-	wp_enqueue_style('comiceasel-options-style', ceo_pluginfo('plugin_url') . '/css/config.css');
+	wp_enqueue_style('comiceasel-options-style', ceo_pluginfo('plugin_url') . 'css/config.css');
 }
 
 function ceo_admin_page_head() { ?>

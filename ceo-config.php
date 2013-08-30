@@ -1,5 +1,5 @@
 <div class="wrap">
-	<div id="ceoadmin-headericon" style="background: url('<?php echo ceo_pluginfo('plugin_url') ?>/images/easel_small.png') no-repeat;"></div>
+	<div id="ceoadmin-headericon" style="background: url('<?php echo ceo_pluginfo('plugin_url') ?>images/easel_small.png') no-repeat;"></div>
 <p class="alignleft">
 	<h2><?php _e('Comic Easel - Config','comiceasel'); ?></h2>
 </p>

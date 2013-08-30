@@ -114,7 +114,7 @@ function ceo_display_comic_gallery($size = 'full') {
 						'order'           => 'ASC'
 						))) {
 			$count = 0;
-			if ($comic_galleries_jquery) wp_enqueue_script('multicomic', ceo_pluginfo('plugin_url') . '/js/multicomic.js', null, null, true);
+			if ($comic_galleries_jquery) wp_enqueue_script('multicomic', ceo_pluginfo('plugin_url') . 'js/multicomic.js', null, null, true);
 			foreach($images as $image) {
 				if ($comic_galleries_jquery) $output .= '<div id="comic-'.$count.'" class="comicpane">';
 				$thumbnail   = wp_get_attachment_image_src($image->ID, 'full');
