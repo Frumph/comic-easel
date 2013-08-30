@@ -3,7 +3,7 @@ Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
 Tested up to: 3.6
-Stable tag: 1.4.5
+Stable tag: 1.5
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -127,9 +127,10 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 == Changelog ==
 = 1.5 =
-* Buy Print/Original shortcode & buttons
+* Buy Print/Original shortcode & buttons with IPN to Paypal
 * Added Directions and changed the 'set featured image' to say 'Set Comic/Featured Image' in the comic editor.
 * fixed plugin path/url code so if someone changes the wp-content directory it will adjust appropriately
+* allow ?latest= to be slug, thanks @gladius2metal
 
 = 1.4.5 =
 * Added Motion Artist comics default CSS to the comiceasel.css

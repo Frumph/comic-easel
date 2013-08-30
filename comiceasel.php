@@ -3,11 +3,11 @@
 Plugin Name: Comic Easel
 Plugin URI: http://comiceasel.com
 Description: Comic Easel allows you to incorporate a WebComic using the WordPress Media Library functionality with Navigation into almost all WordPress themes. With just a few modifications of adding injection do_action locations into a theme, you can have the theme of your choice display and manage a webcomic.
-Version: 1.4.5
+Version: 1.5
 Author: Philip M. Hofer (Frumph)
 Author URI: http://frumph.net/
 
-Copyright 2012 Philip M. Hofer (Frumph)  (email : philip@frumph.net)
+Copyright 2012,2013 Philip M. Hofer (Frumph)  (email : philip@frumph.net)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -365,13 +365,14 @@ function ceo_load_options($reset = false) {
 			'enable_chapter_only_random' => false,
 			'enable_motion_artist_support' => false,
 			'enable_hoverbox' => false,
-			'enable_buy_print' => false,
-			'buy_print_email' => 'yourname@yourpaypalemail.com',
-			'buy_print_url' => '/shop/',
-			'buy_print_amount' => '25.00',
-			'buy_print_sell_original' => false,
-			'buy_print_orig_amount' => '65.00',
-			'buy_print_text' => __('*Additional shipping charges will applied at time of purchase.','comiceasel')
+			'enable_buy_comic' => false,
+			'buy_comic_email' => 'yourname@yourpaypalemail.com',
+			'buy_comic_url' => home_url().'/shop/',
+			'buy_comic_sell_print' => false,
+			'buy_comic_print_amount' => '25.00',
+			'buy_comic_sell_original' => true,
+			'buy_comic_orig_amount' => '65.00',
+			'buy_comic_text' => __('*Additional shipping charges will applied at time of purchase.','comiceasel')
 		) as $field => $value) {
 			$ceo_config[$field] = $value;
 		}
@@ -383,20 +384,21 @@ function ceo_load_options($reset = false) {
 
 function ceo_pluginfo($whichinfo = null) {
 	global $ceo_pluginfo;
-//	ceo_load_options('reset');	
+//	ceo_load_options('reset');	-- uncomment to reset defaults
 	if (empty($ceo_pluginfo) || $whichinfo == 'reset') {
 		// Important to assign pluginfo as an array to begin with.
 		$ceo_pluginfo = array();
 		$ceo_options = ceo_load_options();
-		if ( !isset($ceo_options['db_version']) ||  empty($ceo_options['db_version']) || (version_compare($ceo_options['db_version'], '1.2', '<')) ) {
+		if ( !isset($ceo_options['db_version']) || empty($ceo_options['db_version']) || (version_compare($ceo_options['db_version'], '1.2', '<')) ) {
 			$ceo_options['db_version'] = '1.2';
-			$ceo_options['enable_buy_print'] = false;
-			$ceo_options['buy_print_email'] = 'yourname@yourpaypalemail.com';
-			$ceo_options['buy_print_url'] = '/shop/';
-			$ceo_options['buy_print_amount'] = '25.00';
-			$ceo_options['buy_print_sell_original'] = false;
-			$ceo_options['buy_print_orig_amount'] = '65.00';
-			$ceo_options['buy_print_text'] = __('*Additional shipping charges will applied at time of purchase.','comiceasel');
+			$ceo_options['enable_buy_comic'] = false;
+			$ceo_options['buy_comic_email'] = 'yourname@yourpaypalemail.com';
+			$ceo_options['buy_comic_url'] = '/shop/';
+			$ceo_options['buy_comic_amount'] = '25.00';
+			$ceo_options['buy_comic_sell_original'] = true;
+			$ceo_options['buy_comic_sell_print'] = false;
+			$ceo_options['buy_comic_orig_amount'] = '65.00';
+			$ceo_options['buy_comic_text'] = __('*Additional shipping charges will applied at time of purchase.','comiceasel');
 			update_option('comiceasel-config', $ceo_options);
 		}
 		$ceo_coreinfo = wp_upload_dir();

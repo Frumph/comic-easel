@@ -66,7 +66,17 @@ function ceo_display_comic_navigation() {
 		<tr class="comic-nav-container">
 			<td class="comic-nav"><?php if ( get_permalink() != $first_comic ) { ?><a href="<?php echo $first_comic ?>" class="comic-nav-base comic-nav-first<?php if ( get_permalink() == $first_comic ) { ?> comic-nav-inactive<?php } ?>"><?php echo $first_text; ?></a><?php } else { echo '<span class="comic-nav-base comic-nav-first comic-nav-void">'.$first_text.'</span>'; } ?></td>
 			<td class="comic-nav"><?php if ($prev_comic) { ?><a href="<?php echo $prev_comic ?>" class="comic-nav-base comic-nav-previous<?php if (!$prev_comic) { ?> comic-nav-inactive<?php } ?>"><?php echo $prev_text; ?></a><?php } else { echo '<span class="comic-nav-base comic-nav-previous comic-nav-void ">'.$prev_text.'</span>'; } ?></td>
-<?php if (ceo_pluginfo('enable_comment_nav')) { ?>
+<?php
+		if (ceo_pluginfo('enable_buy_comic')) {
+			if (strpos(ceo_pluginfo('buy_comic_url'), '?') !== false) {
+				$bpsep = '&';
+			} else {
+				$bpsep = '?';
+			}
+		?>
+		<td class="comic-nav"><a href="<?php echo ceo_pluginfo('buy_comic_url').$bpsep.'id='.$post->ID; ?>" class="comic-nav-base comic-nav-buycomic" title="Buy Comic"><?php _e('Buy!','comiceasel'); ?></a></td>
+<?php }
+if (ceo_pluginfo('enable_comment_nav')) { ?>
 			<td class="comic-nav"><a href="<?php comments_link(); ?>" class="comic-nav-comments" title="<?php the_title(); ?>"><?php _e('Comments','comiceasel'); ?>(<span class="comic-nav-comment-count"><?php comments_number( '0', '1', '%' ); ?></span>)</a></td>
 <?php } 
 	if (ceo_pluginfo('enable_random_nav')) { 

@@ -351,3 +351,10 @@ a.transcript-title {
 	background: -moz-linear-gradient(top,  #000,  #444);
 	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#666666');
 }
+
+/* buy comic stuff */
+
+.buy-thumbnail, .buycomic-us-form {
+	display: block;
+	text-align: center;
+}

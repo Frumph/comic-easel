@@ -50,7 +50,7 @@
 <?php
 $current_gnav_directory = $ceo_options['graphic_navigation_directory'];
 if (empty($current_gnav_directory)) $current_gnav_directory = 'default';
-$dirs_to_search = array_unique(array(ABSPATH.ceo_get_plugin_path(),get_template_directory(),get_stylesheet_directory()));
+$dirs_to_search = array_unique(array( stripslashes(ceo_pluginfo('plugin_path')),get_template_directory(),get_stylesheet_directory()));
 $gnav_directories = array();
 foreach ($dirs_to_search as $gnav_dir) {
 	if (is_dir($gnav_dir . '/images/nav')) {

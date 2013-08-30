@@ -234,14 +234,17 @@ function ceo_display_comic_area() {
 }
 
 // Do the thumbnail display functions here.
-function ceo_display_comic_thumbnail($thumbnail_size = 'thumbnail', $override_post = null) {
+function ceo_display_comic_thumbnail($thumbnail_size = 'thumbnail', $override_post = null, $size = array()) {
 	global $post;
 	$thumbnail = $output = '';
 	$post_to_use = !empty($override_post) ? $override_post : $post;
 	if (class_exists('MultiPostThumbnails') && ($thumbnail_size == 'secondary-image') && is_null($override_post)) {
 		$thumbnail = MultiPostThumbnails::get_the_post_thumbnail(get_post_type(), 'secondary-image');
 	} else {
-		$thumbnail = get_the_post_thumbnail($post_to_use->ID, $thumbnail_size);
+		if (!empty($size)) {
+			$thumbnail = get_the_post_thumbnail($post_to_use->ID, $size);
+		} else 
+			$thumbnail = get_the_post_thumbnail($post_to_use->ID, $thumbnail_size);
 	}
 	if ( has_post_thumbnail($post_to_use->ID) ) {
 		$output =  '<a href="'.get_permalink($post_to_use->ID).'" rel="bookmark" title="'.get_the_title().'">'.$thumbnail.'</a>'."\r\n";

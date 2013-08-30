@@ -60,6 +60,10 @@ Style: Sci Fi
 	background: url('archive.png') no-repeat;
 }
 
+.navi-buycomic {
+	background: url('buycomic.png') no-repeat;
+}
+
 .navi-random {
 	background: url('random.png') no-repeat;
 }

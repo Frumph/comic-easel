@@ -96,7 +96,32 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 			
 			$tab = 'archive';
 			update_option('comiceasel-config', $ceo_options);
-		}		
+		}
+		
+		if ($_REQUEST['action'] == 'ceo_save_buycomic') {
+
+			foreach (array(
+				'buy_comic_email',
+				'buy_comic_url',
+				'buy_comic_print_amount',
+				'buy_comic_orig_amount'
+					) as $key) {
+							if (isset($_REQUEST[$key])) 
+								$ceo_options[$key] = wp_filter_nohtml_kses($_REQUEST[$key]);
+			}
+
+			foreach (array(
+				'enable_buy_comic',
+				'buy_comic_sell_print',
+				'buy_comic_sell_original'
+			) as $key) {
+				if (!isset($_REQUEST[$key])) $_REQUEST[$key] = 0;
+				$ceo_options[$key] = (bool)( $_REQUEST[$key] == 1 ? true : false );
+			}
+			
+			$tab = 'buycomic';
+			update_option('comiceasel-config', $ceo_options);
+		}
 		
 		if ($tab) { ?>
 			<div id="message" class="updated"><p><strong><?php _e('Comic Easel Settings SAVED!','comiceasel'); ?></strong></p></div>
@@ -111,8 +136,11 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 		  	$tab_info = array(
 		  		'general' => __('General', 'comiceasel'),
 		  		'navigation' => __('Navigation', 'comiceasel'),
-				'archive' => __('Archive', 'comiceasel')
+				'archive' => __('Archive', 'comiceasel'),
 		  	);
+			if (!defined('CEO_FEATURE_BUY_COMIC'))
+				$tab_info['buycomic'] = __('Buy Comic','comiceasel');
+				
 		  	if (empty($tab)) { $tab = array_shift(array_keys($tab_info)); }
 
 		  	foreach($tab_info as $tab_id => $label) { ?>
@@ -122,7 +150,7 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 		</div>
 
 		<div id="comiceasel-options-pages">
-		  <?php	foreach (glob(ceo_pluginfo('plugin_path') . '/options/*.php') as $file) { include($file); } ?>
+		  <?php	foreach (glob(ceo_pluginfo('plugin_path') . 'options/*.php') as $file) { include($file); } ?>
 		</div>
 	</div>
 	<script type="text/javascript">

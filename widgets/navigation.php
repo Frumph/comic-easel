@@ -103,14 +103,14 @@ class ceo_comic_navigation_widget extends WP_Widget {
 			?>
 			<a href="<?php echo home_url(); ?>/?random&amp;nocache=1<?php echo $stay; ?>" class="navi navi-random" title="<?php echo $instance['random_title']; ?>"><?php echo $instance['random_title']; ?></a>
 		<?php }
-		if (ceo_pluginfo('enable_buy_print') && $instance['buyprint']) {
-			if (strpos(ceo_pluginfo('buy_print_url'), '?') !== false) {
+		if (ceo_pluginfo('enable_buy_comic') && $instance['buycomic']) {
+			if (strpos(ceo_pluginfo('buy_comic_url'), '?') !== false) {
 				$bpsep = '&';
 			} else {
 				$bpsep = '?';
 			}
 		?>
-			<a href="<?php echo ceo_pluginfo('buy_print_url'); ?><?php echo $bpsep; ?>comic=<?php echo $post->ID; ?>" class="navi navi-buyprint" title="<?php echo $instance['buyprint_title']; ?>"><?php echo $instance['buyprint_title']; ?></a>
+			<a href="<?php echo ceo_pluginfo('buy_comic_url').$bpsep.'id='.$post->ID; ?>" class="navi navi-buycomic" title="<?php echo $instance['buycomic_title']; ?>"><?php echo $instance['buycomic_title']; ?></a>
 		<?php
 		}
 		do_action('inside-comic-navigation');
@@ -222,7 +222,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 					'comictitle',      
 					'comicchapter',
 					'imageurl',
-					'buyprint') as $key) {
+					'buycomic') as $key) {
 			$instance[$key] = ($new_instance[$key]) ? true : false;
 		}
 		foreach (array(
@@ -240,7 +240,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 					'random_title',
 					'archives_title',
 					'comments_title',
-					'buyprint_title'
+					'buycomic_title'
 					) as $key) {
 			$instance[$key] = esc_attr($new_instance[$key]);
 		}
@@ -265,7 +265,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 					'comictitle' => false,      
 					'comicchapter' => false,
 					'imageurl' => false,
-					'buyprint' => false,
+					'buycomic' => false,
 					'archive_path' => '',
 					'previous_chap_title' => __('<[ Prev Chapter', 'comiceasel'),
 					'next_chap_title' => __('Next Chapter ]>', 'comiceasel'),
@@ -280,7 +280,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 					'random_title' => __('Random', 'comiceasel'),
 					'archives_title' => __('Archives', 'comiceasel'),
 					'comments_title' => __('Comments', 'comiceasel'),
-					'buyprint_title' => __('Buy!', 'comiceasel')
+					'buycomic_title' => __('Buy!', 'comiceasel')
 					));
 		?>
 		<input id="<?php echo $this->get_field_id('first'); ?>" name="<?php echo $this->get_field_name('first'); ?>" type="checkbox" value="1" <?php checked(true, $instance['first']); ?> /> <label for="<?php echo $this->get_field_id('first'); ?>"><strong><?php _e('First','comiceasel'); ?></strong></label><br />
@@ -341,11 +341,11 @@ class ceo_comic_navigation_widget extends WP_Widget {
 		<input id="<?php echo $this->get_field_id('random'); ?>" name="<?php echo $this->get_field_name('random'); ?>" type="checkbox" value="1" <?php checked(true, $instance['random']); ?> /> <label for="<?php echo $this->get_field_id('random'); ?>"><strong><?php _e('Random','comiceasel'); ?></strong></label><br />
 		<input id="<?php echo $this->get_field_id('random_title'); ?>" name="<?php echo $this->get_field_name('random_title'); ?>" type="text" value="<?php echo $instance['random_title']; ?>" /><br />   
 		<br />
-
-		<input id="<?php echo $this->get_field_id('buyprint'); ?>" name="<?php echo $this->get_field_name('buyprint'); ?>" type="checkbox" value="1" <?php checked(true, $instance['buyprint']); ?> /> <label for="<?php echo $this->get_field_id('buyprint'); ?>"><strong><?php _e('Buy!','comiceasel'); ?></strong></label><br />
-		<input id="<?php echo $this->get_field_id('buyprint_title'); ?>" name="<?php echo $this->get_field_name('buyprint_title'); ?>" type="text" value="<?php echo $instance['buyprint_title']; ?>" /><br />   
+<?php if (ceo_pluginfo('enable_buy_comic')) { ?>
+		<input id="<?php echo $this->get_field_id('buycomic'); ?>" name="<?php echo $this->get_field_name('buycomic'); ?>" type="checkbox" value="1" <?php checked(true, $instance['buycomic']); ?> /> <label for="<?php echo $this->get_field_id('buycomic'); ?>"><strong><?php _e('Buy!','comiceasel'); ?></strong></label><br />
+		<input id="<?php echo $this->get_field_id('buycomic_title'); ?>" name="<?php echo $this->get_field_name('buycomic_title'); ?>" type="text" value="<?php echo $instance['buycomic_title']; ?>" /><br />   
 		<br />
-		
+<?php } ?>		
 		<input id="<?php echo $this->get_field_id('imageurl'); ?>" name="<?php echo $this->get_field_name('imageurl'); ?>" type="checkbox" value="1" <?php checked(true, $instance['imageurl']); ?> /> <label for="<?php echo $this->get_field_id('imageurl'); ?>"><strong><?php _e('ImageURL','comiceasel'); ?></strong></label>
 		<?php
 	}
