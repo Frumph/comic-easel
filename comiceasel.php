@@ -270,8 +270,8 @@ function ceo_run_css() {
 				wp_register_style('comiceasel-navstyle',get_stylesheet_directory_uri() . '/images/nav/' . ceo_pluginfo('graphic_navigation_directory') . '/navstyle.css');
 			} elseif (file_exists(get_template_directory() . '/images/nav/' . ceo_pluginfo('graphic_navigation_directory'). '/navstyle.css')) {
 				wp_register_style('comiceasel-navstyle',get_template_directory_uri() . '/images/nav/' . ceo_pluginfo('graphic_navigation_directory') . '/navstyle.css');
-			} elseif (file_exists(ABSPATH.ceo_get_plugin_path() . '/images/nav/' . ceo_pluginfo('graphic_navigation_directory') . '/navstyle.css')) {
-				wp_register_style('comiceasel-navstyle', ceo_pluginfo('plugin_url').'/images/nav/'. ceo_pluginfo('graphic_navigation_directory'). '/navstyle.css');
+			} elseif (file_exists(ceo_pluginfo('plugin_path') . 'images/nav/' . ceo_pluginfo('graphic_navigation_directory') . '/navstyle.css')) {
+				wp_register_style('comiceasel-navstyle', ceo_pluginfo('plugin_url').'images/nav/'. ceo_pluginfo('graphic_navigation_directory'). '/navstyle.css');
 			} else 
 				wp_register_style('comiceasel-navstyle', ceo_pluginfo('plugin_url').'/css/navstyle.css');
 			wp_enqueue_style('comiceasel-navstyle');
