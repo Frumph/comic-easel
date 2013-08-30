@@ -70,7 +70,7 @@ function ceo_initialize_post_types() {
 					'exclude_from_search' => false,
 					'map_meta_cap' => true,
 					'has_archive' => true,
-					'menu_icon' => ceo_pluginfo('plugin_url') . '/images/ceo-icon.png',
+					'menu_icon' => ceo_pluginfo('plugin_url') . 'images/ceo-icon.png',
 					'supports' => array( 'title', 'editor', 'excerpt', 'author', 'comments', 'thumbnail', 'custom-fields', 'revisions', 'trackbacks', 'publicize', 'shortlinks' ),
 					/* publicize and shortlinks from jetpack plugin */
 					'description' => 'Post type for Comics'
@@ -263,7 +263,7 @@ if (is_admin()) {
 
 function ceo_run_css() {
 	if (!ceo_pluginfo('disable_style_sheet')) {
-		wp_register_style('comiceasel-style', ceo_pluginfo('plugin_url').'/css/comiceasel.css');
+		wp_register_style('comiceasel-style', ceo_pluginfo('plugin_url').'css/comiceasel.css');
 		wp_enqueue_style('comiceasel-style');
 		if (is_active_widget(false, false, 'ceo_comic_navigation', true)) {
 			if (is_child_theme() && file_exists(get_stylesheet_directory() . '/images/nav/' . ceo_pluginfo('graphic_navigation_directory') . '/navstyle.css')) {
@@ -273,7 +273,7 @@ function ceo_run_css() {
 			} elseif (file_exists(ceo_pluginfo('plugin_path') . 'images/nav/' . ceo_pluginfo('graphic_navigation_directory') . '/navstyle.css')) {
 				wp_register_style('comiceasel-navstyle', ceo_pluginfo('plugin_url').'images/nav/'. ceo_pluginfo('graphic_navigation_directory'). '/navstyle.css');
 			} else 
-				wp_register_style('comiceasel-navstyle', ceo_pluginfo('plugin_url').'/css/navstyle.css');
+				wp_register_style('comiceasel-navstyle', ceo_pluginfo('plugin_url').'css/navstyle.css');
 			wp_enqueue_style('comiceasel-navstyle');
 		}
 	}
