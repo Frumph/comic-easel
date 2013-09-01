@@ -33,7 +33,7 @@ function ceo_latest_comic_jump() {
 			$qposts = reset($qposts);
 			wp_redirect( get_permalink( $qposts->ID ).$respond );
 		} else {
-			wp_redirect( bloginfo('url') );
+			wp_redirect( home_url() );
 		}
 	} else {
 		$args = array( 
@@ -47,6 +47,8 @@ function ceo_latest_comic_jump() {
 		if (is_array($qposts)) {
 			$qposts = reset($qposts);
 			wp_redirect( get_permalink( $qposts->ID ).$respond );
+		} else {
+			wp_redirect( home_url() );
 		}
 	}
 	wp_reset_query();

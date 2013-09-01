@@ -152,6 +152,35 @@ function ceo_display_comic_gallery($size = 'full') {
 	return apply_filters('ceo_display_comic_gallery', $output);
 }
 
+function ceo_display_flash_comic($post, $flash_url) {
+	$height = get_post_meta( $post->ID, "flash_height", true );
+	$width = get_post_meta( $post->ID, "flash_width", true );
+	if (empty($height)) $height = '380';
+	if (empty($width)) $width = '520';
+	$output = '';
+	$output .= '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="'.$width.'" height="'.$height.'" id="flash_comic" align="middle">'."\r\n";
+	$output .= '	<param name="movie" value="'.$flash_url.'"/>'."\r\n";
+	$output .= '    <!--[if !IE]>-->'."\r\n";
+	$output .= '    <object type="application/x-shockwave-flash" data="'.$flash_url.'" width="'.$width.'" height="'.$height.'">'."\r\n";
+	$output .= '        <param name="movie" value="'.$flash_url.'"/>'."\r\n";
+	$output .= '    <!--<![endif]-->'."\r\n";
+	$output .= '        <a href="http://www.adobe.com/go/getflash">'."\r\n";
+	$output .= '            <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player"/>'."\r\n";
+	$output .= '        </a>'."\r\n";
+	$output .= '    <!--[if !IE]>-->'."\r\n";
+	$output .= '    </object>'."\r\n";
+	$output .= '    <!--<![endif]-->'."\r\n";
+	$output .= '</object>';
+	add_action('wp_footer', 'ceo_init_comic_swf');
+	return apply_filters('ceo_display_flash_comic', $output);
+}
+
+function ceo_init_comic_swf() {
+	wp_enqueue_script('swfobject', '', array(), false, true);
+}
+
+
+
 function ceo_display_comic($size = 'full') {
 	global $post;
     if ( post_password_required() ) { 
@@ -159,10 +188,11 @@ function ceo_display_comic($size = 'full') {
     }
 	$output = '';
 	if (ceo_the_above_html()) $output .= html_entity_decode(ceo_the_above_html())."\r\n";
-	
-	$motion_artist_comic = get_post_meta( $post->ID, 'ma-directory', true );
-	if ($motion_artist_comic && !defined('CEO_FEATURE_DISABLE_MOTION_ARTIST')) {
+
+	if (($motion_artist_comic = get_post_meta( $post->ID, 'ma-directory', true )) == true) {
 		$output .= ceo_display_motion_artist_comic($motion_artist_comic);
+	} elseif (($flash_file = get_post_meta($post->ID, "flash_file", true)) == true) {
+		$output .= ceo_display_flash_comic($post, $flash_file);
 	} else {
 		$comic_galleries = get_post_meta( $post->ID, 'comic-gallery', true );
 		if ($comic_galleries) {

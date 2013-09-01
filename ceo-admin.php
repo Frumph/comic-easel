@@ -2,13 +2,21 @@
 
 // actions
 add_action('admin_menu', 'ceo_add_menu_pages');
-
+add_action('admin_enqueue_scripts', 'ceo_comic_editor_scripts', 10, 1 );
 if (ceo_pluginfo('add_dashboard_frumph_feed_widget'))
 	add_action('wp_dashboard_setup', 'ceo_add_dashboard_widgets' );
 
-// add_action( 'admin_notices', 'ceo_test_information' );
+function ceo_comic_editor_scripts( $hook ) {
+	global $post;
+	if ( $hook == 'post-new.php' || $hook == 'post.php' ) {
+		if ('comic' === $post->post_type) {
+			wp_enqueue_script('ceo-upload-flash', ceo_pluginfo('plugin_url').'js/upload-flash.js');
+			wp_enqueue_media();
+		}
+	}
+}
 
-// INIT ComicPress Manager pages & hook activation of scripts per page.
+
 function ceo_add_menu_pages() {
 	global $pagenow, $post_type;
 	

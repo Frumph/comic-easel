@@ -319,8 +319,7 @@ function ceo_edit_html_below_comic($post) {
 <?php
 }
 
-function ceo_edit_buycomic_in_post() { 
-	global $post;
+function ceo_edit_buycomic_in_post($post) { 
 	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
 	$currentbuyprintoption = get_post_meta( $post->ID, 'buyprint-status', true );
 	if (empty($currentbuyprintoption)) $currentbuyprintoption = __('Available','comiceasel');
@@ -358,7 +357,17 @@ function ceo_edit_buycomic_in_post() {
 	<?php 
 }
 
-
+function ceo_flash_upload_box($post) { ?>
+<label for="upload_flash">
+    <?php _e('Enter a URL or upload a flash comic.','comiceasel'); ?><br />
+    <input id="flash_file" class="flash_file" type="text" name="flash_file" value="<?php echo get_post_meta( $post->ID, 'flash_file', true ); ?>" />
+    <input name="upload_flash_button" class="upload_flash_button" type="button" value="<?php _e('Upload Flash','comiceasel'); ?>" /><br />
+</label>
+<br />
+<?php _e('Set the dimensions of the flash .swf comic.','comiceasel'); ?><br />
+<label for="flash_height"><?php _e('Height:','comiceasel'); ?> <input id="flash_height" name="flash_height" type="text" value="<?php echo get_post_meta( $post->ID, 'flash_height', true ); ?>" /></label>
+<label for="flash_width"><?php _e('Width:','comiceasel'); ?> <input id="flash_width" name="flash_width" type="text" value="<?php echo get_post_meta( $post->ID, 'flash_width', true ); ?>" /></label><br />
+<?php }
 
 function ceo_add_comic_in_post() {
 //	add_meta_box('ceo_comic_in_post', __('Comic Directions', 'comiceasel'), 'ceo_edit_comic_in_post', 'comic', 'side', 'high');
@@ -380,7 +389,8 @@ function ceo_add_comic_in_post() {
 	}
 	if (!defined('CEO_FEATURE_DISABLE_MOTION_ARTIST') && ceo_pluginfo('enable_motion_artist_support'))
 		add_meta_box('ceo_select_motion_artist_directory_in_post', __('Select Motion Artist Comic', 'comiceasel'), 'ceo_edit_select_motion_artist_directory_in_post', 'comic', 'side', 'low');
-		
+	if (!defined('CEO_FEATURE_FLASH_UPLOAD'))
+		add_meta_box('ceo_flash_upload', __('Add Flash Comic', 'comiceasel'), 'ceo_flash_upload_box', 'comic', 'normal', 'high');
 	$context_output = '<ul><ol>';
 	$context_output .= '<li>'.__('Add a title to the comic.&nbsp; Titles must be alpha-numerical, not just numbers.','comiceasel').'</li>';
 	$context_output .= '<li>'.__('Add some info to the blog section of the comic if you want to (not required).','comiceasel').'</li>';
@@ -448,7 +458,10 @@ function ceo_handle_edit_save_comic($post_id, $post) {
 			'buy_print_amount',
 			'buyprint-status',
 			'buy_print_orig_amount',
-			'buyorig-status'
+			'buyorig-status',
+			'flash_file',
+			'flash_height',
+			'flash_width'
 			);
 			
 	foreach ($meta_array as $meta_key) {
