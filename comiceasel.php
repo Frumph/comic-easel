@@ -41,12 +41,14 @@ function ceo_initialize_post_types() {
 				'edit_item' => __('Edit Comic','comiceasel'),
 				'edit' => __('Edit', 'comiceasel'),
 				'new_item' => __('New Comic', 'comiceasel'),
+				'all_items' => __('All Comics', 'comiceasel'),
 				'view_item' => __('View Comic', 'comiceasel'),
 				'search_items' => __('Search Comics', 'comiceasel'),
 				'not_found' =>  __('No comics found', 'comiceasel'),
 				'not_found_in_trash' => __('No comics found in Trash', 'comiceasel'), 
 				'view' =>  __('View Comic', 'comiceasel'),
-				'parent_item_colon' => ''
+				'parent_item_colon' => '',
+				'menu_name' => __('Comics', 'comiceasel')
 				);
 
 		$comic_slug = ceo_pluginfo('custom_post_type_slug_name');

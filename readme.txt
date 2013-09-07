@@ -129,6 +129,8 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 = 1.5.3 =
 * Traverse comic chapters with the previous/next buttons (option) in navigation tab.
 * Added filter by columns on the comic - (all) comics page.
+* wp-admin menu name is now "comics" instead of "comic"
+* The name to show all of the comics is now "all comics" instead of just "comic"
 
 = 1.5.2 =
 * Welcome back flash comics.
