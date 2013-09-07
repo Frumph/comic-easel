@@ -3,7 +3,7 @@ Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
 Tested up to: 3.6
-Stable tag: 1.5.2
+Stable tag: 1.5.3
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -126,11 +126,15 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.5.3 =
+* Traverse comic chapters with the previous/next buttons (option) in navigation tab.
+* Added filter by columns on the comic - (all) comics page.
+
 = 1.5.2 =
-Welcome back flash comics.
+* Welcome back flash comics.
 
 = 1.5.1 =
-Fixed a bunch of extra /slashes that were after plugin_path and plugin_url - thanks Eric Merced
+* Fixed a bunch of extra /slashes that were after plugin_path and plugin_url - thanks Eric Merced
 
 = 1.5 =
 * Buy Print/Original shortcode & buttons with IPN to Paypal

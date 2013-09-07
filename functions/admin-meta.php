@@ -20,6 +20,10 @@ function ceo_admin_init() {
 	
 	add_action('create_term', 'ceo_chapters_add_edit_menu_order');
 //	add_filter('get_terms_args', 'ceo_chapters_find_menu_orderby');
+
+
+	add_action( 'restrict_manage_posts', 'ceo_filter_restrict_manage_posts' );
+	add_filter( 'parse_query', 'ceo_taxonomy_filter_post_type_request' );	
 }
 
 function ceo_chapters_add_edit_menu_order($term_id) {
@@ -155,6 +159,46 @@ function ceo_manage_comic_columns($column_name, $id) {
 	default:
 		break;
 	} // end switch
+}
+
+// Filter the request to just give posts for the given taxonomy, if applicable.
+function ceo_filter_restrict_manage_posts() {
+    global $typenow;
+	if ('comic' == $typenow) {
+		$post_types = get_post_types( array( '_builtin' => false ) );
+		if ( in_array( $typenow, $post_types ) ) {
+    		$filters = get_object_taxonomies( $typenow );
+			// remove post tag
+			$filters = array_diff($filters, array('post_tag'));
+			foreach ( $filters as $tax_slug ) {
+				$tax_obj = get_taxonomy( $tax_slug );
+				wp_dropdown_categories( array(
+					'show_option_all' => __('Show All '.$tax_obj->label ),
+					'taxonomy' 	  => $tax_slug,
+					'name' 		  => $tax_obj->name,
+					'orderby' 	  => 'name',
+					'selected' 	  => (isset($_GET[$tax_slug])) ? $_GET[$tax_slug] : '',
+					'hierarchical' 	  => $tax_obj->hierarchical,
+					'show_count' 	  => false,
+					'hide_empty' 	  => true
+				) );
+			}
+		}
+	}
+}
+
+function ceo_taxonomy_filter_post_type_request( $query ) {
+	global $pagenow, $typenow;
+	if ( 'edit.php' == $pagenow ) {
+		$filters = get_object_taxonomies( $typenow );
+		foreach ( $filters as $tax_slug ) {
+			$var = &$query->query_vars[$tax_slug];
+			if ( isset( $var ) ) {
+				$term = get_term_by( 'id', $var, $tax_slug );
+				if (!empty($term)) $var = $term->slug;
+			}
+		}
+	}
 }
 
 function ceo_edit_select_motion_artist_directory_in_post($post) {  

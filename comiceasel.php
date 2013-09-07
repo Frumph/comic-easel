@@ -3,7 +3,7 @@
 Plugin Name: Comic Easel
 Plugin URI: http://comiceasel.com
 Description: Comic Easel allows you to incorporate a WebComic using the WordPress Media Library functionality with Navigation into almost all WordPress themes. With just a few modifications of adding injection do_action locations into a theme, you can have the theme of your choice display and manage a webcomic.
-Version: 1.5.2
+Version: 1.5.3
 Author: Philip M. Hofer (Frumph)
 Author URI: http://frumph.net/
 
@@ -372,7 +372,8 @@ function ceo_load_options($reset = false) {
 			'buy_comic_print_amount' => '25.00',
 			'buy_comic_sell_original' => true,
 			'buy_comic_orig_amount' => '65.00',
-			'buy_comic_text' => __('*Additional shipping charges will applied at time of purchase.','comiceasel')
+			'buy_comic_text' => __('*Additional shipping charges will applied at time of purchase.','comiceasel'),
+			'enable_prevnext_chapter_traversing' => false
 		) as $field => $value) {
 			$ceo_config[$field] = $value;
 		}
@@ -417,13 +418,14 @@ function ceo_pluginfo($whichinfo = null) {
 				// comic-easel plugin directory/url
 				'plugin_url' => plugin_dir_url(__FILE__),
 				'plugin_path' => plugin_dir_path(__FILE__),
-				'version' => '1.5'
+				'version' => '1.5.3'
 		);
 		// Combine em.
 		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_addinfo);
 		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_options);
 		if (!isset($ceo_pluginfo['disable_style_sheet'])) $ceo_pluginfo['disable_style_sheet'] = false;
 		if (!isset($ceo_pluginfo['enable_transcripts_in_comic_posts'])) $ceo_pluginfo['enable_transcripts_in_comic_posts'] = false;
+		if (!isset($ceo_pluginfo['enable_prevnext_chapter_traversing'])) $ceo_pluginfo['enable_prevnext_chapter_traversing'] = false;
 	}
 	if ($whichinfo) {
 		if (isset($ceo_pluginfo[$whichinfo])) {
