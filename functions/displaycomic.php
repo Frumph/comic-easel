@@ -191,10 +191,14 @@ function ceo_display_comic($size = 'full') {
 	$output = '';
 	if (ceo_the_above_html()) $output .= html_entity_decode(ceo_the_above_html())."\r\n";
 
-	if (($motion_artist_comic = get_post_meta( $post->ID, 'ma-directory', true )) == true) {
+	if ($motion_artist_comic = get_post_meta( $post->ID, 'ma-directory', true )) {
 		$output .= ceo_display_motion_artist_comic($motion_artist_comic);
-	} elseif (($flash_file = get_post_meta($post->ID, "flash_file", true)) == true) {
+	} elseif ($flash_file = get_post_meta($post->ID, "flash_file", true)) {
 		$output .= ceo_display_flash_comic($post, $flash_file);
+	} elseif ($media_url = get_post_meta( $post->ID, 'media_url', true )) {
+		$output .= '<center>';
+		$output .= wp_oembed_get( $media_url );
+		$output .= '</center>';
 	} else {
 		$comic_galleries = get_post_meta( $post->ID, 'comic-gallery', true );
 		if ($comic_galleries) {

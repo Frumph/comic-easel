@@ -329,6 +329,16 @@ function ceo_edit_toggles_in_post($post) {
 <?php
 }
 
+function ceo_media_embed_box($post) {
+	$media_url = get_post_meta($post->ID, 'media_url', true);
+	if (empty($media_url)) $media_url = '';
+?>
+You can add the url from:<br />
+blip.tv, DailyMotion, FunnyOrDie.com, Hulu, Instagram, Qik, Photobucket, Rdio, Revision3, Scribd, SlideShare, Smugmug, SoundCloud, Spotify, Youtube, Twitter, Vimeo, WordPress.tv<br />
+	<input id="media_url" name="media_url" type="input" style="width: 80%" value="<?php echo $media_url; ?>" />
+<?php
+}
+
 function ceo_edit_hovertext_in_post($post) { 
 	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
 	$hovertext = esc_attr( get_post_meta( $post->ID, 'comic-hovertext', true ) );
@@ -435,6 +445,8 @@ function ceo_add_comic_in_post() {
 		add_meta_box('ceo_select_motion_artist_directory_in_post', __('Select Motion Artist Comic', 'comiceasel'), 'ceo_edit_select_motion_artist_directory_in_post', 'comic', 'side', 'low');
 	if (!defined('CEO_FEATURE_FLASH_UPLOAD'))
 		add_meta_box('ceo_flash_upload', __('Add Flash Comic', 'comiceasel'), 'ceo_flash_upload_box', 'comic', 'normal', 'high');
+	if (defined('CEO_FEATURE_MEDIA_EMBED')) 
+		add_meta_box('ceo_media_embed_file', __('Media Url', 'comiceasel'), 'ceo_media_embed_box', 'comic', 'normal', 'low');
 	$context_output = '<ul><ol>';
 	$context_output .= '<li>'.__('Add a title to the comic.&nbsp; Titles must be alpha-numerical, not just numbers.','comiceasel').'</li>';
 	$context_output .= '<li>'.__('Add some info to the blog section of the comic if you want to (not required).','comiceasel').'</li>';
@@ -505,7 +517,8 @@ function ceo_handle_edit_save_comic($post_id, $post) {
 			'buyorig-status',
 			'flash_file',
 			'flash_height',
-			'flash_width'
+			'flash_width',
+			'media_url'
 			);
 			
 	foreach ($meta_array as $meta_key) {
