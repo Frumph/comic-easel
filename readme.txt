@@ -2,8 +2,8 @@
 Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
-Tested up to: 3.6
-Stable tag: 1.5.3
+Tested up to: 3.6.1
+Stable tag: 1.5.4
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -126,10 +126,12 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.5.4 =
+* CSS: removed the padding in #comic-foot and on #comic
+
 = 1.5.3 =
 * Traverse comic chapters with the previous/next buttons (option) in navigation tab.
 * Added filter by columns on the comic - (all) comics page.
-* wp-admin menu name is now "comics" instead of "comic"
 * The name to show all of the comics is now "all comics" instead of just "comic"
 
 = 1.5.2 =
