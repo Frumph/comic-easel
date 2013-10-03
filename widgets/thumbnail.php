@@ -43,13 +43,14 @@ class ceo_thumbnail_widget extends WP_Widget {
 		$thumbnail_query = new WP_Query($comic_query);
 		$archive_image = null;
 		if ($thumbnail_query->have_posts()) {
+			echo $before_widget;
+			$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']); 
+			if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
 			while ($thumbnail_query->have_posts()) : $thumbnail_query->the_post();
 				$the_permalink = get_permalink($post->ID);
 				if (!isset($instance['same'])) $instance['same'] = false;
 				if ($instance['same'] && ($the_permalink == $current_permalink)) return;
-				echo $before_widget;
-				$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']); 
-				if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
+
 				echo '<div class="comic-thumb comic-thumb-'.$post->ID.'">';
 				if ($instance['centering']) echo "\r\n<center>\r\n";
 				if (isset($instance['secondary']) && $instance['secondary'] && class_exists('MultiPostThumbnails')) {
@@ -73,8 +74,8 @@ class ceo_thumbnail_widget extends WP_Widget {
 				if ($instance['linktitle']) { echo '<div class="comic-thumb-title"><a href="'.$the_permalink.'" rel="bookmark" title="Permanent Link to '.get_the_title().'">'.get_the_title().'</a></div><div class="clear"></div>'; }
 				echo '</div>';
 				if ($instance['centering']) echo "\r\n</center>\r\n";
-				echo $after_widget;
 			endwhile;
+			echo $after_widget;
 		}
 		ceo_unprotect();
 	}
