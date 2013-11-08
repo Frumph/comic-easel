@@ -3,7 +3,7 @@
 Plugin Name: Comic Easel
 Plugin URI: http://comiceasel.com
 Description: Comic Easel allows you to incorporate a WebComic using the WordPress Media Library functionality with Navigation into almost all WordPress themes. With just a few modifications of adding injection do_action locations into a theme, you can have the theme of your choice display and manage a webcomic.
-Version: 1.5.4
+Version: 1.5.5
 Author: Philip M. Hofer (Frumph)
 Author URI: http://frumph.net/
 
@@ -64,7 +64,7 @@ function ceo_initialize_post_types() {
 					'query_var' => 'comic', // was true
 					'capability_type' => 'post',
 					'taxonomies' => array( 'post_tag' ),
-					'rewrite' => array( 'slug' => $comic_slug, 'with_front' => true, 'feeds' => true ),
+					'rewrite' => array( 'slug' => $comic_slug, 'with_front' => false, 'feeds' => true ),
 					'hierarchical' => false,
 					'can_export' => true,
 					'show_in_menu' => true,
@@ -259,6 +259,7 @@ if (is_admin()) {
 	@require('functions/admin-meta.php');
 } else {
 	add_action('wp_print_styles', 'ceo_run_css', 1);
+	add_action('wp_enqueue_scripts', 'ceo_run_scripts', 1);
 }
 
 // This style needs to be loaded on all the comic-easel pages inside ceo-core.php instead.
@@ -279,6 +280,10 @@ function ceo_run_css() {
 			wp_enqueue_style('comiceasel-navstyle');
 		}
 	}
+}
+
+function ceo_run_scripts() {
+	wp_enqueue_script('comicpress_keynav', ceo_pluginfo('plugin_url').'js/keynav.js', null, null, true);
 }
 
 function ceo_chapters_activate() {

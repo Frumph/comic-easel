@@ -82,3 +82,22 @@ function ceo_is_chapter($chapter = '') {
 	}
 	return false;
 }
+
+function ceo_test_is_chapter_in_story($story_id = 0) {
+	global $post;
+	if (!empty($post) && !empty($story_id) && ($post->post_type == 'comic')) {
+		$children_array = array();
+		$children = get_term_children($story_id, 'chapters');
+		foreach ($children as $child) {
+			$children_array[] = $child->term_id;
+		}
+		if (!empty($children_array)) {
+			// get current child ID
+			$terms = wp_get_object_terms($post->ID, 'chapters');
+			foreach ($terms as $term) {
+				if (in_array($term->term_id, $children_array)) return true;
+			}
+		}
+	}
+	return false;
+}

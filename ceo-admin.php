@@ -118,4 +118,3 @@ function ceo_enqueue_admin_cpt_style( $cpt, $handle, $src = false, $deps = array
 		wp_enqueue_style( $handle, $src, $deps, $ver, $media );
 }
 
-?>
