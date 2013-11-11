@@ -2,6 +2,7 @@
 
 add_action('admin_init', 'ceo_admin_init');
 
+
 function ceo_admin_init() {
 	add_filter('manage_edit-comic_columns', 'ceo_add_new_comic_columns');
 	add_action('manage_posts_custom_column', 'ceo_manage_comic_columns', 10, 2);
@@ -465,6 +466,18 @@ function ceo_add_comic_in_post() {
 				'title'   => __( 'Instructions' ),
 				'content' => $context_output,
 			) );
+	add_action('admin_footer', 'ceo_change_chapter_to_radio');
+	add_action('admin_notices', 'ceo_test_for_errors');
+}
+
+function ceo_test_for_errors() {
+	global $post; 
+	if (is_numeric($post->post_name)) { ?>
+	<div class="error">
+		<h2><?php _e('Problem: ','comiceasel'); ?></h2>
+		<?php echo __('The slug for this comic post "','comiceasel').$post->post_name.__('" is numerical.  It needs to have a letter or character added to it to not be recognized as a date.  P.S. Cannot use these characters: !&#@','comiceasel'); ?><br />
+	</div>
+<?php }
 }
 
 function wps_help ( $post_type , $post ) {

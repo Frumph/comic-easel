@@ -3,7 +3,7 @@ Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
 Tested up to: 3.7.1
-Stable tag: 1.5.5
+Stable tag: 1.5.6
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -126,8 +126,13 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.5.6 =
+* Changed the 'chapter' select to radio instead of checkbox, can only have one chapter selected.
+* Added an error message when editing a post that will display if the slug of the comic is numerical.
+
 = 1.5.5 = 
 * JS, added keyboard navigation .js file - auto-on always
+* the thumbnail widget when you have multiple thumbs showing now has the wrapper on the outside and individuals inside of that wrapper
 
 = 1.5.4 =
 * CSS: removed the padding in #comic-foot and on #comic

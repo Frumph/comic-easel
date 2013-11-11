@@ -14,8 +14,18 @@ function ceo_comic_editor_scripts( $hook ) {
 			wp_enqueue_media();
 		}
 	}
+	if ($hook == 'edit.php') {
+		if ('comic' == $post->post_type) {
+			add_action('admin_footer', 'ceo_change_chapter_to_radio');
+		}
+	}
 }
 
+function ceo_change_chapter_to_radio(){
+	echo '<script type="text/javascript">';
+	echo 'jQuery("#chapterschecklist input, .chapters-checklist input")';
+	echo '.each(function(){this.type="radio"});</script>';
+}
 
 function ceo_add_menu_pages() {
 	global $pagenow, $post_type;
