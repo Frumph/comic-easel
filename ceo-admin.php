@@ -124,7 +124,25 @@ function ceo_enqueue_admin_cpt_style( $cpt, $handle, $src = false, $deps = array
 	}
  
 	/* Only enqueue if editor page is the correct CPT. */
-	if( $enqueue )
-		wp_enqueue_style( $handle, $src, $deps, $ver, $media );
+	if ($enqueue) wp_enqueue_style( $handle, $src, $deps, $ver, $media );
 }
+
+
+/*
+// Dysfunctional Code
+function ceo_comic_shortlinks( $shortlink, $id, $context, $allow_slugs=true ) {
+	var_dump($context);
+	if (('post' == $context) && !$shortlink) {
+		if (function_exists('wpme_get_shortlink')) {
+			$blog_id = Jetpack_Options::get_option( 'id' );
+			$type= 'p';
+			$shortlink = 'http://wp.me/' . wpme_dec2sixtwo( $id );
+			var_dump($shortlink);
+		} else {
+			$shortlink = home_url('?p='.$post->ID);
+		}
+	}
+	return $shortlink;
+}
+*/
 
