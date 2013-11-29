@@ -45,35 +45,35 @@ class ceo_thumbnail_widget extends WP_Widget {
 		if ($thumbnail_query->have_posts()) {
 			echo $before_widget;
 			$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']); 
-			if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
+			if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };			
 			while ($thumbnail_query->have_posts()) : $thumbnail_query->the_post();
 				$the_permalink = get_permalink($post->ID);
 				if (!isset($instance['same'])) $instance['same'] = false;
-				if ($instance['same'] && ($the_permalink == $current_permalink)) return;
-
-				echo '<div class="comic-thumb comic-thumb-'.$post->ID.'">';
-				if ($instance['centering']) echo "\r\n<center>\r\n";
-				if (isset($instance['secondary']) && $instance['secondary'] && class_exists('MultiPostThumbnails')) {
-					$secondary_image = MultiPostThumbnails::get_the_post_thumbnail(get_post_type(), 'secondary-image', $post->ID,  'secondary-image');
-					if (!empty($secondary_image)) {
-						echo "<a href=\"".$the_permalink."\" rel=\"bookmark\" title=\"Permanent Link to ".get_the_title()."\">".$secondary_image."</a>\r\n";
+				if (!($instance['same'] && ($the_permalink == $current_permalink))) {
+					echo '<div class="comic-thumb-wrap comic-thumb-'.$post->ID.'">';
+					if ($instance['centering']) echo "\r\n<center>\r\n";
+					if (isset($instance['secondary']) && $instance['secondary'] && class_exists('MultiPostThumbnails')) {
+						$secondary_image = MultiPostThumbnails::get_the_post_thumbnail(get_post_type(), 'secondary-image', $post->ID,  'secondary-image');
+						if (!empty($secondary_image)) {
+							echo "<a href=\"".$the_permalink."\" rel=\"bookmark\" title=\"Permanent Link to ".get_the_title()."\">".$secondary_image."</a>\r\n";
+						} else {
+							if ( has_post_thumbnail($post->ID) ) {
+								echo "<a href=\"".$the_permalink."\" rel=\"bookmark\" title=\"Permanent Link to ".get_the_title()."\">".get_the_post_thumbnail($post->ID, 'thumbnail')."</a>\r\n";
+							} else {
+								echo "No Thumbnail Found.";	
+							}							
+						}
 					} else {
 						if ( has_post_thumbnail($post->ID) ) {
 							echo "<a href=\"".$the_permalink."\" rel=\"bookmark\" title=\"Permanent Link to ".get_the_title()."\">".get_the_post_thumbnail($post->ID, 'thumbnail')."</a>\r\n";
 						} else {
 							echo "No Thumbnail Found.";	
-						}							
+						}
 					}
-				} else {
-					if ( has_post_thumbnail($post->ID) ) {
-						echo "<a href=\"".$the_permalink."\" rel=\"bookmark\" title=\"Permanent Link to ".get_the_title()."\">".get_the_post_thumbnail($post->ID, 'thumbnail')."</a>\r\n";
-					} else {
-						echo "No Thumbnail Found.";	
-					}
+					if ($instance['linktitle']) { echo '<div class="comic-thumb-title"><a href="'.$the_permalink.'" rel="bookmark" title="Permanent Link to '.get_the_title().'">'.get_the_title().'</a></div><div class="clear"></div>'; }
+					if ($instance['centering']) echo "\r\n</center>\r\n";
+					echo "</div>\r\n";
 				}
-				if ($instance['linktitle']) { echo '<div class="comic-thumb-title"><a href="'.$the_permalink.'" rel="bookmark" title="Permanent Link to '.get_the_title().'">'.get_the_title().'</a></div><div class="clear"></div>'; }
-				echo '</div>';
-				if ($instance['centering']) echo "\r\n</center>\r\n";
 			endwhile;
 			echo $after_widget;
 		}
