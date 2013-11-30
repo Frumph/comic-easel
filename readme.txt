@@ -3,7 +3,7 @@ Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
 Tested up to: 3.7.2
-Stable tag: 1.5.7
+Stable tag: 1.5.7.1
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -126,6 +126,9 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.5.7.1 =
+Apostrophy fix for the keynav.js file
+
 = 1.5.7 =
 * Fix for the mishit of thumbnail widget messing up the page if not to show on the same page checkmark is done
 * Fix for the keyboard navigation if someone wants to type a comment and use arrows in there
