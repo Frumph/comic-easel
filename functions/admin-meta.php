@@ -336,6 +336,7 @@ function ceo_media_embed_box($post) {
 ?>
 You can add the url from:<br />
 blip.tv, DailyMotion, FunnyOrDie.com, Hulu, Instagram, Qik, Photobucket, Rdio, Revision3, Scribd, SlideShare, Smugmug, SoundCloud, Spotify, Youtube, Twitter, Vimeo, WordPress.tv<br />
+<em>You still need to add a featured image to be used as the thumbnail.</em><br />
 	<input id="media_url" name="media_url" type="input" style="width: 80%" value="<?php echo $media_url; ?>" />
 <?php
 }
@@ -446,8 +447,8 @@ function ceo_add_comic_in_post() {
 		add_meta_box('ceo_select_motion_artist_directory_in_post', __('Select Motion Artist Comic', 'comiceasel'), 'ceo_edit_select_motion_artist_directory_in_post', 'comic', 'side', 'low');
 	if (!defined('CEO_FEATURE_FLASH_UPLOAD'))
 		add_meta_box('ceo_flash_upload', __('Add Flash Comic', 'comiceasel'), 'ceo_flash_upload_box', 'comic', 'normal', 'high');
-	if (defined('CEO_FEATURE_MEDIA_EMBED')) 
-		add_meta_box('ceo_media_embed_file', __('Media Url', 'comiceasel'), 'ceo_media_embed_box', 'comic', 'normal', 'low');
+	if (!defined('CEO_FEATURE_MEDIA_EMBED')) 
+		add_meta_box('ceo_media_embed_file', __('Media Url as Comic', 'comiceasel'), 'ceo_media_embed_box', 'comic', 'normal', 'low');
 	$context_output = '<ul><ol>';
 	$context_output .= '<li>'.__('Add a title to the comic.&nbsp; Titles must be alpha-numerical, not just numbers.','comiceasel').'</li>';
 	$context_output .= '<li>'.__('Add some info to the blog section of the comic if you want to (not required).','comiceasel').'</li>';
