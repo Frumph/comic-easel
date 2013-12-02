@@ -181,8 +181,6 @@ function ceo_init_comic_swf() {
 	wp_enqueue_script('swfobject', '', array(), false, true);
 }
 
-
-
 function ceo_display_comic($size = 'full') {
 	global $post;
     if ( post_password_required() ) { 
@@ -197,7 +195,12 @@ function ceo_display_comic($size = 'full') {
 		$output .= ceo_display_flash_comic($post, $flash_file);
 	} elseif (($media_url = get_post_meta( $post->ID, 'media_url', true )) && !defined('CEO_FEATURE_MEDIA_EMBED')) {
 		$output .= '<center>';
+		global $content_width;
+		$old_content_width = $content_width;
+		$media_width = get_post_meta($post->ID, 'media_width', true);
+		if (!empty($media_width)) $content_width = $media_width;
 		$output .= wp_oembed_get( $media_url );
+		$content_width=$old_content_width;
 		$output .= '</center>';
 	} else {
 		$comic_galleries = get_post_meta( $post->ID, 'comic-gallery', true );
@@ -206,8 +209,7 @@ function ceo_display_comic($size = 'full') {
 		} else {
 			$output .= ceo_display_featured_image_comic($size);
 		}
-	}
-	
+	}	
 	if (ceo_the_below_html()) $output .= html_entity_decode(ceo_the_below_html())."\r\n";
 	if ($output) { 
 		return apply_filters('ceo_comics_display_comic', $output);

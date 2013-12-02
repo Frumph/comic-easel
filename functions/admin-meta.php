@@ -332,12 +332,18 @@ function ceo_edit_toggles_in_post($post) {
 
 function ceo_media_embed_box($post) {
 	$media_url = get_post_meta($post->ID, 'media_url', true);
+	$media_width = get_post_meta($post->ID, 'media_width', true);
 	if (empty($media_url)) $media_url = '';
+	if (empty($media_width)) {
+		global $content_width;
+		$media_width = $content_width;
+	}
 ?>
 You can add the url from:<br />
 blip.tv, DailyMotion, FunnyOrDie.com, Hulu, Instagram, Qik, Photobucket, Rdio, Revision3, Scribd, SlideShare, Smugmug, SoundCloud, Spotify, Youtube, Twitter, Vimeo, WordPress.tv<br />
 <em>You still need to add a featured image to be used as the thumbnail.</em><br />
-	<input id="media_url" name="media_url" type="input" style="width: 80%" value="<?php echo $media_url; ?>" />
+	<input id="media_url" name="media_url" type="input" style="width: 80%" value="<?php echo $media_url; ?>" /><br />
+	Width to use (default is global $content_width): <input id="media_width" name="media_width" type="input" style="width: 100px;" value="<?php echo $media_width; ?>" /> 
 <?php
 }
 
@@ -532,7 +538,8 @@ function ceo_handle_edit_save_comic($post_id, $post) {
 			'flash_file',
 			'flash_height',
 			'flash_width',
-			'media_url'
+			'media_url',
+			'media_width'
 			);
 			
 	foreach ($meta_array as $meta_key) {
