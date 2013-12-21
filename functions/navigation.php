@@ -6,6 +6,10 @@ function ceo_get_first_comic($in_chapter = false) {
 	$current_chapter_id = 0;
 	if (is_array($current_chapter) && $in_chapter) {
 		$current_chapter = reset($current_chapter);
+		if (ceo_pluginfo('enable_prevnext_chapter_traversing')) {
+			$parent_chapter = get_term( $current_chapter->parent, 'chapters' );
+			if (!empty($parent_chapter)) $current_chapter = $parent_chapter;
+		}
 		$current_chapter_id = $current_chapter->term_id;
 	}
 	return ceo_get_terminal_post_of_chapter($current_chapter_id, true);
@@ -27,6 +31,10 @@ function ceo_get_last_comic($in_chapter = false) {
 	$current_chapter_id = 0;
 	if (is_array($current_chapter) && $in_chapter) {
 		$current_chapter = reset($current_chapter); 
+		if (ceo_pluginfo('enable_prevnext_chapter_traversing')) {
+			$parent_chapter = get_term( $current_chapter->parent, 'chapters' );
+			if (!empty($parent_chapter)) $current_chapter = $parent_chapter;
+		}
 		$current_chapter_id = $current_chapter->term_id;
 	}	
 	return ceo_get_terminal_post_of_chapter($current_chapter_id, false);
