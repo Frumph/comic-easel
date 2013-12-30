@@ -217,7 +217,17 @@ if ($check_term) { ?>
 						<br />
 						<span style='color: #b00;'><?php _e('IMPORTANT - If you change this from the default remember to go to settings -> permalink and click SAVE so that the permalink structure can be recognized by WordPress','comiceasel'); ?></span>
 					</td>
-				</tr>			
+				</tr>
+				<tr class="alternate">
+					<?php if (!isset($ceo_options['disable_cal_rewrite_rules'])) $ceo_options['disable_cal_rewrite_rules'] = false; ?>
+					<th scope="row"><label for="disable_cal_rewrite_rules"><?php _e('Disable the regeneration of the rewrite rules so numerical slugs get turned into dates?','comiceasel'); ?></label></th>
+					<td>
+						<input id="disable_cal_rewrite_rules" name="disable_cal_rewrite_rules" type="checkbox" value="1" <?php checked(true, $ceo_options['disable_cal_rewrite_rules']); ?> />
+					</td>
+					<td>
+						<?php _e('This option disables the url line from interpreting numerical numbers as dates.','comiceasel'); ?>
+					</td>
+				</tr>
 			</table>
 		</div>
 		<br />

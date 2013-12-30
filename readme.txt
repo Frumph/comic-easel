@@ -2,8 +2,8 @@
 Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
-Tested up to: 3.7.2
-Stable tag: 1.5.8.1
+Tested up to: 3.8
+Stable tag: 1.5.9
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -126,6 +126,9 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.5.9 =
+* Added option to disable the rewrite rules regeneration
+
 = 1.5.8.1 =
 * Add input box for changing the width of the media url as comic
 

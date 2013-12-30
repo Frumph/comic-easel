@@ -103,7 +103,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 			?>
 			<a href="<?php echo home_url(); ?>/?random&amp;nocache=1<?php echo $stay; ?>" class="navi navi-random" title="<?php echo $instance['random_title']; ?>"><?php echo $instance['random_title']; ?></a>
 		<?php }
-		if (ceo_pluginfo('enable_buy_comic') && $instance['buycomic']) {
+		if (ceo_pluginfo('enable_buy_comic') && isset($instance['buycomic']) && $instance['buycomic']) {
 			if (strpos(ceo_pluginfo('buy_comic_url'), '?') !== false) {
 				$bpsep = '&';
 			} else {

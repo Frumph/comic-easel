@@ -467,14 +467,13 @@ function ceo_add_comic_in_post() {
 	$context_output .= '</ol></ul>';
 	$context_output .= __('You can move the editor boxes around.&nbsp;  Drag them to where it would suit your individual taste in where you want them.','comiceasel').'<br /><br />';
 	$context_output .= __('Minimize these directions by clicking the title of the box.','comiceasel');
-
 	get_current_screen()->add_help_tab( array(
 				'id'      => 'my-help-id',
 				'title'   => __( 'Instructions' ),
 				'content' => $context_output,
 			) );
 	add_action('admin_footer', 'ceo_change_chapter_to_radio');
-	if (!defined('CEO_FEATURE_TEST_FOR_ERRORS'))
+	if (!defined('CEO_FEATURE_DISABLE_TEST_FOR_ERRORS') && !defined('CEO_FEATURE_DISABLE_REWRITE_RULES') && !ceo_pluginfo('disable_cal_rewrite_rules'))
 		add_action('admin_notices', 'ceo_test_for_errors');
 }
 

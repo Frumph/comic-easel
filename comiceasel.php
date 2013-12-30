@@ -3,11 +3,11 @@
 Plugin Name: Comic Easel
 Plugin URI: http://comiceasel.com
 Description: Comic Easel allows you to incorporate a WebComic using the WordPress Media Library functionality with Navigation into almost all WordPress themes. With just a few modifications of adding injection do_action locations into a theme, you can have the theme of your choice display and manage a webcomic.
-Version: 1.5.8.1
+Version: 1.5.9
 Author: Philip M. Hofer (Frumph)
 Author URI: http://frumph.net/
 
-Copyright 2012,2013 Philip M. Hofer (Frumph)  (email : philip@frumph.net)
+Copyright 2012,2013,2014 Philip M. Hofer (Frumph)  (email : philip@frumph.net)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -148,19 +148,17 @@ function ceo_initialize_post_types() {
 					'query_var' => true,
 					'show_tagcloud' => false,
 					'rewrite' => array( 'slug' => 'location', 'with_front' => true, 'feeds' => false ),
-					));				
-
+					));	
 //		register_taxonomy_for_object_type('category', 'comic');
 		register_taxonomy_for_object_type('post_tag', 'comic');
 		register_taxonomy_for_object_type('chapters', 'comic');
 		register_taxonomy_for_object_type('characters', 'comic');
 		register_taxonomy_for_object_type('locations', 'comic');
-		
-
 	}
 }
 
-add_action('generate_rewrite_rules', 'ceo_datearchives_rewrite_rules');
+if (!defined('CEO_FEATURE_DISABLE_REWRITE_RULES') && !ceo_pluginfo('disable_cal_rewrite_rules'))
+	add_action('generate_rewrite_rules', 'ceo_datearchives_rewrite_rules');
 
 function ceo_datearchives_rewrite_rules($wp_rewrite) {
 	$rules = ceo_generate_date_archives('comic', $wp_rewrite);
@@ -380,7 +378,8 @@ function ceo_load_options($reset = false) {
 			'buy_comic_sell_original' => true,
 			'buy_comic_orig_amount' => '65.00',
 			'buy_comic_text' => __('*Additional shipping charges will applied at time of purchase.','comiceasel'),
-			'enable_prevnext_chapter_traversing' => false
+			'enable_prevnext_chapter_traversing' => false,
+			'disable_cal_rewrite_rules' => false
 		) as $field => $value) {
 			$ceo_config[$field] = $value;
 		}
