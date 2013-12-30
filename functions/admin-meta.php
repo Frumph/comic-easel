@@ -474,7 +474,8 @@ function ceo_add_comic_in_post() {
 				'content' => $context_output,
 			) );
 	add_action('admin_footer', 'ceo_change_chapter_to_radio');
-	add_action('admin_notices', 'ceo_test_for_errors');
+	if (!defined('CEO_FEATURE_TEST_FOR_ERRORS'))
+		add_action('admin_notices', 'ceo_test_for_errors');
 }
 
 function ceo_test_for_errors() {
