@@ -137,7 +137,7 @@ function ceo_display_comic_gallery($size = 'full') {
 				$count += 1;
 			}
 			if ($comic_galleries_jquery) $output .= "<button id=\"show-".$count."\" type=\"button\" style=\"display:none;\">".$count."</button>\r\n";
-			if ($comic_lightbox) $output .= '<div class="comic-lightbox-text">'.__('Click comic to view larger version.','comiceasel').'</div>';
+//			if ($comic_lightbox) $output .= '<div class="comic-lightbox-text">'.__('Click comic to view larger version.','comiceasel').'</div>';
 		}			
 	} else {
 		$output .= ceo_display_featured_image_comic($size);
