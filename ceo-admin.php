@@ -8,15 +8,17 @@ if (ceo_pluginfo('add_dashboard_frumph_feed_widget'))
 
 function ceo_comic_editor_scripts( $hook ) {
 	global $post;
-	if ( $hook == 'post-new.php' || $hook == 'post.php' ) {
-		if ('comic' === $post->post_type) {
-			wp_enqueue_script('ceo-upload-flash', ceo_pluginfo('plugin_url').'js/upload-flash.js');
-			wp_enqueue_media();
+	if (!empty($post)) {
+		if ( $hook == 'post-new.php' || $hook == 'post.php' ) {
+			if ('comic' === $post->post_type) {
+				wp_enqueue_script('ceo-upload-flash', ceo_pluginfo('plugin_url').'js/upload-flash.js');
+				wp_enqueue_media();
+			}
 		}
-	}
-	if ($hook == 'edit.php') {
-		if ('comic' == $post->post_type) {
-			add_action('admin_footer', 'ceo_change_chapter_to_radio');
+		if ($hook == 'edit.php') {
+			if ('comic' == $post->post_type) {
+				add_action('admin_footer', 'ceo_change_chapter_to_radio');
+			}
 		}
 	}
 }

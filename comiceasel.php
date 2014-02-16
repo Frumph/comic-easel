@@ -379,7 +379,8 @@ function ceo_load_options($reset = false) {
 			'buy_comic_orig_amount' => '65.00',
 			'buy_comic_text' => __('*Additional shipping charges will applied at time of purchase.','comiceasel'),
 			'enable_prevnext_chapter_traversing' => false,
-			'disable_cal_rewrite_rules' => false
+			'disable_cal_rewrite_rules' => false,
+			'chapter_on_home' => 0
 		) as $field => $value) {
 			$ceo_config[$field] = $value;
 		}
@@ -408,6 +409,11 @@ function ceo_pluginfo($whichinfo = null) {
 			$ceo_options['buy_comic_text'] = __('*Additional shipping charges will applied at time of purchase.','comiceasel');
 			update_option('comiceasel-config', $ceo_options);
 		}
+		if (version_compare($ceo_options['db_version'], '1.3', '<')) {
+			$ceo_options['db_version'] = '1.3';
+			$ceo_options['chapter_on_home'] = 0;
+			update_option('comiceasel-config', $ceo_options);
+		}		
 		$ceo_coreinfo = wp_upload_dir();
 		$ceo_addinfo = array(
 				// if wp_upload_dir reports an error, capture it

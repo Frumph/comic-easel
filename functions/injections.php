@@ -173,8 +173,11 @@ function ceo_inject_mini_navigation() {
 	if (!ceo_pluginfo('disable_mininav') && !is_404() && !is_search() && !is_archive()) {
 		$next_comic = $prev_comic = '';
 		if ((is_home() || is_front_page()) && !is_paged() && !ceo_pluginfo('disable_comic_on_home_page')) {
+			$chapter_on_home = '';
+			$chapter_on_home = get_term_by( 'id', ceo_pluginfo('chapter_on_home'), 'chapters');
+			$chapter_on_home = (!is_wp_error($chapter_on_home) && !empty($chapter_on_home)) ? '&chapters='.$chapter_on_home->slug : '';
 			$order = (ceo_pluginfo('display_first_comic_on_home_page')) ?  'asc' : 'desc';
-			$query_args = 'post_type=comic&showposts=1&order='.$order;
+			$query_args = 'post_type=comic&showposts=1&order='.$order.$chapter_on_home;
 			apply_filters('ceo_display_comic_mininav_home_query', $query_args);
 			$wp_query->in_the_loop = true; $comicFrontpage = new WP_Query(); $comicFrontpage->query($query_args);
 			while ($comicFrontpage->have_posts()) : $comicFrontpage->the_post();
@@ -213,7 +216,10 @@ function ceo_display_comic_post_home() {
 	global $wp_query, $post;
 	if ((is_home() || is_front_page()) && !is_paged() && !ceo_pluginfo('disable_comic_blog_on_home_page')) {
 		$order = (ceo_pluginfo('display_first_comic_on_home_page')) ?  'asc' : 'desc';
-		$query_args = 'post_type=comic&showposts=1&order='.$order;
+		$chapter_on_home = '';
+		$chapter_on_home = get_term_by( 'id', ceo_pluginfo('chapter_on_home'), 'chapters');
+		$chapter_on_home = (!is_wp_error($chapter_on_home) && !empty($chapter_on_home)) ? '&chapters='.$chapter_on_home->slug : '';
+		$query_args = 'post_type=comic&showposts=1&order='.$order.$chapter_on_home;
 		apply_filters('ceo_display_comic_post_home_query', $query_args);
 		$wp_query->in_the_loop = true; $comicFrontpage = new WP_Query(); $comicFrontpage->query($query_args);
 		while ($comicFrontpage->have_posts()) : $comicFrontpage->the_post();

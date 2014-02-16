@@ -100,8 +100,31 @@
 					<td>
 						<?php _e('Enabling this will make transcripts show at the bottom of comic posts, if the comic has a transcript.','comiceasel'); ?>
 					</td>
-				</tr>
+				</tr>				
 <?php } ?>
+<?php if (!isset($ceo_options['chapter_on_home'])) $ceo_options['chapter_on_home'] = 0; ?>
+				<tr class="alternate">
+					<th scope="row"><label for="chapter_on_home"><?php _e('What chapter would you like to display on the home page?','comiceasel'); ?></label></th>
+					<td>
+<?php $args = array(
+		'show_option_all'    => 'All Chapters',
+		'orderby'            => 'menu_order', 
+		'order'              => 'ASC',
+		'selected'           => $ceo_options['chapter_on_home'],
+		'name'               => 'chapter_on_home',
+		'id'                 => 'chapter_on_home',
+		'class'              => 'postform',
+		'taxonomy'           => 'chapters',
+		'hide_if_empty'      => true,
+); 
+wp_dropdown_categories($args);
+?>					
+					</td>
+					<td>
+						<?php echo $ceo_options['chapter_on_home']; ?>
+						<?php _e('Select which chapter or (all) to display on the home page if you have different stories/chapters.','comiceasel'); ?>
+					</td>
+				</tr>
 			</table>
 			<br />
 <?php 
