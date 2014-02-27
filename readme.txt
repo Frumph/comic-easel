@@ -3,7 +3,7 @@ Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
 Tested up to: 3.8.1
-Stable tag: 1.6
+Stable tag: 1.6.1
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -14,7 +14,6 @@ Comic Easel allows you to post webcomics to your theme.
 == Description ==
 
 Comic Easel Website: [Comic Easel](http://comiceasel.com/ "Comic Easel - Plugin your WebComic")
-Tech Support Forum: [Frumph.NET Forums](http://forum.frumph.net/ "The Forums for Frumph.NET")
 
 Comic Easel allows you to incorporate a WebComic using the WordPress Media Library functionality with Navigation into almost any WordPress theme. With just a few modifications of adding *injection* action locations into a theme, you can have the theme of your choice display a comic.
 
@@ -126,6 +125,9 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.6.1 =
+Attempt to fix the language text domain and directory
+
 = 1.6 =
 Can select which chapter appears on the home page (or all)
 removed click comic for larger version text
