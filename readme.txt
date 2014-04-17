@@ -2,8 +2,8 @@
 Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
-Tested up to: 3.8.1
-Stable tag: 1.6.1
+Tested up to: 3.9
+Stable tag: 1.6.2
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -125,6 +125,9 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.6.2 =
+Verifying Compatibility with 3.9 WordPress
+
 = 1.6.1 =
 Attempt to fix the language text domain and directory
 

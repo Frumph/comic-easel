@@ -54,7 +54,7 @@ function ceo_change_prev_rel_link_two($link) {
 		$link_url = ceo_get_previous_comic_permalink();
 		if (!empty($link_url)) {
 			$link='<link rel="prev" href="'.$link_url.'" />'."\r\n";
-		} else $link = '';
+		}
 	}
 	return $link;
 }
@@ -65,7 +65,7 @@ function ceo_change_next_rel_link_two($link) {
 		$link_url = ceo_get_next_comic_permalink();
 		if (!empty($link_url)) {
 			$link='<link rel="next" href="'.$link_url.'" />'."\r\n";
-		} else $link = '';
+		}
 	}
 	return $link;
 }

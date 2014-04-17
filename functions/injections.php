@@ -116,7 +116,7 @@ if (ceo_pluginfo('enable_comment_nav')) { ?>
 
 // This is used inside ceo_display_comic_area()
 function ceo_display_comic_wrapper() {
-	global $post, $wp_query;
+	global $post;
 	if ($post->post_type == 'comic') { ?>
 		<div id="comic-wrap" class="comic-id-<?php echo $post->ID; ?>">
 			<div id="comic-head"></div>
