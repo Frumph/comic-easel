@@ -7,7 +7,7 @@ Author: Philip M. Hofer (Frumph)
 Version: 1.02
 */
 
-function ceo_comic_archive_jump_to_chapter($unhide = false, $exclude = '') {
+function ceo_comic_archive_jump_to_chapter($unhide = false, $exclude = '', $showcount = true) {
 	ceo_protect();
 	$args = array(
 			'pad_counts' => 1,
@@ -54,7 +54,9 @@ function ceo_comic_archive_jump_to_chapter($unhide = false, $exclude = '') {
 					$qcposts = get_posts( $child_args );
 					if (is_array($qcposts)) {
 						$qcposts = reset($qcposts);
-						$output .= '<option class="level-1" value="' . get_permalink($qcposts->ID) . '">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $child_term->name . ' ('.$child_term->count.') </option>';
+						$thecount = '';
+						if ($showcount) $thecount = ' ('.$child_term->count.')';
+						$output .= '<option class="level-1" value="' . get_permalink($qcposts->ID) . '">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $child_term->name . $thecount. '</option>';
 					}
 				}
 			}
@@ -93,22 +95,23 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['exclude'] = strip_tags($new_instance['exclude']);
 		$instance['unhide'] = ($new_instance['unhide']) ? true : false;
+		$instance['showcount'] = ($new_isntance['showcount']) ? true : false;
 		return $instance;
 	}
 	
 	function form($instance) {
-		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'exclude' => '', 'unhide' => true ) );
+		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'exclude' => '', 'unhide' => true, 'showcount' => true) );
 		$title = strip_tags($instance['title']);
 		$exclude = strip_tags($instance['exclude']);
 		$unhide = $instance['unhide'] ? true : false;
+		$showcount = $instance['showcount'] ? true:false;
 		?>
 		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','comiceasel'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
 		<p><label for="<?php echo $this->get_field_id('exclude'); ?>"><?php _e('Exclude Chapters (comma seperated):','comiceasel'); ?> <input class="widefat" id="<?php echo $this->get_field_id('exclude'); ?>" name="<?php echo $this->get_field_name('exclude'); ?>" type="text" value="<?php echo esc_attr($exclude); ?>" /></label></p>
-		<p><label for="<?php echo $this->get_field_id('unhide'); ?>"><?php _e('Show all empty chapters?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('unhide'); ?>" name="<?php echo $this->get_field_name('unhide'); ?>" type="checkbox" value="true" <?php checked(true, $unhide); ?> /></label></p>		
+		<p><label for="<?php echo $this->get_field_id('unhide'); ?>"><?php _e('Show all empty chapters?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('unhide'); ?>" name="<?php echo $this->get_field_name('unhide'); ?>" type="checkbox" value="true" <?php checked(true, $unhide); ?> /></label></p>
+		<p><label for="<?php echo $this->get_field_id('showcount'); ?>"><?php _e('Show the comic count in parenthesis?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('showcount'); ?>" name="<?php echo $this->get_field_name('showcount'); ?>" type="checkbox" value="true" <?php checked(true, $showcount); ?> /></label></p>
 		<?php
 	}
 }
 
 add_action( 'widgets_init', create_function('', 'return register_widget("ceo_comic_archive_dropdown_widget");') );
-
-?>
