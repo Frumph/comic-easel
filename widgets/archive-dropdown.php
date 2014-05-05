@@ -12,7 +12,7 @@ function ceo_comic_archive_jump_to_chapter($unhide = false, $exclude = '', $show
 	$args = array(
 			'pad_counts' => 1,
 			'orderby' => 'menu_order',
-			'order' => 'DESC',
+			'order' => 'ASC',
 			'hide_empty' => $unhide,
 			'parent' => 0,
 			'exclude' => array($exclude)
@@ -28,7 +28,7 @@ function ceo_comic_archive_jump_to_chapter($unhide = false, $exclude = '', $show
 			$parent_args = array( 
 					'numberposts' => 1, 
 					'post_type' => 'comic', 
-					'orderby' => 'post_date', 
+					'orderby' => 'menu_order',
 					'order' => 'ASC', 
 					'post_status' => 'publish', 
 					'chapters' => $parent_chapter->slug, 
@@ -36,8 +36,9 @@ function ceo_comic_archive_jump_to_chapter($unhide = false, $exclude = '', $show
 			$qposts = get_posts( $parent_args );
 			if (is_array($qposts) && !is_wp_error($qposts) && !empty($qposts)) {
 				$qposts = reset($qposts);
-				if ($parent_chapter->count) $count = ' ('.$parent_chapter->count.') ';
-				$output .='<option class="level-0" value="'.get_permalink($qposts->ID).'">'.$parent_chapter->name.$count.'</option>';
+				$thecount = '';
+				if ($showcount) $thecount = ' ('.$parent_chapter->count.') ';
+				$output .='<option class="level-0" value="'.get_permalink($qposts->ID).'">'.$parent_chapter->name.$thecount.'</option>';
 			}
 			$child_chapters = get_term_children( $parent_chapter->term_id, 'chapters' );
 			foreach ($child_chapters as $child) {
@@ -46,7 +47,7 @@ function ceo_comic_archive_jump_to_chapter($unhide = false, $exclude = '', $show
 					$child_args = array( 
 							'numberposts' => 1, 
 							'post_type' => 'comic',
-							'orderby' => 'post_date', 
+							'orderby' => 'menu_order',
 							'order' => 'ASC', 
 							'post_status' => 'publish', 
 							'chapters' => $child_term->slug 
@@ -86,7 +87,7 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 		echo $before_widget;
 		$title = empty($instance['title']) ? __('Comic Chapters','comiceasel') : apply_filters('widget_title', $instance['title']); 
 		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; }; 
-		ceo_comic_archive_jump_to_chapter($instance['unhide'], $instance['exclude']);
+		ceo_comic_archive_jump_to_chapter($instance['unhide'], $instance['exclude'], $instance['showcount']);
 		echo $after_widget;
 	}
 	
