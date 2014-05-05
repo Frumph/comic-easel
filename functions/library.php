@@ -101,3 +101,17 @@ function ceo_test_is_chapter_in_story($story_id = 0) {
 	}
 	return false;
 }
+
+
+
+/**
+ * This function makes it so that orderby 'menu_order' is accepted and not ignored by WordPress
+ */
+function ceo_apply_orderby_filter($orderby, $args) {
+	if ( $args['orderby'] == 'menu_order' ) {
+		return 't.menu_order';
+	} else
+		return $orderby;
+}
+
+add_filter('get_terms_orderby', 'ceo_apply_orderby_filter', 10, 2);
