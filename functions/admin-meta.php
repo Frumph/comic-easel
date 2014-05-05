@@ -487,19 +487,6 @@ function ceo_test_for_errors() {
 <?php }
 }
 
-function wps_help ( $post_type , $post ) {
-	if ( 'page' == $post_type ) {
-		$my_help_tab_content = '<p>' . __( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam varius iaculis dui, eu ultricies velit consectetur pellentesque. Phasellus tortor mi, tempor eget pulvinar eu, sollicitudin ut eros. Quisque fermentum dolor elit. Aenean varius nisi placerat lectus elementum fringilla. Aenean at augue mauris, eu euismod mauris. Integer ac eros in ligula pharetra pretium. Pellentesque vel orci nibh. Pellentesque gravida velit ac lacus egestas eget imperdiet metus egestas. Maecenas tellus ligula, molestie ac pharetra id, tristique eu velit. Phasellus id quam in mi tristique gravida eget in quam. Cras ornare leo sed dui lobortis congue.') . '</p>';
-		
-		get_current_screen()->add_help_tab( array(
-					'id'      => 'my-help-id',
-					'title'   => __( 'My Help Tab' ),
-					'content' => $my_help_tab_content,
-					) );
-	}
-}
-
-
 function ceo_handle_edit_save_comic($post_id, $post) {
 	global $post;
 
