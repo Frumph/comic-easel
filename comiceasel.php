@@ -281,7 +281,7 @@ function ceo_run_scripts() {
 	wp_enqueue_script('comicpress_keynav', ceo_pluginfo('plugin_url').'js/keynav.js', null, null, true);
 }
 
-function ceo_chapters_activate() {
+function ceo_chapters_add_menu_order_column() {
 	global $wpdb;
 	$init_query = $wpdb->query("SHOW COLUMNS FROM $wpdb->terms LIKE 'menu_order'");
 	if (!$init_query) {
@@ -297,6 +297,22 @@ function ceo_chapters_deactivate() {
 	$result = $wpdb->query($sql);	
 }
 
+/**
+ * If WPMS loop through and do add column to each blog, otherwise just add it to the non-wpms install
+ */
+function ceo_chapters_activate() {
+	global $wpdb;
+	if (function_exists('is_multisite') && is_multisite()) {
+		$curr_blog = $wpdb->blogid;
+		$blogids = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs");
+		foreach ($blogids as $blog_id) {
+			switch_to_blog($blog_id);
+			ceo_chapters_add_menu_order_column();
+		}
+		switch_to_blog($curr_blog);
+	} else
+		ceo_chapters_add_menu_order_column();
+}
 
 // Flush Rewrite Rules
 register_activation_hook( __FILE__, 'ceo_initialize_post_types' );
