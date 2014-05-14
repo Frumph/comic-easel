@@ -43,7 +43,8 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 				'enable_transcripts_in_comic_posts',
 				'enable_motion_artist_support',
 				'enable_hoverbox',
-				'disable_cal_rewrite_rules'
+				'disable_cal_rewrite_rules',
+				'allow_comics_to_have_categories'
 			) as $key) {
 				if (!isset($_REQUEST[$key])) $_REQUEST[$key] = 0;
 				$ceo_options[$key] = (bool)( $_REQUEST[$key] == 1 ? true : false );

@@ -112,6 +112,8 @@ function ceo_add_new_comic_columns($comic_columns) {
 	$new_columns['title'] = __('Comic Title', 'comiceasel');
 	$new_columns['chapter'] = __('Chapter', 'comiceasel');
 	$new_columns['characters'] = __('Characters', 'comiceasel');
+	if (ceo_pluginfo('allow_comics_to_have_categories'))
+		$new_columns['categories'] = __('Category', 'comiceasel');
 	$new_columns['locations'] = __('Location', 'comiceasel');
 	$new_columns['tags'] = __('Tags', 'comiceasel');
 	$new_columns['date'] = _x('Date', 'column name');

@@ -2,8 +2,8 @@
 Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
-Tested up to: 3.9
-Stable tag: 1.6.2
+Tested up to: 3.9.1
+Stable tag: 1.7
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -125,15 +125,22 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.7 =
+* Now properly adds menu_order column to WPMS installs for chapter ordering
+* Added toggle in archive chapter dropdown that let's you set it so that the count doesn't show
+* changed width of ID column in the chapters editor section to 40px to account for higher iD numbers
+* added option to allow comics to be associated with regular WordPress categories
+* fixed bug where archive dropdown didn't properly display order (hopefully)
+
 = 1.6.2 =
-Verifying Compatibility with 3.9 WordPress
+* Verifying Compatibility with 3.9 WordPress
 
 = 1.6.1 =
-Attempt to fix the language text domain and directory
+* Attempt to fix the language text domain and directory
 
 = 1.6 =
-Can select which chapter appears on the home page (or all)
-removed click comic for larger version text
+* Can select which chapter appears on the home page (or all)
+* removed click comic for larger version text
 
 = 1.5.9 =
 * Added option to disable the rewrite rules regeneration

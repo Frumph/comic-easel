@@ -3,7 +3,7 @@
 Plugin Name: Comic Easel
 Plugin URI: http://comiceasel.com
 Description: Comic Easel allows you to incorporate a WebComic using the WordPress Media Library functionality with Navigation into almost all WordPress themes. With just a few modifications of adding injection do_action locations into a theme, you can have the theme of your choice display and manage a webcomic.
-Version: 1.6.2
+Version: 1.7
 Author: Philip M. Hofer (Frumph)
 Author URI: http://frumph.net/
 
@@ -150,7 +150,8 @@ function ceo_initialize_post_types() {
 					'show_tagcloud' => false,
 					'rewrite' => array( 'slug' => 'location', 'with_front' => true, 'feeds' => false ),
 					));	
-//		register_taxonomy_for_object_type('category', 'comic');
+		if (ceo_pluginfo('allow_comics_to_have_categories')) 
+			register_taxonomy_for_object_type('category', 'comic');
 		register_taxonomy_for_object_type('post_tag', 'comic');
 		register_taxonomy_for_object_type('chapters', 'comic');
 		register_taxonomy_for_object_type('characters', 'comic');
@@ -393,7 +394,8 @@ function ceo_load_options($reset = false) {
 			'buy_comic_text' => __('*Additional shipping charges will applied at time of purchase.','comiceasel'),
 			'enable_prevnext_chapter_traversing' => false,
 			'disable_cal_rewrite_rules' => false,
-			'chapter_on_home' => 0
+			'chapter_on_home' => 0,
+			'allow_comics_to_have_categories' => false
 		) as $field => $value) {
 			$ceo_config[$field] = $value;
 		}
@@ -426,7 +428,12 @@ function ceo_pluginfo($whichinfo = null) {
 			$ceo_options['db_version'] = '1.3';
 			$ceo_options['chapter_on_home'] = 0;
 			update_option('comiceasel-config', $ceo_options);
-		}		
+		}
+		if (version_compare($ceo_options['db_version'], '1.4', '<')) {
+			$ceo_options['db_version'] = '1.4';
+			$ceo_options['allow_comics_to_have_categories'] = false;
+			update_option('comiceasel-config', $ceo_options);
+		}
 		$ceo_coreinfo = wp_upload_dir();
 		$ceo_addinfo = array(
 				// if wp_upload_dir reports an error, capture it
@@ -443,7 +450,7 @@ function ceo_pluginfo($whichinfo = null) {
 				// comic-easel plugin directory/url
 				'plugin_url' => plugin_dir_url(__FILE__),
 				'plugin_path' => plugin_dir_path(__FILE__),
-				'version' => '1.6.2'
+				'version' => '1.7'
 		);
 		// Combine em.
 		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_addinfo);
@@ -487,73 +494,3 @@ function ceo_language_init() {
 
 add_action('plugins_loaded', 'ceo_language_init');
 
-
-// not hooked in
-// add_filter('rewrite_rules_array', 'ceo_rewrite_rules');
-function ceo_rewrite_rules($rules) {
-    $newRules  = array();
-    $newRules['comic/(.+)/(.+)/(.+)/(.+)/?$'] = 'index.php?comic=$matches[4]'; // my custom structure will always have the post name as the 5th uri segment
-    $newRules['comic/(.+)/?$']                = 'index.php?chapters=$matches[1]'; 
-
-    return array_merge($newRules, $rules);
-}
-
-function filter_post_type_link($link, $post) {
-    if ($post->post_type != 'comic') return $link;
-
-    if ($cats = get_the_terms($post->ID, 'chapters')) {
-        $link = str_replace('%chapters%', ceo_get_taxonomy_parents(array_pop($cats)->term_id, 'chapters', false, '/', true), $link); // see custom function defined below
-    }
-    return $link;
-}
-
-// not hooked in
-// add_filter('post_type_link', 'filter_post_type_link', 10, 2);
-
-// my own function to do what get_category_parents does for other taxonomies
-function ceo_get_taxonomy_parents($id, $taxonomy, $link = false, $separator = '/', $nicename = false, $visited = array()) {    
-	$chain = '';   
-	$parent = &get_term($id, $taxonomy);
-
-	if (is_wp_error($parent)) {
-		return $parent;	
-	}
-
-	if ($nicename)    
-		$name = $parent -> slug;        
-	else    
-		$name = $parent -> name;
-
-	if ($parent -> parent && ($parent -> parent != $parent -> term_id) && !in_array($parent -> parent, $visited)) {    
-		$visited[] = $parent -> parent;    
-		$chain .= get_taxonomy_parents($parent -> parent, $taxonomy, $link, $separator, $nicename, $visited);
-	}
-
-	if ($link) {
-		// nothing, can't get this working :(
-	} else    
-		$chain .= $name . $separator;    
-	return $chain;
-}
-
-/*
-
-add_filter('template_include', 'ceo_redirect_chapters_taxonomy');
- 
-function ceo_redirect_chapters_taxonomy($template) {
-	if ((get_query_var('taxonomy') == 'chapters') && is_archive()) {
-		$new_template = locate_template(array('landing.php'));
-		if ('' != $new_template) return $new_template;
-	}
-	return $template;
-}
-
-add_action('pre_get_posts', 'ceo_pre_parser');
-
-function ceo_pre_parser($query) {
-	if (($query->is_archive())  && !$query->is_feed() && $query->is_main_query()) {	
-		$query->set('posts_per_page', 1);
-		$query->set('is_single', true);
-	}
-}
-*/

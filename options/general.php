@@ -91,8 +91,17 @@
 						<?php _e('Checkmarking this will make it so that the default stylesheets do not load, you would need to add those css elements yourself to your style.css','comiceasel'); ?>
 					</td>
 				</tr>
-<?php if (!defined('CEO_FEATURE_DISABLE_TRANSCRIPT')) { ?>
 				<tr>
+					<th scope="row"><label for="allow_comics_to_have_categories"><?php _e('Allow comics to associate with WordPress categories?','comiceasel'); ?></label></th>
+					<td>
+						<input id="allow_comics_to_have_categories" name="allow_comics_to_have_categories" type="checkbox" value="1" <?php checked(true, $ceo_options['allow_comics_to_have_categories']); ?> />
+					</td>
+					<td>
+						<?php _e('For those people who need to allow comics associated with categories as well as chapters.','comiceasel'); ?>
+					</td>
+				</tr>
+<?php if (!defined('CEO_FEATURE_DISABLE_TRANSCRIPT')) { ?>
+				<tr class="alternate">
 					<th scope="row"><label for="enable_transcripts_in_comic_posts"><?php _e('Enable the transcripts to automatically show at the bottom of posts if they exist?','comiceasel'); ?></label></th>
 					<td>
 						<input id="enable_transcripts_in_comic_posts" name="enable_transcripts_in_comic_posts" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_transcripts_in_comic_posts']); ?> />
@@ -103,7 +112,7 @@
 				</tr>				
 <?php } ?>
 <?php if (!isset($ceo_options['chapter_on_home'])) $ceo_options['chapter_on_home'] = 0; ?>
-				<tr class="alternate">
+				<tr>
 					<th scope="row"><label for="chapter_on_home"><?php _e('What chapter would you like to display on the home page?','comiceasel'); ?></label></th>
 					<td>
 <?php $args = array(
