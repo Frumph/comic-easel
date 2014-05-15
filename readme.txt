@@ -131,6 +131,7 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 * changed width of ID column in the chapters editor section to 40px to account for higher iD numbers
 * added option to allow comics to be associated with regular WordPress categories
 * fixed bug where archive dropdown didn't properly display order (hopefully)
+* added before- and after-comic-navigation action locations to place new buttons before and after to go along with the inside- one
 
 = 1.6.2 =
 * Verifying Compatibility with 3.9 WordPress
