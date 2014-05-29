@@ -52,6 +52,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 		<tr>
 		<td class="comic_navi_left">
 		<?php 
+		do_action('before-comic-navigation');
 		if ($instance['first']) {
 			if (!empty($first_comic) && ($first_comic !== $this_permalink)) { ?>
 				<a href="<?php echo $first_comic; ?>" class="navi navi-first" title="<?php echo $instance['first_title']; ?>"><?php echo $instance['first_title']; ?></a>
@@ -158,7 +159,9 @@ class ceo_comic_navigation_widget extends WP_Widget {
 			<?php } else { ?>
 				<span class="navi navi-last navi-void"><?php echo $instance['last_title']; ?></span>
 			<?php }
-		} ?>
+		} 
+		do_action('after-comic-navigation');
+		?>
 		</td>
 		</tr>
 		<?php if ($instance['imageurl']) { ?>
