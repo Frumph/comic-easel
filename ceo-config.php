@@ -72,6 +72,7 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 				'enable_embed_nav',
 				'disable_default_nav',
 				'disable_mininav',
+				'enable_nav_above_comic',
 				'enable_chapter_only_random',
 				'enable_prevnext_chapter_traversing'
 			) as $key) {

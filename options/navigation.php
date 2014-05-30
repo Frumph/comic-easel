@@ -30,6 +30,15 @@
 					</td>
 				</tr>
 				<tr class="alternate">
+					<th scope="row"><label for="enable_nav_above_comic"><?php _e('Enable Default Navigation above comic?','comiceasel'); ?></label></th>
+					<td>
+						<input id="enable_nav_above_comic" name="enable_nav_above_comic" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_nav_above_comic']); ?> />
+					</td>
+					<td>
+						<?php _e('Check this to enable the default navigation to appear above the comic.','comiceasel'); ?>
+					</td>
+				</tr>
+				<tr>
 					<?php if (!isset($ceo_options['enable_chapter_only_random'])) $ceo_options['enable_chapter_only_random'] = false; ?>
 					<th scope="row"><label for="enable_chapter_only_random"><?php _e('Random button (both default and widget) jumps only in the same chapter?','comiceasel'); ?></label></th>
 					<td>
@@ -39,7 +48,7 @@
 						<?php _e('Make the random button only jump to the comics within the same chapter?','comiceasel'); ?>
 					</td>
 				</tr>
-				<tr class="alternate">
+				<tr>
 					<?php if (!isset($ceo_options['enable_prevnext_chapter_traversing'])) $ceo_options['enable_prevnext_chapter_traversing'] = false; ?>
 					<th scope="row"><label for="enable_prevnext_chapter_traversing"><?php _e('Traverse comic chapters with the previous/next?','comiceasel'); ?></label></th>
 					<td>
