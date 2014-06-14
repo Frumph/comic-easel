@@ -39,7 +39,7 @@ function ceo_display_comic_chapters() {
 		$before = '<div class="comic-chapter">'.__('Chapter','comiceasel').': ';
 		$sep = ', '; 
 		$after = '</div>';
-		echo get_the_term_list( $post->ID, 'chapters', $before, $sep, $after );
+		echo apply_filters('ceo_display_comic_chapters', get_the_term_list( $post->ID, 'chapters', $before, $sep, $after ));
 	}
 }
 
