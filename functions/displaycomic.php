@@ -71,6 +71,10 @@ function ceo_display_featured_image_comic($size = 'full') {
 				$next_comic = ceo_get_next_comic_permalink();
 			}
 			
+			$linkto = '';
+			$linkto = get_post_meta($post->ID, 'link-to', true);
+			if ($linkto) $next_comic = esc_url($linkto);
+			
 			if ($comic_lightbox) {
 				$output .= '<a href="'.$thumbnail.'" title="'.$hovertext.'" rel="lightbox">';
 			}

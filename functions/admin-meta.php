@@ -349,6 +349,15 @@ blip.tv, DailyMotion, FunnyOrDie.com, Hulu, Instagram, Qik, Photobucket, Rdio, R
 <?php
 }
 
+function ceo_edit_linkto_in_post($post) {
+	$linkto_url = get_post_meta($post->ID, 'link-to', true); 
+	_e('Add url here or leave empty to use next comic or default none', 'comiceasel');
+	?>
+	<br />
+	<input id="link-to" name="link-to" type="input" style="width: 80%" value="<?php echo $linkto_url; ?>" /><br />
+	<?
+}
+
 function ceo_edit_hovertext_in_post($post) { 
 	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
 	$hovertext = esc_attr( get_post_meta( $post->ID, 'comic-hovertext', true ) );
@@ -439,6 +448,8 @@ function ceo_add_comic_in_post() {
 	if ( current_theme_supports( 'post-thumbnails', 'comic' ) && post_type_supports('comic', 'thumbnail') )
 		add_meta_box('postimagediv', __('Set Comic/Featured Image'), 'post_thumbnail_meta_box', 'comic', 'side', 'high');
 	add_meta_box('ceo_comic_in_post', __('Comic Directions', 'comiceasel'), 'ceo_edit_comic_in_post', 'comic', 'side', 'high');
+	if (!defined('CEO_FEATURE_LINKTO'))
+		add_meta_box('ceo_linkto_in_post', __('Links To', 'comiceasel'), 'ceo_edit_linkto_in_post', 'comic', 'normal', 'default');
 	if (!defined('CEO_FEATURE_DISABLE_MISC'))
 		add_meta_box('ceo_toggle_in_post', __('Misc. Comic Functionality', 'comiceasel'), 'ceo_edit_toggles_in_post', 'comic', 'side', 'low');
 	if (!defined('CEO_FEATURE_DISABLE_HOVERTEXT'))
@@ -528,7 +539,8 @@ function ceo_handle_edit_save_comic($post_id, $post) {
 			'flash_height',
 			'flash_width',
 			'media_url',
-			'media_width'
+			'media_width',
+			'link-to'
 			);
 			
 	foreach ($meta_array as $meta_key) {

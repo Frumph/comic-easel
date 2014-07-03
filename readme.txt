@@ -3,7 +3,7 @@ Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
 Tested up to: 3.9.1
-Stable tag: 1.7.2
+Stable tag: 1.7.3
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -125,6 +125,10 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.7.3 =
+* Added 'link to' box that makes whatever comic is there link to whatever URL you put in the input box
+* Added comic archive dropdown shortcode [comic-archive-dropdown] so you can embed that into any post or page
+
 = 1.7.2 =
 * Added option to enable the default comic navigation to appear above the comic
 * Added option to the archive dropdown widget to jump to the archive page instead of the first comic in the chapter

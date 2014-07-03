@@ -5,6 +5,7 @@ add_shortcode('cast-page', 'ceo_cast_page');
 add_shortcode('comic-archive', 'ceo_comic_archive_multi');
 add_shortcode('transcript', 'ceo_display_transcript');
 add_shortcode('buycomic', 'ceo_display_buycomic');
+add_shortcode('comic-archive-dropdown', 'ceo_comic_archive_dropdown');
 
 function ceo_cast_display($character, $stats, $image) {
 	$cast_output = '';
@@ -593,13 +594,24 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 			$buy_output .= '<div class="buy-thumbnail">';
 			$buy_output .= ceo_display_comic_thumbnail('large', $post);
 			$buy_output .= "</div>\r\n";
-/*			$last_info = get_option('ceo_paypal_receiver'); // Debug to see the last transaction, which is stored in this option
-			if (!empty($last_info)) $buy_output .= nl2br($last_info); */
+			/*			$last_info = get_option('ceo_paypal_receiver'); // Debug to see the last transaction, which is stored in this option
+						if (!empty($last_info)) $buy_output .= nl2br($last_info); */
 		} else {
 			$buy_output .= __('Invalid Comic ID.','comiceasel')."<br />\r\n";
 		}
 		ceo_unprotect();
 	}
-
+	
 	return $buy_output;
+}
+
+function ceo_comic_archive_dropdown($atts, $content='') {
+	extract( shortcode_atts( array(
+					'unhide' => false,
+					'exclude' => '',
+					'showcount' => false,
+					'jumptoarchive' => false,
+					'return' => true
+					), $atts ) );
+	return ceo_comic_archive_jump_to_chapter($unhide, $exclude, $showcount, $jumptoarchive, $return);
 }

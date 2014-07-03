@@ -7,7 +7,7 @@ Author: Philip M. Hofer (Frumph)
 Version: 1.02
 */
 
-function ceo_comic_archive_jump_to_chapter($unhide = false, $exclude = '', $showcount = false, $jumptoarchive = false) {
+function ceo_comic_archive_jump_to_chapter($unhide = false, $exclude = '', $showcount = false, $jumptoarchive = false, $return = false) {
 	ceo_protect();
 	$args = array(
 			'pad_counts' => 1,
@@ -18,7 +18,7 @@ function ceo_comic_archive_jump_to_chapter($unhide = false, $exclude = '', $show
 			'exclude' => array($exclude)
 	);
 	$parent_chapters = get_terms( 'chapters', $args );
-	$output = '<form method="get">';
+	$output = '<form method="get" class="comic-archive-dropdown-form">';
 	$output .= '<select onchange="document.location.href=this.options[this.selectedIndex].value;">';
 	$level = 0;
 	$output .= '<option class="level-select" value="">'.__('Select Story','comiceasel').'</option>';
@@ -83,7 +83,9 @@ function ceo_comic_archive_jump_to_chapter($unhide = false, $exclude = '', $show
 	$output .= '<div><input type="submit" value="View" /></div>';
 	$output .= '</noscript>';
 	$output .= '</form>';
-	echo $output;
+	if ($return) {
+		return $output;
+	} else echo $output;
 	ceo_unprotect();
 }
 
