@@ -127,6 +127,7 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 == Changelog ==
 = 1.7.4 =
 * Filter the comic-display-area to be on the home landing page and single pages only.
+* do not display the comic blog on alternate set posts pages
 
 = 1.7.3 =
 * Added 'link to' box that makes whatever comic is there link to whatever URL you put in the input box
