@@ -116,7 +116,7 @@ if (ceo_pluginfo('enable_comment_nav')) { ?>
 // This is used inside ceo_display_comic_area()
 function ceo_display_comic_wrapper() {
 	global $post;
-	if ($post->post_type == 'comic') { ?>
+	if ($post->post_type == 'comic' && (is_front_page() || is_single())) { ?>
 		<div id="comic-wrap" class="comic-id-<?php echo $post->ID; ?>">
 			<div id="comic-head">
 				<?php if (!ceo_pluginfo('disable_default_nav') && ceo_pluginfo('enable_nav_above_comic')) ceo_display_comic_navigation(); ?>

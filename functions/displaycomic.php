@@ -75,16 +75,18 @@ function ceo_display_featured_image_comic($size = 'full') {
 			$linkto = get_post_meta($post->ID, 'link-to', true);
 			if ($linkto) $next_comic = esc_url($linkto);
 			
-			if ($comic_lightbox) {
+			if ($linkto) $output .= '<a href="'.$linkto.'" title="'.$hovertext.'">';
+			
+			if ($comic_lightbox && !$linkto) {
 				$output .= '<a href="'.$thumbnail.'" title="'.$hovertext.'" rel="lightbox">';
 			}
 			
-			if (ceo_pluginfo('click_comic_next') && !empty($next_comic) && !$comic_lightbox) {
+			if (ceo_pluginfo('click_comic_next') && !empty($next_comic) && !$comic_lightbox && !$linkto) {
 				$output .= '<a href="'.$next_comic.'" title="'.$hovertext.'">';
 			}
 						
 			$output .= '<img src="'.$thumbnail.'" alt="'.$hovertext.'" title="'.$hovertext.'" />';
-			if ((ceo_pluginfo('click_comic_next') && !empty($next_comic)) || $comic_lightbox) {
+			if ((ceo_pluginfo('click_comic_next') && !empty($next_comic)) || $comic_lightbox || $linkto) {
 				$output .= '</a>';
 			}
 			if ($comic_lightbox) $output .= '<div class="comic-lightbox-text">'.__('Click comic to view larger version.','comiceasel').'</div>';
