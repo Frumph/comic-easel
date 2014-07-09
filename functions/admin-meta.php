@@ -355,13 +355,14 @@ function ceo_edit_linkto_in_post($post) {
 	?>
 	<br />
 	<input id="link-to" name="link-to" type="input" style="width: 80%" value="<?php echo $linkto_url; ?>" /><br />
-	<?
+	<?php
 }
 
 function ceo_edit_hovertext_in_post($post) { 
 	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
 	$hovertext = esc_attr( get_post_meta( $post->ID, 'comic-hovertext', true ) );
 	if (empty($hovertext)) $hovertext = esc_attr( get_post_meta($post->ID, 'hovertext', true));
+	if (!$hovertext) $hovertext = '';
 ?>
 	<?php _e('The text placed here will appear when you mouse over the comic.','comiceasel'); ?><br />
 	<textarea name="comic-hovertext" id="comic-hovertext" class="admin-comic-hovertext" style="width:100%"><?php echo $hovertext; ?></textarea>

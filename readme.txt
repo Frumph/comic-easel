@@ -3,7 +3,7 @@ Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
 Tested up to: 3.9.1
-Stable tag: 1.7.3
+Stable tag: 1.7.4
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -128,6 +128,7 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 = 1.7.4 =
 * Filter the comic-display-area to be on the home landing page and single pages only.
 * do not display the comic blog on alternate set posts pages
+* fixed the hovertext entry for in the comic editor for hosts that can't handle syntax
 
 = 1.7.3 =
 * Added 'link to' box that makes whatever comic is there link to whatever URL you put in the input box
