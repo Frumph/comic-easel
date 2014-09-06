@@ -153,7 +153,7 @@ function ceo_manage_comic_columns($column_name, $id) {
 			}
 	        break;
 	case 'comicimages':
-			$post = &get_post($id);
+			$post = get_post($id);
 			$comicthumb = ceo_display_comic_thumbnail('thumbnail', $post, array(120,0)); 
 			if (!$comicthumb) { echo __('No thumbnail Found.','comiceasel'); } else {
 				echo $comicthumb;
