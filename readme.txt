@@ -2,7 +2,7 @@
 Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
-Tested up to: 3.9.1
+Tested up to: 4.0
 Stable tag: 1.7.5
 Donate link: http://frumph.net
 License: GPLv3 or later
