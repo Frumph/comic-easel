@@ -9,13 +9,13 @@ Version: 1.02
 
 function ceo_comic_archive_jump_to_chapter($unhide = false, $exclude = '', $showcount = false, $jumptoarchive = false, $return = false) {
 	ceo_protect();
+	
 	$args = array(
 			'pad_counts' => 1,
 			'orderby' => 'menu_order',
 			'order' => 'DESC',
-			'hide_empty' => $unhide,
-			'parent' => 0,
-			'exclude' => array($exclude)
+			'hide_empty' => ($unhide) ? true:false,
+			'exclude' => $exclude
 	);
 	$parent_chapters = get_terms( 'chapters', $args );
 	$output = '<form method="get" class="comic-archive-dropdown-form">';
@@ -112,25 +112,27 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['exclude'] = strip_tags($new_instance['exclude']);
-		$instance['unhide'] = ($new_instance['unhide']) ? true : false;
-		$instance['showcount'] = ($new_isntance['showcount']) ? true : false;
-		$instance['jumptoarchive'] = ($new_instance['jumptoarchive']) ? true:false;
+		$instance['unhide'] = ($new_instance['unhide']) ? 1:0;
+		$instance['showcount'] = ($new_instance['showcount']) ? 1:0;
+		$instance['jumptoarchive'] = ($new_instance['jumptoarchive']) ? 1:0;
 		return $instance;
 	}
 	
 	function form($instance) {
-		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'exclude' => '', 'unhide' => true, 'showcount' => true, 'jumptoarchive' => false) );
-		$title = strip_tags($instance['title']);
-		$exclude = strip_tags($instance['exclude']);
-		$unhide = $instance['unhide'] ? true:false;
-		$showcount = $instance['showcount'] ? true:false;
-		$jumptoarchive = $instance['jumptoarchive'] ? true:false;
+		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'exclude' => '', 'unhide' => 1, 'showcount' => 1, 'jumptoarchive' => 0) );
+		$title = $instance['title'];
+		$exclude = $instance['exclude'];
+		$unhide = $instance['unhide'] ? 1:0;
+		$showcount = $instance['showcount'] ? 1:0;
+		$jumptoarchive = $instance['jumptoarchive'] ? 1:0;
 		?>
 		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','comiceasel'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
-		<p><label for="<?php echo $this->get_field_id('exclude'); ?>"><?php _e('Exclude Chapters (comma seperated):','comiceasel'); ?> <input class="widefat" id="<?php echo $this->get_field_id('exclude'); ?>" name="<?php echo $this->get_field_name('exclude'); ?>" type="text" value="<?php echo esc_attr($exclude); ?>" /></label></p>
-		<p><label for="<?php echo $this->get_field_id('unhide'); ?>"><?php _e('Show all empty chapters?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('unhide'); ?>" name="<?php echo $this->get_field_name('unhide'); ?>" type="checkbox" value="true" <?php checked(true, $unhide); ?> /></label></p>
-		<p><label for="<?php echo $this->get_field_id('showcount'); ?>"><?php _e('Show the comic count in parenthesis?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('showcount'); ?>" name="<?php echo $this->get_field_name('showcount'); ?>" type="checkbox" value="true" <?php checked(true, $showcount); ?> /></label></p>
-		<p><label for="<?php echo $this->get_field_id('jumptoarchive'); ?>"><?php _e('Have the dropdown jump to the archive and not first page of that chapter?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('jumptoarchive'); ?>" name="<?php echo $this->get_field_name('jumptoarchive'); ?>" type="checkbox" value="true" <?php checked(true, $jumptoarchive); ?> /></label></p>
+		<p><label for="<?php echo $this->get_field_id('exclude'); ?>"><?php _e('Exclude Chapters (comma seperated):','comiceasel'); ?> <input class="widefat" id="<?php echo $this->get_field_id('exclude'); ?>" name="<?php echo $this->get_field_name('exclude'); ?>" type="text" value="<?php echo esc_attr($exclude); ?>" /></label><br />
+		<small><?php _e('NOTE: There is a bug with WordPress with parent-child and /all/ some chapters cannot be excluded without causing this bug.','comiceasel'); ?></small>
+		</p>
+		<p><label for="<?php echo $this->get_field_id('unhide'); ?>"><?php _e('Show all empty chapters?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('unhide'); ?>" name="<?php echo $this->get_field_name('unhide'); ?>" type="checkbox" value="1" <?php checked(1, $unhide); ?> /></label></p>
+		<p><label for="<?php echo $this->get_field_id('showcount'); ?>"><?php _e('Show the comic count in parenthesis?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('showcount'); ?>" name="<?php echo $this->get_field_name('showcount'); ?>" type="checkbox" value="1" <?php checked(1, $showcount); ?> /></label></p>
+		<p><label for="<?php echo $this->get_field_id('jumptoarchive'); ?>"><?php _e('Have the dropdown jump to the archive and not first page of that chapter?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('jumptoarchive'); ?>" name="<?php echo $this->get_field_name('jumptoarchive'); ?>" type="checkbox" value="1" <?php checked(1, $jumptoarchive); ?> /></label></p>
 		<?php
 	}
 }

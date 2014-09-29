@@ -3,7 +3,7 @@ Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
 Tested up to: 4.0
-Stable tag: 1.7.5
+Stable tag: 1.7.6
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -125,6 +125,10 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.7.6 =
+* Fixed the dropdown-archive widget to allow you to recheckmark certain options
+* https://core.trac.wordpress.org/ticket/16863 bug problem still exists with the exclude in the dropdown-archive
+
 = 1.7.5 =
 * Changed the og:image size from thumbnail to full so facebook can love it better
 
