@@ -217,6 +217,23 @@ foreach ($thumbnail_sizes as $size) { ?>
 					</td>
 				</tr>
 				<tr>
+					<th scope="row">
+						<label for="thumbnail_size_for_archive"><?php _e('Thumbnail size for Facebook images','comiceasel'); ?></label>
+						<select name="thumbnail_size_for_archive" id="thumbnail_size_for_archive">
+							<option class="level-0" value="none" <?php selected( $ceo_options['thumbnail_size_for_facebook'],'none'); ?>><?php _e('None', 'comiceasel'); ?></option>
+<?php 
+if (!in_array($ceo_options['thumbnail_size_for_facebook'], $thumbnail_sizes) && ($ceo_options['thumbnail_size_for_facebook'] != 'none') && ($ceo_options['thumbnail_size_for_facebook'] != 'full')) $ceo_options['thumbnail_size_for_facebook'] = 'large';
+foreach ($thumbnail_sizes as $size) { ?>
+							<option class="level-0" value="<?php echo $size; ?>" <?php selected( $ceo_options['thumbnail_size_for_facebook'], $size); ?>><?php echo ucfirst($size); ?></option>
+<?php } ?>
+							<option class="level-0" value="full" <?php selected( $ceo_options['thumbnail_size_for_facebook'],'full'); ?>><?php _e('Full', 'comiceasel'); ?></option>							
+						</select>
+					</th>
+					<td>
+						<?php _e('Comic Easel adds an og:image to the head section of the site.  This is the size of the image that is used for the image that facebook recognizes.  If you are having issues where the image is not the one you want, flip this.','comiceasel'); ?>
+					</td>
+				</tr>
+				<tr>
 					<td colspan="12">
 						<i><?php _e('NOTE: Edit a post, click update on it for the feeds to refresh with new copies; to see changes.','comiceasel'); ?></i>
 					</td>	
@@ -250,7 +267,7 @@ if ($check_term) { ?>
 						<span style='color: #b00;'><?php _e('IMPORTANT - If you change this from the default remember to go to settings -> permalink and click SAVE so that the permalink structure can be recognized by WordPress','comiceasel'); ?></span>
 					</td>
 				</tr>
-				<tr class="alternate">
+				<tr>
 					<?php if (!isset($ceo_options['disable_cal_rewrite_rules'])) $ceo_options['disable_cal_rewrite_rules'] = false; ?>
 					<th scope="row"><label for="disable_cal_rewrite_rules"><?php _e('Disable the regeneration of the rewrite rules so numerical slugs get turned into dates?','comiceasel'); ?></label></th>
 					<td>

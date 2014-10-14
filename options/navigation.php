@@ -48,7 +48,7 @@
 						<?php _e('Make the random button only jump to the comics within the same chapter?','comiceasel'); ?>
 					</td>
 				</tr>
-				<tr>
+				<tr class="alternate">
 					<?php if (!isset($ceo_options['enable_prevnext_chapter_traversing'])) $ceo_options['enable_prevnext_chapter_traversing'] = false; ?>
 					<th scope="row"><label for="enable_prevnext_chapter_traversing"><?php _e('Traverse comic chapters with the previous/next?','comiceasel'); ?></label></th>
 					<td>

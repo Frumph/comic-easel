@@ -348,7 +348,7 @@ function ceo_social_meta() {
 			echo '<meta name="twitter:title" content="" />'."\r\n";
 		}
 		$post_image_id = get_post_thumbnail_id($post->ID);
-		$thumbnail = wp_get_attachment_image_src( $post_image_id, 'full', false);
+		$thumbnail = wp_get_attachment_image_src( $post_image_id, ceo_pluginfo('thumbnail_size_for_facebook'), false);
 		if (is_array($thumbnail)) { 
 			$thumbnail = reset($thumbnail);
 			echo '<meta property="og:image" content="'.$thumbnail.'" />'."\r\n";
