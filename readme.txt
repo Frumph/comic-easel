@@ -128,6 +128,7 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 = 1.7.7 =
 * Added dropdown box to choose which thumbnail goes into the og:image for facebook to recognize
 * adjusted the alternate color for the config and moved some alternates around in the css
+* new shortcode [randcomic character=<slugname> size=thumbnail/large/full]
 
 = 1.7.6 =
 * Fixed the dropdown-archive widget to allow you to recheckmark certain options
