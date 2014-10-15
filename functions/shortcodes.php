@@ -6,6 +6,7 @@ add_shortcode('comic-archive', 'ceo_comic_archive_multi');
 add_shortcode('transcript', 'ceo_display_transcript');
 add_shortcode('buycomic', 'ceo_display_buycomic');
 add_shortcode('comic-archive-dropdown', 'ceo_comic_archive_dropdown');
+add_shortcode('randcomic', 'ceo_random_comic_shortcode');
 
 function ceo_cast_display($character, $stats, $image) {
 	$cast_output = '';
@@ -614,4 +615,37 @@ function ceo_comic_archive_dropdown($atts, $content='') {
 					'return' => true
 					), $atts ) );
 	return ceo_comic_archive_jump_to_chapter($unhide, $exclude, $showcount, $jumptoarchive, $return);
+}
+
+function ceo_random_comic_shortcode($atts, $content = '') {
+	extract( shortcode_atts( array(
+					'character' => '',
+					'size' => 'large'
+					), $atts ) );
+	global $post;
+	$args = array(
+		'orderby' => 'rand',
+		'showposts' => 1,
+		'post_type' => 'comic',
+		'characters' => $character,
+		'exclude' => $post->ID
+			);
+	ceo_protect();
+	$thumbnail_query = new WP_Query($args);
+	$output = '';
+	$archive_image = '';
+	if ($thumbnail_query->have_posts()) {
+		while ($thumbnail_query->have_posts()) : $thumbnail_query->the_post();
+			$the_permalink = get_permalink($post->ID);
+			$output = '<div class="rand-comic-wrap rand-comic-'.$post->ID.'">';
+			if ( has_post_thumbnail($post->ID) ) {
+				$output .= "<a href=\"".$the_permalink."\" rel=\"bookmark\" title=\"".get_the_title()."\">".get_the_post_thumbnail($post->ID, $size)."</a>\r\n";
+			} else {
+				$output .= "No Thumbnail Found.";	
+			}
+			$output .= "</div>\r\n";
+		endwhile;
+	}
+	ceo_unprotect();	
+	return $output;
 }
