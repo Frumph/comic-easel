@@ -218,8 +218,8 @@ foreach ($thumbnail_sizes as $size) { ?>
 				</tr>
 				<tr>
 					<th scope="row">
-						<label for="thumbnail_size_for_archive"><?php _e('Thumbnail size for Facebook images','comiceasel'); ?></label>
-						<select name="thumbnail_size_for_archive" id="thumbnail_size_for_archive">
+						<label for="thumbnail_size_for_facebook"><?php _e('Thumbnail size for Facebook images','comiceasel'); ?></label>
+						<select name="thumbnail_size_for_facebook" id="thumbnail_size_for_facebook">
 							<option class="level-0" value="none" <?php selected( $ceo_options['thumbnail_size_for_facebook'],'none'); ?>><?php _e('None', 'comiceasel'); ?></option>
 <?php 
 if (!in_array($ceo_options['thumbnail_size_for_facebook'], $thumbnail_sizes) && ($ceo_options['thumbnail_size_for_facebook'] != 'none') && ($ceo_options['thumbnail_size_for_facebook'] != 'full')) $ceo_options['thumbnail_size_for_facebook'] = 'large';
