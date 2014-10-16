@@ -620,13 +620,17 @@ function ceo_comic_archive_dropdown($atts, $content='') {
 function ceo_random_comic_shortcode($atts, $content = '') {
 	extract( shortcode_atts( array(
 					'character' => '',
-					'size' => 'large'
+					'size' => 'thumbnail',
+					'slug' => '',
+					'chapter' => ''
 					), $atts ) );
 	global $post;
 	$args = array(
+		'name' => $slug,
 		'orderby' => 'rand',
 		'showposts' => 1,
 		'post_type' => 'comic',
+		'chapters' => $chapter,
 		'characters' => $character,
 		'exclude' => $post->ID
 			);
