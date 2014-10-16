@@ -24,6 +24,7 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 				'thumbnail_size_for_rss',
 				'thumbnail_size_for_direct_rss',
 				'thumbnail_size_for_archive',
+				'thumbnail_size_for_facebook',
 				'custom_post_type_slug_name',
 				'chapter_on_home'
 					) as $key) {
