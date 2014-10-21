@@ -87,11 +87,14 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 
 		if ($_REQUEST['action'] == 'ceo_save_archive') {
 
-/*			foreach (array(
+			foreach (array(
+				'custom_post_type_slug_name',
+				'chapter_type_slug_name',
+				'chapter_type_name_plural'
 					) as $key) {
 							if (isset($_REQUEST[$key])) 
 								$ceo_options[$key] = wp_filter_nohtml_kses($_REQUEST[$key]);
-			} */
+			}
 
 			foreach (array(
 				'include_comics_in_blog_archive'

@@ -30,7 +30,7 @@
 				</thead>
 				<tr>
 					<td>
-						<?php _e('This version of Comic Easel was sponsored by everyone in the WebComic community, my brother who helped me with my gofundme campaign. THANK YOU!  (And Brad Guigar from WebComics.COM)','comiceasel'); ?><br />
+						<?php _e('This version of Comic Easel was sponsored by everyone in the WebComic community & my brother who helped me with my gofundme campaign. THANK YOU!  (And Brad Guigar from WebComics.COM)','comiceasel'); ?><br />
 					</td>
 				</tr>
 			</table>

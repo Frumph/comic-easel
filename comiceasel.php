@@ -3,7 +3,7 @@
 Plugin Name: Comic Easel
 Plugin URI: http://comiceasel.com
 Description: Comic Easel allows you to incorporate a WebComic using the WordPress Media Library functionality with Navigation into almost all WordPress themes. With just a few modifications of adding injection do_action locations into a theme, you can have the theme of your choice display and manage a webcomic.
-Version: 1.7.7.1
+Version: 1.8
 Author: Philip M. Hofer (Frumph)
 Author URI: http://frumph.net/
 
@@ -78,18 +78,25 @@ function ceo_initialize_post_types() {
 					'description' => 'Post type for Comics'
 					));
 
+		$chapter_slug = ceo_pluginfo('chapter_type_slug_name');
+		$chapter_slug_plural = ucwords(ceo_pluginfo('chapter_type_name_plural'));
+		
+		if (empty($chapter_slug) || is_array($chapter_slug)) $chapter_slug = 'chapter';
+		if (empty($chapter_slug_plural) || is_array($chapter_slug_plural)) $chapter_slug_plural = 'Chapters';
+		
 		$labels = array(
-				'name' => __( 'Chapters', 'comiceasel' ),
-				'singular_name' => __( 'Chapter', 'comiceasel' ),
-				'search_items' =>  __( 'Search Chapters', 'comiceasel' ),
-				'popular_items' => __( 'Popular Chapters', 'comiceasel' ),
-				'all_items' => __( 'All Chapters', 'comiceasel' ),
-				'parent_item' => __( 'Parent Chapter', 'comiceasel' ),
-				'parent_item_colon' => __( 'Parent Chapter:', 'comiceasel' ),
-				'edit_item' => __( 'Edit Chapters', 'comiceasel' ), 
-				'update_item' => __( 'Update Chapters', 'comiceasel' ),
-				'add_new_item' => __( 'Add New Chapter', 'comiceasel' ),
-				'new_item_name' => __( 'New Chapter Name', 'comiceasel' ),
+				'name' => $chapter_slug_plural,
+				'menu_name' => $chapter_slug_plural,
+				'singular_name' => ucwords($chapter_slug),
+				'search_items' =>  __( 'Search', 'comiceasel' ).' '.$chapter_slug_plural,
+				'popular_items' => __( 'Popular', 'comiceasel' ).' '.$chapter_slug_plural,
+				'all_items' => __( 'All', 'comiceasel' ).' '.$chapter_slug_plural,
+				'parent_item' => __( 'Parent', 'comiceasel' ).' '.ucwords($chapter_slug),
+				'parent_item_colon' => __( 'Parent', 'comiceasel' ).' '.ucwords($chapter_slug).':',
+				'edit_item' => __( 'Edit', 'comiceasel' ).' '.$chapter_slug_plural, 
+				'update_item' => __( 'Update', 'comiceasel' ).' '.$chapter_slug_plural,
+				'add_new_item' => __( 'Add New', 'comiceasel' ).' '.ucwords($chapter_slug),
+				'new_item_name' => __( 'New', 'comiceasel' ).' '.ucwords($chapter_slug).__('Name')
 				); 	
 
 		register_taxonomy('chapters', 'comic', array(
@@ -100,7 +107,7 @@ function ceo_initialize_post_types() {
 					'query_var' => true,
 					'show_tagcloud' => false,
 					'has_archive' => true,
-					'rewrite' => array( 'slug' => 'chapter', 'with_front' => true, 'feeds' => true ),
+					'rewrite' => array( 'slug' => $chapter_slug, 'with_front' => true, 'feeds' => false ),
 					));
 
 		$labels = array(
@@ -149,9 +156,11 @@ function ceo_initialize_post_types() {
 					'query_var' => true,
 					'show_tagcloud' => false,
 					'rewrite' => array( 'slug' => 'location', 'with_front' => true, 'feeds' => false ),
-					));	
+					));
+					
 		if (ceo_pluginfo('allow_comics_to_have_categories')) 
 			register_taxonomy_for_object_type('category', 'comic');
+			
 		register_taxonomy_for_object_type('post_tag', 'comic');
 		register_taxonomy_for_object_type('chapters', 'comic');
 		register_taxonomy_for_object_type('characters', 'comic');
@@ -379,6 +388,8 @@ function ceo_load_options($reset = false) {
 			'include_comics_in_blog_archive' => false,
 			'disable_related_comics' => true,
 			'custom_post_type_slug_name' => __('comic','comiceasel'),
+			'chapter_type_slug_name' => __('chapter', 'comiceasel'),
+			'chapter_type_name_plural' => __('chapters', 'comiceasel'),
 			'display_first_comic_on_home_page' => false,
 			'disable_style_sheet' => false,
 			'enable_transcripts_in_comic_posts' => false,
@@ -445,7 +456,13 @@ function ceo_pluginfo($whichinfo = null) {
 			$ceo_options['db_version'] = '1.6';
 			$ceo_options['thumbnail_size_for_facebook'] = 'large';
 			update_option('comiceasel-config', $ceo_options);
-		}		
+		}
+		if (version_compare($ceo_options['db_version'], '1.7', '<')) {
+			$ceo_options['db_version'] = '1.7';
+			$ceo_options['chapter_type_slug_name'] = 'chapter';
+			$ceo_options['chapter_type_name_plural'] = 'chapters';
+			update_option('comiceasel-config', $ceo_options);
+		}	
 		$ceo_coreinfo = wp_upload_dir();
 		$ceo_addinfo = array(
 				// if wp_upload_dir reports an error, capture it
@@ -462,7 +479,7 @@ function ceo_pluginfo($whichinfo = null) {
 				// comic-easel plugin directory/url
 				'plugin_url' => plugin_dir_url(__FILE__),
 				'plugin_path' => plugin_dir_path(__FILE__),
-				'version' => '1.7.7.1'
+				'version' => '1.8'
 		);
 		// Combine em.
 		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_addinfo);

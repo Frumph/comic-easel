@@ -36,7 +36,7 @@ function ceo_display_comic_post_info() {
 function ceo_display_comic_chapters() {
 	global $post;
 	if ($post->post_type == 'comic') {
-		$before = '<div class="comic-chapter">'.__('Chapter','comiceasel').': ';
+		$before = '<div class="comic-chapter">'.ucwords(ceo_pluginfo('chapter_type_slug_name')).': ';
 		$sep = ', '; 
 		$after = '</div>';
 		echo apply_filters('ceo_display_comic_chapters', get_the_term_list( $post->ID, 'chapters', $before, $sep, $after ));

@@ -3,7 +3,7 @@ Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
 Tested up to: 4.0
-Stable tag: 1.7.7.1
+Stable tag: 1.8
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -127,6 +127,12 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.8 =
+* Added some tabs in the comic - config
+* Moved the post type name options to the 'archive' tab
+* Added a couple of new options that allow you to change the word usage for "chapter" to something else
+
+
 = 1.7.7.1 =
 * fixed bug where you couldn't save the facebook image size
 

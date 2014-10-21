@@ -240,44 +240,6 @@ foreach ($thumbnail_sizes as $size) { ?>
 				</tr>
 			</table>
 			<br />
-			<table class="widefat">
-			<thead>
-				<tr>
-					<th colspan="3"><?php _e('Comic Post Type','comiceasel'); ?></th>
-				</tr>
-			</thead>
-				<tr class="alternate">
-					<?php if (empty($ceo_options['custom_post_type_slug_name'])) $ceo_options['custom_post_type_slug_name'] = 'comic'; ?>
-					<th scope="row"><label for="custom_post_type_slug_name"><?php _e('Custom Post Type slug name?','comiceasel'); ?></label></th>
-					<td>
-						<input id="custom_post_type_slug_name" name="custom_post_type_slug_name" type="text" value="<?php echo $ceo_options['custom_post_type_slug_name']; ?>" /><br />
-<?php 
-$check_term = term_exists($ceo_options['custom_post_type_slug_name']);
-if ($check_term) { ?>
-	<span style="font-weight: 700; color: #f00;"><?php _e('This slug already exists and will cause problems.  Change it.','comiceasel'); ?></span>
-<?php if ($ceo_options['custom_post_type_slug_name'] == 'comic') { ?>
-	<br /><?php _e('This is the default custom post type slug - which is already in use on your system.  Sometimes people have the chapter name as this slug, that needs to be changed if you want to use the default.','comiceasel'); ?>
-	<?php } 
-}
-?>
-					</td>
-					<td>
-						<?php _e('Default: "comic" changing this will modify the permalink name for the /comic/ how it is addressed in the url.  This is a slug name, no slashes or spaces allowed; only alpha characters and a single word.','comiceasel'); ?><br />
-						<br />
-						<span style='color: #b00;'><?php _e('IMPORTANT - If you change this from the default remember to go to settings -> permalink and click SAVE so that the permalink structure can be recognized by WordPress','comiceasel'); ?></span>
-					</td>
-				</tr>
-				<tr>
-					<?php if (!isset($ceo_options['disable_cal_rewrite_rules'])) $ceo_options['disable_cal_rewrite_rules'] = false; ?>
-					<th scope="row"><label for="disable_cal_rewrite_rules"><?php _e('Disable the regeneration of the rewrite rules so numerical slugs get turned into dates?','comiceasel'); ?></label></th>
-					<td>
-						<input id="disable_cal_rewrite_rules" name="disable_cal_rewrite_rules" type="checkbox" value="1" <?php checked(true, $ceo_options['disable_cal_rewrite_rules']); ?> />
-					</td>
-					<td>
-						<?php _e('This option disables the url line from interpreting numerical numbers as dates.','comiceasel'); ?>
-					</td>
-				</tr>
-			</table>
 		</div>
 		<br />
 
