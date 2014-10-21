@@ -140,13 +140,15 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 		<div id="ceoadmin">
 		  <?php
 		  	$tab_info = array(
+				'main' => __('Main', 'comiceasel'),
 		  		'general' => __('General', 'comiceasel'),
 		  		'navigation' => __('Navigation', 'comiceasel'),
-				'archive' => __('Archive', 'comiceasel'),
+				'archive' => __('Archive', 'comiceasel')
 		  	);
 			if (!defined('CEO_FEATURE_BUY_COMIC'))
 				$tab_info['buycomic'] = __('Buy Comic','comiceasel');
-				
+			$tab_info['webcomics-com'] = __('WebComics.COM', 'comiceasel');
+			$tab_info['resources'] = __('Resources', 'comiceasel');
 		  	if (empty($tab)) { $tab = array_shift(array_keys($tab_info)); }
 
 		  	foreach($tab_info as $tab_id => $label) { ?>
@@ -187,7 +189,6 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 	<div class="ceoadmin-footer">
 		<br />
 		<a href="http://comiceasel.com"><?php _e('Comic Easel','comiceasel'); ?></a> <?php _e('created, developed and maintained by','comiceasel'); ?> <a href="http://frumph.net/">Philip M. Hofer</a> <small>(<a href="http://frumph.net/">Frumph</a>)</small><br />
-		<?php _e('For technical assistance go to the','comiceasel'); ?> <a href="http://forum.frumph.net"><?php _e('Frumph.NET Forums.','comiceasel'); ?></a><br />
 		<?php _e('If you like the Comic Easel plugin, please donate.  It will help in developing new features and versions.','comiceasel'); ?><br />
 		<table style="margin:0 auto;">
 			<tr>
