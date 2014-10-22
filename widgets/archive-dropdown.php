@@ -21,7 +21,7 @@ function ceo_comic_archive_jump_to_chapter($unhide = false, $exclude = '', $show
 	$output = '<form method="get" class="comic-archive-dropdown-form">';
 	$output .= '<select onchange="document.location.href=this.options[this.selectedIndex].value;">';
 	$level = 0;
-	$output .= '<option class="level-select" value="">'.__('Select Story','comiceasel').'</option>';
+	$output .= '<option class="level-select" value="">'.__('Select','comiceasel').' '.ucwords(ceo_pluginfo('chapter_type_slug_name')).'</option>';
 	if (!is_null($parent_chapters)) {
 		foreach($parent_chapters as $parent_chapter) {
 			$thecount = ($showcount) ? '&nbsp;('.$parent_chapter->count.')' : '';

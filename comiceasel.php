@@ -97,7 +97,7 @@ function ceo_initialize_post_types() {
 				'update_item' => __( 'Update', 'comiceasel' ).' '.$chapter_slug_plural,
 				'add_new_item' => __( 'Add New', 'comiceasel' ).' '.$chapter_slug,
 				'new_item_name' => __( 'New', 'comiceasel' ).' '.$chapter_slug.__('Name', 'comiceasel')
-				); 	
+				);
 
 		register_taxonomy('chapters', 'comic', array(
 					'hierarchical' => true,

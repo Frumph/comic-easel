@@ -339,12 +339,13 @@ function ceo_display_transcript($atts, $content = null) {
 	extract( shortcode_atts( array(
 					'display' => 'styled'
 					), $atts ) );
-	if (ceo_pluginfo('enable_transcripts_in_comic_posts')) return;
+	if (is_archive() || is_search() || ceo_pluginfo('enable_transcripts_in_comic_posts')) return;
 	return ceo_the_transcript($display);
 }
 
 function ceo_display_the_transcript_action() {
-	if (ceo_pluginfo('enable_transcripts_in_comic_posts')) return;
+	global $post;
+	if (is_archive() || is_search() || ceo_pluginfo('enable_transcripts_in_comic_posts')) return;
 	return ceo_the_transcript('styled');
 }
 

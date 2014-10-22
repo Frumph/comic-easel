@@ -110,7 +110,7 @@ function ceo_chapters_menu_order_edit_form_field($term) {
 function ceo_add_new_comic_columns($comic_columns) {
 	$new_columns['cb'] = '<input type="checkbox" />';
 	$new_columns['title'] = __('Comic Title', 'comiceasel');
-	$new_columns['chapter'] = __('Chapter', 'comiceasel');
+	$new_columns['chapter'] = ucwords(ceo_pluginfo('chapter_type_slug_name'));
 	$new_columns['characters'] = __('Characters', 'comiceasel');
 	if (ceo_pluginfo('allow_comics_to_have_categories'))
 		$new_columns['categories'] = __('Category', 'comiceasel');
