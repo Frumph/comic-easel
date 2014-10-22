@@ -28,7 +28,7 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 				'custom_post_type_slug_name',
 				'chapter_on_home'
 					) as $key) {
-							if (isset($_REQUEST[$key])) 
+							if (isset($_REQUEST[$key]) && !empty($_REQUEST[$key])) 
 								$ceo_options[$key] = wp_filter_nohtml_kses($_REQUEST[$key]);
 			}
 
@@ -60,7 +60,7 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 			foreach (array(
 				'graphic_navigation_directory'
 					) as $key) {
-							if (isset($_REQUEST[$key])) 
+							if (isset($_REQUEST[$key]) && !empty($_REQUESET[$key])) 
 								$ceo_options[$key] = wp_filter_nohtml_kses($_REQUEST[$key]);
 			}
 
@@ -92,7 +92,7 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 				'chapter_type_slug_name',
 				'chapter_type_name_plural'
 					) as $key) {
-							if (isset($_REQUEST[$key])) 
+							if (isset($_REQUEST[$key]) && !empty($_REQUEST[$key])) 
 								$ceo_options[$key] = wp_filter_nohtml_kses($_REQUEST[$key]);
 			}
 
