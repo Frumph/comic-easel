@@ -98,12 +98,12 @@ function ceo_chapters_add_column_value($empty = '', $custom_column, $term_id) {
 }
 
 function ceo_chapters_menu_order_add_form_field() {		
-	$form_field = '<div class="form-field"><label for="ceo_chapter_order">' . __('Chapter Order', 'comiceasel') . '</label><input name="ceo_chapter_order" id="ceo_chapter_order" type="text" value="0" size="10" /><p>' . __('This defines what order the chapter is in. 0 = do not order.', 'comiceasel') . '</p></div>';
+	$form_field = '<div class="form-field"><label for="ceo_chapter_order">'.ucwords(ceo_pluginfo('chapter_type_slug_name')).' '.__('Order', 'comiceasel') . '</label><input name="ceo_chapter_order" id="ceo_chapter_order" type="text" value="0" size="10" /><p>' . __('This defines what order the taxonomy is in. 0 = do not order.', 'comiceasel') . '</p></div>';
 	echo $form_field;
 }
 
 function ceo_chapters_menu_order_edit_form_field($term) {
-	$form_field = '<tr class="form-field"><th scope="row" valign="top"><label for="ceo_chapter_order">' . __('Chapter Order', 'comiceasel')  . '</label></th><td><input name="ceo_chapter_order" id="ceo_chapter_order" type="text" value="'.$term->menu_order.'" size="10" /><p class="description">' . __('This defines what order the chapter is in. 0 = do not order.', 'comiceasel') .'</p></td></tr>';
+	$form_field = '<tr class="form-field"><th scope="row" valign="top"><label for="ceo_chapter_order">' .ucwords(ceo_pluginfo('chapter_type_slug_name')).' '.__('Order', 'comiceasel')  . '</label></th><td><input name="ceo_chapter_order" id="ceo_chapter_order" type="text" value="'.$term->menu_order.'" size="10" /><p class="description">' . __('This defines what order the taxonomy is in. 0 = do not order.', 'comiceasel') .'</p></td></tr>';
 	echo $form_field;
 }
 
