@@ -78,25 +78,25 @@ function ceo_initialize_post_types() {
 					'description' => 'Post type for Comics'
 					));
 
-		$chapter_slug = ceo_pluginfo('chapter_type_slug_name');
+		$chapter_slug = ucwords(ceo_pluginfo('chapter_type_slug_name'));
 		$chapter_slug_plural = ucwords(ceo_pluginfo('chapter_type_name_plural'));
 		
-		if (empty($chapter_slug) || is_array($chapter_slug)) $chapter_slug = 'chapter';
+		if (empty($chapter_slug) || is_array($chapter_slug)) $chapter_slug = 'Chapter';
 		if (empty($chapter_slug_plural) || is_array($chapter_slug_plural)) $chapter_slug_plural = 'Chapters';
 		
 		$labels = array(
 				'name' => $chapter_slug_plural,
 				'menu_name' => $chapter_slug_plural,
-				'singular_name' => ucwords($chapter_slug),
+				'singular_name' => $chapter_slug,
 				'search_items' =>  __( 'Search', 'comiceasel' ).' '.$chapter_slug_plural,
 				'popular_items' => __( 'Popular', 'comiceasel' ).' '.$chapter_slug_plural,
 				'all_items' => __( 'All', 'comiceasel' ).' '.$chapter_slug_plural,
-				'parent_item' => __( 'Parent', 'comiceasel' ).' '.ucwords($chapter_slug),
-				'parent_item_colon' => __( 'Parent', 'comiceasel' ).' '.ucwords($chapter_slug).':',
+				'parent_item' => __( 'Parent', 'comiceasel' ).' '.$chapter_slug,
+				'parent_item_colon' => __( 'Parent', 'comiceasel' ).' '.$chapter_slug.':',
 				'edit_item' => __( 'Edit', 'comiceasel' ).' '.$chapter_slug_plural, 
 				'update_item' => __( 'Update', 'comiceasel' ).' '.$chapter_slug_plural,
-				'add_new_item' => __( 'Add New', 'comiceasel' ).' '.ucwords($chapter_slug),
-				'new_item_name' => __( 'New', 'comiceasel' ).' '.ucwords($chapter_slug).__('Name')
+				'add_new_item' => __( 'Add New', 'comiceasel' ).' '.$chapter_slug,
+				'new_item_name' => __( 'New', 'comiceasel' ).' '.$chapter_slug.__('Name', 'comiceasel')
 				); 	
 
 		register_taxonomy('chapters', 'comic', array(
@@ -107,7 +107,7 @@ function ceo_initialize_post_types() {
 					'query_var' => true,
 					'show_tagcloud' => false,
 					'has_archive' => true,
-					'rewrite' => array( 'slug' => $chapter_slug, 'with_front' => true, 'feeds' => false ),
+					'rewrite' => array( 'slug' => strtolower($chapter_slug), 'with_front' => true, 'feeds' => true ),
 					));
 
 		$labels = array(
