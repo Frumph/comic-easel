@@ -93,7 +93,7 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 				'chapter_type_name_plural'
 					) as $key) {
 							if (isset($_REQUEST[$key]) && !empty($_REQUEST[$key])) 
-								$ceo_options[$key] = wp_filter_nohtml_kses($_REQUEST[$key]);
+								$ceo_options[$key] = strtolower(wp_filter_nohtml_kses($_REQUEST[$key]));
 			}
 
 			foreach (array(
