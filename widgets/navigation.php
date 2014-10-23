@@ -116,7 +116,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 		}
 		do_action('inside-comic-navigation');
 		if ($instance['comments']) { ?>
-			<a href="<?php the_permalink(); ?>#comment" class="navi navi-comments" title="<?php echo $instance['comments_title']; ?>"><span class="navi-comments-count"><?php comments_number('0', '1', '%'); ?></span><?php echo $instance['comments_title']; ?></a>
+			<a href="<?php the_permalink(); ?>#comments" class="navi navi-comments" title="<?php echo $instance['comments_title']; ?>"><span class="navi-comments-count"><?php echo get_comments_number(); ?></span><?php echo $instance['comments_title']; ?></a>
 		<?php } ?>
 		</td>
 		<td class="comic_navi_right">

@@ -76,8 +76,9 @@ function ceo_display_comic_navigation() {
 		?>
 		<td class="comic-nav"><a href="<?php echo ceo_pluginfo('buy_comic_url').$bpsep.'id='.$post->ID; ?>" class="comic-nav-base comic-nav-buycomic" title="Buy Comic"><?php _e('Buy!','comiceasel'); ?></a></td>
 <?php }
-if (ceo_pluginfo('enable_comment_nav')) { ?>
-			<td class="comic-nav"><a href="<?php comments_link(); ?>" class="comic-nav-comments" title="<?php the_title(); ?>"><?php _e('Comments','comiceasel'); ?>(<span class="comic-nav-comment-count"><?php comments_number( '0', '1', '%' ); ?></span>)</a></td>
+if (ceo_pluginfo('enable_comment_nav')) { 
+			$commentscount = get_comments_number(); ?>
+			<td class="comic-nav"><a href="<?php comments_link(); ?>" class="comic-nav-comments" title="<?php the_title(); ?>"><span class="comic-nav-comment-count"><?php echo sprintf( _n( 'Comment(%d)', 'Comments(%d)', $commentscount, 'comiceasel' ), $commentscount ); ?></span></a></td>
 <?php } 
 	if (ceo_pluginfo('enable_random_nav')) { 
 		$stay = '';
@@ -85,7 +86,6 @@ if (ceo_pluginfo('enable_comment_nav')) { ?>
 			$chapter = get_the_terms($post->ID, 'chapters');
 			if (!empty($chapter) && !is_wp_error($chapter)) $stay = '&stay='.reset($chapter)->term_id;
 		}
-			
 ?>
 			<td class="comic-nav"><a href="<?php bloginfo('url') ?>?random&nocache=1<?php echo $stay; ?>" class="comic-nav-random" title="Random Comic"><?php _e('Random','comiceasel'); ?></a></td>
 <?php } ?>

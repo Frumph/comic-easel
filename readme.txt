@@ -131,7 +131,11 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 * Added some tabs in the comic - config
 * Moved the post type name options to the 'archive' tab
 * Added a couple of new options that allow you to change the word usage for "chapter" to something else
-
+* resources tables coming from fetched file
+* archive dropdown now shows select <name>  of the chosen name from the config
+* do not display transcripts on the archive and search pages
+* the column for the all comics now uses the name chosen for the taxonomy
+* change the way the comment value is displayed in the navigation to better support disqus and other 3rd party comment systems
 
 = 1.7.7.1 =
 * fixed bug where you couldn't save the facebook image size
