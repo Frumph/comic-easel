@@ -168,6 +168,69 @@ function ceo_initialize_post_types() {
 	}
 }
 
+if (ceo_pluginfo('enable_chapter_in_url')) {
+	add_action( 'registered_post_type', 'ceo_add_post_types_rewrite', 1, 2 );
+	add_filter( 'post_type_link', 'ceo_filter_post_type_link', 1, 2 );
+}
+ 
+/**
+ * Add the numeric permalink structure to bbPress topics and replies.
+ *
+ * @author Nashwan Doaqan
+ */
+function ceo_add_post_types_rewrite( $post_type, $args ) {
+	if ( 'comic' === $post_type ) {
+		add_rewrite_tag( "%chapter_name%", '(.+?)', "post_type=comic&chapters=" );
+		add_permastruct( $post_type, "{$args->rewrite['slug']}/%chapter_name%/%postname%", $args->rewrite );
+	}
+}
+
+/**
+ * Change bbPress post types links.
+ *
+ * @author Nashwan Doaqan
+ */
+function ceo_filter_post_type_link( $post_link , $_post ) {
+    global $wp_rewrite;
+    if ( empty( $_post ) )
+         return $post_link;
+        if ( 'comic' === $_post->post_type ) {
+                $post_link = $wp_rewrite->get_extra_permastruct( $_post->post_type );
+                if ( strpos( $post_link, '%chapter_name%' ) !== FALSE ) {
+                        $chapter = get_the_terms( $_post->ID, 'chapters' );
+						if (is_array($chapter)) {
+							$chapter = reset( $chapter );
+							$chapter_name = ceo_get_taxonomy_parents_names( $chapter->term_id, 'chapters', '/', TRUE );
+							$post_link = str_replace( "%chapter_name%", untrailingslashit( $chapter_name ), $post_link );
+						} else return;
+                }
+                $post_link = str_replace( "%postname%", $_post->post_name, $post_link );
+                $post_link = home_url( user_trailingslashit( $post_link ) );
+     }
+     return $post_link;
+}
+
+function ceo_get_taxonomy_parents_names( $id, $taxonomy, $separator = '/', $nicename = false, $visited = array() ) {
+	$chain = '';
+	$parent = get_term( $id, $taxonomy );
+	if ( is_wp_error( $parent ) || ! $parent )return $parent;
+
+	if ( $nicename )
+		$name = $parent->slug;
+	else
+		$name = $parent->name;
+
+	if ( $parent->parent && ( $parent->parent != $parent->term_id ) && !in_array( $parent->parent, $visited ) ) {
+		$visited[] = $parent->parent;
+		$chain .= ceo_get_taxonomy_parents_names( $parent->parent, $taxonomy, $separator, $nicename, $visited );
+	} 
+	if ( ! empty( $name ) ) {
+		$chain .= $name.$separator;
+	}
+
+	return $chain;
+}
+
 if (!defined('CEO_FEATURE_DISABLE_REWRITE_RULES') && !ceo_pluginfo('disable_cal_rewrite_rules'))
 	add_action('generate_rewrite_rules', 'ceo_datearchives_rewrite_rules');
 
@@ -408,7 +471,8 @@ function ceo_load_options($reset = false) {
 			'disable_cal_rewrite_rules' => false,
 			'chapter_on_home' => 0,
 			'allow_comics_to_have_categories' => false,
-			'enable_nav_above_comic' => false
+			'enable_nav_above_comic' => false,
+			'enable_chapter_in_url' => false
 		) as $field => $value) {
 			$ceo_config[$field] = $value;
 		}
@@ -461,6 +525,7 @@ function ceo_pluginfo($whichinfo = null) {
 			$ceo_options['db_version'] = '1.7';
 			$ceo_options['chapter_type_slug_name'] = 'chapter';
 			$ceo_options['chapter_type_name_plural'] = 'chapters';
+			$ceo_options['enable_chapter_in_url'] = false;
 			update_option('comiceasel-config', $ceo_options);
 		}	
 		$ceo_coreinfo = wp_upload_dir();

@@ -137,6 +137,7 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 * the column for the all comics now uses the name chosen for the taxonomy
 * change the way the comment value is displayed in the navigation to better support disqus and other 3rd party comment systems
 * Comic sidebars now default to being enabled on new installations
+* option to add chapter_slug to the URL, replacement for the use of the custom post type permalinks plugin
 
 = 1.7.7.1 =
 * fixed bug where you couldn't save the facebook image size

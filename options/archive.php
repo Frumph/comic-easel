@@ -4,7 +4,8 @@
 	<?php wp_nonce_field('update-options') ?>
 
 		<div class="comiceasel-options">
-		
+			<div style='color: #b00;font-size: 16px;text-align:center;background-color: #efefef;padding: 5px;border: solid 2px #000;font-weight: 700;'><?php _e('IMPORTANT - If you change any of the settings on this page from the default, go to settings -> permalink and click SAVE so that the permalink structure can be recognized by WordPress','comiceasel'); ?></div>
+			<br />
 			<table class="widefat">
 				<thead>
 					<tr>
@@ -22,12 +23,22 @@
 				</tr>
 				<tr>
 					<?php if (!isset($ceo_options['disable_cal_rewrite_rules'])) $ceo_options['disable_cal_rewrite_rules'] = false; ?>
-					<th scope="row"><label for="disable_cal_rewrite_rules"><?php _e('Disable the regeneration of the rewrite rules so numerical slugs get turned into dates?','comiceasel'); ?></label></th>
+					<th scope="row"><label for="disable_cal_rewrite_rules"><?php _e('Disable the the rewrite rules so numerical slugs do not get turned into dates?','comiceasel'); ?></label></th>
 					<td>
 						<input id="disable_cal_rewrite_rules" name="disable_cal_rewrite_rules" type="checkbox" value="1" <?php checked(true, $ceo_options['disable_cal_rewrite_rules']); ?> />
 					</td>
 					<td>
-						<?php _e('This option disables the url line from interpreting numerical numbers as dates.','comiceasel'); ?>
+						<?php _e('This option disables the url line from interpreting numerical numbers as dates. ex. /comic/2014/ ','comiceasel'); ?>
+					</td>
+				</tr>
+				<tr class="alternate">
+					<?php if (!isset($ceo_options['enable_chapter_in_url'])) $ceo_options['enable_chapter_in_url'] = false; ?>
+					<th scope="row"><label for="enable_chapter_in_url"><?php _e('Allow the URL to also denote the chapter?','comiceasel'); ?></label></th>
+					<td>
+						<input id="enable_chapter_in_url" name="enable_chapter_in_url" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_chapter_in_url']); ?> />
+					</td>
+					<td>
+						<?php _e('Allows the chapter that the comic is in to show up in the URL of the comic. ex: /comic/chapter-slug/postname/','comiceasel'); ?>
 					</td>
 				</tr>
 			</table>
@@ -56,7 +67,6 @@ if ($check_term) { ?>
 					<td>
 						<?php _e('Default: "comic" changing this will modify the permalink name for the /comic/ how it is addressed in the url.  This is a slug name, no slashes or spaces allowed; only alpha characters and a single word.','comiceasel'); ?><br />
 						<br />
-						<span style='color: #b00;'><?php _e('IMPORTANT - If you change this from the default remember to go to settings -> permalink and click SAVE so that the permalink structure can be recognized by WordPress','comiceasel'); ?></span>
 					</td>
 				</tr>
 				<tr>
@@ -77,7 +87,6 @@ if ($check_term) { ?>
 					<td>
 						<?php _e('Default: "chapter" changing this will modify the permalink name for the /chapter/ how it is addressed in the url.  This is a slug name, no slashes or spaces allowed; only alpha characters and a single word.','comiceasel'); ?><br />
 						<br />
-						<span style='color: #b00;'><?php _e('IMPORTANT - If you change this from the default remember to go to settings -> permalink and click SAVE so that the permalink structure can be recognized by WordPress','comiceasel'); ?></span>
 					</td>
 				</tr>
 				<tr class="alternate">
