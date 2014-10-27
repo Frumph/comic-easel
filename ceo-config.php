@@ -59,7 +59,7 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 			foreach (array(
 				'graphic_navigation_directory'
 					) as $key) {
-							if (isset($_REQUEST[$key]) && !empty($_REQUESET[$key])) 
+							if (isset($_REQUEST[$key])) 
 								$ceo_options[$key] = wp_filter_nohtml_kses($_REQUEST[$key]);
 			}
 
