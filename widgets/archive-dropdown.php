@@ -13,7 +13,7 @@ function ceo_comic_archive_jump_to_chapter($unhide = false, $exclude = '', $show
 	$args = array(
 			'pad_counts' => 1,
 			'orderby' => 'menu_order',
-			'order' => 'DESC',
+			'order' => 'ASC',
 			'hide_empty' => ($unhide) ? true:false,
 			'exclude' => $exclude,
 			'parent' => 0
@@ -57,9 +57,9 @@ function ceo_comic_archive_jump_to_chapter($unhide = false, $exclude = '', $show
 			$child_chapters = get_terms( 'chapters', $args );
 			foreach ($child_chapters as $child) {
 				$child_term = get_term_by( 'id', $child->term_id, 'chapters' );
+				$thecount = 0;
 				$thecount = ($showcount) ? '('.$child_term->count.')' : '';
 				if ($child_term->count) {
-					$thecount = '';
 					$child_args = array( 
 							'numberposts' => 1, 
 							'post_type' => 'comic',
@@ -74,7 +74,7 @@ function ceo_comic_archive_jump_to_chapter($unhide = false, $exclude = '', $show
 							$permalink = get_permalink($qcposts->ID);
 						}
 					} else $permalink = get_term_link($child_term->slug, 'chapters');
-					if (!empty($permalink)) $output .= '<option class="level-1" value="'.esc_url($permalink).'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$child_term->name.$thecount.'</option>';				
+					if (!empty($permalink)) $output .= '<option class="level-1" value="'.esc_url($permalink).'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$child_term->name.' '.$thecount.'</option>';				
 				}
 			}
 		}
