@@ -15,7 +15,8 @@ function ceo_comic_archive_jump_to_chapter($unhide = false, $exclude = '', $show
 			'orderby' => 'menu_order',
 			'order' => 'DESC',
 			'hide_empty' => ($unhide) ? true:false,
-			'exclude' => $exclude
+			'exclude' => $exclude,
+			'parent' => 0
 	);
 	$parent_chapters = get_terms( 'chapters', $args );
 	$output = '<form method="get" class="comic-archive-dropdown-form">';
