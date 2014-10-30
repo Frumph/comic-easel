@@ -253,8 +253,8 @@ function ceo_archive_list_series($thumbnail = 0) {
 	$archive_count = 0;
 	$args = array(
 			'pad_counts' => 0,
-			'order' => 'DESC',
-			'hide_empty' => 0,
+			'order' => 'ASC',
+			'hide_empty' => false,
 			'parent' => 0,
 			'orderby' => 'menu_order'
 			);

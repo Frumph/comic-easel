@@ -117,7 +117,7 @@ function ceo_paypal_ipn() {
 	$payment_currency = (isset($_POST['mc_currency'])) ? $_POST['mc_currency'] : '';
 	$txn_id = (isset($_POST['txn_id'])) ? $_POST['txn_id'] : '';
 	$shipping = (isset($_POST['shipping'])) ? $_POST['shipping'] : '';
-//	$receiver_email = (isset($_POST['receiver_email'])) ? $_POST['txn_id'] : '';
+	//	$receiver_email = (isset($_POST['receiver_email'])) ? $_POST['txn_id'] : '';
 	$business = (isset($_POST['business'])) ? $_POST['business'] : '';
 	$payer_email = (isset($_POST['payer_email'])) ? $_POST['payer_email'] : '';
 	$first_name = (isset($_POST['first_name'])) ? $_POST['first_name'] : '';
@@ -174,7 +174,7 @@ function ceo_paypal_ipn() {
 		$email_message .= __('Payment Currency','comiceasel').': '.$payment_currency."\r\n";
 		$email_message .= __('TXN_ID','comiceasel').': '.$txn_id."\r\n";
 		$email_message .= __('Paypal Receiver','comiceasel').': '.$business."\r\n\r\n";
-
+		
 		$email_message .= __('Payer Name','comiceasel').': '.$first_name.' '.$last_name."\r\n";
 		$email_message .= __('Payer Email','comiceasel').': '.$payer_email."\r\n\r\n";
 		
@@ -185,9 +185,9 @@ function ceo_paypal_ipn() {
 		$email_message .= __('Zip','comiceasel').': '.$address_zip."\r\n";
 		$email_message .= __('Country','comiceasel').': '.$address_country."\r\n\r\n";
 		if (!empty($memo)) $email_message .= __('Memo','comiceasel').': '.$memo."\r\n";
-/*		foreach ($_POST as $post_info) {
-			$email_message .= $post_info;
-		} */
+		/*		foreach ($_POST as $post_info) {
+					$email_message .= $post_info;
+				} */
 		update_option('ceo_paypal_receiver', $email_message);
 		if (isset($comiceasel_config['buy_comic_email'])) 
 			wp_mail($comiceasel_config['buy_comic_email'], __('Comic Easel: Notification of Transaction - Buy Comic','comiceasel'), $email_message);		
@@ -195,3 +195,62 @@ function ceo_paypal_ipn() {
 	fclose ($fp);				
 	exit;
 }
+
+/***
+ * 1) Install and activate the Comic Easel plugin WITH webcomic stil active.
+ * 2) In your browser bar you would type http://yoururl.com/?wc2ce&name=webcomic1
+ * * the webcomic1 denotes the first comic in the webcomic plugin, there are several webcomic sets up, but they're always incremented by 1
+ * so the next comic that was setup would be webcomic2  so  /?wc2ce&name=webcomic2  would trigger the migration of that one
+ * 3) once you do that it should pause a few while loading your site, once it's done your site will finish loading. 
+ * 4) Deactivate the webcomic plugin and switch to the comicpress theme.
+ * 5) verify the comics are all there, the characters have been migrated and the storyline's are all chapters
+ * **/
+
+/*
+if ( isset( $_GET['wc2ce'] ) )
+	add_action( 'template_redirect', 'ceo_convert_to_ce' );
+
+function ceo_convert_to_ce() {
+	global $wpdb;
+	if (isset($_REQUEST['name'])) {
+		$name = esc_attr($_REQUEST['name']);
+		if (!empty($name)) {
+			// SQL Convert the characters and story
+			$sql = "UPDATE {$wpdb->term_taxonomy} SET taxonomy='characters' WHERE taxonomy='".$name.'_character'."';";
+			$wpdb->query($sql);
+			$sql = "UPDATE {$wpdb->term_taxonomy} SET taxonomy='chapters' WHERE taxonomy='".$name.'_storyline'."';";
+			$wpdb->query($sql);
+			// ---
+			$args = array(
+					'posts_per_page'   => -1,
+					'orderby'          => 'post_date',
+					'order'            => 'DESC',
+					'post_type'        => $name,
+					'post_status'      => 'any',
+					'suppress_filters' => true 
+					);
+			$qposts = get_posts( $args );
+			// Loop through all posts and set whatever attachment is first found as the featured image
+			foreach ($qposts as $qpost) {
+				$attachments = get_posts(array(
+							'post_type' => 'attachment', 
+							'post_mime_type'=>'image', 
+							'posts_per_page' => 0, 
+							'post_parent' => $qpost->ID, 
+							'order'=>'ASC'
+							));
+				if ($attachments) {
+					foreach ($attachments as $attachment) {
+						set_post_thumbnail($qpost->ID, $attachment->ID);
+						break;
+					}
+				}
+			}
+			// Now set all comics as the 'comic' post type in one fell swoop.
+			$sql = "UPDATE {$wpdb->posts} SET post_type='comic' WHERE post_type='".$name."';";
+			$wpdb->query($sql);
+		}
+	}
+	exit;
+}
+*/

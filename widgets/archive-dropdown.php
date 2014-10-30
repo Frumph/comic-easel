@@ -7,14 +7,14 @@ Author: Philip M. Hofer (Frumph)
 Version: 1.02
 */
 
-function ceo_comic_archive_jump_to_chapter($unhide = false, $exclude = '', $showcount = false, $jumptoarchive = false, $return = false) {
+function ceo_comic_archive_jump_to_chapter($unhide = false, $exclude = '', $showcount = false, $jumptoarchive = true, $return = false) {
 	ceo_protect();
 	
 	$args = array(
 			'pad_counts' => 1,
 			'orderby' => 'menu_order',
 			'order' => 'ASC',
-			'hide_empty' => ($unhide) ? true:false,
+			'hide_empty' => $unhide,
 			'exclude' => $exclude,
 			'parent' => 0
 	);
@@ -43,13 +43,15 @@ function ceo_comic_archive_jump_to_chapter($unhide = false, $exclude = '', $show
 					}
 				} else $permalink = get_term_link($parent_chapter->slug, 'chapters');
 				if (!empty($permalink)) $output .='<option class="level-0" value="'.esc_url($permalink).'">'.$parent_chapter->name.$thecount.'</option>';				
+			} elseif (!$unhide) {
+				$output .='<option class="level-0" value="" disabled>'.$parent_chapter->name.'</option>';
 			}
 			
 			$child_chapters = get_term_children($parent_chapter->term_id, 'chapters');
 			$args = array(
 					'pad_counts' => 1,
 					'orderby' => 'menu_order',
-					'order' => 'DESC',
+					'order' => 'ASC',
 					'hide_empty' => $unhide,
 					'child_of' => $parent_chapter->term_id,
 					'exclude' => array($exclude)
@@ -113,9 +115,9 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['exclude'] = strip_tags($new_instance['exclude']);
-		$instance['unhide'] = ($new_instance['unhide']) ? 1:0;
-		$instance['showcount'] = ($new_instance['showcount']) ? 1:0;
-		$instance['jumptoarchive'] = ($new_instance['jumptoarchive']) ? 1:0;
+		$instance['unhide'] = ($new_instance['unhide']) ? true:false;
+		$instance['showcount'] = ($new_instance['showcount']) ? true:false;
+		$instance['jumptoarchive'] = ($new_instance['jumptoarchive']) ? true:false;
 		return $instance;
 	}
 	
@@ -123,9 +125,9 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'exclude' => '', 'unhide' => 1, 'showcount' => 1, 'jumptoarchive' => 0) );
 		$title = $instance['title'];
 		$exclude = $instance['exclude'];
-		$unhide = $instance['unhide'] ? 1:0;
-		$showcount = $instance['showcount'] ? 1:0;
-		$jumptoarchive = $instance['jumptoarchive'] ? 1:0;
+		$unhide = ($instance['unhide']) ? 1:0;
+		$showcount = ($instance['showcount']) ? 1:0;
+		$jumptoarchive = ($instance['jumptoarchive']) ? 1:0;
 		?>
 		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','comiceasel'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
 		<p><label for="<?php echo $this->get_field_id('exclude'); ?>"><?php _e('Exclude Chapters (comma seperated):','comiceasel'); ?> <input class="widefat" id="<?php echo $this->get_field_id('exclude'); ?>" name="<?php echo $this->get_field_name('exclude'); ?>" type="text" value="<?php echo esc_attr($exclude); ?>" /></label><br />
