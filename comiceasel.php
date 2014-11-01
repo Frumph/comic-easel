@@ -219,11 +219,11 @@ function ceo_get_taxonomy_parents_names( $id, $taxonomy, $separator = '/', $nice
 		$name = $parent->slug;
 	else
 		$name = $parent->name;
-/*
+
 	if ( $parent->parent && ( $parent->parent != $parent->term_id ) && !in_array( $parent->parent, $visited ) ) {
 		$visited[] = $parent->parent;
 		$chain .= ceo_get_taxonomy_parents_names( $parent->parent, $taxonomy, $separator, $nicename, $visited );
-	}  */
+	}  
 	if ( ! empty( $name ) ) {
 		$chain .= $name.$separator;
 	}
