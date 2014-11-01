@@ -129,6 +129,11 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 == Changelog ==
 = 1.8.2 =
 Added option to disable the keyboard navigation script from running
+added error checking to the first and last in chapter get_terms function in the navigation.php
+edits to the archive-dropdown widget (yes, again) and default navigation archive-dropdown
+edit to the comic-archive list=1 shortcode ref: ps238.nodwick.com's archive
+added parent => 0 to stop the duplicating of info in the comic-archive
+
 
 = 1.8.1 =
 Config section bug fix for saving the graphic navigation dropdown value
