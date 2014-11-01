@@ -39,7 +39,6 @@
 					</td>
 				</tr>
 				<tr>
-					<?php if (!isset($ceo_options['enable_chapter_only_random'])) $ceo_options['enable_chapter_only_random'] = false; ?>
 					<th scope="row"><label for="enable_chapter_only_random"><?php _e('Random button (both default and widget) jumps only in the same chapter?','comiceasel'); ?></label></th>
 					<td>
 						<input id="enable_chapter_only_random" name="enable_chapter_only_random" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_chapter_only_random']); ?> />
@@ -49,13 +48,21 @@
 					</td>
 				</tr>
 				<tr class="alternate">
-					<?php if (!isset($ceo_options['enable_prevnext_chapter_traversing'])) $ceo_options['enable_prevnext_chapter_traversing'] = false; ?>
 					<th scope="row"><label for="enable_prevnext_chapter_traversing"><?php _e('Traverse comic chapters with the previous/next?','comiceasel'); ?></label></th>
 					<td>
 						<input id="enable_prevnext_chapter_traversing" name="enable_prevnext_chapter_traversing" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_prevnext_chapter_traversing']); ?> />
 					</td>
 					<td>
 						<?php _e('If at the first or last comic in a chapter, have the previous and next (in chapter) buttons navigate to the beginning or end of the connected in order chapters?','comiceasel'); ?>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="disable_keynav"><?php _e('Disable Keyboard Navigation?','comiceasel'); ?></label></th>
+					<td>
+						<input id="disable_keynav" name="disable_keynav" type="checkbox" value="1" <?php checked(true, $ceo_options['disable_keynav']); ?> />
+					</td>
+					<td>
+						<?php _e('When checked this disables the keyboard navigation script from being run.','comiceasel'); ?>
 					</td>
 				</tr>
 			</table>
@@ -162,6 +169,7 @@ foreach ($gnav_directories as $gnav_dirs) {
 					</td>
 				</tr>				
 			</table>
+			<br />
 		</div>
 		
 		<br />

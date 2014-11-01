@@ -127,6 +127,9 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.8.2 =
+Added option to disable the keyboard navigation script from running
+
 = 1.8.1 =
 Config section bug fix for saving the graphic navigation dropdown value
 
