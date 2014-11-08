@@ -3,7 +3,7 @@
 Plugin Name: Comic Easel
 Plugin URI: http://comiceasel.com
 Description: Comic Easel allows you to incorporate a WebComic using the WordPress Media Library functionality with Navigation into almost all WordPress themes. With just a few modifications of adding injection do_action locations into a theme, you can have the theme of your choice display and manage a webcomic.
-Version: 1.8.2
+Version: 1.8.3
 Author: Philip M. Hofer (Frumph)
 Author URI: http://frumph.net/
 
@@ -54,6 +54,8 @@ function ceo_initialize_post_types() {
 		$comic_slug = ceo_pluginfo('custom_post_type_slug_name');
 		
 		if (empty($comic_slug) || is_array($comic_slug)) $comic_slug = 'comic';
+		if (ceo_pluginfo('enable_chapter_in_url')) $comic_slug = $comic_slug.'/%chapters%';
+		
 		register_post_type(
 			'comic', 
 				array(
@@ -169,66 +171,21 @@ function ceo_initialize_post_types() {
 }
 
 if (ceo_pluginfo('enable_chapter_in_url')) {
-	add_action( 'registered_post_type', 'ceo_add_post_types_rewrite', 1, 2 );
-	add_filter( 'post_type_link', 'ceo_filter_post_type_link', 1, 2 );
-}
- 
-/**
- * Add the numeric permalink structure to bbPress topics and replies.
- *
- * @author Nashwan Doaqan
- */
-function ceo_add_post_types_rewrite( $post_type, $args ) {
-	if ( 'comic' === $post_type ) {
-		add_rewrite_tag( "%chapter_name%", '(.+?)', "post_type=comic&chapters=" );
-		add_permastruct( $post_type, "{$args->rewrite['slug']}/%chapter_name%/%postname%", $args->rewrite );
-	}
+	add_filter( 'post_type_link', 'ceo_add_chapters_to_permalinks', 1, 2 );
 }
 
-/**
- * Change bbPress post types links.
- *
- * @author Nashwan Doaqan
- */
-function ceo_filter_post_type_link( $post_link , $_post ) {
-    global $wp_rewrite;
-    if ( empty( $_post ) )
-         return $post_link;
-        if ( 'comic' === $_post->post_type ) {
-                $post_link = $wp_rewrite->get_extra_permastruct( $_post->post_type );
-                if ( strpos( $post_link, '%chapter_name%' ) !== FALSE ) {
-                        $chapter = get_the_terms( $_post->ID, 'chapters' );
-						if (is_array($chapter)) {
-							$chapter = reset( $chapter );
-							$chapter_name = ceo_get_taxonomy_parents_names( $chapter->term_id, 'chapters', '/', TRUE );
-							$post_link = str_replace( "%chapter_name%", untrailingslashit( $chapter_name ), $post_link );
-						} else return;
-                }
-                $post_link = str_replace( "%postname%", $_post->post_name, $post_link );
-                $post_link = home_url( user_trailingslashit( $post_link ) );
-     }
-     return $post_link;
-}
-
-function ceo_get_taxonomy_parents_names( $id, $taxonomy, $separator = '/', $nicename = false, $visited = array() ) {
-	$chain = '';
-	$parent = get_term( $id, $taxonomy );
-	if ( is_wp_error( $parent ) || ! $parent )return $parent;
-
-	if ( $nicename )
-		$name = $parent->slug;
-	else
-		$name = $parent->name;
-
-	if ( $parent->parent && ( $parent->parent != $parent->term_id ) && !in_array( $parent->parent, $visited ) ) {
-		$visited[] = $parent->parent;
-		$chain .= ceo_get_taxonomy_parents_names( $parent->parent, $taxonomy, $separator, $nicename, $visited );
-	}  
-	if ( ! empty( $name ) ) {
-		$chain .= $name.$separator;
-	}
-
-	return $chain;
+function ceo_add_chapters_to_permalinks( $post_link, $id = 0 ){
+    $post = get_post($id);
+	$chapter_slug = ucwords(ceo_pluginfo('chapter_type_slug_name'));
+	if (empty($chapter_slug) || is_array($chapter_slug)) $chapter_slug = 'chapter';
+	$chapter_slug = strtolower($chapter_slug);
+    if ( is_object( $post ) && $post->post_type == 'comic' ){
+        $terms = wp_get_object_terms( $post->ID, 'chapters' );
+        if( $terms ){
+            return str_replace( '%chapters%' , $terms[0]->slug , $post_link );
+        }
+    }
+    return $post_link;
 }
 
 if (!defined('CEO_FEATURE_DISABLE_REWRITE_RULES') && !ceo_pluginfo('disable_cal_rewrite_rules'))
@@ -545,7 +502,7 @@ function ceo_pluginfo($whichinfo = null) {
 				// comic-easel plugin directory/url
 				'plugin_url' => plugin_dir_url(__FILE__),
 				'plugin_path' => plugin_dir_path(__FILE__),
-				'version' => '1.8.2'
+				'version' => '1.8.3'
 		);
 		// Combine em.
 		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_addinfo);
