@@ -69,7 +69,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 		}
 		if ($instance['previous']) {
 			if (!empty($prev_comic)) { ?>
-				<a href="<?php echo $prev_comic; ?>" class="navi navi-prev" title="<?php echo $instance['previous_title']; ?>"><?php echo $instance['previous_title']; ?></a>
+				<a href="<?php echo $prev_comic; ?>" class="navi comic-nav-previous navi-prev" title="<?php echo $instance['previous_title']; ?>"><?php echo $instance['previous_title']; ?></a>
 			<?php } else { ?>
 				<span class="navi navi-prev navi-void"><?php echo $instance['previous_title']; ?></span>
 			<?php }
@@ -137,7 +137,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 		}
 		if ($instance['next']) {
 			if (!empty($next_comic)) { ?>
-				<a href="<?php echo $next_comic; ?>" class="navi navi-next" title="<?php echo $instance['next_title']; ?>"><?php echo $instance['next_title']; ?></a>
+				<a href="<?php echo $next_comic; ?>" class="navi comic-nav-next navi-next" title="<?php echo $instance['next_title']; ?>"><?php echo $instance['next_title']; ?></a>
 			<?php } else { ?>
 				<span class="navi navi-next navi-void"><?php echo $instance['next_title']; ?></span>
 			<?php }
