@@ -30,15 +30,6 @@
 					</td>
 				</tr>
 				<tr class="alternate">
-					<th scope="row"><label for="enable_nav_above_comic"><?php _e('Enable Default Navigation above comic?','comiceasel'); ?></label></th>
-					<td>
-						<input id="enable_nav_above_comic" name="enable_nav_above_comic" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_nav_above_comic']); ?> />
-					</td>
-					<td>
-						<?php _e('Check this to enable the default navigation to appear above the comic.','comiceasel'); ?>
-					</td>
-				</tr>
-				<tr>
 					<th scope="row"><label for="enable_chapter_only_random"><?php _e('Random button (both default and widget) jumps only in the same chapter?','comiceasel'); ?></label></th>
 					<td>
 						<input id="enable_chapter_only_random" name="enable_chapter_only_random" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_chapter_only_random']); ?> />
@@ -47,7 +38,7 @@
 						<?php _e('Make the random button only jump to the comics within the same chapter?','comiceasel'); ?>
 					</td>
 				</tr>
-				<tr class="alternate">
+				<tr>
 					<th scope="row"><label for="enable_prevnext_chapter_traversing"><?php _e('Traverse comic chapters with the previous/next?','comiceasel'); ?></label></th>
 					<td>
 						<input id="enable_prevnext_chapter_traversing" name="enable_prevnext_chapter_traversing" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_prevnext_chapter_traversing']); ?> />
@@ -56,7 +47,7 @@
 						<?php _e('If at the first or last comic in a chapter, have the previous and next (in chapter) buttons navigate to the beginning or end of the connected in order chapters?','comiceasel'); ?>
 					</td>
 				</tr>
-				<tr>
+				<tr class="alternate">
 					<th scope="row"><label for="disable_keynav"><?php _e('Disable Keyboard Navigation?','comiceasel'); ?></label></th>
 					<td>
 						<input id="disable_keynav" name="disable_keynav" type="checkbox" value="1" <?php checked(true, $ceo_options['disable_keynav']); ?> />
@@ -124,6 +115,15 @@ foreach ($gnav_directories as $gnav_dirs) {
 					</td>
 				</tr>
 				<tr>
+					<th scope="row"><label for="enable_nav_above_comic"><?php _e('Enable Default Navigation above comic?','comiceasel'); ?></label></th>
+					<td>
+						<input id="enable_nav_above_comic" name="enable_nav_above_comic" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_nav_above_comic']); ?> />
+					</td>
+					<td>
+						<?php _e('Check this to enable the default navigation to appear above the comic.','comiceasel'); ?>
+					</td>
+				</tr>
+				<tr class="alternate">
 					<th scope="row"><label for="navigate_only_chapters"><?php _e('Navigate through only the chapters and not all comics?','comiceasel'); ?></label></th>
 					<td>
 						<input id="navigate_only_chapters" name="navigate_only_chapters" type="checkbox" value="1" <?php checked(true, $ceo_options['navigate_only_chapters']); ?> />
@@ -132,7 +132,7 @@ foreach ($gnav_directories as $gnav_dirs) {
 						<?php _e('Enabling this make the navigation only navigate through individual chapters with the default navigation.','comiceasel'); ?>
 					</td>
 				</tr>				
-				<tr class="alternate">
+				<tr>
 					<th scope="row"><label for="enable_chapter_nav"><?php _e('Enable the chapter navigation drop down in the comic navigation?','comiceasel'); ?></label></th>
 					<td>
 						<input id="enable_chapter_nav" name="enable_chapter_nav" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_chapter_nav']); ?> />
@@ -141,7 +141,7 @@ foreach ($gnav_directories as $gnav_dirs) {
 						<?php _e('When this is enabled, a drop down archive box will appear in the navigation that lets you go to the start of each chapter','comiceasel'); ?>
 					</td>
 				</tr>
-				<tr>
+				<tr class="alternate">
 					<th scope="row"><label for="enable_random_nav"><?php _e('Enable the random comic link in the comic navigation?','comiceasel'); ?></label></th>
 					<td>
 						<input id="enable_random_nav" name="enable_random_nav" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_random_nav']); ?> />
@@ -150,7 +150,7 @@ foreach ($gnav_directories as $gnav_dirs) {
 						<?php _e('When this is enabled, a link will appear in the navigation that lets you go to a random comic in all chapters.','comiceasel'); ?>
 					</td>
 				</tr>
-				<tr class="alternate">
+				<tr>
 					<th scope="row"><label for="enable_comment_nav"><?php _e('Enable the comment link in the comic navigation?','comiceasel'); ?></label></th>
 					<td>
 						<input id="enable_comment_nav" name="enable_comment_nav" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_comment_nav']); ?> />
@@ -159,7 +159,7 @@ foreach ($gnav_directories as $gnav_dirs) {
 						<?php _e('When this is enabled, a link will appear in the navigation that lets you go to the comments section of the current post, it also shows how many comments there currently are.','comiceasel'); ?>
 					</td>
 				</tr>
-				<tr>
+				<tr class="alternate">
 					<th scope="row"><label for="enable_embed_nav"><?php _e('Enable the "embed this comic" textarea in the comic navigation?','comiceasel'); ?></label></th>
 					<td>
 						<input id="enable_embed_nav" name="enable_embed_nav" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_embed_nav']); ?> />
