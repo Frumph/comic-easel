@@ -55,14 +55,25 @@ function ceo_display_motion_artist_comic($motion_artist_comic = '') {
 function ceo_display_featured_image_comic($size = 'full') {
 	global $post;
 	$output = '';
+	$usemap = '';
+	$next_comic = '';
+	$comic_has_map = false;
 	$post_image_id = get_post_thumbnail_id($post->ID);
 	if ($post_image_id) { // If there's a featured image.
 		$hovertext = ceo_the_hovertext();
+		if (!empty($hovertext)) {
+			$hovertext = 'alt="'.$hovertext.'" title="'.$hovertext.'" ';
+		} else {
+			$hovertext = 'alt="'.get_the_title($post->ID).'" title="'.get_the_title($post->ID).'" ';
+		}
 		$thumbnail = wp_get_attachment_image_src( $post_image_id, $size, false);
 		if (is_array($thumbnail)) {
 			$thumbnail = reset($thumbnail);
 			
-			$comic_lightbox = get_post_meta( $post->ID, 'comic-open-lightbox', true );
+			$comic_has_map = get_post_meta($post->ID, 'comic-has-map', true);
+			if (!$comic_has_map || is_wp_error($comic_has_map)) $comic_has_map = false;
+			
+			$comic_lightbox = get_post_meta($post->ID, 'comic-open-lightbox', true);
 			if (is_wp_error($comic_lightbox)) $comic_lightbox = false;
 			
 			if (ceo_pluginfo('navigate_only_chapters')) {
@@ -75,21 +86,23 @@ function ceo_display_featured_image_comic($size = 'full') {
 			$linkto = get_post_meta($post->ID, 'link-to', true);
 			if ($linkto) $next_comic = esc_url($linkto);
 			
-			if ($linkto) $output .= '<a href="'.$linkto.'" title="'.$hovertext.'">';
+			if ($linkto && !$comic_has_map) $output .= '<a href="'.$linkto.'" title="'.$hovertext.'">';
 			
-			if ($comic_lightbox && !$linkto) {
+			if ($comic_lightbox && !$linkto && !$comic_has_map) {
 				$output .= '<a href="'.$thumbnail.'" title="'.$hovertext.'" rel="lightbox">';
 			}
 			
-			if (ceo_pluginfo('click_comic_next') && !empty($next_comic) && !$comic_lightbox && !$linkto) {
+			if (ceo_pluginfo('click_comic_next') && !empty($next_comic) && !$comic_lightbox && !$linkto && !$comic_has_map) {
 				$output .= '<a href="'.$next_comic.'" title="'.$hovertext.'">';
 			}
-						
-			$output .= '<img src="'.$thumbnail.'" alt="'.$hovertext.'" title="'.$hovertext.'" />';
-			if ((ceo_pluginfo('click_comic_next') && !empty($next_comic)) || $comic_lightbox || $linkto) {
+			// only show if the comic is not linkable
+			if ($comic_has_map) $usemap = 'usemap="#comicmap" ';
+			
+			$output .= '<img src="'.$thumbnail.'" '.$hovertext.' '.$usemap.' />';
+			if ((ceo_pluginfo('click_comic_next') && !empty($next_comic) && !$comic_has_map) || $comic_lightbox || $linkto) {
 				$output .= '</a>';
 			}
-			if ($comic_lightbox) $output .= '<div class="comic-lightbox-text">'.__('Click comic to view larger version.','comiceasel').'</div>';
+//			if ($comic_lightbox) $output .= '<div class="comic-lightbox-text">'.__('Click comic to view larger version.','comiceasel').'</div>';
 		}
 	}
 	return apply_filters('ceo_display_featured_image_comic', $output);

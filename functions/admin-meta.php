@@ -328,7 +328,14 @@ function ceo_edit_toggles_in_post($post) {
 			<input id="comic-open-lightbox" name="comic-open-lightbox" type="checkbox" value="1" <?php checked(1, get_post_meta( $post->ID, 'comic-open-lightbox', true )); ?> />
 		</td>
 	</tr>
+	<tr>
+		<th scope="row"><label for="comic-has-map"><?php _e('*Comic has Map?','comiceasel'); ?></label></th>
+		<td>
+			<input id="comic-has-map" name="comic-has-map" type="checkbox" value="1" <?php checked(1, get_post_meta( $post->ID, 'comic-has-map', true )); ?> />
+		</td>
+	</tr>
 </table>
+<em><?php _e('*  usemap="#comicmap" will be added, add the map html to the below html box','comiceasel'); ?></em>
 <?php
 }
 
@@ -441,6 +448,8 @@ function ceo_flash_upload_box($post) { ?>
 <?php _e('Set the dimensions of the flash .swf comic.','comiceasel'); ?><br />
 <label for="flash_height"><?php _e('Height:','comiceasel'); ?> <input id="flash_height" name="flash_height" type="text" value="<?php echo get_post_meta( $post->ID, 'flash_height', true ); ?>" /></label>
 <label for="flash_width"><?php _e('Width:','comiceasel'); ?> <input id="flash_width" name="flash_width" type="text" value="<?php echo get_post_meta( $post->ID, 'flash_width', true ); ?>" /></label><br />
+<br />
+<em><?php _e('You still need to have a featured image set, it will be used as a thumbnail.','comiceasel'); ?></em>
 <?php }
 
 function ceo_add_comic_in_post() {
@@ -541,7 +550,8 @@ function ceo_handle_edit_save_comic($post_id, $post) {
 			'flash_width',
 			'media_url',
 			'media_width',
-			'link-to'
+			'link-to',
+			'comic-has-map'
 			);
 			
 	foreach ($meta_array as $meta_key) {
