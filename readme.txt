@@ -129,6 +129,9 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 == Changelog ==
 = 1.8.3 =
 Rewrote the code to allow chapters in the URL using a different method
+removed the 'click to view larger image' text when lightbox is enabled
+added a new option to the comic editor in the toggle box, 'comic has map?' for those who want to make image maps for their comics
+moved an option on the navigation tab to it's appropriate location in the default nav section
 
 
 = 1.8.2 =
