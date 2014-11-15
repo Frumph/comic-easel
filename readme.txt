@@ -3,7 +3,7 @@ Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 3.2
 Tested up to: 4.0
-Stable tag: 1.8.3
+Stable tag: 1.8.4
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -127,23 +127,28 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.8.4 =
+Title fix for comics so that they display // quick patch, links break otherwise
+
+
 = 1.8.3 =
-Rewrote the code to allow chapters in the URL using a different method
-removed the 'click to view larger image' text when lightbox is enabled
-added a new option to the comic editor in the toggle box, 'comic has map?' for those who want to make image maps for their comics
-moved an option on the navigation tab to it's appropriate location in the default nav section
+* Rewrote the code to allow chapters in the URL using a different method
+* removed the 'click to view larger image' text when lightbox is enabled
+* added a new option to the comic editor in the toggle box, 'comic has map?' for those who want to make image maps for their comics
+* moved an option on the navigation tab to it's appropriate location in the default nav section
+* allow keyboard navigation jquery to work with the navigation widget and not just default nav
 
 
 = 1.8.2 =
-Added option to disable the keyboard navigation script from running
-added error checking to the first and last in chapter get_terms function in the navigation.php
-edits to the archive-dropdown widget (yes, again) and default navigation archive-dropdown
-edit to the comic-archive list=1 shortcode ref: ps238.nodwick.com's archive
-added parent => 0 to stop the duplicating of info in the comic-archive
+* Added option to disable the keyboard navigation script from running
+* added error checking to the first and last in chapter get_terms function in the navigation.php
+* edits to the archive-dropdown widget (yes, again) and default navigation archive-dropdown
+* edit to the comic-archive list=1 shortcode ref: ps238.nodwick.com's archive
+* added parent => 0 to stop the duplicating of info in the comic-archive
 
 
 = 1.8.1 =
-Config section bug fix for saving the graphic navigation dropdown value
+* Config section bug fix for saving the graphic navigation dropdown value
 
 = 1.8 =
 * Added some tabs in the comic - config

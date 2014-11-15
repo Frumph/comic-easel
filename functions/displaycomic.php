@@ -86,14 +86,14 @@ function ceo_display_featured_image_comic($size = 'full') {
 			$linkto = get_post_meta($post->ID, 'link-to', true);
 			if ($linkto) $next_comic = esc_url($linkto);
 			
-			if ($linkto && !$comic_has_map) $output .= '<a href="'.$linkto.'" title="'.$hovertext.'">';
+			if ($linkto && !$comic_has_map) $output .= '<a href="'.$linkto.'" '.$hovertext.'>';
 			
 			if ($comic_lightbox && !$linkto && !$comic_has_map) {
-				$output .= '<a href="'.$thumbnail.'" title="'.$hovertext.'" rel="lightbox">';
+				$output .= '<a href="'.$thumbnail.'" '.$hovertext.' rel="lightbox">';
 			}
 			
 			if (ceo_pluginfo('click_comic_next') && !empty($next_comic) && !$comic_lightbox && !$linkto && !$comic_has_map) {
-				$output .= '<a href="'.$next_comic.'" title="'.$hovertext.'">';
+				$output .= '<a href="'.$next_comic.'" '.$hovertext.'>';
 			}
 			// only show if the comic is not linkable
 			if ($comic_has_map) $usemap = 'usemap="#comicmap" ';
