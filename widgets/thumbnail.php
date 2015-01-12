@@ -100,9 +100,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 	function form($instance) {
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'thumbchapt' => '', 'first' => false, 'random' => false, 'thumbcount' => 1, 'linktitle' => false, 'centering' => false, 'secondary' => false, 'same' => false, 'inhistory' => false, 'thumbnail_size' => 'thumbnail' ) );
 		$title = strip_tags($instance['title']);
-		if (isset($instance['thumbnail_size'])) {
-			$thumbnail_size = strip_tags($instance['thumbnail_size']);
-		} else $thumbnail_size = 'thumbnail';
+		$thumbnail_size = (isset($instance['thumbnail_size'])) ? $instance['thumbnail_size'] : 'thumbnail';
 		$thumbchapt = $instance['thumbchapt'];
 		$first = $instance['first'];
 		$random = $instance['random'];
