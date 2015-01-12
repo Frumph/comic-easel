@@ -40,6 +40,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 			$current_post_id = $post->ID;
 			$comic_query .= '&exclude='.$current_post_id;
 		}
+		$thumbnail_size = (isset($instance['thumbnail_size'])) ? $instance['thumbnail_size'] : 'thumbnail';
 		$thumbnail_query = new WP_Query($comic_query);
 		$archive_image = null;
 		if ($thumbnail_query->have_posts()) {
@@ -58,14 +59,14 @@ class ceo_thumbnail_widget extends WP_Widget {
 							echo "<a href=\"".$the_permalink."\" rel=\"bookmark\" title=\"Permanent Link to ".get_the_title()."\">".$secondary_image."</a>\r\n";
 						} else {
 							if ( has_post_thumbnail($post->ID) ) {
-								echo "<a href=\"".$the_permalink."\" rel=\"bookmark\" title=\"Permanent Link to ".get_the_title()."\">".get_the_post_thumbnail($post->ID, 'thumbnail')."</a>\r\n";
+								echo "<a href=\"".$the_permalink."\" rel=\"bookmark\" title=\"Permanent Link to ".get_the_title()."\">".get_the_post_thumbnail($post->ID, $thumbnail_size)."</a>\r\n";
 							} else {
 								echo "No Thumbnail Found.";	
 							}							
 						}
 					} else {
 						if ( has_post_thumbnail($post->ID) ) {
-							echo "<a href=\"".$the_permalink."\" rel=\"bookmark\" title=\"Permanent Link to ".get_the_title()."\">".get_the_post_thumbnail($post->ID, 'thumbnail')."</a>\r\n";
+							echo "<a href=\"".$the_permalink."\" rel=\"bookmark\" title=\"Permanent Link to ".get_the_title()."\">".get_the_post_thumbnail($post->ID, $thumbnail_size)."</a>\r\n";
 						} else {
 							echo "No Thumbnail Found.";	
 						}
@@ -83,6 +84,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 	function update($new_instance, $old_instance) {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
+		$instance['thumbnail_size'] = strip_tags($new_instance['thumbnail_size']);
 		$instance['thumbchapt'] = strip_tags($new_instance['thumbchapt']);
 		$instance['thumbcount'] = (int)strip_tags($new_instance['thumbcount']);
 		$instance['first'] =  (bool)( $new_instance['first'] == 1 ? true : false );
@@ -96,8 +98,11 @@ class ceo_thumbnail_widget extends WP_Widget {
 	}
 	
 	function form($instance) {
-		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'thumbchapt' => '', 'first' => false, 'random' => false, 'thumbcount' => 1, 'linktitle' => false, 'centering' => false, 'secondary' => false, 'same' => false, 'inhistory' => false ) );
+		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'thumbchapt' => '', 'first' => false, 'random' => false, 'thumbcount' => 1, 'linktitle' => false, 'centering' => false, 'secondary' => false, 'same' => false, 'inhistory' => false, 'thumbnail_size' => 'thumbnail' ) );
 		$title = strip_tags($instance['title']);
+		if (isset($instance['thumbnail_size'])) {
+			$thumbnail_size = strip_tags($instance['thumbnail_size']);
+		} else $thumbnail_size = 'thumbnail';
 		$thumbchapt = $instance['thumbchapt'];
 		$first = $instance['first'];
 		$random = $instance['random'];
@@ -109,6 +114,15 @@ class ceo_thumbnail_widget extends WP_Widget {
 		$inhistory = $instance['inhistory'];
 		?>
 		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:', 'comiceasel'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
+		<p><label for="<?php echo $this->get_field_id('thumbnail_size'); ?>"><?php _e('Thumbnail size to use:','comiceasel'); ?></label>
+		<select name="<?php echo $this->get_field_name('thumbnail_size'); ?>" id="<?php echo $this->get_field_id('thumbnail_size'); ?>">
+		<?php 
+			$thumbnail_sizes = get_intermediate_image_sizes();
+			foreach ($thumbnail_sizes as $size) { ?>
+				<option class="level-0" value="<?php echo $size; ?>" <?php selected( $thumbnail_size, $size); ?>><?php echo ucfirst($size); ?></option>
+		<?php } ?>
+				<option class="level-0" value="full" <?php selected($thumbnail_size, 'full'); ?>><?php _e('Full', 'comiceasel'); ?></option>							
+		</select></p>
 		<p><?php _e('Which Chapter?', 'comiceasel'); ?><br />	
 		<?php 
 		
