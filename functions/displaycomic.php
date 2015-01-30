@@ -285,7 +285,7 @@ function ceo_display_comic_area() {
 					'order' => $order,
 					'chapters' => $chapter_on_home
 					);
-			$wp_query->in_the_loop = false; $comicFrontpage = new WP_Query(); $comicFrontpage->query($comic_args);
+			$comicFrontpage = new WP_Query(); $comicFrontpage->query($comic_args);
 			while ($comicFrontpage->have_posts()) : $comicFrontpage->the_post();
 				ceo_display_comic_wrapper();
 			endwhile;
