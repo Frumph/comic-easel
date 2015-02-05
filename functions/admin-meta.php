@@ -541,9 +541,7 @@ function ceo_handle_edit_save_comic($post_id, $post) {
 			'ma-directory',
 			'ma-height',
 			'ma-width',
-			'buy_print_amount',
 			'buyprint-status',
-			'buy_print_orig_amount',
 			'buyorig-status',
 			'flash_file',
 			'flash_height',
@@ -553,6 +551,19 @@ function ceo_handle_edit_save_comic($post_id, $post) {
 			'link-to',
 			'comic-has-map'
 			);
+			
+	$defaultorigamount = ceo_pluginfo('buy_comic_orig_amount');
+	$defaultbuyprintamount = ceo_pluginfo('buy_comic_print_amount');
+	
+	if (isset($_POST['buy_print_amount'])) { 
+		$buyprint = esc_textarea($_POST['buy_print_amount']);
+		if ($buyprint !== $defaultbuyprintamount) $meta_array[] = 'buy_print_amount';
+	}
+	
+	if (isset($_POST['buy_print_orig_amount'])) { 
+		$buyorig = esc_textarea($_POST['buy_print_orig_amount']);
+		if ($buyorig !== $defaultorigamount) $meta_array[] = 'buy_print_orig_amount';
+	}
 			
 	foreach ($meta_array as $meta_key) {
 		$new_meta_value = ( isset( $_POST[$meta_key] ) ? esc_textarea( $_POST[$meta_key] ) : '' );

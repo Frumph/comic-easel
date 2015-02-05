@@ -92,7 +92,7 @@ if (ceo_pluginfo('enable_comment_nav')) {
 	<td class="comic-nav"><?php if ($next_comic) { ?><a href="<?php echo $next_comic ?>" class="comic-nav-base comic-nav-next<?php if (!$next_comic) { ?> comic-nav-inactive<?php } ?>"><?php echo $next_text; ?></a><?php } else { echo '<span class="comic-nav-base comic-nav-next comic-nav-void ">'.$next_text.'</span>'; } ?></td>
 	<td class="comic-nav"><?php if ( get_permalink() != $last_comic ) { ?><a href="<?php echo $last_comic ?>" class="comic-nav-base comic-nav-last<?php if ( get_permalink() == $last_comic ) { ?> comic-nav-inactive<?php } ?>"><?php echo $last_text; ?></a><?php } else { echo '<span class="comic-nav-base comic-nav-last comic-nav-void ">'.$last_text.'</span>'; } ?></td>
 <?php if (ceo_pluginfo('enable_chapter_nav')) { ?>				
-			<td class="comic-nav comic-nav-jumpto"><?php ceo_comic_archive_jump_to_chapter(false, false, false, true, false); ?></td>
+			<td class="comic-nav comic-nav-jumpto"><?php ceo_comic_archive_jump_to_chapter(false, '', false, false, false); ?></td>
 <?php } ?>
 		</tr>
 <?php if (ceo_pluginfo('enable_embed_nav')) { ?>
@@ -180,7 +180,7 @@ function ceo_inject_mini_navigation() {
 			$order = (ceo_pluginfo('display_first_comic_on_home_page')) ?  'asc' : 'desc';
 			$query_args = 'post_type=comic&showposts=1&order='.$order.$chapter_on_home;
 			apply_filters('ceo_display_comic_mininav_home_query', $query_args);
-			$wp_query->in_the_loop = true; $comicFrontpage = new WP_Query(); $comicFrontpage->query($query_args);
+			$comicFrontpage = new WP_Query(); $comicFrontpage->query($query_args);
 			while ($comicFrontpage->have_posts()) : $comicFrontpage->the_post();
 				if (ceo_pluginfo('navigate_only_chapters')) {
 					$next_comic = ceo_get_next_comic_in_chapter_permalink();

@@ -253,4 +253,16 @@ function ceo_convert_to_ce() {
 	}
 	exit;
 }
+
+if (isset($_GET['clearprice']))
+	add_action('template_redirect', 'ceo_clearprice');
+
+function ceo_clearprice() {
+	global $wpdb;
+	$sql = "DELETE * FROM {$wpdb->postmeta} where meta_key = 'buy_print_amount'";
+	$wpdb->query($sql);
+	$sql = "DELETE * FROM {$wpdb->postmeta} where meta_key = 'buy_print_orig_amount'";
+	$wpdb->query($sql);
+	exit;
+}
 */
