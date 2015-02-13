@@ -59,7 +59,7 @@ function ceo_display_featured_image_comic($size = 'full') {
 	$next_comic = '';
 	$comic_has_map = false;
 	// Allow the size to be filtered for external plugins and the like to change it on whim.
-	$size = apply_filter('ceo_display_featured_image_comic_size', $size);
+	$size = apply_filters('ceo_display_featured_image_comic_size', $size);
 	$post_image_id = get_post_thumbnail_id($post->ID);
 	if ($post_image_id) { // If there's a featured image.
 		$hovertext = ceo_the_hovertext();
