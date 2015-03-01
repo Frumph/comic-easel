@@ -94,10 +94,6 @@ table#comic-nav-wrapper {
 	float: left;
 }
 
-.mininav-prev a:hover, .mininav-next a:hover {
-	color: #ffcf00;
-}
-
 #comic img {
     margin: 0;
     padding: 0;

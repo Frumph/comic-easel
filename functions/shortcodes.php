@@ -6,7 +6,8 @@ add_shortcode('comic-archive', 'ceo_comic_archive_multi');
 add_shortcode('transcript', 'ceo_display_transcript');
 add_shortcode('buycomic', 'ceo_display_buycomic');
 add_shortcode('comic-archive-dropdown', 'ceo_comic_archive_dropdown');
-add_shortcode('randcomic', 'ceo_random_comic_shortcode');
+add_shortcode('randcomic', 'ceo_random_comic_shortcode'); // old
+add_shortcode('showcomic', 'ceo_random_comic_shortcode'); // new
 
 function ceo_cast_display($character, $stats, $image) {
 	$cast_output = '';
@@ -623,17 +624,24 @@ function ceo_random_comic_shortcode($atts, $content = '') {
 					'character' => '',
 					'size' => 'thumbnail',
 					'slug' => '',
-					'chapter' => ''
+					'chapter' => '',
+					'orderby' => 'rand',
+					'month' => '',
+					'day' => '',
+					'year' => ''
 					), $atts ) );
 	global $post;
 	$args = array(
 		'name' => $slug,
-		'orderby' => 'rand',
+		'orderby' => $orderby,
 		'showposts' => 1,
 		'post_type' => 'comic',
 		'chapters' => $chapter,
 		'characters' => $character,
-		'exclude' => $post->ID
+		'exclude' => $post->ID,
+		'year' => $year,
+		'month' => $month,
+		'day' => $day
 			);
 	ceo_protect();
 	$thumbnail_query = new WP_Query($args);
