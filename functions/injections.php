@@ -337,22 +337,22 @@ global $post, $wp_query, $wpdb, $table_prefix;
 function ceo_social_meta() {
 	global $post;
 	if (!empty($post) && $post->post_type == 'comic') {
-		echo '<meta name="twitter:card" content="summary">'."\r\n";
-		echo '<meta name="twitter:site" content="'.get_bloginfo('name').'">'."\r\n";
+//		echo '<meta name="twitter:card" content="summary">'."\r\n";
+//		echo '<meta name="twitter:site" content="'.get_bloginfo('name').'">'."\r\n";
 		if (is_single() || is_page()) {
 			$quick_excerpt = esc_attr(get_the_excerpt());
-			echo '<meta name="twitter:description" content="'.$quick_excerpt.'" />'."\r\n";
-			echo '<meta name="twitter:title" content="'.get_the_title().'" />'."\r\n";
+//			echo '<meta name="twitter:description" content="'.$quick_excerpt.'" />'."\r\n";
+//			echo '<meta name="twitter:title" content="'.get_the_title().'" />'."\r\n";
 		} else {
-			echo '<meta name="twitter:description" content="'.get_bloginfo('description').'" />'."\r\n";         
-			echo '<meta name="twitter:title" content="" />'."\r\n";
+//			echo '<meta name="twitter:description" content="'.get_bloginfo('description').'" />'."\r\n";         
+//			echo '<meta name="twitter:title" content="" />'."\r\n";
 		}
 		$post_image_id = get_post_thumbnail_id($post->ID);
 		$thumbnail = wp_get_attachment_image_src( $post_image_id, ceo_pluginfo('thumbnail_size_for_facebook'), false);
 		if (is_array($thumbnail)) { 
 			$thumbnail = reset($thumbnail);
 			echo '<meta property="og:image" content="'.$thumbnail.'" />'."\r\n";
-			echo '<meta name="twitter:image" content="'.$thumbnail.'" />'."\r\n";
+//			echo '<meta name="twitter:image" content="'.$thumbnail.'" />'."\r\n";
 		}		
 	}
 }
