@@ -1,9 +1,9 @@
 === Comic Easel ===
 Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
-Requires at least: 3.2
-Tested up to: 4.1
-Stable tag: 1.8.5
+Requires at least: 4.1
+Tested up to: 4.2.2
+Stable tag: 1.8.6
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -127,6 +127,10 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+
+= 1.8.6 =
+= Confirmed 4.2.2 compatibility
+
 = 1.8.5 =
 = WordPress 4.1 compatibility mark
 = removed all references to in_the_loop, was causing issues with some themes
