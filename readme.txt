@@ -3,7 +3,7 @@ Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 4.1
 Tested up to: 4.2.2
-Stable tag: 1.8.6
+Stable tag: 1.8.7
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -127,6 +127,8 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.8.7 =
+= Fix for going back to 'all chapters' in the config after switching back to it.
 
 = 1.8.6 =
 = Confirmed 4.2.2 compatibility
