@@ -23,11 +23,15 @@ function ceo_display_comic_small_blog_post($instance) {
 
 class ceo_comic_blog_post_widget extends WP_Widget {
 	
-	function ceo_comic_blog_post_widget($skip_widget_init = false) {
-		if (!$skip_widget_init) {
-			$widget_ops = array('classname' => __CLASS__, 'description' => __('Displays the comic blog post for the day, best used when the comic blog post is disabled and you want to put this into a sidebar.','comiceasel') );
-			$this->WP_Widget(__CLASS__, __('Comic Easel - Blog Post','comiceasel'), $widget_ops);
-		}
+	/**
+	 * Register widget with WordPress.
+	 */
+	function __construct() {
+		parent::__construct(
+			__CLASS__, // Base ID
+			__( 'Comic Easel - Blog Post', 'comiceasel' ), // Name
+			array( 'classname' => __CLASS__, 'description' => __( 'Displays the comic blog post for the day, best used when the comic blog post is disabled and you want to put this into a sidebar.', 'comiceasel' ), ) // Args
+		);
 	}
 	
 	function widget($args, $instance) {
@@ -101,8 +105,7 @@ class ceo_comic_blog_post_widget extends WP_Widget {
 	}
 }
 
-function ceo_comic_blog_post_widget_register() {
+add_action( 'widgets_init', function(){
 	register_widget('ceo_comic_blog_post_widget');
-}
+});
 
-add_action( 'widgets_init', 'ceo_comic_blog_post_widget_register');

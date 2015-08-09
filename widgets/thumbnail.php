@@ -9,9 +9,15 @@ Version: 1.3
 	
 class ceo_thumbnail_widget extends WP_Widget {
 
-	function ceo_thumbnail_widget() {
-		$widget_ops = array('classname' => __CLASS__, 'description' => __('Display a thumbnail of a comic, by chapter, newest, first or random, clickable to go to the comic.', 'comiceasel') );
-		$this->WP_Widget(__CLASS__, __('Comic Easel - Thumbnail', 'comiceasel'), $widget_ops);
+	/**
+	 * Register widget with WordPress.
+	 */
+	function __construct() {
+		parent::__construct(
+			__CLASS__, // Base ID
+			__( 'Comic Easel - Thumbnail', 'comiceasel' ), // Name
+			array( 'classname' => __CLASS__, 'description' => __( 'Display a thumbnail of a comic, by chapter, newest, first or random, clickable to go to the comic.', 'comiceasel' ), ) // Args
+		);
 	}
 	
 	function widget($args, $instance) {
@@ -155,11 +161,6 @@ class ceo_thumbnail_widget extends WP_Widget {
 	}
 }
 
-function ceo_thumbnail_widget_register() {
+add_action( 'widgets_init', function(){
 	register_widget('ceo_thumbnail_widget');
-}
-
-add_action('widgets_init', 'ceo_thumbnail_widget_register');
-
-
-?>
+});

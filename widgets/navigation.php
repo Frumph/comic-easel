@@ -9,10 +9,16 @@ Version: 1.1m
 */
 
 class ceo_comic_navigation_widget extends WP_Widget {
-	
-	function ceo_comic_navigation_widget() {
-		$widget_ops = array('classname' => __CLASS__, 'description' => __('Displays navigation links for navigating your comics.  This widget works best in the above-comic and under-comic sidebars if you set them in the theme you use.','comiceasel') );
-		$this->WP_Widget('ceo_comic_navigation', __('Comic Easel - Navigation','comiceasel'), $widget_ops);
+
+	/**
+	 * Register widget with WordPress.
+	 */
+	function __construct() {
+		parent::__construct(
+			__CLASS__, // Base ID
+			__( 'Comic Easel - Navigation', 'comiceasel' ), // Name
+			array( 'classname' => __CLASS__, 'description' => __( 'Displays navigation links for navigating your comics.  This widget works in the above-comic and under-comic sidebars if you set them in the theme you use.', 'comiceasel' ), ) // Args
+		);
 	}
 	
 	function display_comic_nav_wrapper($args, $instance) {
@@ -354,9 +360,8 @@ class ceo_comic_navigation_widget extends WP_Widget {
 	}
 }
 
-function ceo_widget_comic_navigation_register() {
+add_action( 'widgets_init', function(){
 	register_widget('ceo_comic_navigation_widget');
-}
+});
 
-add_action( 'widgets_init', 'ceo_widget_comic_navigation_register');
 

@@ -10,11 +10,15 @@ Version: 1.04
 
 class ceo_scheduled_comics_widget extends WP_Widget {
 	
-	function ceo_scheduled_comics_widget($skip_widget_init = false) {
-		if (!$skip_widget_init) {
-			$widget_ops = array('classname' => __CLASS__, 'description' => __('Display a list of comics that are scheduled to be published.','comiceasel') );
-			$this->WP_Widget(__CLASS__, __('Comic Easel - Scheduled Posts','comiceasel'), $widget_ops);
-		}
+	/**
+	 * Register widget with WordPress.
+	 */
+	function __construct() {
+		parent::__construct(
+			__CLASS__, // Base ID
+			__( 'Comic Easel - Scheduled Posts', 'comiceasel' ), // Name
+			array( 'classname' => __CLASS__, 'description' => __( 'Display a list of comics that are scheduled to be published.', 'comiceasel' ), ) // Args
+		);
 	}
 	
 	function widget($args, $instance) {
@@ -58,10 +62,6 @@ class ceo_scheduled_comics_widget extends WP_Widget {
 	}
 }
 
-function ceo_scheduled_comics_widget_register() {
+add_action( 'widgets_init', function(){
 	register_widget('ceo_scheduled_comics_widget');
-}
-
-add_action( 'widgets_init', 'ceo_scheduled_comics_widget_register');
-
-?>
+});

@@ -94,11 +94,15 @@ function ceo_comic_archive_jump_to_chapter($unhide = false, $exclude = '', $show
 
 class ceo_comic_archive_dropdown_widget extends WP_Widget {
 	
-	function ceo_comic_archive_dropdown_widget($skip_widget_init = false) {
-		if (!$skip_widget_init) {
-			$widget_ops = array('classname' => __CLASS__, 'description' => __('Display dropdown list of comic chapters.', 'comiceasel') );
-			$this->WP_Widget(__CLASS__, __('Comic Easel - Comic Chapters','comiceasel'), $widget_ops);
-		}
+	/**
+	 * Register widget with WordPress.
+	 */
+	function __construct() {
+		parent::__construct(
+			__CLASS__, // Base ID
+			__( 'Comic Easel - Comic Chapters', 'comiceasel' ), // Name
+			array( 'classname' => __CLASS__, 'description' => __( 'Display dropdown list of comic chapters.', 'comiceasel' ), )
+		);
 	}
 	
 	function widget($args, $instance) {
@@ -140,4 +144,6 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 	}
 }
 
-add_action( 'widgets_init', create_function('', 'return register_widget("ceo_comic_archive_dropdown_widget");') );
+add_action( 'widgets_init', function(){
+	register_widget('ceo_comic_archive_dropdown_widget');
+});

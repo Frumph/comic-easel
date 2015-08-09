@@ -69,9 +69,15 @@ function ceo_add_characters_hovercards($post_characters) {
 //widget code below here
 class ceo_casthover_reference_widget extends WP_Widget {
 	
-	function ceo_casthover_reference_widget() {
-		$widget_ops = array('classname' => __CLASS__, 'description' => __('Creates a grid of avatars for characters in the current comic.', 'comiceasel') );
-		$this->WP_Widget(__CLASS__, __('Comic Easel - Cast Hover', 'comiceasel'), $widget_ops);
+	/**
+	 * Register widget with WordPress.
+	 */
+	function __construct() {
+		parent::__construct(
+			__CLASS__, // Base ID
+			__( 'Comic Easel - Cast Hover', 'comiceasel' ), // Name
+			array( 'classname' => __CLASS__, 'description' => __( 'Creates a grid of avatars for characters in the current comic.', 'comiceasel' ), ) // Args
+		);
 	}
 	
 	function widget($args, $instance) {
@@ -124,9 +130,7 @@ class ceo_casthover_reference_widget extends WP_Widget {
 }
 
 
-function ceo_casthover_reference_widget_register() {
+add_action( 'widgets_init', function(){
 	register_widget('ceo_casthover_reference_widget');
-}
+});
 
-add_action('widgets_init', 'ceo_casthover_reference_widget_register');
-?>

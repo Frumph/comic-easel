@@ -244,12 +244,16 @@ add_action( 'update_option_gmt_offset', 'ceo_delete_get_calendar_cache' );
 
 
 class ceo_calendar_widget extends WP_Widget {
-	
-	function ceo_calendar_widget($skip_widget_init = false) {
-		if (!$skip_widget_init) {
-			$widget_ops = array('classname' => __CLASS__, 'description' => __('Display a calendar showing this months posts. (this calendar does not drop lines if there is no title given.)','comiceasel') );
-			$this->WP_Widget(__CLASS__, __('Comic Easel - Calendar','comiceasel'), $widget_ops);
-		}
+
+	/**
+	 * Register widget with WordPress.
+	 */
+	function __construct() {
+		parent::__construct(
+			__CLASS__, // Base ID
+			__( 'Comic Easel - Calendar', 'comiceasel' ), // Name
+			array( 'classname' => __CLASS__, 'description' => __( 'Display a calendar showing this months posts. (this calendar does not drop lines if there is no title given.', 'comiceasel' ), ) // Args
+		);
 	}
 
 	function widget($args, $instance) {
@@ -337,8 +341,7 @@ class ceo_calendar_widget extends WP_Widget {
 	}
 }
 
-function ceo_calendar_widget_register() {
+add_action( 'widgets_init', function(){
 	register_widget('ceo_calendar_widget');
-}
+});
 
-add_action( 'widgets_init', 'ceo_calendar_widget_register');

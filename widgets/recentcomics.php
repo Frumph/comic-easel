@@ -8,12 +8,16 @@ Version: 1.02
 */
 	
 class ceo_latest_comics_widget extends WP_Widget {
-	
-	function ceo_latest_comics_widget($skip_widget_init = false) {
-		if (!$skip_widget_init) {
-			$widget_ops = array('classname' => __CLASS__, 'description' => __('Display a list of the latest comics','comiceasel') );
-			$this->WP_Widget(__CLASS__, __('Comic Easel - Latest Comics','comiceasel'), $widget_ops);
-		}
+
+	/**
+	 * Register widget with WordPress.
+	 */
+	function __construct() {
+		parent::__construct(
+			__CLASS__, // Base ID
+			__( 'Comic Easel - Latest Comics', 'comiceasel' ), // Name
+			array( 'classname' => __CLASS__, 'description' => __( 'Display a list of the latest comics.', 'comiceasel' ), ) // Args
+		);
 	}
 	
 	function widget($args, $instance) {
@@ -57,10 +61,7 @@ class ceo_latest_comics_widget extends WP_Widget {
 	}
 }
 
-function ceo_latest_comics_widget_register() {
+add_action( 'widgets_init', function(){
 	register_widget('ceo_latest_comics_widget');
-}
+});
 
-add_action('widgets_init', 'ceo_latest_comics_widget_register');
-
-?>
