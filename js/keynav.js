@@ -1,7 +1,7 @@
 jQuery(document).ready(function () {
-	var window_focus;
 
 	jQuery(window).focus(function() {
+
 		jQuery(document).keydown(function(e) {
 			var url = false;
 
@@ -16,5 +16,7 @@ jQuery(document).ready(function () {
 				window.location = url;
 			}
 		});
+
 	});
+
 });
