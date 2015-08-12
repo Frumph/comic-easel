@@ -1,6 +1,6 @@
 jQuery(document).ready(function () {
 
-	jQuery(window).focus(function() {
+	if jQuery(document).hasFocus() {
 
 		jQuery(document).keydown(function(e) {
 			var url = false;
