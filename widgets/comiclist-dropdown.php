@@ -17,7 +17,7 @@ function ceo_list_jump_to_comic($exclude = '', $return = false) {
 		$output = '<form method="get" class="comic-archive-dropdown-form">';
 		$output .= '<select onchange="document.location.href=this.options[this.selectedIndex].value;">';
 		$level = 0;
-		$output .= '<option class="level-select" value="">'.__('Select','comiceasel').'</option>';
+		$output .= '<option class="level-select" value="">'.__('Jump To','comiceasel').'</option>';
 		$post_args = array( 
 			'post_type' => 'comic',
 			'order' => 'ASC', 
@@ -38,7 +38,6 @@ function ceo_list_jump_to_comic($exclude = '', $return = false) {
 			return $output;
 		} else echo $output;
 	}
-
 	ceo_unprotect();
 }
 
@@ -57,12 +56,28 @@ class ceo_comic_list_dropdown_widget extends WP_Widget {
 	
 	function widget($args, $instance) {
 		global $post;
-		extract($args, EXTR_SKIP); 
-		echo $before_widget;
-		$title = empty($instance['title']) ? __('Comic List','comiceasel') : apply_filters('widget_title', $instance['title']); 
-		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; }; 
-		ceo_list_jump_to_comic($instance['exclude'], false);
-		echo $after_widget;
+
+		if (!is_home() && !is_front_page()) {
+			extract($args, EXTR_SKIP); 
+			echo $before_widget;
+			$title = empty($instance['title']) ? __('Comic List','comiceasel') : apply_filters('widget_title', $instance['title']); 
+			if ( !empty( $title ) ) { echo $before_title . $title . $after_title; }; 
+			if ((is_home() || is_front_page()) && !is_paged() && !ceo_pluginfo('disable_comic_on_home_page')) {
+				$chapter_on_home = '';
+				$chapter_on_home = get_term_by( 'id', ceo_pluginfo('chapter_on_home'), 'chapters');
+				$chapter_on_home = (!is_wp_error($chapter_on_home) && !empty($chapter_on_home)) ? '&chapters='.$chapter_on_home->slug : '';
+				$order = (ceo_pluginfo('display_first_comic_on_home_page')) ?  'asc' : 'desc';
+				$query_args = 'post_type=comic&showposts=1&order='.$order.$chapter_on_home;
+				apply_filters('ceo_display_comic_mininav_home_query', $query_args);
+				$comicFrontpage = new WP_Query(); $comicFrontpage->query($query_args);
+				while ($comicFrontpage->have_posts()) : $comicFrontpage->the_post();
+					ceo_list_jump_to_comic($instance['exclude'], false);
+				endwhile;
+			} elseif (!empty($post) && $post->post_type == 'comic') {
+				ceo_list_jump_to_comic($instance['exclude'], false);
+			}
+			echo $after_widget;
+		}
 	}
 	
 	function update($new_instance, $old_instance) {

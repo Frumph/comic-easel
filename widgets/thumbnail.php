@@ -29,7 +29,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 		$current_post_id = '';
 		$chaptinfo = '';
 		$dateset = '';
-		
+		if (!isset($instance['showdate'])) $instance['showdate'] = false;
 		if ($instance['inhistory']) {
 			$day = get_the_date('d');
 			$month = get_the_date('m');
@@ -78,6 +78,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 						}
 					}
 					if ($instance['linktitle']) { echo '<div class="comic-thumb-title"><a href="'.$the_permalink.'" rel="bookmark" title="Permanent Link to '.get_the_title().'">'.get_the_title().'</a></div><div class="clear"></div>'; }
+					if ($instance['showdate']) { echo '<div class="comic-thumb-date">'.get_the_date(get_option('date_format')).'</div>'; }
 					if ($instance['centering']) echo "\r\n</center>\r\n";
 					echo "</div>\r\n";
 				}
@@ -97,6 +98,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 		$instance['random'] =  (bool)( $new_instance['random'] == 1 ? true : false );
 		$instance['linktitle'] = (bool)($new_instance['linktitle'] == 1 ? true : false );
 		$instance['centering'] = (bool)($new_instance['centering'] == 1 ? true : false );
+		$instance['showdate'] = (bool)($new_instance['showdate'] == 1 ? true : false );
 		$instance['secondary'] = (bool)($new_instance['secondary'] == 1 ? true : false );
 		$instance['same'] = (bool)($new_instance['same'] == 1 ? true : false );
 		$instance['inhistory'] = (bool)($new_instance['inhistory'] == 1 ? true : false );
@@ -104,7 +106,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 	}
 	
 	function form($instance) {
-		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'thumbchapt' => '', 'first' => false, 'random' => false, 'thumbcount' => 1, 'linktitle' => false, 'centering' => false, 'secondary' => false, 'same' => false, 'inhistory' => false, 'thumbnail_size' => 'thumbnail' ) );
+		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'thumbchapt' => '', 'first' => false, 'random' => false, 'thumbcount' => 1, 'linktitle' => false, 'centering' => false, 'showdate' => false, 'secondary' => false, 'same' => false, 'inhistory' => false, 'thumbnail_size' => 'thumbnail' ) );
 		$title = strip_tags($instance['title']);
 		$thumbnail_size = (isset($instance['thumbnail_size'])) ? $instance['thumbnail_size'] : 'thumbnail';
 		$thumbchapt = $instance['thumbchapt'];
@@ -113,6 +115,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 		$thumbcount = $instance['thumbcount'];
 		$linktitle = $instance['linktitle'];
 		$centering = $instance['centering'];
+		$showdate = $instance['showdate'];
 		$secondary = $instance['secondary'];
 		$same = $instance['same'];
 		$inhistory = $instance['inhistory'];
@@ -152,6 +155,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 		<p><?php _e('Display how many thumbnails?', 'comiceasel'); ?><input style="width:40px;" id="<?php echo $this->get_field_id('thumbcount'); ?>" name="<?php echo $this->get_field_name('thumbcount'); ?>" type="text" value="<?php echo stripcslashes($instance['thumbcount']); ?>" /></label></p>
 		<p><label for="<?php echo $this->get_field_id('linktitle'); ?>"><?php _e('Include comic title?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('linktitle'); ?>" name="<?php echo $this->get_field_name('linktitle'); ?>" type="checkbox" value="1" <?php checked(true, $linktitle); ?> /></label></p>
 		<p><label for="<?php echo $this->get_field_id('centering'); ?>"><?php _e('Add centering html?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('centering'); ?>" name="<?php echo $this->get_field_name('centering'); ?>" type="checkbox" value="1" <?php checked(true, $centering); ?> /></label></p>
+		<p><label for="<?php echo $this->get_field_id('showdate'); ?>"><?php _e('Show the date of the post under image?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('showdate'); ?>" name="<?php echo $this->get_field_name('showdate'); ?>" type="checkbox" value="1" <?php checked(true, $showdate); ?> /></label></p>
 		<p><label for="<?php echo $this->get_field_id('secondary'); ?>"><?php _e('Use Secondary Image if plugin active?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('secondary'); ?>" name="<?php echo $this->get_field_name('secondary'); ?>" type="checkbox" value="1" <?php checked(true, $secondary); ?> /></label></p>		
 		<p><label for="<?php echo $this->get_field_id('same'); ?>"><?php _e('Disable thumbnail from showing on same page the comic in the thumbnail displays?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('same'); ?>" name="<?php echo $this->get_field_name('same'); ?>" type="checkbox" value="1" <?php checked(true, $same); ?> /></label></p>
 		<hr />

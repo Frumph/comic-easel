@@ -44,8 +44,9 @@ version: 3.1
 }
 
 table#comic-nav-wrapper {
-    background: #333;
-    border: 0;
+	width: auto!important;
+	background: #333;
+	border: 0;
 	text-align: center;
 	border-collapse: collapse;
 	margin: 6px auto;
@@ -75,7 +76,25 @@ table#comic-nav-wrapper {
 	.comic-nav-embed {
 	    width: 99%;
 	}
+
+	.ceo_comic_archive_dropdown_widget select {
+		max-width: 180px;
+		margin: 0 auto;
+	}
+
+	table#comic-nav-wrapper .comic-nav-jumpto select {
+		max-width: 140px;
+	}
 	
+	.ceo_comic_list_dropdown_widget select {
+		max-width: 180px;
+	}
+	
+	table#comic-nav-wrapper .comic-nav-jumptocomic select {
+		max-width: 100px;
+	}
+
+
 .infotext {
 	font-size: 10px;
 	color: gray;
