@@ -360,8 +360,3 @@ class ceo_comic_navigation_widget extends WP_Widget {
 	}
 }
 
-add_action( 'widgets_init', function(){
-	register_widget('ceo_comic_navigation_widget');
-});
-
-

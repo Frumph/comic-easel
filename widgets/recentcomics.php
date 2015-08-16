@@ -61,7 +61,3 @@ class ceo_latest_comics_widget extends WP_Widget {
 	}
 }
 
-add_action( 'widgets_init', function(){
-	register_widget('ceo_latest_comics_widget');
-});
-

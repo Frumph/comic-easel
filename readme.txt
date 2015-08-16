@@ -4,7 +4,7 @@ Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 4.1
 Tested up to: 4.3
-Stable tag: 1.9.1
+Stable tag: 1.9.2
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -128,6 +128,9 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.9.2 =
+= Compatibility for widgets registering for older version of PHP, if you can though talk to your hosting to update your PHP version
+
 = 1.9.1 =
 = Widget updating messed up the navigation widgets execution of the navstyle.css this update fixes it
 

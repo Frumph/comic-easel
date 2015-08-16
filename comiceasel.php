@@ -3,7 +3,7 @@
 Plugin Name: Comic Easel
 Plugin URI: http://comiceasel.com
 Description: Comic Easel allows you to incorporate a WebComic using the WordPress Media Library functionality with Navigation into almost all WordPress themes. With just a few modifications of adding injection do_action locations into a theme, you can have the theme of your choice display and manage a webcomic.
-Version: 1.9.1
+Version: 1.9.2
 Author: Philip M. Hofer (Frumph)
 Author URI: http://frumph.net/
 
@@ -508,7 +508,7 @@ function ceo_pluginfo($whichinfo = null) {
 				// comic-easel plugin directory/url
 				'plugin_url' => plugin_dir_url(__FILE__),
 				'plugin_path' => plugin_dir_path(__FILE__),
-				'version' => '1.9.1'
+				'version' => '1.9.2'
 		);
 		// Combine em.
 		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_addinfo);
@@ -544,6 +544,22 @@ function ceo_test_information($vartodump) { ?>
 
 foreach (glob(ceo_pluginfo('plugin_path')  . 'widgets/*.php') as $widgefile) {
 	require_once($widgefile);
+}
+
+// for older PHP versions cannot use function inside of add_action
+
+add_action( 'widgets_init', 'ceo_register_widgets');
+
+function ceo_register_widgets() { 
+	register_widget('ceo_comic_archive_dropdown_widget');
+	register_widget('ceo_casthover_reference_widget');
+	register_widget('ceo_comic_blog_post_widget');
+	register_widget('ceo_calendar_widget');
+	register_widget('ceo_comic_list_dropdown_widget');
+	register_widget('ceo_comic_navigation_widget');
+	register_widget('ceo_latest_comics_widget');
+	register_widget('ceo_scheduled_comics_widget');
+	register_widget('ceo_thumbnail_widget');
 }
 
 function ceo_language_init() {
