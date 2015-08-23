@@ -74,7 +74,7 @@ class ceo_comic_list_dropdown_widget extends WP_Widget {
 				while ($comicFrontpage->have_posts()) : $comicFrontpage->the_post();
 					ceo_list_jump_to_comic($instance['exclude'], false);
 				endwhile;
-			} elseif (!empty($post) && $post->post_type == 'comic') {
+			} elseif (!empty($post)) {
 				ceo_list_jump_to_comic($instance['exclude'], false);
 			}
 			echo $after_widget;
