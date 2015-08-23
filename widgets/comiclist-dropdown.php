@@ -19,6 +19,7 @@ function ceo_list_jump_to_comic($exclude = '', $return = false) {
 		$level = 0;
 		$output .= '<option class="level-select" value="">'.__('Jump To','comiceasel').'</option>';
 		$post_args = array( 
+			'showposts' => -1,
 			'post_type' => 'comic',
 			'order' => 'ASC', 
 			'post_status' => 'publish', 
