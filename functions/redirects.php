@@ -258,11 +258,16 @@ if (isset($_GET['clearprice']))
 	add_action('template_redirect', 'ceo_clearprice');
 
 function ceo_clearprice() {
-	global $wpdb;
-	$sql = "DELETE * FROM {$wpdb->postmeta} where meta_key = 'buy_print_amount'";
-	$wpdb->query($sql);
-	$sql = "DELETE * FROM {$wpdb->postmeta} where meta_key = 'buy_print_orig_amount'";
-	$wpdb->query($sql);
-	exit;
+	
+	$post_args = array( 
+			'showposts' => -1,
+			'post_type' => 'comic',
+			'order' => 'ASC'
+		);					
+	$qposts = get_posts( $post_args );
+	foreach($qposts as $qpost) {
+		delete_post_meta($qpost->ID, 'buy_print_orig_amount');
+	}
 }
+//	exit;
 */

@@ -3,23 +3,30 @@
 // actions
 add_action('admin_menu', 'ceo_add_menu_pages');
 add_action('admin_enqueue_scripts', 'ceo_comic_editor_scripts', 10, 1 );
+
 if (ceo_pluginfo('add_dashboard_frumph_feed_widget'))
 	add_action('wp_dashboard_setup', 'ceo_add_dashboard_widgets' );
 
 function ceo_comic_editor_scripts( $hook ) {
-	global $post;
-	if (!empty($post)) {
-		if ( $hook == 'post-new.php' || $hook == 'post.php' ) {
+	global $pagenow, $post;
+	if (!empty($pagenow)) {
+/*
+		if ( $pagenow == 'post-new.php' || $pagenow == 'post.php' ) {
 			if ('comic' === $post->post_type) {
+
 				wp_enqueue_script('ceo-upload-flash', ceo_pluginfo('plugin_url').'js/upload-flash.js');
 				wp_enqueue_media();
 			}
 		}
-		if ($hook == 'edit.php') {
+		if ($pagenow == 'edit.php') {
 			if ('comic' == $post->post_type) {
 				add_action('admin_footer', 'ceo_change_chapter_to_radio');
 			}
 		}
+		if ($pagenow == 'edit-tags.php') {
+			wp_enqueue_script('ceo-inline-edit', ceo_pluginfo('plugin_url').'js/custom_inline_edit_tax.dev.js');
+		}
+*/
 	}
 }
 
@@ -129,22 +136,4 @@ function ceo_enqueue_admin_cpt_style( $cpt, $handle, $src = false, $deps = array
 	if ($enqueue) wp_enqueue_style( $handle, $src, $deps, $ver, $media );
 }
 
-
-/*
-// Dysfunctional Code
-function ceo_comic_shortlinks( $shortlink, $id, $context, $allow_slugs=true ) {
-	var_dump($context);
-	if (('post' == $context) && !$shortlink) {
-		if (function_exists('wpme_get_shortlink')) {
-			$blog_id = Jetpack_Options::get_option( 'id' );
-			$type= 'p';
-			$shortlink = 'http://wp.me/' . wpme_dec2sixtwo( $id );
-			var_dump($shortlink);
-		} else {
-			$shortlink = home_url('?p='.$post->ID);
-		}
-	}
-	return $shortlink;
-}
-*/
 
