@@ -132,6 +132,7 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 = started on making a clear price button for the buyprint
 = cleaned up the ceo-admin.php from non-functional code and redid the hook actions
 = fixed the list dropdown to display more then 5 and allow it to display on home page
+= temporarily removed the change from checkbox to radio button in the quick edit for all comics
 
 = 1.9.2 =
 = Compatibility for widgets registering for older version of PHP, if you can though talk to your hosting to update your PHP version
