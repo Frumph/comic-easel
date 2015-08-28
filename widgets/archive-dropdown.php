@@ -109,7 +109,7 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 		global $post;
 		extract($args, EXTR_SKIP); 
 		echo $before_widget;
-		$title = empty($instance['title']) ? __('Comic Chapters','comiceasel') : apply_filters('widget_title', $instance['title']); 
+		$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']); 
 		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; }; 
 		ceo_comic_archive_jump_to_chapter($instance['unhide'], $instance['exclude'], $instance['showcount'], $instance['jumptoarchive']);
 		echo $after_widget;
