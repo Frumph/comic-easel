@@ -7,6 +7,82 @@ Author: Philip M. Hofer (Frumph)
 Version: 1.02
 */
 
+class ceo_walker_taxonomy_dropdown extends Walker_CategoryDropdown {
+
+    function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
+        $pad = str_repeat('&nbsp;', $depth * 3);
+        $cat_name = apply_filters('list_cats', $category->name, $category);
+
+        if( !isset($args['value'])) {
+            $args['value'] = ( $category->taxonomy != 'category' ? 'slug' : 'id' );
+        }
+
+        $value = ($args['value']=='slug' ? $category->slug : $category->term_id );
+
+		$permalink = '';
+				if (!isset($args['jumptoarchive'])) $args['jumptoarchive'] = false;
+				if (!$args['jumptoarchive']) {
+					$post_args = array( 
+							'numberposts' => 1, 
+							'post_type' => 'comic',
+							'order' => 'ASC', 
+							'post_status' => 'publish', 
+							'chapters' => $value, 
+							);					
+					$qposts = get_posts( $post_args );
+					if (is_array($qposts) && !is_wp_error($qposts) && !empty($qposts)) {
+						$qposts = reset($qposts);
+						$permalink = get_permalink($qposts->ID);
+					}
+				} else $permalink = get_term_link( $value, $category->taxonomy );		
+
+        $output .= "\t<option class=\"level-$depth\" value=\"".$permalink."\"";
+        if ( $value === (string) $args['selected'] ) {   
+            $output .= ' selected="selected"';
+        }
+        $output .= '>';
+        $output .= $pad.$cat_name;
+        if ( $args['show_count'] )
+            $output .= '&nbsp;&nbsp;('. $category->count .')';
+			$output .= "</option>\n";
+        }
+}
+
+function ceo_comic_archive_jump_to_chapter($hide = true, $exclude = '', $showcount = false, $jumptoarchive = false, $echo = true) {
+	ceo_protect();
+	$args = array(
+		'walker' => new ceo_walker_taxonomy_dropdown(),
+		'show_option_all'	=>	__('Select','comiceasel').' '.ucwords(ceo_pluginfo('chapter_type_slug_name')),
+		'option_none_value'  => '-1',
+		'orderby'            => 'menu_order', 
+		'order'              => 'ASC',
+		'name'               => ceo_pluginfo('chapter_type_slug_name'),
+		'show_count'         => $showcount,
+		'hide_empty'         => $hide,
+		'exclude'            => $exclude,
+		'echo'               => false,
+		'hierarchical'       => 1,
+		'taxonomy'           => 'chapters',
+		'hide_if_empty'      => $hide,
+		'value_field'	     => 'slug',	
+		'jumptoarchive'		=> $jumptoarchive,
+	);
+	$output = '';
+	$output .= '<form id="chapter-select" class="chapter-select" method="get">'."\r\n";
+	$select  = wp_dropdown_categories( $args );
+	$replace = '<select$1 onchange="document.location.href=this.options[this.selectedIndex].value;">';
+	$output  .= preg_replace( '#<select([^>]*)>#', $replace, $select ); 
+	$output .= "\t<noscript>\r\n";
+	$output .= "\t\t<input type=\"submit\" value=\"View\" />\r\n";
+	$output .= "\t</noscript>\r\n";
+	$output .= "</form>\r\n";
+	ceo_unprotect();
+	if ($echo) {
+		echo $output;
+	} else return $output;	
+}
+
+/*
 function ceo_comic_archive_jump_to_chapter($unhide = false, $exclude = '', $showcount = false, $jumptoarchive = true, $return = false) {
 	ceo_protect();
 	
@@ -91,6 +167,7 @@ function ceo_comic_archive_jump_to_chapter($unhide = false, $exclude = '', $show
 	} else echo $output;
 	ceo_unprotect();
 }
+*/
 
 class ceo_comic_archive_dropdown_widget extends WP_Widget {
 	
@@ -111,7 +188,8 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 		echo $before_widget;
 		$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']); 
 		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; }; 
-		ceo_comic_archive_jump_to_chapter($instance['unhide'], $instance['exclude'], $instance['showcount'], $instance['jumptoarchive']);
+		if (!isset($instance['hide'])) $instance['hide'] = 1;
+		ceo_comic_archive_jump_to_chapter($instance['hide'], $instance['exclude'], $instance['showcount'], $instance['jumptoarchive']);
 		echo $after_widget;
 	}
 	
@@ -119,27 +197,25 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['exclude'] = strip_tags($new_instance['exclude']);
-		$instance['unhide'] = ($new_instance['unhide']) ? true:false;
-		$instance['showcount'] = ($new_instance['showcount']) ? true:false;
-		$instance['jumptoarchive'] = ($new_instance['jumptoarchive']) ? true:false;
+		$instance['hide'] = ($new_instance['hide']) ? 1:0;
+		$instance['showcount'] = ($new_instance['showcount']) ? 1:0;
+		$instance['jumptoarchive'] = ($new_instance['jumptoarchive']) ? 1:0;
 		return $instance;
 	}
 	
 	function form($instance) {
-		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'exclude' => '', 'unhide' => 1, 'showcount' => 1, 'jumptoarchive' => 0) );
+		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'exclude' => '', 'hide' => 1, 'showcount' => 1, 'jumptoarchive' => 0) );
 		$title = $instance['title'];
 		$exclude = $instance['exclude'];
-		$unhide = ($instance['unhide']) ? 1:0;
+		$hide = ($instance['hide']) ? 1:0;
 		$showcount = ($instance['showcount']) ? 1:0;
 		$jumptoarchive = ($instance['jumptoarchive']) ? 1:0;
 		?>
-		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','comiceasel'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
-		<p><label for="<?php echo $this->get_field_id('exclude'); ?>"><?php _e('Exclude Chapters (comma seperated):','comiceasel'); ?> <input class="widefat" id="<?php echo $this->get_field_id('exclude'); ?>" name="<?php echo $this->get_field_name('exclude'); ?>" type="text" value="<?php echo esc_attr($exclude); ?>" /></label><br />
-		<small><?php _e('NOTE: There is a bug with WordPress with parent-child and /all/ some chapters cannot be excluded without causing this bug.','comiceasel'); ?></small>
-		</p>
-		<p><label for="<?php echo $this->get_field_id('unhide'); ?>"><?php _e('Show all empty chapters?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('unhide'); ?>" name="<?php echo $this->get_field_name('unhide'); ?>" type="checkbox" value="1" <?php checked(1, $unhide); ?> /></label></p>
-		<p><label for="<?php echo $this->get_field_id('showcount'); ?>"><?php _e('Show the comic count in parenthesis?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('showcount'); ?>" name="<?php echo $this->get_field_name('showcount'); ?>" type="checkbox" value="1" <?php checked(1, $showcount); ?> /></label></p>
-		<p><label for="<?php echo $this->get_field_id('jumptoarchive'); ?>"><?php _e('Have the dropdown jump to the archive and not first page of that chapter?','comiceasel'); ?> <input id="<?php echo $this->get_field_id('jumptoarchive'); ?>" name="<?php echo $this->get_field_name('jumptoarchive'); ?>" type="checkbox" value="1" <?php checked(1, $jumptoarchive); ?> /></label></p>
+		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','comiceasel'); ?>&nbsp;<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
+		<p><label for="<?php echo $this->get_field_id('exclude'); ?>"><?php _e('Exclude Chapters (comma seperated):','comiceasel'); ?>&nbsp;<input class="widefat" id="<?php echo $this->get_field_id('exclude'); ?>" name="<?php echo $this->get_field_name('exclude'); ?>" type="text" value="<?php echo esc_attr($exclude); ?>" /></label><br /></p>
+		<p><label for="<?php echo $this->get_field_id('hide'); ?>"><?php _e('Hide empty chapters?','comiceasel'); ?>&nbsp;<input id="<?php echo $this->get_field_id('hide'); ?>" name="<?php echo $this->get_field_name('hide'); ?>" type="checkbox" value="1" <?php checked(1, $hide); ?> /></label></p>
+		<p><label for="<?php echo $this->get_field_id('showcount'); ?>"><?php _e('Show the comic count in parenthesis?','comiceasel'); ?>&nbsp;<input id="<?php echo $this->get_field_id('showcount'); ?>" name="<?php echo $this->get_field_name('showcount'); ?>" type="checkbox" value="1" <?php checked(1, $showcount); ?> /></label></p>
+		<p><label for="<?php echo $this->get_field_id('jumptoarchive'); ?>"><?php _e('Jump to archive and not first page?','comiceasel'); ?>&nbsp;<input id="<?php echo $this->get_field_id('jumptoarchive'); ?>" name="<?php echo $this->get_field_name('jumptoarchive'); ?>" type="checkbox" value="1" <?php checked(1, $jumptoarchive); ?> /></label></p>
 		<?php
 	}
 }
