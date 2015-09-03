@@ -4,7 +4,7 @@ Widget Name: Comic Archive Dropdown
 Widget URI: http://comiceasel.org/
 Description: Display a list of links of the latest comics.
 Author: Philip M. Hofer (Frumph)
-Version: 1.02
+Version: 1.1
 */
 
 class ceo_walker_taxonomy_dropdown extends Walker_CategoryDropdown {

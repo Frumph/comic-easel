@@ -12,6 +12,9 @@ if (!defined('CEO_FEATURE_DISABLE_TRANSCRIPT'))
 	add_action('comic-transcript', 'ceo_display_the_transcript_action');
 add_action('wp_head', 'ceo_social_meta');
 
+// Jetpack Mobile Theme Addition
+add_action('jetpack_mobile_header_after', 'ceo_display_comic_area');
+add_action('jetpack_mobile_header_after', 'ceo_display_comic_post_home');
 
 function ceo_version_meta() {
 	echo apply_filters('ceo_version_meta', '<meta name="Comic-Easel" content="'.ceo_pluginfo('version').'" />'."\r\n");
@@ -67,7 +70,7 @@ function ceo_display_comic_navigation() {
 			<td class="comic-nav"><?php if ( get_permalink() != $first_comic ) { ?><a href="<?php echo $first_comic ?>" class="comic-nav-base comic-nav-first<?php if ( get_permalink() == $first_comic ) { ?> comic-nav-inactive<?php } ?>"><?php echo $first_text; ?></a><?php } else { echo '<span class="comic-nav-base comic-nav-first comic-nav-void">'.$first_text.'</span>'; } ?></td>
 			<td class="comic-nav"><?php if ($prev_comic) { ?><a href="<?php echo $prev_comic ?>" class="comic-nav-base comic-nav-previous<?php if (!$prev_comic) { ?> comic-nav-inactive<?php } ?>"><?php echo $prev_text; ?></a><?php } else { echo '<span class="comic-nav-base comic-nav-previous comic-nav-void ">'.$prev_text.'</span>'; } ?></td>
 <?php
-		if (ceo_pluginfo('enable_buy_comic')) {
+		if (ceo_pluginfo('enable_buy_comic') && !wp_is_mobile()) {
 			if (strpos(ceo_pluginfo('buy_comic_url'), '?') !== false) {
 				$bpsep = '&';
 			} else {
@@ -76,11 +79,11 @@ function ceo_display_comic_navigation() {
 		?>
 		<td class="comic-nav"><a href="<?php echo ceo_pluginfo('buy_comic_url').$bpsep.'id='.$post->ID; ?>" class="comic-nav-base comic-nav-buycomic" title="Buy Comic"><?php _e('Buy!','comiceasel'); ?></a></td>
 <?php }
-if (ceo_pluginfo('enable_comment_nav')) { 
+if (ceo_pluginfo('enable_comment_nav') && !wp_is_mobile()) { 
 			$commentscount = get_comments_number(); ?>
 			<td class="comic-nav"><a href="<?php comments_link(); ?>" class="comic-nav-comments" title="<?php the_title(); ?>"><span class="comic-nav-comment-count"><?php echo sprintf( _n( 'Comment(%d)', 'Comments(%d)', $commentscount, 'comiceasel' ), $commentscount ); ?></span></a></td>
 <?php } 
-	if (ceo_pluginfo('enable_random_nav')) { 
+	if (ceo_pluginfo('enable_random_nav') && !wp_is_mobile()) { 
 		$stay = '';
 		if (ceo_pluginfo('enable_chapter_only_random')) {
 			$chapter = get_the_terms($post->ID, 'chapters');
@@ -98,7 +101,7 @@ if (ceo_pluginfo('enable_comment_nav')) {
 			<td class="comic-nav comic-nav-jumptocomic"><?php ceo_list_jump_to_comic(); ?></td>
 <?php } ?>
 		</tr>
-<?php if (ceo_pluginfo('enable_embed_nav')) { ?>
+<?php if (ceo_pluginfo('enable_embed_nav') && !wp_is_mobile()) { ?>
 		<tr>
 			<td class="comic-nav" colspan="15">
 				<?php 
@@ -218,6 +221,9 @@ function ceo_inject_mini_navigation() {
 
 function ceo_display_comic_post_home() { 
 	global $wp_query, $post;
+	if (wp_is_mobile()) {
+		echo '<div style="margin: 10px; background: #fff; padding: 10px;">';
+	}
 	if (is_front_page() && !is_paged() && !ceo_pluginfo('disable_comic_blog_on_home_page')) {
 		$order = (ceo_pluginfo('display_first_comic_on_home_page')) ?  'asc' : 'desc';
 		$chapter_on_home = '';
@@ -242,6 +248,7 @@ function ceo_display_comic_post_home() {
 			comments_template('', true);
 		}
 		wp_reset_query();
+		if (wp_is_mobile()) echo '</div>';
 		echo '<div id="blogheader"></div>';
 	}
 }
