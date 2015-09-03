@@ -221,10 +221,10 @@ function ceo_inject_mini_navigation() {
 
 function ceo_display_comic_post_home() { 
 	global $wp_query, $post;
-	if (wp_is_mobile()) {
-		echo '<div style="margin: 10px; background: #fff; padding: 10px;">';
-	}
 	if (is_front_page() && !is_paged() && !ceo_pluginfo('disable_comic_blog_on_home_page')) {
+		if (wp_is_mobile()) {
+			echo '<div style="margin: 10px; background: #fff; padding: 10px;">';
+		}		
 		$order = (ceo_pluginfo('display_first_comic_on_home_page')) ?  'asc' : 'desc';
 		$chapter_on_home = '';
 		$chapter_on_home = get_term_by( 'id', ceo_pluginfo('chapter_on_home'), 'chapters');
