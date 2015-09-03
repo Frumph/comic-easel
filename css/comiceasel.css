@@ -366,3 +366,6 @@ a.transcript-title {
 	display: block;
 	text-align: center;
 }
+
+/* remove jetpacks navstyle */
+body.single-comic #nav-single { display: none!important; }
