@@ -2,9 +2,9 @@
 Author: Frumph
 Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
-Requires at least: 4.1
+Requires at least: 4.3
 Tested up to: 4.3
-Stable tag: 1.9.3
+Stable tag: 1.9.4
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -128,6 +128,11 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.9.4 =
+= Support for Jetpack Mobile theme without using extra plugins for featured image
+= new comic archive dropdown code which better utilizes the menu order and tabbing
+= don't display the 'comic chapters' title if it's empty
+
 = 1.9.3 =
 = started on making a clear price button for the buyprint
 = cleaned up the ceo-admin.php from non-functional code and redid the hook actions
