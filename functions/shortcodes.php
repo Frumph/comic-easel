@@ -328,7 +328,7 @@ function ceo_archive_list_by_chapter_thumbnails($order = 'ASC', $showtitle = fal
 				$qcposts = reset($qcposts);
 				if (has_post_thumbnail($qcposts->ID)) {
 					$output .= '<div class="comic-archive-thumbnail"><a href="'.get_permalink($qcposts).'">'.get_the_post_thumbnail($qcposts->ID, 'thumbnail').'</a></div>';
-				} else $output .= 'No Thumbnail Found';
+				} else $output .= __('No Thumbnail Found', 'comiceasel');
 			}
 		}
 		$output .= '<div class="clear"></div></div>';
@@ -654,7 +654,7 @@ function ceo_random_comic_shortcode($atts, $content = '') {
 			if ( has_post_thumbnail($post->ID) ) {
 				$output .= "<a href=\"".$the_permalink."\" rel=\"bookmark\" title=\"".get_the_title()."\">".get_the_post_thumbnail($post->ID, $size)."</a>\r\n";
 			} else {
-				$output .= "No Thumbnail Found.";	
+				$output .= __('No Thumbnail Found.','comiceasel');
 			}
 			$output .= "</div>\r\n";
 		endwhile;
