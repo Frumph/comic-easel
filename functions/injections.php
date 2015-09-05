@@ -1,20 +1,28 @@
 <?php
-// Injected with a poison.
-add_action('wp_head', 'ceo_version_meta');
-add_action('comic-post-foot', 'ceo_display_edit_link');
-add_action('comic-area', 'ceo_display_comic_area');
-add_action('comic-post-info', 'ceo_display_comic_post_info');
-add_action('comic-mini-navigation', 'ceo_inject_mini_navigation');
-add_action('comic-blog-area', 'ceo_display_comic_post_home');
-if (!ceo_pluginfo('disable_related_comics') && !defined('CEO_FEATURE_DISABLE_RELATED')) 
-	add_action('comic-post-extras', 'ceo_display_related_comics');
-if (!defined('CEO_FEATURE_DISABLE_TRANSCRIPT')) 
-	add_action('comic-transcript', 'ceo_display_the_transcript_action');
-add_action('wp_head', 'ceo_social_meta');
 
-// Jetpack Mobile Theme Addition
-add_action('jetpack_mobile_header_after', 'ceo_display_comic_area');
-add_action('jetpack_mobile_header_after', 'ceo_display_comic_post_home');
+// Make sure the injections happen at init time instead of before so other plugins are known
+add_action('init', 'ceo_init_injections');
+
+function ceo_init_injections() {
+	// Injected with a poison.
+	add_action('wp_head', 'ceo_version_meta');
+	add_action('comic-post-foot', 'ceo_display_edit_link');
+	add_action('comic-area', 'ceo_display_comic_area');
+	add_action('comic-post-info', 'ceo_display_comic_post_info');
+	add_action('comic-mini-navigation', 'ceo_inject_mini_navigation');
+	add_action('comic-blog-area', 'ceo_display_comic_post_home');
+	if (!ceo_pluginfo('disable_related_comics') && !defined('CEO_FEATURE_DISABLE_RELATED')) 
+		add_action('comic-post-extras', 'ceo_display_related_comics');
+	if (!defined('CEO_FEATURE_DISABLE_TRANSCRIPT')) 
+		add_action('comic-transcript', 'ceo_display_the_transcript_action');
+	add_action('wp_head', 'ceo_social_meta');
+
+	// Jetpack Mobile Theme Addition
+	if( class_exists('Jetpack') && Jetpack::is_module_active('minileven')) {
+		add_action('jetpack_mobile_header_after', 'ceo_display_comic_area');
+		add_action('jetpack_mobile_header_after', 'ceo_display_comic_post_home');
+	}
+}
 
 function ceo_version_meta() {
 	echo apply_filters('ceo_version_meta', '<meta name="Comic-Easel" content="'.ceo_pluginfo('version').'" />'."\r\n");

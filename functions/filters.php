@@ -1,19 +1,27 @@
 <?php
-/* Filters */
-add_filter('rest_api_allowed_post_types', 'ceo_allow_my_post_types'); // Jetpack Rest API
+// set filters to run at 'init' time instead of before 
+add_action('init', 'ceo_init_filters');
+
+function ceo_init_filters() {
+	/* Filters */
+	add_filter('rest_api_allowed_post_types', 'ceo_allow_my_post_types'); // Jetpack Rest API
+	add_filter('the_content', 'ceo_insert_comic_into_archive'); // Insert the comic into the archive and search pages
+	add_filter('the_excerpt', 'ceo_insert_comic_into_archive');
+	// add_filter('pre_get_posts', 'ceo_query_post_type');
+	add_filter('body_class', 'ceo_body_class');
+	add_filter('get_terms_args', 'ceo_chapters_find_menu_orderby');
+	// add_filter('get_lastpostmodified', 'ceo_lastpostmodified');
+	add_filter('the_content', 'ceo_insert_comic_transcript_into_posts');
+	// Insert the comic image into the rss
+	add_filter('the_content_feed','ceo_insert_comic_into_feed'); 
+	add_filter('the_excerpt_rss','ceo_insert_comic_into_feed');
+}
+
+
 add_filter('request', 'ceo_rss_request'); // Add comics to the main RSS
-add_filter('the_content_feed','ceo_insert_comic_into_feed'); // Insert the comic image into the rss
-add_filter('the_excerpt_rss','ceo_insert_comic_into_feed');
-add_filter('the_content', 'ceo_insert_comic_into_archive'); // Insert the comic into the archive and search pages
-add_filter('the_excerpt', 'ceo_insert_comic_into_archive');
+add_filter('request', 'ceo_post_type_tags_fix');
 add_filter('previous_post_rel_link', 'ceo_change_prev_rel_link_two', $link); // change the rel links for comic pages
 add_filter('next_post_rel_link', 'ceo_change_next_rel_link_two', $link);
-add_filter('request', 'ceo_post_type_tags_fix');
-// add_filter('pre_get_posts', 'ceo_query_post_type');
-add_filter('body_class', 'ceo_body_class');
-add_filter('get_terms_args', 'ceo_chapters_find_menu_orderby');
-// add_filter('get_lastpostmodified', 'ceo_lastpostmodified');
-add_filter('the_content', 'ceo_insert_comic_transcript_into_posts');
 
 function ceo_allow_my_post_types($allowed_post_types) {
 	$allowed_post_types[] = 'comic';
@@ -22,7 +30,8 @@ function ceo_allow_my_post_types($allowed_post_types) {
 
 function ceo_rss_request($qv) {
 	if (isset($qv['feed']) && !isset($qv['post_type']) && !isset($qv['chapters'])) {
-		$qv['post_type'] = array('post', 'comic');
+		if (!isset($qv['post_type'])) $qv['post_type'] = array('post');
+		array_push($qv['post_type'], 'comic');
 	}
 	return $qv;
 }
@@ -91,14 +100,12 @@ function ceo_query_post_type($query) {
 
 function ceo_body_class($classes = '') {
 	global $post, $wp_query;
-	
 	if (!empty($post) && $post->post_type == 'comic') {
 		$terms = wp_get_object_terms( $post->ID, 'chapters');
 		foreach ($terms as $term) {
 			$classes[] = 'story-'.$term->slug;
 		}
 	}
-	
 	return $classes;
 }
 
