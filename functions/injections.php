@@ -230,7 +230,7 @@ function ceo_inject_mini_navigation() {
 function ceo_display_comic_post_home() { 
 	global $wp_query, $post;
 	if (is_front_page() && !is_paged() && !ceo_pluginfo('disable_comic_blog_on_home_page')) {
-		if (wp_is_mobile()) {
+		if(class_exists('Jetpack') && Jetpack::is_module_active('minileven') && wp_is_mobile()) {
 			echo '<div style="margin: 10px; background: #fff; padding: 10px;">';
 		}		
 		$order = (ceo_pluginfo('display_first_comic_on_home_page')) ?  'asc' : 'desc';
@@ -256,7 +256,7 @@ function ceo_display_comic_post_home() {
 			comments_template('', true);
 		}
 		wp_reset_query();
-		if (wp_is_mobile()) echo '</div>';
+		if(class_exists('Jetpack') && Jetpack::is_module_active('minileven') && wp_is_mobile()) echo '</div>';
 		echo '<div id="blogheader"></div>';
 	}
 }
