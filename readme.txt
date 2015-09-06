@@ -4,7 +4,7 @@ Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 4.3
 Tested up to: 4.3
-Stable tag: 1.9.4
+Stable tag: 1.9.5
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -128,40 +128,46 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.9.5 =
+* Fix: Make sure the extra CSS for Jetpack's mobile theme, only executes with the Jetpack mobile theme
+* Moved most actions and filters to run at 'init' time so they are found at a better time after other plugins are loaded
+* Fix: Translation strings for "No comic found." in a couple are done correctly 
+* Added some CSS to disable the prev/next for the Jetpack Mobile theme on single-comic pages
+
 = 1.9.4 =
-= Support for Jetpack Mobile theme without using extra plugins for featured image
-= new comic archive dropdown code which better utilizes the menu order and tabbing
-= don't display the 'comic chapters' title if it's empty
+* Support for Jetpack Mobile theme without using extra plugins for featured image
+* new comic archive dropdown code which better utilizes the menu order and tabbing
+* don't display the 'comic chapters' title if it's empty
 
 = 1.9.3 =
-= started on making a clear price button for the buyprint
-= cleaned up the ceo-admin.php from non-functional code and redid the hook actions
-= fixed the list dropdown to display more then 5 and allow it to display on home page
-= temporarily removed the change from checkbox to radio button in the quick edit for all comics
+* started on making a clear price button for the buyprint
+* cleaned up the ceo-admin.php from non-functional code and redid the hook actions
+* fixed the list dropdown to display more then 5 and allow it to display on home page
+* temporarily removed the change from checkbox to radio button in the quick edit for all comics
 
 = 1.9.2 =
-= Compatibility for widgets registering for older version of PHP, if you can though talk to your hosting to update your PHP version
+* Compatibility for widgets registering for older version of PHP, if you can though talk to your hosting to update your PHP version
 
 = 1.9.1 =
-= Widget updating messed up the navigation widgets execution of the navstyle.css this update fixes it
+* Widget updating messed up the navigation widgets execution of the navstyle.css this update fixes it
 
 = 1.9 =
-= Widgets updated for WordPress 4.3
-= New Widget - "jump to" comic archive dropdown, shows list of comics from the current chapter to move-to 
+* Widgets updated for WordPress 4.3
+* New Widget - "jump to" comic archive dropdown, shows list of comics from the current chapter to move-to 
 
 = 1.8.7 =
-= Fix for going back to 'all chapters' in the config after switching back to it.
+* Fix for going back to 'all chapters' in the config after switching back to it.
 
 = 1.8.6 =
-= Confirmed 4.2.2 compatibility
+* Confirmed 4.2.2 compatibility
 
 = 1.8.5 =
-= WordPress 4.1 compatibility mark
-= removed all references to in_the_loop, was causing issues with some themes
-= allowable change to which thumbnail size to use in the thumbnail widget
+* WordPress 4.1 compatibility mark
+* removed all references to in_the_loop, was causing issues with some themes
+* allowable change to which thumbnail size to use in the thumbnail widget
 
 = 1.8.4 =
-Title fix for comics so that they display // quick patch, links break otherwise
+* Title fix for comics so that they display // quick patch, links break otherwise
 
 = 1.8.3 =
 * Rewrote the code to allow chapters in the URL using a different method
