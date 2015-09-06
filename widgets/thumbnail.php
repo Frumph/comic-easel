@@ -25,28 +25,27 @@ class ceo_thumbnail_widget extends WP_Widget {
 		extract($args, EXTR_SKIP);
 		ceo_protect();
 		$current_permalink = '';
-		if (!is_404()) $current_permalink = get_permalink($post->ID);
+		if (!is_404() && !empty($post)) $current_permalink = get_permalink($post->ID);
 		$current_post_id = '';
 		$chaptinfo = '';
 		$dateset = '';
 		if (!isset($instance['showdate'])) $instance['showdate'] = false;
-		if ($instance['inhistory']) {
-			$day = get_the_date('d');
-			$month = get_the_date('m');
-			$dateset = '&month='.$month.'&day='.$day;
-			$instance['random'] = true;  /* set random to true even if false */
-		}
-		if ($instance['thumbchapt'] !== 'All') $chaptinfo = '&chapters='.$instance['thumbchapt'];
-		if ($instance['first']) { $order = 'ASC'; } else { $order = 'DESC'; }
 		
-		$comic_query = 'showposts='.$instance['thumbcount'].'&order='.$order.'&post_type=comic'.$chaptinfo.$dateset;
+		if (!empty($post)) $current_post_id = $post->ID;
+		$comic_query = array(
+			'post_type' => 'comic',
+			'showposts' => $instance['thumbcount'],
+			'month' => ($instance['inhistory']) ? get_the_date('m') : '',
+			'day' => ($instance['inhistory']) ? get_the_date('d') : '',
+			'chapters' => ($instance['thumbchapt'] && ($instance['thumbchapt'] !== 'All') ) ? $instance['thumbchapt'] : '',
+			'order' => ($instance['first']) ? 'ASC' : 'DESC',
+			'orderby' => ($instance['inhistory'] || $instance['random']) ? 'rand' : '',
+			'exclude' => (($instance['inhistory'] || $instance['random']) && $instance['same']) ? $current_post_id : ''
+		);
 		
-		if ($instance['random']) $comic_query .= '&orderby=rand';
-		if (!empty($post) && $instance['random']) {
-			$current_post_id = $post->ID;
-			$comic_query .= '&exclude='.$current_post_id;
-		}
 		$thumbnail_size = (isset($instance['thumbnail_size'])) ? $instance['thumbnail_size'] : 'thumbnail';
+//		var_dump($comic_query);
+		
 		$thumbnail_query = new WP_Query($comic_query);
 		$archive_image = null;
 		if ($thumbnail_query->have_posts()) {
@@ -62,22 +61,22 @@ class ceo_thumbnail_widget extends WP_Widget {
 					if (isset($instance['secondary']) && $instance['secondary'] && class_exists('MultiPostThumbnails')) {
 						$secondary_image = MultiPostThumbnails::get_the_post_thumbnail(get_post_type(), 'secondary-image', $post->ID,  'secondary-image');
 						if (!empty($secondary_image)) {
-							echo "<a href=\"".$the_permalink."\" rel=\"bookmark\" title=\"Permanent Link to ".get_the_title()."\">".$secondary_image."</a>\r\n";
+							echo '<a href="'.$the_permalink.'" rel="bookmark" title="'.__('Permanent Link to','comiceasel').' '.get_the_title().'">'.$secondary_image.'</a>'."\r\n";
 						} else {
 							if ( has_post_thumbnail($post->ID) ) {
-								echo "<a href=\"".$the_permalink."\" rel=\"bookmark\" title=\"Permanent Link to ".get_the_title()."\">".get_the_post_thumbnail($post->ID, $thumbnail_size)."</a>\r\n";
+								echo '<a href="'.$the_permalink.'" rel="bookmark" title="'.__('Permanent Link to','comiceasel').' '.get_the_title().'">'.get_the_post_thumbnail($post->ID, $thumbnail_size).'</a>'."\r\n";
 							} else {
-								echo "No Thumbnail Found.";	
+								echo __('No Thumbnail Found.','comiceasel');	
 							}							
 						}
 					} else {
 						if ( has_post_thumbnail($post->ID) ) {
-							echo "<a href=\"".$the_permalink."\" rel=\"bookmark\" title=\"Permanent Link to ".get_the_title()."\">".get_the_post_thumbnail($post->ID, $thumbnail_size)."</a>\r\n";
+							echo '<a href="'.$the_permalink.'" rel="bookmark" title="'.__('Permanent Link to','comiceasel').' '.get_the_title().'">'.get_the_post_thumbnail($post->ID, $thumbnail_size).'</a>'."\r\n";
 						} else {
-							echo "No Thumbnail Found.";	
+							echo __('No Thumbnail Found.','comiceasel');	
 						}
 					}
-					if ($instance['linktitle']) { echo '<div class="comic-thumb-title"><a href="'.$the_permalink.'" rel="bookmark" title="Permanent Link to '.get_the_title().'">'.get_the_title().'</a></div><div class="clear"></div>'; }
+					if ($instance['linktitle']) { echo '<div class="comic-thumb-title"><a href="'.$the_permalink.'" rel="bookmark" title="'.__('Permanent Link to','comiceasel').' '.get_the_title().'">'.get_the_title().'</a></div><div class="clear"></div>'; }
 					if ($instance['showdate']) { echo '<div class="comic-thumb-date">'.get_the_date(get_option('date_format')).'</div>'; }
 					if ($instance['centering']) echo "\r\n</center>\r\n";
 					echo "</div>\r\n";
