@@ -515,7 +515,7 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 		if (empty($buyorig_status)) $buyorig_status = __('Available','comiceasel');
 		
 		ceo_protect();
-		$post = &get_post($comicnum); // Get the post
+		$post = get_post($comicnum); // Get the post
 		if (!is_wp_error($post) && !empty($post)) { // error check make sure it got a post
 			$buy_output .= __('Comic ID','comiceasel').' #'.$comicnum."<br />\r\n";
 			$buy_output .= __('Title: ','comiceasel').get_the_title($post)."<br />\r\n";
