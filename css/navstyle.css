@@ -5,40 +5,40 @@
 }
 
 .comic_navi_wrapper {
-	display: table;
-	border-collapse: collapse;
-	text-align: center;
-	margin: 0 auto;
-	font-weight: bold;
-	font-size: 12px;
+    display: table;
+    border-collapse: collapse;
+    text-align: center;
+    margin: 0 auto;
+    font-weight: bold;
+    font-size: 12px;
 }
 
 .comic_navi_left {
-	float: left;
+    float: left;
 }
 
 .comic_navi_right {
-	float: right;
+    float: right;
 }
 
 .comic_navi {
-	padding: 2px;
+    padding: 2px;
 }
 
 .navi-comictitle {
-	padding: 0px 6px;
-	text-align: center;
-	display: inline-block;
+    padding: 0px 6px;
+    text-align: center;
+    display: inline-block;
 }
 
 .navi {
-	padding: 0 6px; 
-	display: inline-block;
+    padding: 0 6px;
+    display: inline-block;
 }
 
 .navi a {
-	display: block;
-	text-decoration: none;
+    display: block;
+    text-decoration: none;
 }
 
 .navi-first {
@@ -48,13 +48,13 @@
 }
 
 .navi-comments, .navi-archive, .navi-random {
-	display: inline-block;
+    display: inline-block;
 }
 
 .navi-comments-count {
-	padding-right: 4px;
+    padding-right: 4px;
 }
-	
+
 .navi-next {
 }
 
@@ -62,5 +62,5 @@
 }
 
 .navi-void, .navi-void:hover {
-	font-weight: normal;
+    font-weight: normal;
 }
