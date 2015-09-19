@@ -5,7 +5,8 @@ add_action('init', 'ceo_init_filters');
 function ceo_init_filters() {
 	/* Filters */
 	add_filter('rest_api_allowed_post_types', 'ceo_allow_my_post_types'); // Jetpack Rest API
-	add_filter('the_content', 'ceo_insert_comic_into_archive'); // Insert the comic into the archive and search pages
+	// Insert the comic into the archive and search pages
+	add_filter('the_content', 'ceo_insert_comic_into_archive'); 
 	add_filter('the_excerpt', 'ceo_insert_comic_into_archive');
 	// add_filter('pre_get_posts', 'ceo_query_post_type');
 	add_filter('body_class', 'ceo_body_class');
@@ -38,7 +39,7 @@ function ceo_rss_request($qv) {
 
 function ceo_insert_comic_into_feed($content) {
 	global $post, $wp_query;
-	if (is_feed() && ($post->post_type == 'comic') && !post_password_required()) {
+	if (is_feed() && ($post->post_type == 'comic') && !post_password_required() && in_the_loop()) {
 		if ((ceo_pluginfo('thumbnail_size_for_rss') !== 'none') && !isset($wp_query->query_vars['chapters'])) {
 			$content = '<p>'. ceo_display_comic_thumbnail(ceo_pluginfo('thumbnail_size_for_rss'), $post) . '</p>' . $content;
 		}
@@ -51,7 +52,7 @@ function ceo_insert_comic_into_feed($content) {
 
 function ceo_insert_comic_into_archive($content) {
 	global $wp_query, $post;
-	if ((is_archive() || is_search()) && ($post->post_type == 'comic') && !is_single() && !is_feed() && !post_password_required() && (ceo_pluginfo('thumbnail_size_for_archive') !== 'none')) {
+	if ((is_archive() || is_search()) && ($post->post_type == 'comic') && !is_single() && !is_feed() && !post_password_required() && (ceo_pluginfo('thumbnail_size_for_archive') !== 'none') && in_the_loop()) {
 		$content = '<p class="comic-thumbnail-in-archive">'.ceo_display_comic_thumbnail(ceo_pluginfo('thumbnail_size_for_archive'), $post) . '</p>' . $content;
 	}
 	return apply_filters('ceo_insert_comic_into_archive', $content);
