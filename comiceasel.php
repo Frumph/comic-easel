@@ -437,7 +437,8 @@ function ceo_load_options($reset = false) {
 			'enable_chapter_landing' => false,
 			'enable_chapter_landing_first' => false,
 			'enable_blog_on_chapter_landing' => false,
-			'enable_comments_on_chapter_landing' => false
+			'enable_comments_on_chapter_landing' => false,
+			'default_nav_bar_chapter_goes_to_archive' => false
 		) as $field => $value) {
 			$ceo_config[$field] = $value;
 		}
@@ -502,6 +503,7 @@ function ceo_pluginfo($whichinfo = null) {
 			$ceo_options['enable_chapter_landing_first'] = false;
 			$ceo_options['enable_blog_on_chapter_landing'] = false;
 			$ceo_options['enable_comments_on_chapter_landing'] = false;
+			$ceo_options['default_nav_bar_chapter_goes_to_archive'] = false;
 			update_option('comiceasel-config', $ceo_options);
 		}
 		$ceo_coreinfo = wp_upload_dir();

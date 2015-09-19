@@ -1,8 +1,10 @@
 <div id="comiceasel-navigation">
-
 	<form method="post" id="myForm-navigation" enctype="multipart/form-data">
 	<?php wp_nonce_field('update-options') ?>
-
+		<?php 
+			if (!isset($ceo_options['default_nav_bar_chapter_goes_to_archive'])) $ceo_options['default_nav_bar_chapter_goes_to_archive'] = false;
+			if (!isset($ceo_options['enable_comic_nav'])) $ceo_options['enable_comic_nav'] = false;
+		?>
 		<div class="comiceasel-options">
 		
 			<table class="widefat">
@@ -141,7 +143,15 @@ foreach ($gnav_directories as $gnav_dirs) {
 						<?php _e('When this is enabled, a drop down archive box will appear in the navigation that lets you go to the start of each chapter','comiceasel'); ?>
 					</td>
 				</tr>
-				<?php if (!isset($ceo_options['enable_comic_nav'])) $ceo_options['enable_comic_nav'] = false; ?>
+				<tr>
+					<th scope="row"><label for="default_nav_bar_chapter_goes_to_archive"><?php _e('Chapter navigation jumps to the archive/landing page?','comiceasel'); ?></label></th>
+					<td>
+						<input id="default_nav_bar_chapter_goes_to_archive" name="default_nav_bar_chapter_goes_to_archive" type="checkbox" value="1" <?php checked(true, $ceo_options['default_nav_bar_chapter_goes_to_archive']); ?> />
+					</td>
+					<td>
+						<?php _e('default goes to first comic in the chapter, this option makes it go to the landing page/archive.','comiceasel'); ?>
+					</td>
+				</tr>
 				<tr class="alternate">
 					<th scope="row"><label for="enable_comic_nav"><?php _e('Enable the comic navigation for the current chapter drop down in the comic navigation?','comiceasel'); ?></label></th>
 					<td>

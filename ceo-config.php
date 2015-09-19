@@ -78,7 +78,8 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 				'enable_nav_above_comic',
 				'enable_chapter_only_random',
 				'enable_prevnext_chapter_traversing',
-				'disable_keynav'
+				'disable_keynav',
+				'default_nav_bar_chapter_goes_to_archive'
 			) as $key) {
 				if (!isset($_REQUEST[$key])) $_REQUEST[$key] = 0;
 				$ceo_options[$key] = (bool)( $_REQUEST[$key] == 1 ? true : false );

@@ -147,7 +147,7 @@ if (ceo_pluginfo('enable_comment_nav') && !wp_is_mobile()) {
 	<td class="comic-nav"><?php if ($next_comic) { ?><a href="<?php echo $next_comic ?>" class="comic-nav-base comic-nav-next<?php if (!$next_comic) { ?> comic-nav-inactive<?php } ?>"><?php echo $next_text; ?></a><?php } else { echo '<span class="comic-nav-base comic-nav-next comic-nav-void ">'.$next_text.'</span>'; } ?></td>
 	<td class="comic-nav"><?php if ( get_permalink() != $last_comic ) { ?><a href="<?php echo $last_comic ?>" class="comic-nav-base comic-nav-last<?php if ( get_permalink() == $last_comic ) { ?> comic-nav-inactive<?php } ?>"><?php echo $last_text; ?></a><?php } else { echo '<span class="comic-nav-base comic-nav-last comic-nav-void ">'.$last_text.'</span>'; } ?></td>
 <?php if (ceo_pluginfo('enable_chapter_nav')) { ?>				
-			<td class="comic-nav comic-nav-jumpto"><?php ceo_comic_archive_jump_to_chapter(true, '', false, false); ?></td>
+			<td class="comic-nav comic-nav-jumpto"><?php ceo_comic_archive_jump_to_chapter(true, '', false, ceo_pluginfo('default_nav_bar_chapter_goes_to_archive')); ?></td>
 <?php } 
 		if (ceo_pluginfo('enable_comic_nav')) { ?>				
 			<td class="comic-nav comic-nav-jumptocomic"><?php ceo_list_jump_to_comic(); ?></td>
