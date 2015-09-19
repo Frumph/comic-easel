@@ -60,7 +60,7 @@ function ceo_display_comic_area() {
 				ceo_display_comic_wrapper();
 			endwhile;
 			ceo_unprotect();
-		} elseif (is_archive() && (isset($wp_query->query_vars['taxonomy']) && isset($wp_query->query_vars['chapters'])) && ($wp_query->query_vars['taxonomy'] == 'chapters') && function_exists('comicpress_themeinfo') && ceo_pluginfo('enable_chapter_landing') && !is_paged()) {
+		} elseif (is_archive() && (isset($wp_query->query_vars['taxonomy']) && isset($wp_query->query_vars['chapters'])) && ($wp_query->query_vars['taxonomy'] == 'chapters') && ceo_pluginfo('enable_chapter_landing') && !is_paged()) {
 			ceo_protect();
 			$order = (ceo_pluginfo('enable_chapter_landing_first')) ?  'asc' : 'desc';
 			$comic_args = array(
@@ -302,7 +302,7 @@ function ceo_display_comic_post_home() {
 		wp_reset_query();
 		if(class_exists('Jetpack') && Jetpack::is_module_active('minileven') && wp_is_mobile()) echo '</div>';
 		echo '<div id="blogheader"></div>';
-	} elseif (is_archive() && (isset($wp_query->query_vars['taxonomy']) && isset($wp_query->query_vars['chapters'])) && ($wp_query->query_vars['taxonomy'] == 'chapters') && function_exists('comicpress_themeinfo') && !is_paged()) {
+	} elseif (is_archive() && (isset($wp_query->query_vars['taxonomy']) && isset($wp_query->query_vars['chapters'])) && ($wp_query->query_vars['taxonomy'] == 'chapters') && !is_paged()) {
 		if (ceo_pluginfo('enable_chapter_landing') && ceo_pluginfo('enable_blog_on_chapter_landing')) {
 			$order = (ceo_pluginfo('enable_chapter_landing_first')) ?  'asc' : 'desc';
 			$comic_args = array(
