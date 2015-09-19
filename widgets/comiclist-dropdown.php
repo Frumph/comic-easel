@@ -14,7 +14,7 @@ function ceo_list_jump_to_comic($exclude = '', $return = false) {
 	$terms = wp_get_object_terms( $post->ID, 'chapters');
 	if (!empty($terms)){
 		$term = reset($terms); // only one chapter
-		$output = '<form method="get" class="comic-archive-dropdown-form">';
+		$output = '<form method="get" class="comic-list-dropdown-form">';
 		$output .= '<select onchange="document.location.href=this.options[this.selectedIndex].value;">';
 		$level = 0;
 		$output .= '<option class="level-select" value="">'.__('Jump To','comiceasel').'</option>';
@@ -60,7 +60,7 @@ class ceo_comic_list_dropdown_widget extends WP_Widget {
 
 		extract($args, EXTR_SKIP); 
 		echo $before_widget;
-		$title = empty($instance['title']) ? __('Comic List','comiceasel') : apply_filters('widget_title', $instance['title']); 
+		$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']); 
 		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; }; 
 		if ((is_home() || is_front_page()) && !is_paged() && !ceo_pluginfo('disable_comic_on_home_page')) {
 			$chapter_on_home = '';
