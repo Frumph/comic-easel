@@ -3,7 +3,7 @@
 Plugin Name: Comic Easel
 Plugin URI: http://comiceasel.com
 Description: Comic Easel allows you to incorporate a WebComic using the WordPress Media Library functionality with Navigation into almost all WordPress themes. With just a few modifications of adding injection do_action locations into a theme, you can have the theme of your choice display and manage a webcomic.
-Version: 1.9.5
+Version: 1.9.9
 Author: Philip M. Hofer (Frumph)
 Author URI: http://frumph.net/
 
@@ -433,7 +433,11 @@ function ceo_load_options($reset = false) {
 			'allow_comics_to_have_categories' => false,
 			'enable_nav_above_comic' => false,
 			'enable_chapter_in_url' => false,
-			'disable_keynav' => false
+			'disable_keynav' => false,
+			'enable_chapter_landing' => false,
+			'enable_chapter_landing_first' => false,
+			'enable_blog_on_chapter_landing' => false,
+			'enable_comments_on_chapter_landing' => false
 		) as $field => $value) {
 			$ceo_config[$field] = $value;
 		}
@@ -490,6 +494,14 @@ function ceo_pluginfo($whichinfo = null) {
 		if (version_compare($ceo_options['db_version'], '1.9', '<')) {
 			$ceo_options['db_version'] = '1.9';
 			$ceo_options['enable_comic_nav'] = false;
+			update_option('comiceasel-config', $ceo_options);
+		}
+		if (version_compare($ceo_options['db_version'], '1.9.9', '<')) {
+			$ceo_options['db_version'] = '1.9.9';
+			$ceo_options['enable_chapter_landing'] = false;
+			$ceo_options['enable_chapter_landing_first'] = false;
+			$ceo_options['enable_blog_on_chapter_landing'] = false;
+			$ceo_options['enable_comments_on_chapter_landing'] = false;
 			update_option('comiceasel-config', $ceo_options);
 		}
 		$ceo_coreinfo = wp_upload_dir();
