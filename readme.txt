@@ -4,7 +4,7 @@ Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 4.3
 Tested up to: 4.3
-Stable tag: 1.9.5
+Stable tag: 1.9.6
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -128,6 +128,14 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.9.6 =
+* Introducing Landing Pages for chapters that works with the ComicPress theme
+* CSS mods and inclusions for the new ComicPress theme
+* removed outdated -moz -webkit -khtml references in the CSS
+* options added for landing pages and changing the default nav bar's chapter navigation to go to it or not
+* removed bad reference assignment & in the buy-print shortcode
+* revamped the query arguments in the thumbnail widget
+
 = 1.9.5 =
 * Fix: Make sure the extra CSS for Jetpack's mobile theme, only executes with the Jetpack mobile theme
 * Moved most actions and filters to run at 'init' time so they are found at a better time after other plugins are loaded
