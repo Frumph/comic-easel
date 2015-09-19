@@ -113,7 +113,7 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 			update_option('comiceasel-config', $ceo_options);
 		}
 		
-		if ($_REQUEST['action'] == 'ceo_save_comicpress') {
+		if ($_REQUEST['action'] == 'ceo_save_landing') {
 			foreach (array(
 				'enable_chapter_landing',
 				'enable_chapter_landing_first',
@@ -123,7 +123,7 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 				if (!isset($_REQUEST[$key])) $_REQUEST[$key] = 0;
 				$ceo_options[$key] = (bool)( $_REQUEST[$key] == 1 ? true : false );
 			}
-			$tab = 'comicpress';
+			$tab = 'landing';
 			update_option('comiceasel-config', $ceo_options);
 		}
 		
@@ -170,7 +170,7 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 		  		'navigation' => __('Navigation', 'comiceasel'),
 				'archive' => __('Archive', 'comiceasel')
 		  	);
-			if (function_exists('comicpress_themeinfo')) $tab_info['comicpress'] = __('ComicPress (theme)', 'comiceasel');
+			if (function_exists('comicpress_themeinfo')) $tab_info['landing'] = __('Landing Pages', 'comiceasel');
 			if (!defined('CEO_FEATURE_BUY_COMIC'))
 				$tab_info['buycomic'] = __('Buy Comic','comiceasel');
 //			$tab_info['webcomics-com'] = __('WebComics.COM', 'comiceasel');

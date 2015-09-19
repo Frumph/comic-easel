@@ -1,4 +1,4 @@
-<div id="comiceasel-comicpress">
+<div id="comiceasel-landing">
 	<form method="post" id="myForm-general" enctype="multipart/form-data">
 	<?php wp_nonce_field('update-options') ?>
 		<?php 
@@ -60,7 +60,7 @@
 			<div class="ceo-major-publishing-actions">
 				<div class="ceo-publishing-action">
 					<input name="ceo_save_config" type="submit" class="button-primary" value="<?php _e('Save Settings','comiceasel'); ?>" />
-					<input type="hidden" name="action" value="ceo_save_comicpress" />
+					<input type="hidden" name="action" value="ceo_save_landing" />
 				</div>
 				<div class="clear"></div>
 			</div>
