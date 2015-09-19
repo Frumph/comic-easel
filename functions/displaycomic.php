@@ -268,34 +268,6 @@ function ceo_the_below_html($override_post = null) {
 	return $html_to_use;
 }
 
-// We use this type of query so that $post is set, it's already set with is_single - but needs to be set on the home page
-function ceo_display_comic_area() {
-	global $wp_query, $post;
-	if (is_single()) {
-		ceo_display_comic_wrapper();
-	} else {
-		if ((is_home() || is_front_page()) && !is_paged() && !ceo_pluginfo('disable_comic_on_home_page'))  {
-			ceo_protect();
-			$chapter_on_home = '';
-			$chapter_on_home = get_term_by( 'id', ceo_pluginfo('chapter_on_home'), 'chapters');
-			$chapter_on_home = (!is_wp_error($chapter_on_home) && !empty($chapter_on_home)) ? $chapter_on_home->slug : '';
-			$order = (ceo_pluginfo('display_first_comic_on_home_page')) ?  'asc' : 'desc';
-			$comic_args = array(
-					'showposts' => 1,
-					'posts_per_page' => 1,
-					'post_type' => 'comic',
-					'order' => $order,
-					'chapters' => $chapter_on_home
-					);
-			$comicFrontpage = new WP_Query(); $comicFrontpage->query($comic_args);
-			while ($comicFrontpage->have_posts()) : $comicFrontpage->the_post();
-				ceo_display_comic_wrapper();
-			endwhile;
-			ceo_unprotect();
-		}
-	}
-}
-
 // Do the thumbnail display functions here.
 function ceo_display_comic_thumbnail($thumbnail_size = 'thumbnail', $override_post = null, $size = array()) {
 	global $post;

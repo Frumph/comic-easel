@@ -1,7 +1,7 @@
 <?php
 
 // Make sure the injections happen at init time instead of before so other plugins are known
-add_action('init', 'ceo_init_injections');
+add_action('plugins_loaded', 'ceo_init_injections');
 
 function ceo_init_injections() {
 	// Injected with a poison.
@@ -10,7 +10,6 @@ function ceo_init_injections() {
 	add_action('comic-area', 'ceo_display_comic_area');
 	add_action('comic-post-info', 'ceo_display_comic_post_info');
 	add_action('comic-mini-navigation', 'ceo_inject_mini_navigation');
-	add_action('comic-blog-area', 'ceo_display_comic_post_home');
 	if (!ceo_pluginfo('disable_related_comics') && !defined('CEO_FEATURE_DISABLE_RELATED')) 
 		add_action('comic-post-extras', 'ceo_display_related_comics');
 	if (!defined('CEO_FEATURE_DISABLE_TRANSCRIPT')) 
@@ -24,6 +23,8 @@ function ceo_init_injections() {
 	}
 }
 
+add_action('comic-blog-area', 'ceo_display_comic_post_home');
+
 function ceo_version_meta() {
 	echo apply_filters('ceo_version_meta', '<meta name="Comic-Easel" content="'.ceo_pluginfo('version').'" />'."\r\n");
 }
@@ -33,6 +34,49 @@ function ceo_display_edit_link() {
 	if (($post->post_type == 'comic') && current_user_can('edit_post', $post->ID)) {
 		echo '<a href="'.get_edit_post_link().'">'.__('Edit Comic.','comiceasel')."</a><br />\r\n";
 	}
+}
+
+// We use this type of query so that $post is set, it's already set with is_single - but needs to be set on the home page
+function ceo_display_comic_area() {
+	global $wp_query, $post;
+	if (is_single()) {
+		ceo_display_comic_wrapper();
+	} else {
+		if ((is_home() || is_front_page()) && !is_paged() && !ceo_pluginfo('disable_comic_on_home_page'))  {
+			ceo_protect();
+			$chapter_on_home = '';
+			$chapter_on_home = get_term_by( 'id', ceo_pluginfo('chapter_on_home'), 'chapters');
+			$chapter_on_home = (!is_wp_error($chapter_on_home) && !empty($chapter_on_home)) ? $chapter_on_home->slug : '';
+			$order = (ceo_pluginfo('display_first_comic_on_home_page')) ?  'asc' : 'desc';
+			$comic_args = array(
+					'showposts' => 1,
+					'posts_per_page' => 1,
+					'post_type' => 'comic',
+					'order' => $order,
+					'chapters' => $chapter_on_home
+					);
+			$comicFrontpage = new WP_Query(); $comicFrontpage->query($comic_args);
+			while ($comicFrontpage->have_posts()) : $comicFrontpage->the_post();
+				ceo_display_comic_wrapper();
+			endwhile;
+			ceo_unprotect();
+		} elseif (is_archive() && (isset($wp_query->query_vars['taxonomy']) && isset($wp_query->query_vars['chapters'])) && ($wp_query->query_vars['taxonomy'] == 'chapters') && function_exists('comicpress_themeinfo')) {
+			ceo_protect();
+			$order = (ceo_pluginfo('display_first_comic_on_home_page')) ?  'asc' : 'desc';
+			$comic_args = array(
+					'showposts' => 1,
+					'posts_per_page' => 1,
+					'post_type' => 'comic',
+					'order' => $order,
+					'chapters' => $wp_query->query_vars['chapters']
+					);
+			$comicFrontpage = new WP_Query(); $comicFrontpage->query($comic_args);
+			while ($comicFrontpage->have_posts()) : $comicFrontpage->the_post();
+				ceo_display_comic_wrapper();
+			endwhile;
+			ceo_unprotect();
+		}
+	} 
 }
 
 function ceo_display_comic_post_info() {
@@ -130,7 +174,7 @@ if (ceo_pluginfo('enable_comment_nav') && !wp_is_mobile()) {
 // This is used inside ceo_display_comic_area()
 function ceo_display_comic_wrapper() {
 	global $post;
-	if ($post->post_type == 'comic' && (is_front_page() || is_single())) { ?>
+	if ($post->post_type == 'comic') { ?>
 		<div id="comic-wrap" class="comic-id-<?php echo $post->ID; ?>">
 			<div id="comic-head">
 				<?php if (!ceo_pluginfo('disable_default_nav') && ceo_pluginfo('enable_nav_above_comic')) ceo_display_comic_navigation(); ?>
@@ -258,6 +302,30 @@ function ceo_display_comic_post_home() {
 		wp_reset_query();
 		if(class_exists('Jetpack') && Jetpack::is_module_active('minileven') && wp_is_mobile()) echo '</div>';
 		echo '<div id="blogheader"></div>';
+	} elseif (is_archive() && (isset($wp_query->query_vars['taxonomy']) && isset($wp_query->query_vars['chapters'])) && ($wp_query->query_vars['taxonomy'] == 'chapters') && function_exists('comicpress_themeinfo')) {
+		$order = (ceo_pluginfo('display_first_comic_on_home_page')) ?  'asc' : 'desc';
+		$comic_args = array(
+				'showposts' => 1,
+				'posts_per_page' => 1,
+				'post_type' => 'comic',
+				'order' => $order,
+				'chapters' => $wp_query->query_vars['chapters']
+		);
+		$comicFrontpage = new WP_Query(); $comicFrontpage->query($comic_args);
+		while ($comicFrontpage->have_posts()) : $comicFrontpage->the_post();
+			if (current_theme_supports('post-formats')) {
+				get_template_part('content', 'comic');
+			} elseif (function_exists('comicpress_display_post')) {
+				comicpress_display_post();
+			} elseif (function_exists('easel_display_post')) {
+				easel_display_post();
+			} elseif (function_exists('comic_easel_custom_display_post')) {
+				comic_easel_custom_display_post();
+			} else ceo_display_comic_post();
+		endwhile;
+		/*		global $withcomments; $withcomments = true;
+		comments_template('', true); */
+		wp_reset_query();
 	}
 }
 
