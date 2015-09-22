@@ -116,15 +116,16 @@
 					<th scope="row"><label for="chapter_on_home"><?php _e('What chapter would you like to display on the home page?','comiceasel'); ?></label></th>
 					<td>
 <?php $args = array(
-		'show_option_all'    => 'All Chapters',
-		'orderby'            => 'menu_order', 
-		'order'              => 'ASC',
-		'selected'           => $ceo_options['chapter_on_home'],
-		'name'               => 'chapter_on_home',
-		'id'                 => 'chapter_on_home',
-		'class'              => 'postform',
-		'taxonomy'           => 'chapters',
-		'hide_if_empty'      => true,
+		'show_option_all'	=> 'All Chapters',
+		'orderby'			=> 'menu_order', 
+		'order'				=> 'ASC',
+		'selected'			=> $ceo_options['chapter_on_home'],
+		'name'				=> 'chapter_on_home',
+		'id'				=> 'chapter_on_home',
+		'class'				=> 'postform',
+		'taxonomy'			=> 'chapters',
+		'hide_if_empty'		=> false,
+		'heirarchel'		=> 1
 ); 
 wp_dropdown_categories($args);
 ?>					
