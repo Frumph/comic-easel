@@ -2,7 +2,6 @@
 
 add_action('admin_init', 'ceo_admin_init');
 
-
 function ceo_admin_init() {
 	add_filter('manage_edit-comic_columns', 'ceo_add_new_comic_columns');
 	add_action('manage_posts_custom_column', 'ceo_manage_comic_columns', 10, 2);
@@ -452,8 +451,31 @@ function ceo_flash_upload_box($post) { ?>
 <em><?php _e('You still need to have a featured image set, it will be used as a thumbnail.','comiceasel'); ?></em>
 <?php }
 
+function ceo_edit_taxonomy_archive_overwrite() {
+	global $post;
+	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
+	$current_selected = get_post_meta( $post->ID, 'location-overwrite', true );
+	if (!$current_selected || empty($current_selected)) $current_selected_selected = '';
+	$taxonomies = array( 
+		'locations',
+		'characters'
+	);
+	$terms = get_terms($taxonomies);
+	if (!is_wp_error($terms) && !empty($terms)) { ?>
+		<select name="location-overwrite" id="location-overwrite">
+			<option class="level-0" value="" <?php if ($current_selected == 'none' || empty($current_selected)) { ?>selected="selected"<?php } ?>><?php echo __('Do Not Use', 'comiceasel'); ?></option>
+	<?php
+		foreach ($terms as $term) { ?>
+			<option class="level-0" value="<?php echo $term->slug; ?>" <?php if ($current_selected == $term->slug) { ?>selected="selected"<?php } ?>><?php echo $term->name; ?></option>
+	<?php } ?>
+		</select>
+<?php		
+	} else _e('There are no characters or locations yet.', 'comiceasel');
+}
+
+
 function ceo_add_comic_in_post() {
-//	add_meta_box('ceo_comic_in_post', __('Comic Directions', 'comiceasel'), 'ceo_edit_comic_in_post', 'comic', 'side', 'high');
+	// add_meta_box('ceo_comic_in_post', __('Comic Directions', 'comiceasel'), 'ceo_edit_comic_in_post', 'comic', 'side', 'high');
 	remove_meta_box('postimagediv', 'comic', 'side');
 	if ( current_theme_supports( 'post-thumbnails', 'comic' ) && post_type_supports('comic', 'thumbnail') )
 		add_meta_box('postimagediv', __('Set Comic/Featured Image'), 'post_thumbnail_meta_box', 'comic', 'side', 'high');
@@ -478,6 +500,7 @@ function ceo_add_comic_in_post() {
 		add_meta_box('ceo_flash_upload', __('Add Flash Comic', 'comiceasel'), 'ceo_flash_upload_box', 'comic', 'normal', 'high');
 	if (!defined('CEO_FEATURE_MEDIA_EMBED')) 
 		add_meta_box('ceo_media_embed_file', __('Media Url as Comic', 'comiceasel'), 'ceo_media_embed_box', 'comic', 'normal', 'low');
+	add_meta_box('ceo_taxonomy_archive_overwrite', __('Use as an information page?', 'comiceasel'), 'ceo_edit_taxonomy_archive_overwrite', 'page', 'side', 'low');
 	$context_output = '<ul><ol>';
 	$context_output .= '<li>'.__('Add a title to the comic.&nbsp; Titles must be alpha-numerical, not just numbers.','comiceasel').'</li>';
 	$context_output .= '<li>'.__('Add some info to the blog section of the comic if you want to (not required).','comiceasel').'</li>';
@@ -549,7 +572,8 @@ function ceo_handle_edit_save_comic($post_id, $post) {
 			'media_url',
 			'media_width',
 			'link-to',
-			'comic-has-map'
+			'comic-has-map',
+			'location-overwrite'
 			);
 			
 	$defaultorigamount = ceo_pluginfo('buy_comic_orig_amount');
