@@ -4,7 +4,7 @@ Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 4.3
 Tested up to: 4.3
-Stable tag: 1.9.6
+Stable tag: 1.9.7
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -128,6 +128,12 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.9.7 =
+* Removed all references, css, code and actions to 'motion artist' - no longer supporting
+* location/character page override code or custom landing pages, requires ComicPress 4.3+ or templates added from 4.3 to your current
+* added !important on .comic-table for the display:table to not have zappbar's overwrite it for proper display
+* show entire list on the options page for which chapter to select for home page
+
 = 1.9.6 =
 * Introducing Landing Pages for chapters that works with the ComicPress theme
 * CSS mods and inclusions for the new ComicPress theme

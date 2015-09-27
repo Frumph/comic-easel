@@ -1,57 +1,5 @@
 <?php
 
-if (!defined('CEO_FEATURE_DISABLE_MOTION_ARTIST') && ceo_pluginfo('enable_motion_artist_support')) 
-	add_action('wp_head', 'ceo_add_motion_artist_header_info');
-
-function ceo_add_motion_artist_header_info() {
-	global $post;
-	if (!is_admin()) {
-		if ((is_home() || is_front_page()) && !is_paged() && !ceo_pluginfo('disable_comic_on_home_page')) {
-			$order = (ceo_pluginfo('display_first_comic_on_home_page')) ?  'ASC' : 'DESC';
-			$args = array(
-					'showposts' => 1,
-					'posts_per_page' => 1,
-					'order' => $order,
-					'post_type' => 'comic'
-					);
-			$posts = get_posts($args);
-			foreach ($posts as $post) {
-				setup_postdata($post);
-			}
-		}
-		if (!empty($post) && ($post->post_type == 'comic')) {
-			$motion_artist_comic = get_post_meta( $post->ID, 'ma-directory', true );
-			$motion_artist_id = get_post_meta( $post->ID, 'ma-id', true );
-			if (!empty($motion_artist_comic)) {
-				echo '<base href="'.get_stylesheet_directory_uri().'/motion-artist/'.$motion_artist_comic.'/" />';
-				echo '<script src="http://motionartist.smithmicro.com/public/motionartist_1.0.js"></script>'."\r\n";
-				echo '<script src="'.get_stylesheet_directory_uri().'/motion-artist/'.$motion_artist_comic.'/scripts/'.$motion_artist_id.'.js"></script>';
-			}
-		}
-	}
-}
-
-function ceo_display_motion_artist_comic($motion_artist_comic = '') {
-	global $post;
-	$output = '';
-	if (!empty($motion_artist_comic)){
-		$motion_artist_id = get_post_meta( $post->ID, 'ma-id', true );
-		$motion_artist_height = get_post_meta( $post->ID, 'ma-height', true);
-		$motion_artist_width = get_post_meta( $post->ID, 'ma-width', true);
-		$output .= '<center>'."\r\n";
-		$output .= '<div class="MADoc">'."\r\n";
-		$output .= '    <canvas id="'.$motion_artist_id.'_canvas" width="'.$motion_artist_width.'px" height="'.$motion_artist_height.'px"></canvas>'."\r\n";
-		$output .= '</div>'."\r\n";
-		$output .= '<div class="MAButtons">'."\r\n";
-		$output .= '    <ul class="MAButtonSet">'."\r\n";
-		$output .= '        <li><button class="MAButton" id="'.$motion_artist_id.'_pauseButton">Play</button></li>'."\r\n";
-		$output .= '    </ul>'."\r\n";
-		$output .= '</div>'."\r\n";
-		$output .= '</center>'."\r\n";
-	}
-	return apply_filters('ceo_display_motion_artist_comic', $output);
-}
-
 function ceo_display_featured_image_comic($size = 'full') {
 	global $post;
 	$output = '';
@@ -210,9 +158,7 @@ function ceo_display_comic($size = 'full') {
 	$output = '';
 	if (ceo_the_above_html()) $output .= html_entity_decode(ceo_the_above_html())."\r\n";
 
-	if ($motion_artist_comic = get_post_meta( $post->ID, 'ma-directory', true )) {
-		$output .= ceo_display_motion_artist_comic($motion_artist_comic);
-	} elseif ($flash_file = get_post_meta($post->ID, "flash_file", true)) {
+	if ($flash_file = get_post_meta($post->ID, "flash_file", true)) {
 		$output .= ceo_display_flash_comic($post, $flash_file);
 	} elseif (($media_url = get_post_meta( $post->ID, 'media_url', true )) && !defined('CEO_FEATURE_MEDIA_EMBED')) {
 		$output .= '<center>';
@@ -235,7 +181,7 @@ function ceo_display_comic($size = 'full') {
 	if ($output) { 
 		return apply_filters('ceo_comics_display_comic', $output);
 	} else
-		return apply_filters('ceo_comics_display_comic', __('<!-- No HTML, Gallery, Motion Artist Comic or Featured Image Found. //-->', 'comiceasel'));
+		return apply_filters('ceo_comics_display_comic', __('<!-- No HTML, Gallery or Featured Image Found. //-->', 'comiceasel'));
 }
 
 add_filter('ceo_comics_display_comic', 'ceo_filter_comic_output',10,1);

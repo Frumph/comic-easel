@@ -203,68 +203,6 @@ function ceo_taxonomy_filter_post_type_request( $query ) {
 	}
 }
 
-function ceo_edit_select_motion_artist_directory_in_post($post) {  
-
-	$current_directory = get_post_meta( $post->ID, 'ma-directory', true );
-	
-	if (empty($current_directory) || is_wp_error($current_directory)) $current_directory = '';
-
-	$ma_directories = array();
-	$ma_dir = get_stylesheet_directory() .  '/motion-artist';
-	if (is_dir($ma_dir)) {
-		$thisdir = null;
-		$thisdir = array();
-		$thisdir = glob($ma_dir. '/*');
-		$ma_directories = array_merge($ma_directories, $thisdir);
-	}
-?>
-<div class="admin-motion-artist">
-<table>
-<?php
-	if (!empty($ma_directories) && !is_wp_error($ma_directories)) { 
-?>
-	<tr>
-	<td colspan="2">
-							<select name="ma-directory" id="ma-directory">
-								<option class="level-0" value="" <?php if (empty($current_directory)) { ?>selected="selected"<?php } ?>><?php echo __('None', 'comiceasel'); ?></option>
-								<?php
-									foreach ($ma_directories as $ma_dirs) {
-										if (is_dir($ma_dirs)) {
-											$ma_dir_name = basename($ma_dirs); ?>
-											<option class="level-0" value="<?php echo $ma_dir_name; ?>" <?php if ($current_directory == $ma_dir_name) { ?>selected="selected"<?php } ?>><?php echo $ma_dir_name; ?></option>
-									<?php }
-									}
-								?>
-							</select>
-	</td>
-	</tr>
-<?php 
-	} else {
-		echo '<tr><td colspan="2">';
-		echo __('No motion-artist directory found in theme or no comics found in motion-artist folder.', 'comiceasel');
-		echo '</td></tr>';
-	} 
-	$current_height = get_post_meta( $post->ID, 'ma-height', true );
-	$current_width = get_post_meta( $post->ID, 'ma-width', true );
-	if (empty($current_height) || is_wp_error($current_height)) $current_height = '';
-	if (empty($current_height) || is_wp_error($current_width)) $current_width = '';
-	if (!empty($ma_directories) && !is_wp_error($ma_directories)) {
-?>
-<tr>
-<td colspan="2">
-Height: <input id="ma-height" name="ma-height" style="width: 40px;" type="text" value="<?php echo $current_height; ?>"  />
-</td>
-<td>
-Width: <input id="ma-width" name="ma-width" style="width: 40px;" type="text" value="<?php echo $current_width; ?>"  />
-</td>
-</tr>
-<?php }	?>
-</table>
-</div>
-<?php
-}
-
-
 function ceo_edit_comic_in_post($post) {  ?>
 <div class="admin-comicbox" style="margin:0; padding:0; overflow:hidden;">
 <?php 
@@ -494,8 +432,6 @@ function ceo_add_comic_in_post() {
 		add_meta_box('ceo_html_above_comic', __('HTML (Above) Comic', 'comiceasel'), 'ceo_edit_html_above_comic', 'comic', 'normal', 'high');
 		add_meta_box('ceo_html_below_comic', __('HTML (Below) Comic', 'comiceasel'), 'ceo_edit_html_below_comic', 'comic', 'normal', 'high');
 	}
-	if (!defined('CEO_FEATURE_DISABLE_MOTION_ARTIST') && ceo_pluginfo('enable_motion_artist_support'))
-		add_meta_box('ceo_select_motion_artist_directory_in_post', __('Select Motion Artist Comic', 'comiceasel'), 'ceo_edit_select_motion_artist_directory_in_post', 'comic', 'side', 'low');
 	if (!defined('CEO_FEATURE_FLASH_UPLOAD'))
 		add_meta_box('ceo_flash_upload', __('Add Flash Comic', 'comiceasel'), 'ceo_flash_upload_box', 'comic', 'normal', 'high');
 	if (!defined('CEO_FEATURE_MEDIA_EMBED')) 
@@ -562,9 +498,6 @@ function ceo_handle_edit_save_comic($post_id, $post) {
 			'comic-open-lightbox',
 			'comic-gallery-full',
 			'comic-gallery-jquery',
-			'ma-directory',
-			'ma-height',
-			'ma-width',
 			'buyprint-status',
 			'buyorig-status',
 			'flash_file',
@@ -599,21 +532,5 @@ function ceo_handle_edit_save_comic($post_id, $post) {
 			update_post_meta( $post_id, $meta_key, $new_meta_value );
 		elseif ( '' == $new_meta_value && $meta_value )
 			delete_post_meta( $post_id, $meta_key, $meta_value );
-	}
-	if (isset($_POST['ma-directory']) && !empty($_POST['ma-directory'])) {
-		$ma_directories = array();
-		$ma_dir = esc_textarea( $_POST['ma-directory'] );
-		$ma_dir = get_stylesheet_directory() . '/motion-artist/'.$ma_dir.'/scripts';
-		if (is_dir($ma_dir)) {
-			$thisdir = null;
-			$thisdir = array();
-			$thisdir = glob($ma_dir. '/*.js');
-			$ma_script = str_replace('.js', '', basename(reset($thisdir)));
-			update_post_meta( $post_id, 'ma-id', $ma_script );
-		}
-	} else {
-		delete_post_meta($post_id, 'ma-id');
-		delete_post_meta($post_id, 'ma-height');
-		delete_post_meta($post_id, 'ma-width');
 	}
 }
