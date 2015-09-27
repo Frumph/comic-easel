@@ -547,7 +547,7 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 					$buy_output .= '<input type="hidden" name="amount" value="'.$buy_print_amount.'" />';
 					$buy_output .= '<input type="hidden" name="item_number" value="'.$comicnum.'" />';
 					$buy_output .= '<input type="hidden" name="business" value="'.ceo_pluginfo('buy_comic_email').'" />';
-					$buy_output .= '<input type="image" src="'.ceo_pluginfo('plugin_url').'images/buynow_paypal.png" name="submit32" alt="'.__('Make payments with PayPal - it is fast, free and secure!','comicpress').'" />';
+					$buy_output .= '<input type="image" src="'.ceo_pluginfo('plugin_url').'images/buynow_paypal.png" name="submit32" alt="'.__('Make payments with PayPal - it is fast, free and secure!','comiceasel').'" />';
 					$buy_output .= '</form>';
 				}
 				if ($buyprint_status == __('Sold','comiceasel')) {
@@ -579,7 +579,7 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 					$buy_output .= '<input type="hidden" name="amount" value="'.$buy_print_orig_amount.'" />';
 					$buy_output .= '<input type="hidden" name="item_number" value="'.$comicnum.'" />';
 					$buy_output .= '<input type="hidden" name="business" value="'.ceo_pluginfo('buy_comic_email').'" />';
-					$buy_output .= '<input type="image" src="'.ceo_pluginfo('plugin_url').'images/buynow_paypal.png" name="submit32" alt="'.__('Make payments with PayPal - it is fast, free and secure!','comicpress').'" />';
+					$buy_output .= '<input type="image" src="'.ceo_pluginfo('plugin_url').'images/buynow_paypal.png" name="submit32" alt="'.__('Make payments with PayPal - it is fast, free and secure!','comiceasel').'" />';
 					$buy_output .= '</form>';
 				}
 				if ($buyorig_status == __('Sold','comiceasel')) {
