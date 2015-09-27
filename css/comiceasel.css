@@ -3,8 +3,9 @@
 }
 
 .comic-table {
-    display: table;
+    display: table!important;
     width: 100%;
+    max-width: 100%;
     table-layout: fixed;
 }
 

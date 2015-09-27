@@ -500,7 +500,8 @@ function ceo_add_comic_in_post() {
 		add_meta_box('ceo_flash_upload', __('Add Flash Comic', 'comiceasel'), 'ceo_flash_upload_box', 'comic', 'normal', 'high');
 	if (!defined('CEO_FEATURE_MEDIA_EMBED')) 
 		add_meta_box('ceo_media_embed_file', __('Media Url as Comic', 'comiceasel'), 'ceo_media_embed_box', 'comic', 'normal', 'low');
-	add_meta_box('ceo_taxonomy_archive_overwrite', __('Use as an information page?', 'comiceasel'), 'ceo_edit_taxonomy_archive_overwrite', 'page', 'side', 'low');
+	if (function_exists('comicpress_themeinfo'))
+		add_meta_box('ceo_taxonomy_archive_overwrite', __('Use as an information page?', 'comiceasel'), 'ceo_edit_taxonomy_archive_overwrite', 'page', 'side', 'low');
 	$context_output = '<ul><ol>';
 	$context_output .= '<li>'.__('Add a title to the comic.&nbsp; Titles must be alpha-numerical, not just numbers.','comiceasel').'</li>';
 	$context_output .= '<li>'.__('Add some info to the blog section of the comic if you want to (not required).','comiceasel').'</li>';

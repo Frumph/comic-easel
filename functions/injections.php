@@ -9,7 +9,7 @@ function ceo_init_injections() {
 	add_action('comic-post-foot', 'ceo_display_edit_link');
 	add_action('comic-area', 'ceo_display_comic_area');
 	add_action('comic-post-info', 'ceo_display_comic_post_info');
-	add_action('comic-mini-navigation', 'ceo_inject_mini_navigation');
+// 	add_action('comic-mini-navigation', 'ceo_inject_mini_navigation');
 	if (!ceo_pluginfo('disable_related_comics') && !defined('CEO_FEATURE_DISABLE_RELATED')) 
 		add_action('comic-post-extras', 'ceo_display_related_comics');
 	if (!defined('CEO_FEATURE_DISABLE_TRANSCRIPT')) 
@@ -184,13 +184,13 @@ function ceo_display_comic_wrapper() {
 				<?php ceo_get_sidebar('left-of-comic'); ?>
 				<div id="comic">
 					<?php echo ceo_display_comic(); ?>
+					<?php ceo_get_sidebar('under-comic'); ?>
+					<div id="comic-foot">
+						<?php if (!ceo_pluginfo('disable_default_nav')) ceo_display_comic_navigation(); ?>
+					</div>
 				</div>
 				<?php ceo_get_sidebar('right-of-comic'); ?>
 			</div>				
-			<?php ceo_get_sidebar('under-comic'); ?>
-			<div id="comic-foot">
-				<?php if (!ceo_pluginfo('disable_default_nav')) ceo_display_comic_navigation(); ?>
-			</div>
 			<div class="clear"></div>
 		</div>
 	<?php }
