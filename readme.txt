@@ -4,7 +4,7 @@ Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 4.3
 Tested up to: 4.3
-Stable tag: 1.9.7
+Stable tag: 1.9.8
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -128,6 +128,9 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.9.8 =
+* Put navigation bar back where people expect it to be, will make it an option for 1.9.9
+
 = 1.9.7 =
 * Removed all references, css, code and actions to 'motion artist' - no longer supporting
 * location/character page override code or custom landing pages, requires ComicPress 4.3+ or templates added from 4.3 to your current

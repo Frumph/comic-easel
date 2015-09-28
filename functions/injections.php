@@ -172,28 +172,30 @@ if (ceo_pluginfo('enable_comment_nav') && !wp_is_mobile()) {
 }
 
 // This is used inside ceo_display_comic_area()
-function ceo_display_comic_wrapper() {
-	global $post;
-	if ($post->post_type == 'comic') { ?>
-		<div id="comic-wrap" class="comic-id-<?php echo $post->ID; ?>">
-			<div id="comic-head">
-				<?php if (!ceo_pluginfo('disable_default_nav') && ceo_pluginfo('enable_nav_above_comic')) ceo_display_comic_navigation(); ?>
-			</div>
-			<?php ceo_get_sidebar('over-comic'); ?>
-			<div class="comic-table">	
-				<?php ceo_get_sidebar('left-of-comic'); ?>
-				<div id="comic">
-					<?php echo ceo_display_comic(); ?>
-					<?php ceo_get_sidebar('under-comic'); ?>
-					<div id="comic-foot">
-						<?php if (!ceo_pluginfo('disable_default_nav')) ceo_display_comic_navigation(); ?>
-					</div>
+if (!function_exists('ceo_display_comic_wrapper')) {
+	function ceo_display_comic_wrapper() {
+		global $post;
+		if ($post->post_type == 'comic') { ?>
+			<div id="comic-wrap" class="comic-id-<?php echo $post->ID; ?>">
+				<div id="comic-head">
+					<?php if (!ceo_pluginfo('disable_default_nav') && ceo_pluginfo('enable_nav_above_comic')) ceo_display_comic_navigation(); ?>
 				</div>
-				<?php ceo_get_sidebar('right-of-comic'); ?>
-			</div>				
-			<div class="clear"></div>
-		</div>
-	<?php }
+				<?php ceo_get_sidebar('over-comic'); ?>
+				<div class="comic-table">	
+					<?php ceo_get_sidebar('left-of-comic'); ?>
+					<div id="comic">
+						<?php echo ceo_display_comic(); ?>
+					</div>
+					<?php ceo_get_sidebar('right-of-comic'); ?>
+				</div>				
+				<?php ceo_get_sidebar('under-comic'); ?>
+				<div id="comic-foot">
+					<?php if (!ceo_pluginfo('disable_default_nav')) ceo_display_comic_navigation(); ?>
+				</div>
+				<div class="clear"></div>
+			</div>
+		<?php }
+	}
 }
 
 function ceo_display_comic_locations() {
