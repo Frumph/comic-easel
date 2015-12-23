@@ -184,10 +184,19 @@ function ceo_get_adjacent_comic($previous = true, $in_same_chapter = false, $tax
 
 function ceo_get_adjacent_chapter($prev = false) {
 	global $post;
+	
 	$current_chapter = get_the_terms($post->ID, 'chapters');
 	if (is_array($current_chapter)) { $current_chapter = reset($current_chapter); } else { return; }
-	$current_order = $current_chapter->menu_order;
+	
+	// cache the calculation of the desired chapter to work around a weird intermittent bug with w3 total cache's object cache
+	$current_order = wp_cache_get( 'ceo_current_order_'.$current_chapter->slug );
+	if ( false === $current_order ) {
+		$current_order = $current_chapter->menu_order;
+		wp_cache_set( 'ceo_current_order_'.$current_chapter->slug, $current_order );
+	} 
+	
 	$find_order = (bool)$prev ? $current_order - 1 : $current_order + 1;
+	
 	if (!$find_order) return false;
 	$args = array(
 			'orderby' => 'menu_order',
@@ -203,6 +212,7 @@ function ceo_get_adjacent_chapter($prev = false) {
 	}
 	return false;
 }
+
 
 function ceo_get_previous_chapter() {
 	$chapter = ceo_get_adjacent_chapter(true);
