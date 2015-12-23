@@ -3,8 +3,8 @@ Author: Frumph
 Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 4.3
-Tested up to: 4.3
-Stable tag: 1.9.8
+Tested up to: 4.4
+Stable tag: 1.9.9
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -128,6 +128,10 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+
+= 1.9.9 =
+* @Egypturnash - fix ceo_get_adjacent_chapter to work with W3 Total Cache's object cache
+
 = 1.9.8 =
 * Put navigation bar back where people expect it to be, will make it an option for 1.9.9
 
