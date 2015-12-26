@@ -8,6 +8,9 @@ Version: 1.1
 */
 
 function ceo_taxonomy_walker_dropdown_or_list_start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
+	
+	// echo "<pre>args ";print_r($args); echo "</pre>";
+	
     $pad = str_repeat('&nbsp;', $depth * 3);
     $cat_name = apply_filters('list_cats', $category->name, $category);
 
@@ -18,24 +21,45 @@ function ceo_taxonomy_walker_dropdown_or_list_start_el( &$output, $category, $de
     $value = ($args['value']=='slug' ? $category->slug : $category->term_id );
 
 	$permalink = '';
-			if (!isset($args['jumptoarchive'])) $args['jumptoarchive'] = false;
-			if (!$args['jumptoarchive']) {
-				$post_args = array( 
-						'numberposts' => 1, 
-						'post_type' => 'comic',
-						'order' => 'ASC', 
-						'post_status' => 'publish', 
-						'chapters' => $value, 
-						);					
-				$qposts = get_posts( $post_args );
-				if (is_array($qposts) && !is_wp_error($qposts) && !empty($qposts)) {
-					$qposts = reset($qposts);
-					$permalink = get_permalink($qposts->ID);
-				}
-			} else $permalink = get_term_link( $value, $category->taxonomy );		
+	if (!isset($args['jumptoarchive'])) $args['jumptoarchive'] = false;
+	if (!$args['jumptoarchive']) {
+		$post_args = array( 
+				'numberposts' => 1, 
+				'post_type' => 'comic',
+				'order' => 'ASC', 
+				'post_status' => 'publish', 
+				'chapters' => $value, 
+				);					
+		$qposts = get_posts( $post_args );
+		if (is_array($qposts) && !is_wp_error($qposts) && !empty($qposts)) {
+			$qposts = reset($qposts);
+			$permalink = get_permalink($qposts->ID);
+		}
+	} else $permalink = get_term_link( $value, $category->taxonomy );		
 
+	$css_classes = array(
+		'cat-item',
+		'cat-item-' . $category->term_id,
+	);
+	
+	// echo "<pre>current cat ";print_r($args['current_category']); echo "</pre>";
+	
+	if ( ! empty( $args['current_category'] ) ) {
+		$_current_terms = $args['current_category'];
+		
+		foreach ( $_current_terms as $_current_term ) {
+			if ( $category->term_id == $_current_term->term_id ) {
+				$css_classes[] = 'current-cat';
+			} elseif ( $category->term_id == $_current_term->parent ) {
+				$css_classes[] = 'current-cat-parent';
+			}
+		}
+	}
+	$css_classes = implode( ' ', apply_filters( 'category_css_class', $css_classes, $category, $depth, $args ) );
+	
 	if ($args['render_as_list']) {
-		$output .= "\t<li class=\"level-$depth cat-item cat-item-$value\"><a href=\"".$permalink."\">";
+		
+		$output .= "\t<li class=\"level-$depth $css_classes\"><a href=\"".$permalink."\">";
 	} else {
         $output .= "\t<option class=\"level-$depth\" value=\"".$permalink."\"";
         if ( $value === (string) $args['selected'] ) {   
@@ -69,8 +93,11 @@ function ceo_comic_archive_jump_to_chapter($hide = true, $exclude = '', $showcou
 
 	$output = '';
 	if ($render_as_list) {
+		global $post;
+		$the_terms = get_the_terms( $post->ID, 'chapters');
+		// echo "<pre>the terms ";print_r($the_terms); echo "</pre>";
 		$args = array(
-			'walker' => new ceo_walker_taxonomy_list(),
+			'walker'			 => new ceo_walker_taxonomy_list(),
 			'orderby'            => 'menu_order', 
 			'order'              => 'ASC',
 			'show_count'         => $showcount,
@@ -79,10 +106,12 @@ function ceo_comic_archive_jump_to_chapter($hide = true, $exclude = '', $showcou
 			'echo'               => false,
 			'hierarchical'       => 1,
 			'taxonomy'           => 'chapters',
+			'current_category'	 => $the_terms,
 			'title_li'			 => null,
 			'jumptoarchive'	 	 => $jumptoarchive,
 			'render_as_list'	 => $render_as_list,
 		);
+		
 		$output .= '<ul class="chapter-select">';
 		$output .= wp_list_categories( $args );
 		$output .= '</ul>';
