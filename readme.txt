@@ -128,6 +128,8 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 2.0 =
+* Added Content Warning toggle which blur's individual comics in the comic editor (user can click to unblur) courtesy Ryan G.
 
 = 1.9.9 =
 * @Egypturnash - fix ceo_get_adjacent_chapter to work with W3 Total Cache's object cache

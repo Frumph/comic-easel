@@ -27,6 +27,7 @@ add_action('comic-blog-area', 'ceo_display_comic_post_home');
 
 function ceo_version_meta() {
 	echo apply_filters('ceo_version_meta', '<meta name="Comic-Easel" content="'.ceo_pluginfo('version').'" />'."\r\n");
+	echo apply_filters('ceo_version_meta_referrer', '<meta name="Referrer" content="'.ceo_get_referer().'" />'."\r\n");
 }
 
 function ceo_display_edit_link() {

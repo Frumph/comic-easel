@@ -271,6 +271,12 @@ function ceo_edit_toggles_in_post($post) {
 			<input id="comic-has-map" name="comic-has-map" type="checkbox" value="1" <?php checked(1, get_post_meta( $post->ID, 'comic-has-map', true )); ?> />
 		</td>
 	</tr>
+	<tr>
+		<th scope="row"><label for="comic-content-warning"><?php _e('Enable Content Warning?','comiceasel'); ?></label></th>
+		<td>
+			<input id="comic-content-warning" name="comic-content-warning" type="checkbox" value="1" <?php checked(1, get_post_meta( $post->ID, 'comic-content-warning', true )); ?> />
+		</td>
+	</tr>	
 </table>
 <em><?php _e('*  usemap="#comicmap" will be added, add the map html to the below html box','comiceasel'); ?></em>
 <?php
@@ -299,6 +305,19 @@ function ceo_edit_linkto_in_post($post) {
 	?>
 	<br />
 	<input id="link-to" name="link-to" type="input" style="width: 80%" value="<?php echo $linkto_url; ?>" /><br />
+	<?php
+}
+
+function ceo_edit_refer_only_in_post($post) {
+	$refer_only = get_post_meta($post->ID, 'refer-only', true); 
+	$refer_only_msg = get_post_meta($post->ID, 'refer-only-msg', true);
+	_e('Add url here of referring website to make it only visible when coming from that url.', 'comiceasel');
+	?>
+	<br />
+	<input id="refer-only" name="refer-only" type="input" style="width: 80%" value="<?php echo $refer_only; ?>" /><br />
+	<br />
+	<?php _e("Message to display to users who don't visit from the referring site.",'comiceasel'); ?><br />
+	<input id="refer-only-msg" name="refer-only-msg" type="input" style="width: 80%" value="<?php echo $refer_only_msg; ?>" /><br />
 	<?php
 }
 
@@ -420,6 +439,8 @@ function ceo_add_comic_in_post() {
 	add_meta_box('ceo_comic_in_post', __('Comic Directions', 'comiceasel'), 'ceo_edit_comic_in_post', 'comic', 'side', 'high');
 	if (!defined('CEO_FEATURE_LINKTO'))
 		add_meta_box('ceo_linkto_in_post', __('Links To', 'comiceasel'), 'ceo_edit_linkto_in_post', 'comic', 'normal', 'default');
+	if (!defined('CEO_DISABLE_REFER_ONLY'))
+		add_meta_box('ceo_refer_only_in_post', __('Only show this comic if it comes from referring URL?', 'comiceasel'), 'ceo_edit_refer_only_in_post', 'comic', 'normal', 'default');
 	if (!defined('CEO_FEATURE_DISABLE_MISC'))
 		add_meta_box('ceo_toggle_in_post', __('Misc. Comic Functionality', 'comiceasel'), 'ceo_edit_toggles_in_post', 'comic', 'side', 'low');
 	if (!defined('CEO_FEATURE_DISABLE_HOVERTEXT'))
@@ -506,8 +527,10 @@ function ceo_handle_edit_save_comic($post_id, $post) {
 			'media_url',
 			'media_width',
 			'link-to',
+			'refer-only',
 			'comic-has-map',
-			'location-overwrite'
+			'location-overwrite',
+			'comic-content-warning'
 			);
 			
 	$defaultorigamount = ceo_pluginfo('buy_comic_orig_amount');

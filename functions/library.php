@@ -115,3 +115,28 @@ function ceo_apply_orderby_filter($orderby, $args) {
 }
 
 add_filter('get_terms_orderby', 'ceo_apply_orderby_filter', 10, 2);
+
+
+function ceo_get_referer() {
+	$ref = '';
+	if ( ! empty( $_REQUEST['_wp_http_referer'] ) )
+		$ref = $_REQUEST['_wp_http_referer'];
+	else if ( ! empty( $_SERVER['HTTP_REFERER'] ) )
+		$ref = $_SERVER['HTTP_REFERER'];
+	
+	return $ref;
+}
+
+function ceo_content_warning() {
+	return apply_filters('ceo-content-warning', __('Warning, Mature Content.'));
+}
+
+add_action('wp_head', 'ceo_content_warning_in_head');
+
+function ceo_content_warning_in_head() {
+?>
+<script>
+	var contentwarningtext = "<?php echo ceo_content_warning(); ?>";
+</script>
+<?php
+}

@@ -308,8 +308,15 @@ function ceo_run_css() {
 }
 
 function ceo_run_scripts() {
+	global $post;
+	if (!empty($post)) {
+		$comic_content_warning = get_post_meta( $post->ID, 'comic-content-warning', true );
+		if ($comic_content_warning) {
+			wp_enqueue_script('ceo_comic_content_warning', ceo_pluginfo('plugin_url').'js/content-warning.js', null, null, true);
+		}
+	}
 	if (!ceo_pluginfo('disable_keynav')) {
-		wp_enqueue_script('comicpress_keynav', ceo_pluginfo('plugin_url').'js/keynav.js', null, null, true);
+		wp_enqueue_script('ceo_keynav', ceo_pluginfo('plugin_url').'js/keynav.js', null, null, true);
 	}
 }
 
