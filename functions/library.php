@@ -128,7 +128,7 @@ function ceo_get_referer() {
 }
 
 function ceo_content_warning() {
-	return apply_filters('ceo-content-warning', __('Warning, Mature Content.'));
+	return apply_filters('ceo-content-warning', __('Warning, Mature Content.','comiceasel'));
 }
 
 add_action('wp_head', 'ceo_content_warning_in_head');
