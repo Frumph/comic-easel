@@ -131,6 +131,8 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 = 1.9.10 =
 * Added Content Warning toggle which blur's individual comics in the comic editor (user can click to unblur) courtesy Ryan G.
 * Added URL referrer ability to comics that makes it so that you can choose for comics only to be visible if they clicked a link from some place else
+* @egypturnash - added option to render chapter dropdown as list of links
+* @eypturnash - added highlighting of current chapter to list
 
 = 1.9.9 =
 * @Egypturnash - fix ceo_get_adjacent_chapter to work with W3 Total Cache's object cache
