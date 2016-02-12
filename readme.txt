@@ -3,8 +3,8 @@ Author: Frumph
 Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 4.3
-Tested up to: 4.4
-Stable tag: 1.9.9
+Tested up to: 4.4.2
+Stable tag: 1.9.10
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -128,8 +128,9 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
-= 2.0 =
+= 1.9.10 =
 * Added Content Warning toggle which blur's individual comics in the comic editor (user can click to unblur) courtesy Ryan G.
+* Added URL referrer ability to comics that makes it so that you can choose for comics only to be visible if they clicked a link from some place else
 
 = 1.9.9 =
 * @Egypturnash - fix ceo_get_adjacent_chapter to work with W3 Total Cache's object cache
