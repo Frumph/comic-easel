@@ -168,7 +168,8 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 		echo $before_widget;
 		$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']); 
 		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; }; 
-		if (!isset($instance['hide'])) $instance['hide'] = 1;		
+		if (!isset($instance['hide'])) $instance['hide'] = 1;
+		if (!isset($instance['render_as_list'])) $instance['render_as_list'] = false;
 		ceo_comic_archive_jump_to_chapter($instance['hide'], $instance['exclude'], $instance['showcount'], $instance['jumptoarchive'], true, $instance['render_as_list']);
 		echo $after_widget;
 	}
