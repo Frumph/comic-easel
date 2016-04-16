@@ -432,11 +432,11 @@ function ceo_edit_taxonomy_archive_overwrite() {
 
 
 function ceo_add_comic_in_post() {
-	// add_meta_box('ceo_comic_in_post', __('Comic Directions', 'comiceasel'), 'ceo_edit_comic_in_post', 'comic', 'side', 'high');
-	remove_meta_box('postimagediv', 'comic', 'side');
-	if ( current_theme_supports( 'post-thumbnails', 'comic' ) && post_type_supports('comic', 'thumbnail') )
-		add_meta_box('postimagediv', __('Set Comic/Featured Image'), 'post_thumbnail_meta_box', 'comic', 'side', 'high');
 	add_meta_box('ceo_comic_in_post', __('Comic Directions', 'comiceasel'), 'ceo_edit_comic_in_post', 'comic', 'side', 'high');
+	if ( current_theme_supports( 'post-thumbnails', 'comic' ) && post_type_supports('comic', 'thumbnail') ) {
+		remove_meta_box('postimagediv', 'comic', 'side');
+		add_meta_box('postimagediv', __('Set Comic/Featured Image', 'comiceasel'), 'post_thumbnail_meta_box', 'comic', 'side', 'high'); 
+	}
 	if (!defined('CEO_FEATURE_LINKTO'))
 		add_meta_box('ceo_linkto_in_post', __('Links To', 'comiceasel'), 'ceo_edit_linkto_in_post', 'comic', 'normal', 'default');
 	if (!defined('CEO_DISABLE_REFER_ONLY'))
