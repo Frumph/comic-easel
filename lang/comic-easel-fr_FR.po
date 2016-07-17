@@ -1,0 +1,1897 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: ComicPress v4.3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-10-29 09:37-0800\n"
+"PO-Revision-Date: Sun Jul 17 2016 14:52:42 GMT+0200 (Paris, Madrid (heure "
+"d’été))\n"
+"Last-Translator: J.N. Squire <lecuyerjnredwall@gmail.com>\n"
+"Language-Team: \n"
+"Language: French (France)\n"
+"Plural-Forms: nplurals=2; plural=n > 1\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Loco - https://localise.biz/\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
+"_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
+"esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
+"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes\n"
+"X-Loco-Target-Locale: fr_FR"
+
+#: options/general.php:169
+msgid "Disable display of <strong>tags</strong> in posts?"
+msgstr ""
+"Désactiver l'affichage des <strong>mots-clés</strong> dans les "
+"articles&nnbsp;?"
+
+#: options/general.php:178
+msgid "Disable display of <strong>categories</strong> in posts?"
+msgstr ""
+"Désactiver l'affichage des <strong>catégories</strong> dans les "
+"articles&nnbsp;?"
+
+#: options/general.php:187
+msgid "Disable display of <strong>by Author</strong> in post information?"
+msgstr ""
+"Désactiver l'affichage des <strong>auteurs</strong> dans l'information des "
+"articles&nnbsp;?"
+
+#: options/general.php:196
+msgid "Disable display of the posted on date in posts?"
+msgstr ""
+"Désactiver l'affichage de la <strong>date de publication</strong> dans les "
+"articles&nnbsp;?"
+
+#: options/general.php:205
+msgid "Disable the display of the posted at time in posts?"
+msgstr ""
+"Désactiver l'affichage de l'<strong>heure de publication</strong> dans les "
+"articles&nnbsp;?"
+
+#: options/general.php:214
+msgid "Enable the display of last modified information in posts?"
+msgstr ""
+"Activer l'affichage de l'information sur la dernière modification dans les "
+"articles&nnbsp;?"
+
+#: options/general.php:238
+msgid "Moods Directory"
+msgstr "Répertoire des humeurs"
+
+#: options/general.php:252
+msgid ""
+"Choose a directory to get the post moods from. Set this to "
+"<strong>none</strong> to turn off use. Mood directories are found in your "
+"theme directory/images/moods/* . To create your own custom moods just create "
+"a directory under images/moods/ and place ONLY image files inside of it. The "
+"name of the image file represents what the mood is."
+msgstr ""
+"Choisissez un dossierpour obtenir la provenance des humeurs du billet. "
+"Mettre la valeur à <strong>none</strong> pour désactiver son utilisation. "
+"Les dossiers d'humeur sont disponibles dans le dossier de votre thème "
+"/images/moods/* (s'il en a de prévu). Pour créer des humeurs personnalisées, "
+"il suffit de créer un dossier et de ne placer QUE des fichiers d'images à "
+"l'intérieur. Le nom de chaque fichier image doit représenter cette humeur."
+
+#: options/general.php:264
+msgid "Disable the comment notes?"
+msgstr "Désactiver les notes des commentaires&nnbsp;?"
+
+#: options/general.php:273
+msgid "Disable Comment Javascript?"
+msgstr "Désactiver le Javascript des commentaires&nnbsp;?"
+
+#: options/general.php:282
+msgid "Enable Comments on Home Page?"
+msgstr "Activer les commentaires sur la page d'accueil&nnbsp;?"
+
+#: options/general.php:287
+msgid ""
+"Checkmarking this option will make it so that the post(s) on the home page "
+"will also display the comments under them. This will ONLY work if you have "
+"it set to only display 1 post on the home page. The post count and this must "
+"be set to work."
+msgstr ""
+"Cocher cette option fera apparaître les commentaires sous les articles "
+"affichés (s'il y en a). Cela fonctionnera SEULEMENT si vous avez limité "
+"votre affichage à un seul article sur la page d'accueil. Ceci et le compteur "
+"d'articles doivent être activés pour que cela fonctionne."
+
+#: options/general.php:321
+msgid ""
+"Choose a directory to get the avatars for default gravatars if someone does "
+"not have one. You will have to make these images yourself, or download them "
+"from avatar providers. Then make a new directory on your site server to "
+"upload them to and select that directory here. Setting this to "
+"<strong>none</strong> will disable it from using any special avatar sets."
+msgstr ""
+"Choisissez un répertoire/dossier pour avoir des avatars par défaut au cas où "
+"quelqu'un n'en a pas. Vous devrez faire ces images vous-même ou les "
+"télécharger depuis un fournisseur d'avatars. Créez ensuite un nouveau "
+"dossier/répertoire sur le serveur de votre site pour les charger dedans et "
+"sélectionnez ce dossier ici même. Le mettre sur la valeur "
+"<strong>none</strong> désactivera toute utilisation d'ensemble spéciaux "
+"d'avatars."
+
+#: options/general.php:333
+msgid "Enable numbered pagination?"
+msgstr "Activer la pagination numérotée&nnbsp;?"
+
+#: options/general.php:350
+msgid "Disable the default text in the footer?"
+msgstr "Désactiver le texte par défaut dans le pied de page&nnbsp;?"
+
+#: options/general.php:355
+msgid ""
+"Default text in the footer will not display. Enable this if you do not want "
+"any text in the footer. If you wish to add you own custom content, you may "
+"do so via Appearance &#10132; Widgets &#10132; Footer."
+msgstr ""
+"Le texte par défaut du pied de page ne s'affichera pas. À activer si vous ne "
+"voulez pas de texte dans le pied de page. Si vous voulez ajouter votre "
+"propre contenu personnalisé, rendez-vous dans Apparance &#10132; Widgets "
+"&#10132; Pied de page."
+
+#: options/general.php:372
+msgid ""
+"Set the name to which this site is &copy; Copyright to. Leave blank to have "
+"the site name."
+msgstr ""
+"Écrivez le nom auquel le site est rattache par &copy; Copyright et/ou droit "
+"d'auteur. À laisser vide pour avoir seulement le nom du site."
+
+#: options/general.php:376
+msgid "&copy; Copyright Holder URL"
+msgstr "&copy; Lien du site web du titulaire du &copy; Copyright/droit d'auteur"
+
+#: options/general.php:380
+msgid ""
+"Set the URL to the owner of the &copy; Copyright if different then this "
+"website. Leave blank for sites link."
+msgstr ""
+"Écrivez ici le lien web du titulaire du &copy; Copyright ou du droit "
+"d'auteur s'il est différent de celui du site. À laisser vide pour avoir le "
+"lien du site."
+
+#: options/general.php:418
+msgid "Excerpt or Full Content in archive and search?"
+msgstr ""
+"Voir un extrait ou le contenu intégral dans les archives et la "
+"recherche&nnbsp;?"
+
+#: options/general.php:420
+msgid "Excerpt"
+msgstr "Extrait"
+
+#: options/general.php:421
+msgid "Full Content"
+msgstr "Contenu intégral"
+
+#: options/general.php:425
+msgid ""
+"If Display archives results as list is disabled, decide how much is seen in "
+"the archive display."
+msgstr ""
+"Si l'affichage par liste des archives est désactivé, cette option décide de "
+"la quantité de contenu affiché dans les archives."
+
+#: options/general.php:432
+msgid "Oldest to Newest &mdash; Ascending"
+msgstr "Du plus ancien au plus récent &mdash; Ascendant"
+
+#: options/general.php:433
+msgid "Newest to Oldest &mdash; Descending"
+msgstr "Du plus récent au plus ancien &mdash; Descendant"
+
+#: options/general.php:437
+msgid ""
+"Sets the display order of your archives. Newest to Oldest will display your "
+"posts starting with the most recent. Oldest to Newest will start with the "
+"first entry in the category, tag, or date range (e.g. Selecting May 20XX "
+"will start with May 1, not May 31st.)"
+msgstr ""
+"Établi l'ordre d'affichage de vos archives. Choisir «&nnbsp;Du plus récent "
+"au plus ancien&nnbsp;» affichera vos articles à partir du plus récent. "
+"Choisir «&nnbsp;Du plus ancien au plus récent&nnbsp;» affichera la première "
+"entrée de la catégorie, du mot-clé, ou de la fourchette de date (exemple : "
+"Sélectionner «&nnbsp;mai 20XX&nnbsp;» fera commencer la liste par «&nnbsp;"
+"1er mai&nnbsp;» et pas par «&nnbsp;31 mai&nnbsp;»)."
+
+#: options/menubar.php:14
+msgid "Disable default Menubar?"
+msgstr "Désactiver la barre de menu par défaut&nnbsp;?"
+
+#: options/menubar.php:23
+msgid "Enable Search Form?"
+msgstr "Activer le formulaire de recherche&nnbsp;?"
+
+#: options/menubar.php:32
+msgid "Enable RSS Link?"
+msgstr "Activer le lien RSS&nnbsp;?"
+
+#: options/menubar.php:46
+msgid ""
+"Disable the loading of the menubar jQuery. If you do not want the ddsmoother "
+"menu code to load. (Will not do drop downs without it.)"
+msgstr ""
+"Désactive le chargement du jQuery de la barre de menu au cas où vous voulez "
+"éviter que le code «&nnbsp;ddsmoother menu&nnbsp;» ne se charge. (Sans lui, "
+"pas de menu déroulant en son absence."
+
+#: options/menubar.php:64
+msgid "Menubar &mdash; Social Icons"
+msgstr "Barre de menu &mdash; Icônes sociales"
+
+#: options/menubar.php:73
+msgid ""
+"Adds additional social icons in the menubar on in the menunav area. Put the "
+"entire http:// url in the input box that leads to your account on those "
+"sites. Leave field empty if you do not have one and it will not show."
+msgstr ""
+"Ajouter des icônes sociales supplémentaires dans la barre de menu sur la "
+"zone «&nnbsp;menunav&nnbsp;». Assurez-vous d'avoir bien mis le lien complet "
+"vers votre profil pour ces sites (avec «&nnbsp;http://&nnbsp;» ou «&nnbsp;"
+"https://&nnbsp;» dans le champ). Laissez un champ vide si vous n'avez pas de "
+"profil, et il ne s'affichera pas."
+
+#: options/menubar.php:127
+msgid "Email &mdash; use mailto://your@email.com"
+msgstr "Email/courriel &mdash; use mailto://votre@email.com"
+
+#: options/splash.php:26
+msgid ""
+"Schemes, layout and Site Width along with other customizations can be "
+"modified in the appearance &#10132; customize section of the wp-admin."
+msgstr ""
+"Schémas, mise en page, largeur du site et autres personnalisations sont "
+"disponibles dans la section Apparence &#10132; Personnaliser du tableau de "
+"bord."
+
+#: options.php:173
+msgid "Introduction"
+msgstr "Introduction"
+
+#: options.php:219
+msgid ""
+"If you like the ComicPress theme, please donate. It will help in developing "
+"new features and versions."
+msgstr ""
+"Si vous aimez le thème ComicPress (ou l'extension ComicEasel), merci de "
+"faire une donation. Cela permettra de développer de nouvelles "
+"fonctionnalités et de nouvelles versions."
+
+#: sidebar-left.php:13
+#: sidebar-right.php:13
+msgid ""
+"Widgets can be added by going to your dashboard (wp-admin) &#10132; "
+"Appearance &#10132; Widgets, drag a widget you want to see into one of the "
+"appropriate sidebars."
+msgstr ""
+"Des widgets peuvent être ajoutés en allant sur votre tableau de bord (wp-"
+"admin) &#10132; Apparence &#10132; Widgets. Faites glisser le widget que "
+"vous voulez voir dans la barre latérale de votre choix."
+
+#: taxonomy-characters.php:38
+msgid "Only Appearance:"
+msgstr "Seule apparition&nnbsp;:"
+
+#: taxonomy-characters.php:40
+msgid "Recent Appearance:"
+msgstr "Apparition récente&nnbsp;:"
+
+#: taxonomy-characters.php:41
+msgid "First Appearance:"
+msgstr "Première apparition&nnbsp;:"
+
+#: taxonomy-locations.php:41
+msgid "Only Scene:"
+msgstr "Seule scène&nnbsp;:"
+
+#: taxonomy-locations.php:43
+msgid "Recent Scene:"
+msgstr "Scène récente&nnbsp;:"
+
+#: taxonomy-locations.php:44
+msgid "First Scene:"
+msgstr "Première scène&nnbsp;:"
+
+#: widgets/classicbookmark.php:117
+msgid "ComicPress - Classic Bookmark"
+msgstr "ComicPress - Marque-page classique"
+
+#: widgets/controlpanel.php:21
+msgid "ComicPress - Control Panel"
+msgstr "ComicPress - Panneau de contrôle"
+
+#: widgets/menubar.php:51
+msgid "ComicPress - Menubar"
+msgstr "ComicPress - Barre de menu"
+
+#: widgets/multisite-list.php:23
+msgid "ComicPress - Site List"
+msgstr "ComicPress - Liste des sites"
+
+#: widgets/randompostlink.php:41
+msgid "ComicPress - Random Post Link"
+msgstr "ComicPress - Lien vers un article aléatoire"
+
+#: widgets/randompostlink.php:42
+msgid "Displays a link to click that triggers going to a random blog post."
+msgstr "Affiche un lien qui conduit avec un article de blog au hasard."
+
+#: widgets/scheduledposts.php:22
+msgid "ComicPress - Scheduled Posts"
+msgstr "ComicPress - Articles planifiés"
+
+#: widgets/translator.php:22
+msgid "ComicPress - Google Translator"
+msgstr "ComicPress - Traducteur Google"
+
+#: options/splash.php:7
+msgid "Technical Support"
+msgstr "Support technique"
+
+#: options/splash.php:12
+msgid "You can contact me for technical support at any of the following locations: "
+msgstr ""
+"Vous pouvez me contacter pour tout support technique au endroits "
+"suivants&nnbsp;:"
+
+#: options/splash.php:13
+msgid "(best chances to reach me at the top going down to the least chance)"
+msgstr ""
+"(les chances d'arriver à me joindre diminues au fur et à mesure que l'on "
+"descend dans la liste)"
+
+#: options/splash.php:15
+msgid "Form Email:"
+msgstr "Formulaire de courriel&nnbsp;:"
+
+#: options/splash.php:16
+msgid "Via Facebook:"
+msgstr "Via Facebook&nnbsp;:"
+
+#: options/splash.php:17
+msgid "WebComics.COM Forums:"
+msgstr "Forums WebComics.COM"
+
+#: options/splash.php:17
+msgid "(Subscription only)"
+msgstr "(seulement si inscrit)"
+
+#: options/splash.php:18
+msgid "WordPress.ORG Forums:"
+msgstr "Forums WordPress.ORG"
+
+#: options/splash.php:18
+msgid "(rarely go here)"
+msgstr "(rarement présent)"
+
+#: options/splash.php:19
+msgid "On Twitter:"
+msgstr "Sur Twitter&nnbsp;:"
+
+#: options/splash.php:19
+msgid "(Twitter and I are not friends atm)"
+msgstr "(Twitter et moi ne somment pas très amis en ce moment)"
+
+#: options/splash.php:21
+msgid ""
+"Please take note that I speak American-English only, pardon my ignorance and "
+"will try to understand you as best I can."
+msgstr ""
+"Notez SVP que je ne parle que l'anglais (américain). Pour les autres langues,"
+" pardonnez mon ignorance ; je ferais de mon mieux pour vous comprendre."
+
+#: author.php:52
+msgid "Posts #"
+msgstr "Posts #"
+
+#: options/debug.php:28
+msgid ""
+"This option forces mysql to close the connection after each page load &mdash;"
+" not recommended unless you are requested to enable it."
+msgstr ""
+"Cette option force MySQL à fermer la connexion après chaque chargement de "
+"page&nnbsp;; non recommandé, à moins qu'il vous soit demandé de le faire."
+
+#: options/debug.php:48
+msgid ""
+"Technical Support is available on the <a href=\"https://github."
+"com/Frumph/comicpress/issues\" target=\"_blank\">github repository</a> or use "
+"the Contact form on <a href=\"http://frumph.net\" target=\"_blank\">Frumph."
+"NET</a>."
+msgstr ""
+"Le support technique est disponible sur <a href=\"https://github."
+"com/Frumph/comicpress/issues\" target=\"_blank\"> le dépôt GitHub</a>, ou alors "
+"utilisez le formulaire de contact sur <a href=\"http://frumph.net\" "
+"target=\"_blank\">Frumph.NET</a> (en anglais)."
+
+#: options/general.php:20
+msgid ""
+"How many blog posts you would like displayed on the index page at one time. "
+"This is different then the one in the wp-admin &#10132; settings, the one in "
+"the settings will control how many show up on search and archive pages."
+msgstr ""
+"Nombre d'articles de blog que vous voudriez afficher sur la page d'index en "
+"une fois. Il est différent des paramètres de Tableau de bord &#10132; "
+"Réglages, ces dernier que contrôlant que les pages de recherche et "
+"d'archives."
+
+#: options/general.php:24
+msgid "Disable Blog Loop?"
+msgstr "Désactiver la boucle du blog"
+
+#: options/general.php:29
+msgid ""
+"Enabling this option, will DISABLE the blog from appearing on the home page "
+"AND any pages set as the blog posts page in the settings &#10132; reading."
+msgstr ""
+"Activer cette option DÉSACTIVERA l'apparition du blog sur la page d'accueil "
+"ET sur toute page de blog définie dans Réglages &#10132; Lecture."
+
+#: options/general.php:68
+msgid ""
+"Modify the height and width of the custom header *if* you use Appearance "
+"&#10132; Header."
+msgstr "Modifie la hauteur et la largeur"
+
+#: options/general.php:70
+msgid ""
+"NOTE: This should only be used if the appearance &#10132; header section is "
+"not displaying your header dimensions correctly."
+msgstr ""
+"NOTE&nnbsp;: Cela ne doit être utilisé que si la section d'en-tête dans "
+"Apparence &#10132; En-tête n'affiche pas correctement les dimensions de "
+"votre en-tête."
+
+#: options/general.php:91
+msgid ""
+"This sets a specific width for WordPress to use for media content within "
+"your posts and pages. Default = 500"
+msgstr ""
+"Cela met en place une largeur spécifique qu'utilisera WordPress pour les "
+"contenus médias placés dans vos articles et vos planches. Par défaut&nnbsp;: "
+"500 ."
+
+#: options/general.php:104
+msgid "When the sidebars are disabled on pages? Default = 700"
+msgstr ""
+"Lorsque les barres latérales sont désactivées sur les planches/pages. Par "
+"défaut&nnbsp;: 700 ."
+
+#: options/general.php:116
+msgid "Disable the titles on pages?"
+msgstr "Désactiver les titres sur les planches&nnbsp;?"
+
+#: options/general.php:121
+msgid ""
+"Page titles will be turned off. If you disable the titles no pages you can "
+"still add a post-image in the page editor."
+msgstr ""
+"Les titres des planches seront désactivés. Si vous désactivez ces titres, "
+"vous pourrez toujours ajouter une « image-article » dans l'éditeur de "
+"planche."
+
+#: options/general.php:133
+msgid "Disable the titles on posts?"
+msgstr "Désactiver les titres sur les articles&nnbsp;?"
+
+#: options/general.php:138
+msgid ""
+"Post titles will be turned off. If you disable the titles on posts can still "
+"add a post-image in the post editor."
+msgstr ""
+"Les titres des articles seront désactivés. Si vous désactivez ces titres, "
+"vous pourrez toujours ajouter une « image-article » dans l'éditeur d'article."
+
+#: options/general.php:142
+msgid "Add graphic calendar to blog posts?"
+msgstr "Ajouter un calendrier graphique aux articles du blog&nnbsp;?"
+
+#: options/general.php:151
+msgid "Enable Author Gravatar?"
+msgstr "Activer le Gravatar de l'auteur&nnbsp;?"
+
+#: options/general.php:156
+msgid ""
+"Enabling this option will show a gravatar of the post author based on the "
+"author email address. Gravatars are associated by your email address and you "
+"can create them at"
+msgstr ""
+"Activer cette option affichera le Gravatar de l'auteur de l'article en se "
+"basant sur son adresse de courriel. Les Gravatars sont associés à une "
+"adresse courriel, et vous pouvez en créer vous-même."
+
+#: options/general.php:160
+msgid "Enable Avatar Mod?"
+msgstr "Activer la modification d'avatar&nnbsp;?"
+
+#: archive.php:59
+#: archive.php:98
+#: search.php:9
+#, php-format
+msgid "%d result."
+msgid_plural "%d results."
+msgstr[0] "%d résultat."
+msgstr[1] "%d résultats."
+
+#: comments.php:3
+msgid "This post is password protected. Enter the password to view comments."
+msgstr ""
+"Cet article est protégé par un mot de passe. Entrez ce mot de passe pour "
+"voir les commentaires."
+
+#: functions.php:53
+msgid "Primary"
+msgstr "Premier de page"
+
+#: functions/customize.php:185
+#: functions/customize.php:197
+#: functions.php:54
+#: functions.php:114
+#: options/general.php:346
+msgid "Footer"
+msgstr "Pied de page"
+
+#: functions.php:107
+msgid "Left Sidebar"
+msgstr "Barre latérale gauche"
+
+#: functions.php:107
+msgid "The sidebar that appears to the left of the content."
+msgstr "Barre latérale apparaissant à gauche du contenu."
+
+#: functions.php:108
+msgid "Right Sidebar"
+msgstr "Barre latérale droite"
+
+#: functions.php:108
+msgid "The sidebar that appears to the right of the content."
+msgstr "Barre latérale apparaissant à droite du contenu."
+
+#: functions.php:109
+msgid "Above Header"
+msgstr "Dessus d'en-tête"
+
+#: functions.php:109
+msgid ""
+"This sidebar appears to above all of the site information.  This sidebar is "
+"not encased in CSS, you will need to create CSS for it."
+msgstr ""
+"Cette barre latérale apparait au-dessus de toute l'information du site. "
+"Comme cette barre n'est pas contenue par du CSS, vous aurez besoin de créer "
+"du CSS vous-même pour avoir ce résultat."
+
+#: functions/customize.php:171
+#: functions.php:110
+msgid "Header"
+msgstr "En-tête"
+
+#: functions.php:110
+msgid "This sidebar appears inside the #header block."
+msgstr "Cette barre latérale apparaît à l'intérieur du bloc CSS #header."
+
+#: functions/customize.php:172
+#: functions.php:111
+#: options/menubar.php:10
+#: options.php:175
+msgid "Menubar"
+msgstr "Barre de menu"
+
+#: functions.php:111
+msgid "This sidebar is under the header and above the content-wrapper block"
+msgstr ""
+"Cette barre latérale se trouve sous l'en-tête et au-dessus du bloc content-"
+"wrapper (bloc emballant le contenu principal du site)."
+
+#: functions.php:112
+msgid "Over Blog"
+msgstr "Au-dessus du blog"
+
+#: functions.php:112
+msgid "This sidebar appears over the blog within the #column .narrowcolumn"
+msgstr ""
+"Cette barre latérale apparait au-dessus de l'espace de blog au sein des "
+"espaces #column et .narrowcolumn ."
+
+#: functions.php:113
+msgid "Under Blog"
+msgstr "Au-dessous du blog"
+
+#: functions.php:113
+msgid "This sidebar appears under the blog within the #column .narrowocolumn"
+msgstr ""
+"Cette barre latérale apparait sous le blog au sein des espaces #column et ."
+"narrowcolumn ."
+
+#: functions.php:114
+msgid ""
+"This sidebar is at the bottom of the page and is the center of the 3 footer "
+"sidebars."
+msgstr ""
+"Cette barre latérale est en bas de la page et est la barre latérale de pied "
+"de page du milieu (parmi les trois disponibles)."
+
+#: functions.php:115
+msgid "Footer Left"
+msgstr "Pied de page gauche"
+
+#: functions.php:115
+msgid "This sidebar is at the bottom of the page, the left one."
+msgstr ""
+"Cette barre latérale est celle de gauche en bas de la page (parmi les trois "
+"pieds de pages disponibles)."
+
+#: functions.php:116
+msgid "Footer Right"
+msgstr "Pied de page droit"
+
+#: functions.php:116
+msgid "This sidebar is at the bottom of the page, the right one."
+msgstr ""
+"Cette barre latérale est celle de droite en bas de la page (parmi les trois "
+"pieds de pages disponibles)."
+
+#: functions.php:119
+msgid "Jetpack Mobile Sidebar"
+msgstr "Barre latérale de Jetpack Mobile"
+
+#: functions/customize.php:173
+msgid "Menubar Dropdown"
+msgstr "Barre de menu déroulante"
+
+#: functions/customize.php:174
+msgid "Menubar When Mouseover"
+msgstr "Barre de menu pendant le survol de la souri"
+
+#: functions/customize.php:175
+msgid "Breadcrumbs"
+msgstr "Fil d'Ariane"
+
+#: functions/customize.php:176
+msgid "Content Area Below Menubar"
+msgstr "Zone de contenu sous la barre de menu"
+
+#: functions/customize.php:177
+msgid "Content Area Below Comic"
+msgstr "Zone de contenu sous la planche de BD"
+
+#: functions/customize.php:178
+msgid "Content Column"
+msgstr "Colonne de contenu"
+
+#: functions/customize.php:179
+msgid "Entire Post Area"
+msgstr "Zone de l'article en entier"
+
+#: functions/customize.php:181
+msgid "Comment Section"
+msgstr "Section des commentaires"
+
+#: functions/customize.php:182
+msgid "Comment Info. Line"
+msgstr "Ligne d'infos des commentaires"
+
+#: functions/customize.php:183
+msgid "Comments Made By Post Author"
+msgstr "Commentaires faits par l'auteur de l'article"
+
+#: functions/customize.php:184
+msgid "Info. Line Of Post Author"
+msgstr "Ligne d'infos de l'auteur de l'article"
+
+#: functions/customize.php:187
+msgid "Sitewide Textcolor"
+msgstr "Couleur de texte pour tout le site"
+
+#: functions/customize.php:189
+msgid "Site Tagline"
+msgstr "Ligne de mots-clés du site"
+
+#: functions/customize.php:191
+msgid "Widget Titles"
+msgstr "Titres des widgets"
+
+#: functions/customize.php:192
+msgid "Sidebar Textcolor"
+msgstr "Couleur de texte des barres latérales"
+
+#: functions/customize.php:193
+msgid "Non-Link Post Titles"
+msgstr "Titre des articles sans lien"
+
+#: functions/customize.php:194
+msgid "Page Titles"
+msgstr "Titres des planches"
+
+#: functions/customize.php:196
+msgid "Post/Page Comments"
+msgstr "Commentaires de l'article/de la planche"
+
+#: functions/customize.php:198
+#: functions/customize.php:216
+msgid "Copyright"
+msgstr "Copyright"
+
+#: functions/customize.php:222
+msgid "Comic Area"
+msgstr "Zone de la bande dessinée"
+
+#: functions/customize.php:224
+msgid "Default Comic Navigation"
+msgstr "Navigation dans la BD par défaut"
+
+#: functions/customize.php:225
+msgid "Default Nav Normal Text Color"
+msgstr "Couleur normale du texte de navigation par défaut"
+
+#: functions/customize.php:226
+msgid "Default Navigation Link"
+msgstr "Lien de navigation par défaut"
+
+#: functions/customize.php:227
+msgid "Default Navigation Hover"
+msgstr "Texte de survol de navigation par défaut"
+
+#: functions/customize.php:140
+msgid "Rounded corners on Post/Page Navigation Sections"
+msgstr "Coins arrondis sur les sections de navigation de l'article/de la planche"
+
+#: functions/customize.php:149
+msgid ""
+"Make the header title and description become a clickable hotspot for the "
+"entire header? (If you do the logo will not display right)"
+msgstr ""
+"Transformer le titre de l'en-tête et la description en zone cliquable sur "
+"tout l'en-tête&nnbsp;? (Si vous le faites, le logo ne s'affichera pas "
+"correctement)"
+
+#: functions/customize.php:155
+msgid "Logo, 120px height x 160px width"
+msgstr "Le logo, 120px de hauteur x 160px de largeur"
+
+#: functions/displaypost.php:109
+msgid "by"
+msgstr "par"
+
+#: functions/displaypost.php:119
+msgid "on&nbsp;"
+msgstr "le"
+
+#: functions/displaypost.php:129
+msgid "at&nbsp;"
+msgstr "à"
+
+#: functions/displaypost.php:142
+msgid "and modified on"
+msgstr "et modifié le"
+
+#: functions/displaypost.php:143
+msgid "at"
+msgstr "à"
+
+#: functions/displaypost.php:155
+msgid "Posted In: "
+msgstr "Posté dans&nnbsp;:"
+
+#: functions/displaypost.php:165
+msgid "&#9492; Tags: "
+msgstr "&#9492; Mots-clés&nnbsp;: "
+
+#: functions/displaypost.php:176
+msgid "Comment&nbsp;"
+msgstr "Commenter"
+
+#: functions/displaypost.php:192
+msgid "&lsaquo; Prev"
+msgstr "&lsaquo; Préc"
+
+#: functions/displaypost.php:193
+msgid "Next &rsaquo;"
+msgstr "Suiv &rsaquo;"
+
+#: functions/page-options.php:23
+msgid "Page Options"
+msgstr "Options de la planche"
+
+#: functions/pagination.php:9
+msgid "Newer Entries &uarr;"
+msgstr "Entrées plus récentes &uarr;"
+
+#: functions/pagination.php:10
+msgid "&darr; Previous Entries"
+msgstr "&darr; Entrées précédentes"
+
+#: functions/wp-pagenavi.php:149
+msgid "Go"
+msgstr "Aller à"
+
+#: functions/wp-pagenavi.php:160
+#, php-format
+msgid "Page %CURRENT_PAGE% of %TOTAL_PAGES%"
+msgstr "Planche %CURRENT_PAGE% of %TOTAL_PAGES%"
+
+#: functions/wp-pagenavi.php:163
+msgid "&laquo; First"
+msgstr "&laquo; Premier"
+
+#: functions/wp-pagenavi.php:164
+msgid "Last &raquo;"
+msgstr "Dernier &raquo;"
+
+#: functions/wp-pagenavi.php:166
+msgid "&laquo;"
+msgstr "&laquo;"
+
+#: functions/wp-pagenavi.php:167
+#: functions/wp-pagenavi.php:168
+msgid "..."
+msgstr "..."
+
+#: options/debug.php:14
+msgid "Enable the debug page load/memory usage at the bottom of each page?"
+msgstr ""
+"Activer la page de débogage pour le chargement/l'usage mémoire au bas de "
+"chaque page&nnbsp;?"
+
+#: options/debug.php:19
+msgid ""
+"If enabled will show information on how many queries, memory is used as well "
+"as how fast the page loads."
+msgstr ""
+"Si activé, des informations afficheront combien de mémoire est utilisée par "
+"requête et la vitesse de chargement de la page."
+
+#: options/debug.php:23
+msgid "Force MySQL to close the current active connection after page load?"
+msgstr ""
+"Forcer MySQL à fermer la connexion active après le chargement de la "
+"page&nnbsp;?"
+
+#: options/debug.php:36
+#: options/general.php:447
+#: options/menubar.php:141
+msgid "Save Settings"
+msgstr "Enregistrer les paramètres"
+
+#: options/general.php:15
+msgid "How many blog posts would you like to display on the home page?"
+msgstr ""
+"Combien d'articles de blogs aimeriez-vous afficher sur la page "
+"d'accueil&nnbsp;?"
+
+#: options/general.php:37
+msgid "Enable Project Wonderful Asyncronus code?"
+msgstr "Activer le code asyncrone de Project Wonderful&nnbsp;?"
+
+#: options/general.php:42
+msgid ""
+"This option places the Project Wonderful asyncronus code into the header of "
+"the site."
+msgstr ""
+"Cette option place le code asyncrone de Project Wonderful dans l'en-tête du "
+"site."
+
+#: options/general.php:46
+msgid "Allow the sidebar over-blog to appear on all posts?"
+msgstr "Permettre à la barre latérale de s'afficher sur tous les articles&nnbsp;?"
+
+#: options/general.php:51
+msgid ""
+"Sidebar Over-Blog appears on all posts not just the front page/blog loop "
+"when enabled."
+msgstr ""
+"Une fois cette option activée, la barre latérale au-dessus du blog apparaît "
+"sur tous les articles et pas seulement sur la page d'accueil/la boucle du "
+"blog."
+
+#: options/general.php:60
+msgid "Custom Header"
+msgstr "En-tête personnalisé"
+
+#: options/general.php:64
+msgid "Custom Header Values"
+msgstr "Valeurs de l'en-tête personnalisé"
+
+#: options/general.php:66
+msgid "Width:"
+msgstr "Largeur&nnbsp;:"
+
+#: options/general.php:67
+msgid "Height:"
+msgstr "Hauteur&nnbsp;:"
+
+#: options/general.php:69
+msgid ""
+"3 Column Layouts are 980px width while 2 Column Layouts are 780px width as "
+"default."
+msgstr ""
+"Trois mises en pages de colonnes font 980px de large tandis deux mises en "
+"pages de colonnes font 780px de large par défaut."
+
+#: options/general.php:78
+msgid "Content Width"
+msgstr "Largeur du contenu"
+
+#: options/general.php:86
+msgid "Media and images width on posts and pages?"
+msgstr "Largeur des médias et des images sur les articles et les planches&nnbsp;?"
+
+#: options/general.php:99
+msgid "Media and images width when sidebars are disabled on pages?"
+msgstr ""
+"Largeur des médias et des images lorsque les barres latérales sont "
+"désactivées&nnbsp;?"
+
+#: options/general.php:112
+msgid "Pages"
+msgstr "Planches"
+
+#: options/general.php:129
+msgid "Posts"
+msgstr "Articles"
+
+#: options/general.php:147
+msgid ""
+"Enabling this option will display a calendar image on your blog posts. The "
+"graphic calendar is an image that has the date of the blog post overlayed on "
+"top of it."
+msgstr ""
+"Activer cette option affichera l'image d'un calendrier sur les articles de "
+"votre blog. Ce calendrier graphique est une image avec la date de l'article "
+"du blog plaquée dessus."
+
+#: options/general.php:165
+msgid ""
+"With this enabled, the avatar's that are displayed will be jquery modified "
+"to look like polaroids randomly tilted."
+msgstr ""
+"Une fois activé, les avatars affichés seront modifiés par JQuery pour "
+"ressembler à des photos Polaroïd placées aléatoirement de travers."
+
+#: options/general.php:174
+msgid "Checkmarking this will make it so that tags will not appear in posts."
+msgstr "Cocher ceci empêchera les mots-clés d'apparaitre dans les articles."
+
+#: options/general.php:183
+msgid "Checkmarking this will make it so that categories will not appear in posts."
+msgstr "Cocher ceci empêchera les catégories d'apparaitre dans les articles."
+
+#: options/general.php:192
+msgid ""
+"Checkmarking this will make it so that the by Author information will not "
+"appear in posts."
+msgstr ""
+"Cocher ceci empêchera les informations sur l'auteur d'apparaitre dans les "
+"articles."
+
+#: options/general.php:201
+msgid ""
+"Checkmarking this will make it so that posted on date information will not "
+"appear in posts."
+msgstr "Cocher ceci empêchera la date de publication d'apparaitre dans les articles."
+
+#: options/general.php:210
+msgid ""
+"Checkmarking this will make it so that the information about what time the "
+"post was made will not show."
+msgstr "Cocher ceci empêchera l'heure de publication d'apparaitre dans les articles."
+
+#: options/general.php:219
+msgid ""
+"Checkmarking this will make it so that it will show when the last time that "
+"the post was modified in the post date information."
+msgstr ""
+"Cocher ceci affichera l'heure de la dernière modification de l'article au "
+"niveau du cadre d'information sur la date."
+
+#: functions/displaypost.php:176
+#: options/general.php:260
+msgid "Comments"
+msgstr "Commentaires"
+
+#: options/general.php:269
+msgid ""
+"Disabling this will remove the note text that displays with more options for "
+"adding to comments (html)."
+msgstr ""
+"Désactiver ceci supprimera la note qui s'affiche avec des options "
+"supplémentaires pour ajouter des commentaires (HTML)."
+
+#: options/general.php:278
+msgid ""
+"Checkmark this if you want the comment form to not use javascript to appear "
+"directly under who is being replied to. (increases pageviews/hits)"
+msgstr ""
+"Cette option évite d'utiliser Javascript pour permettre à un commentaire "
+"d'apparaitre directement sous celui auquel il répond (augmente le nombre de "
+"pages vues/hits)."
+
+#: options/general.php:307
+msgid "Avatar Directory"
+msgstr "Dossier des avatars"
+
+#: options/general.php:329
+msgid "Navigation"
+msgstr "Navigation"
+
+#: options/general.php:338
+msgid ""
+"Previous Entries and Next Entries buttons are replaced by a bar of numbered "
+"pages. Numbered pagination appears on the Home page, the author(s) page, the "
+"blog template, and comments/single when there are more then the set number "
+"of comments per page. Uses the same styling as the Menubar."
+msgstr ""
+"Les boutons «&nnbsp;Entrées précédentes&nnbsp;» et «&nnbsp;Entrées "
+"suivantes&nnbsp;» sont remplacés par une barre avec des numéros de pages. La "
+"pagination numérotée apparait sur la page d'accueil, la page du ou des "
+"auteur-s, le modèle du blog, et les commentaires/single lorsqu'il y en a "
+"plus que le nombre prévu de commentaires par page. Utilise le même style que "
+"la barre de menus."
+
+#: options/general.php:359
+msgid "Disable the scroll to top link in the footer?"
+msgstr ""
+"Désactiver l'option de retour en haut de la page située en pied de "
+"page&nnbsp;?"
+
+#: options/general.php:364
+msgid "When this link is clicked on long pages it will scroll back to the top."
+msgstr ""
+"Lorsque le lien de retour en haut de page est cliqué sur des pages longues, "
+"celle-ci défilera jusqu'en haut."
+
+#: options/general.php:368
+msgid "&copy; Copyright Name"
+msgstr "&copy; Nom du copyright"
+
+#: options/general.php:392
+msgid "Enable the post thumbnails in the RSS feed?"
+msgstr "Afficher les vignettes des articles dans le flux RSS&nnbsp;?"
+
+#: options/general.php:397
+msgid "If enabled will show the post thumbnail of the post in the RSS feed."
+msgstr ""
+"Une fois activée, cette option affichera la vignette de l'article dans le "
+"flux RSS."
+
+#: options/general.php:404
+msgid "Archive & Search"
+msgstr "Archive et recherche"
+
+#: options/general.php:408
+msgid "Display archive results as a list of links?"
+msgstr "Afficher les résultats d'archive sous la forme d'une liste de liens&nnbsp;?"
+
+#: options/general.php:413
+msgid ""
+"Enabling this will make the archive pages by date/category/term display as a "
+"list of links instead of full posts."
+msgstr ""
+"Cette option permet d'afficher les pages d'archives par date/catégorie/terme "
+"sous forme de liste de liens au lieu d'articles complets."
+
+#: options/general.php:430
+msgid "Archive Display Order"
+msgstr "Ordre d'affichage des archives"
+
+#: options/menubar.php:19
+msgid ""
+"Allows you to customize the location of the Menubar via Widgets or, just not "
+"have it."
+msgstr ""
+"Cette option autorise la personnalisation de la barre de menu via les "
+"widgets, ou juste de ne plus en avoir une."
+
+#: options/menubar.php:28
+msgid "Searchforms can be fun when you have something to search for."
+msgstr ""
+"Les formulaires de recherche peuvent être amusants quand vous avez quelque "
+"chose à rechercher."
+
+#: options/menubar.php:37
+msgid "Adds an RSS link icon to your menubar on the right side."
+msgstr "Ajoute une icône de lien RSS à votre barre de menu sur la droite."
+
+#: options/menubar.php:41
+msgid "Disable the menubar jQuery?"
+msgstr "Désactiver la barre de menu jQuery&nnbsp;?"
+
+#: options/menubar.php:51
+msgid "Enable Breadcrumbs?"
+msgstr "Activer le fil d'Ariane&nnbsp;?"
+
+#: options/menubar.php:56
+msgid ""
+"This will create a pathable breathcrumbs beneith the menubar underneith the "
+"default menubar location."
+msgstr ""
+"Cette option permet de créer des fils d'Ariane sous la barre de menu, en "
+"dessous de l'emplacement de la barre de menu par défaut."
+
+#: options/menubar.php:68
+msgid "Enable Social Icons in Menubar?"
+msgstr "Activer les icônes des réseaux sociaux dans la barre de menu&nnbsp;?"
+
+#: widgets/classicbookmark.php:40
+msgid "Tag This Page"
+msgstr "Ajouter un marque-page à cette planche"
+
+#: widgets/classicbookmark.php:118
+msgid "Creates a set of buttons that let the user return to the page they tagged."
+msgstr ""
+"Crée un ensemble de boutons permettant à l'utilisateur de retourner à "
+"l'endroit qu'ils ont marqué."
+
+#: widgets/classicbookmark.php:167
+#: widgets/controlpanel.php:100
+#: widgets/menubar.php:101
+#: widgets/randompostlink.php:92
+#: widgets/scheduledposts.php:82
+#: widgets/translator.php:75
+msgid "Title:"
+msgstr "Titre&nnbsp;:"
+
+#: widgets/controlpanel.php:22
+msgid ""
+"Login/Logoff menu with register/lost password links if not logged on. (use "
+"only if registrations are enabled)."
+msgstr ""
+"Menu de connexion/déconnexion avec les liens «&nnbsp;S'enregistrer&nnbsp;"
+"»/«&nnbsp;Récupérer le mot de passe&nnbsp;» si l'utilisateur n'est pas "
+"connecté. À utiliser seulement si les enregistrements sont activés."
+
+#: widgets/controlpanel.php:66
+msgid "Control Panel"
+msgstr "Panneau de contrôle"
+
+#: widgets/controlpanel.php:31
+msgid "Username"
+msgstr "Identifiant"
+
+#: widgets/controlpanel.php:32
+msgid "Password"
+msgstr "Mot de passe"
+
+#: widgets/controlpanel.php:38
+#: widgets/controlpanel.php:40
+msgid "Register"
+msgstr "S'enregistrer"
+
+#: widgets/controlpanel.php:42
+msgid "Recover password"
+msgstr "Récupérer le mot de passe"
+
+#: widgets/controlpanel.php:46
+msgid "Logout"
+msgstr "Se déconnecter"
+
+#: widgets/controlpanel.php:48
+msgid "Profile"
+msgstr "Profil"
+
+#: widgets/menubar.php:52
+msgid "Displays a menubar."
+msgstr "Afficher une barre de menu."
+
+#: widgets/multisite-list.php:24
+msgid "Display Site List of all sites that have recently updated on this Multisite."
+msgstr "Affiche une liste de tous les sites que vous avez mis à jour récemment."
+
+#: widgets/multisite-list.php:41
+msgid "Hosted Site List"
+msgstr "Liste de sites hébergés"
+
+#: widgets/randompostlink.php:60
+msgid "Random Post"
+msgstr "Article au hasard"
+
+#: widgets/scheduledposts.php:23
+msgid "Display a list of posts that are scheduled to be published."
+msgstr "Affiche une liste des articles et planches dont la publication est planifiée."
+
+#: widgets/scheduledposts.php:39
+msgid "Scheduled Posts"
+msgstr "Articles prévus"
+
+#: widgets/translator.php:23
+msgid "Translate your site with Google."
+msgstr "Traduire votre site avec Google."
+
+#: archive.php:57
+#, php-format
+msgid "%d comic."
+msgid_plural "%d comics."
+msgstr[0] "%d planche de bande dessinée."
+msgstr[1] "%d planches de bande dessinée."
+
+#: author.php:67
+msgid "Website"
+msgstr "Site web"
+
+#: comments.php:84
+msgid "NOTE &mdash; You can use these HTML tags and attributes: "
+msgstr "NOTE &mdash; Vous pouvez utiliser ces balises et attributs HTML&nnbsp;:"
+
+#: functions/customize.php:39
+msgid "Layout Options"
+msgstr "Options de mise en page"
+
+#: functions/customize.php:39
+msgid "Allows you to customize layout settings for ComicPress."
+msgstr ""
+"Vous permettent de personnaliser les paramètres de mise en page pour "
+"ComicPress."
+
+#: functions/customize.php:41
+msgid "Colors that are in the background of each of the sections."
+msgstr "Couleurs en arrière-plan de chacune des sections"
+
+#: functions/customize.php:49
+msgid "3 Column (default)"
+msgstr "3 colonnes (défaut)"
+
+#: functions/customize.php:50
+msgid "3 Column, both sidebars on left"
+msgstr "3 colonnes, les deux barres latérales sur la gauche"
+
+#: functions/customize.php:51
+msgid "3 Column, both sidebars on right"
+msgstr "3 colonnes, les deux barres latérales sur la droite"
+
+#: functions/customize.php:52
+msgid "2 Column, sidebar on left"
+msgstr "2 colonnes, barre latérale sur la gauche"
+
+#: functions/customize.php:53
+msgid "2 Column, sidebar on right"
+msgstr "2 colonnes, barre latérale sur la droite"
+
+#: functions/customize.php:57
+msgid "3 Column, Graphic Novel style, main sidebar on left"
+msgstr "3 colonnes, style roman graphique, barre latérale principale sur la gauche"
+
+#: functions/customize.php:58
+msgid "3 Column, Graphic Novel style, main sidebar on right"
+msgstr "3 colonnes, style roman graphique, barre latérale principale sur la droite"
+
+#: functions/customize.php:62
+msgid "Choose a layout"
+msgstr "Choisissez une mise en page"
+
+#: functions/customize.php:71
+msgid "Choose a scheme"
+msgstr "Choisissez un schéma"
+
+#: functions/customize.php:76
+msgid "No Scheme"
+msgstr "Pas de schéma"
+
+#: functions/customize.php:77
+msgid "Boxed"
+msgstr "Encadré"
+
+#: functions/customize.php:78
+msgid "Sandy"
+msgstr "Sable"
+
+#: functions/customize.php:79
+msgid "Mecha"
+msgstr "Mécano"
+
+#: functions/customize.php:80
+msgid "CEasel"
+msgstr "ComicEasel"
+
+#: functions/customize.php:81
+msgid "High Society"
+msgstr "Haute société"
+
+#: functions/customize.php:87
+msgid "Site Width"
+msgstr "Largeur du site"
+
+#: functions/customize.php:88
+msgid "Minimum value is 720px, maximum is 1600px width - Currently saved at: "
+msgstr ""
+"La valeur minimale est de 720px de large, la maximale de 1600px de large. "
+"Actuellement enregistrée à&nnbsp;:"
+
+#: functions/customize.php:101
+msgid "Left Sidebar Width"
+msgstr "Largeur de la barre latérale gauche"
+
+#: functions/customize.php:102
+#: functions/customize.php:116
+msgid "Minimum value is 200px, maximum is 400px width - Currently saved at: "
+msgstr ""
+"La valeur minimale est de 200px de large, la maximale de 400px de large. "
+"Actuellement enregistrée à&nnbsp;:"
+
+#: functions/customize.php:115
+msgid "Right Sidebar Width"
+msgstr "Largeur de la barre latérale droite"
+
+#: functions/customize.php:130
+msgid "Detach Footer"
+msgstr "Détacher le pied de page"
+
+#: functions/customize.php:131
+msgid ""
+"Detach the footer to below the main content? (Already appears detached on "
+"some schemes *but isn't)"
+msgstr ""
+"Détacher le pied de page de dessous le contenu principal ? (Apparaît déjà "
+"détaché sur certains schémas sans l'être véritablement)"
+
+#: functions/customize.php:139
+msgid "Rounded Corners"
+msgstr "Coins arrondis"
+
+#: functions/customize.php:148
+msgid "Clickable Header Image"
+msgstr "Image d'en-tête cliquable"
+
+#: functions/customize.php:161
+msgid "Comic in content column?"
+msgstr "Planche de BD dans la colonne du contenu&nnbsp;?"
+
+#: functions/customize.php:162
+msgid ""
+"Put the comic into the content column?  This must be done for the Graphic "
+"Novel Layouts."
+msgstr ""
+"Placer les planches dans la colonne de contenu&nnbsp;? Cela doit être fait "
+"pour les mises en pages de type roman graphique."
+
+#: functions/customize.php:180
+msgid "Top Section of a Post"
+msgstr "Section haute d'un article"
+
+#: functions/displaypost.php:176
+msgid "Comment"
+msgstr "Commenter"
+
+#: functions/moods.php:24
+msgid "Moods"
+msgstr "Humeurs"
+
+#: functions/moods.php:51
+msgid ""
+"Available Moods, you can set which mood images to use in the comicpress "
+"Options."
+msgstr ""
+"Humeurs disponibles. Vous pouvez sélectionner quelles images d'humeurs "
+"utiliser dans les options de ComicPress."
+
+#: functions/moods.php:58
+#: options/general.php:240
+#: options/general.php:309
+msgid "none"
+msgstr "aucun"
+
+#: functions/moods.php:72
+msgid " moods are available."
+msgstr "humeurs disponibles."
+
+#: functions/moods.php:73
+msgid "Using Moods from directory: "
+msgstr "Utiliser les humeurs située dans un autre répertoire&nnbsp;:"
+
+#: functions/moods.php:74
+msgid "Current Mood: "
+msgstr "Humeur actuelle&nnbsp;:"
+
+#: functions.php:234
+msgid "my DeviantART"
+msgstr "mon DeviantArt"
+
+#: 404.php:6
+msgid "Page Not Found"
+msgstr "Page introuvable"
+
+#: 404.php:9
+msgid "Click here to return to the home page"
+msgstr "Cliquez ici pour retourner à la page d'accueil"
+
+#: 404.php:9
+msgid "or try a search:"
+msgstr "ou essayez une recherche&nnbsp;:"
+
+#: archive.php:80
+#: search.php:18
+msgid "Permanent Link:"
+msgstr "Lien permanent&nnbsp;:"
+
+#: content-page.php:20
+#: functions/displaypost.php:267
+msgid "Edit this page."
+msgstr "Modifier cette page."
+
+#: archive.php:22
+#: archive.php:26
+#: archive.php:28
+#: archive.php:30
+#: archive.php:44
+#: archive.php:46
+#: archive.php:49
+msgid "Archive for "
+msgstr "Archive pour"
+
+#: archive.php:24
+msgid "Posts Tagged "
+msgstr "Articles taggés"
+
+#: archive.php:32
+msgid "Author Archive "
+msgstr "Archive de l'auteur"
+
+#: archive.php:34
+msgid "Archives"
+msgstr "Archives"
+
+#: archive.php:51
+msgid "Archive is unable to be found."
+msgstr "L'archive n'a pas pu être trouvée."
+
+#: archive.php:53
+msgid "No Archive Found."
+msgstr "Archive introuvable."
+
+#: archive.php:69
+msgid "No Thumbnail or Featured Image Found"
+msgstr "Aucune vignette ou image mise en avant trouvée"
+
+#: author.php:23
+msgid "No such author."
+msgstr "Aucun auteur de ce nom trouvé."
+
+#: author.php:48
+msgid "Registered on"
+msgstr "Enregistré sur"
+
+#: author.php:100
+msgid "Posts by"
+msgstr "Articles par"
+
+#: comments.php:14
+msgid "Comments RSS"
+msgstr "RSS des commentaires"
+
+#: comments.php:15
+msgid "Discussion &not;"
+msgstr "Discussion &not;"
+
+#: comments.php:15
+msgid "Discussion (%) &not;"
+msgstr "Discussion (%) &not;"
+
+#: comments.php:44
+msgid "Reply &not;"
+msgstr "Reply &not;"
+
+#: comments.php:63
+msgid "Comment Pages"
+msgstr "Pages des commentaires"
+
+#: comments.php:71
+msgid "Next Comments &uarr;"
+msgstr "Commentaires suivants &uarr;"
+
+#: comments.php:72
+msgid "&darr; Previous Comments"
+msgstr "&darr; Commentaires précédents"
+
+#: comments.php:83
+msgid "*NAME"
+msgstr "*NOM"
+
+#: comments.php:83
+msgid "*EMAIL"
+msgstr "*EMAIL"
+
+#: comments.php:83
+msgid "Get a Gravatar"
+msgstr "Obtenir un Gravatar"
+
+#: comments.php:83
+msgid "Website URL"
+msgstr "URL d'un site web"
+
+#: comments.php:84
+msgid "Comment &not;"
+msgstr "Comment &not;"
+
+#: comments.php:84
+#, php-format
+msgid "Reply to %s &not;"
+msgstr "Répondre à %s &not;"
+
+#: comments.php:84
+msgid "Cancel reply"
+msgstr "Annuler la réponse"
+
+#: comments.php:84
+msgid "Post Comment"
+msgstr "Poster le commentaire"
+
+#: comments.php:89
+msgid "Comments are closed."
+msgstr "Les commentaires sont fermés"
+
+#: content-aside.php:6
+#: content-link.php:11
+#: content.php:44
+msgid "Edit this post."
+msgstr "Modifier cet article."
+
+#: content-comic.php:38
+msgid "Edit this comic."
+msgstr "Modifier cette planche."
+
+#: functions.php:163
+msgid " [&hellip;]"
+msgstr "[&hellip;]"
+
+#: functions/displaypost.php:213
+#: functions.php:163
+msgid "&darr; Read the rest of this entry..."
+msgstr "&darr; Lire le reste de cette entrée..."
+
+#: functions.php:234
+#: options/menubar.php:115
+msgid "DeviantART"
+msgstr "DeviantART"
+
+#: functions.php:235
+msgid "Examine my Tumblr"
+msgstr "Examinez mon Tumblr"
+
+#: functions.php:235
+#: options/menubar.php:109
+msgid "Tumblr"
+msgstr "Tumblr"
+
+#: functions.php:236
+msgid "Friend on Facebook"
+msgstr "Ami sur Facebook"
+
+#: author.php:79
+#: functions.php:236
+#: options/menubar.php:77
+msgid "Facebook"
+msgstr "Facebook"
+
+#: functions.php:237
+msgid "Make use of MySpace"
+msgstr "Utilisez MySpace"
+
+#: functions.php:237
+#: options/menubar.php:121
+msgid "MySpace"
+msgstr "MySpace"
+
+#: functions.php:238
+msgid "Look at my LinkedIn"
+msgstr "Regardez mon LinkedIn"
+
+#: functions.php:238
+#: options/menubar.php:85
+msgid "LinkedIn"
+msgstr "LinkedIn"
+
+#: functions.php:239
+msgid "Follow me on Twitter"
+msgstr "Suivez-moi sur Twitter"
+
+#: author.php:73
+#: functions.php:239
+#: options/menubar.php:75
+msgid "Twitter"
+msgstr "Twitter"
+
+#: functions.php:240
+msgid "Gaze at my Flickr"
+msgstr "Admirez mon Flickr"
+
+#: functions.php:240
+#: options/menubar.php:103
+msgid "Flickr"
+msgstr "Flickr"
+
+#: functions.php:241
+msgid "Email me"
+msgstr "Envoyez-moi un courriel"
+
+#: author.php:61
+#: functions.php:241
+msgid "Email"
+msgstr "Courriel"
+
+#: functions.php:242
+msgid "Circle me on Google+"
+msgstr "Encerclez-moi sur Google+"
+
+#: author.php:85
+#: functions.php:242
+#: options/menubar.php:79
+msgid "Google+"
+msgstr "Google+"
+
+#: functions.php:243
+msgid "Peruse my Pinterests"
+msgstr "Parcourez mes Pinterests"
+
+#: functions.php:243
+#: options/menubar.php:91
+msgid "pinterest"
+msgstr "Pinterest"
+
+#: functions.php:244
+msgid "My Channel on YouTube"
+msgstr "Ma chaîne sur Youtube"
+
+#: functions.php:244
+#: options/menubar.php:97
+msgid "YouTube"
+msgstr "YouTube"
+
+#: functions.php:245
+msgid "RSS Feed"
+msgstr "Flux RSS"
+
+#: functions.php:245
+#: options/general.php:388
+msgid "RSS"
+msgstr "RSS"
+
+#: functions/breadcrumbs.php:11
+#: functions/wp-pagenavi.php:165
+msgid "&raquo;"
+msgstr "&raquo;"
+
+#. translators: theme discription for wp-admin
+#: functions.php:368
+msgid "Publish a WebComic with the ComicPress theme and the Comic Easel plugin."
+msgstr ""
+"Publiez une bande dessinée avec le thème ComicPress et l'extension Comic "
+"Easel."
+
+#: image.php:22
+msgid "&larr; Back to Gallery"
+msgstr "&larr; Retourner à la galerie."
+
+#: image.php:39
+msgid "Click for full size."
+msgstr "Cliquez pour la taille réelle."
+
+#: image.php:52
+msgid "Edit this attachment."
+msgstr "Modifier la pièce-jointe."
+
+#: image.php:58
+msgid "Sorry, no image matched your criteria."
+msgstr "Désolé, aucune image ne correspond à vos critères."
+
+#: options.php:6
+msgid "Options"
+msgstr "Options"
+
+#: options.php:7
+#: options.php:34
+msgid "ComicPress Options"
+msgstr "Options ComicPress"
+
+#: options.php:35
+msgid ""
+"ComicPress is a modular theme that has an abundance of hooks and actions "
+"placed in it for additional usability. Ref: Comic Easel"
+msgstr ""
+"ComicPress est un thème modulaire qui possède une abondance d'accroches et "
+"d'actions placées dedans pour une plus grande facilité d'utilisation. "
+"Ref&nnbsp;: Comic Easel"
+
+#: options.php:36
+msgid ""
+"While ComicPress is an excellent stand-alone theme, it can be enhanced in "
+"usability with the associated plugins that have been built to utilize its "
+"functionality."
+msgstr ""
+"Bien que ComicPress soit un thème excellent utilisé seuk, il peut être "
+"renforcé pour une meilleur utilisation avec les extensions associées qui ont "
+"été construites pour utiliser cette fonctionnalité."
+
+#: options.php:46
+msgid "ComicPress Settings RESET!"
+msgstr "RÉINITIALISATION des paramètres de ComicPress&nnbsp;!"
+
+#: options.php:53
+msgid "ComicPress Customizer Colors RESET!"
+msgstr "RÉINITIALISATION des couleurs personnalisées de ComicPress&nnbsp;!"
+
+#: options.php:162
+msgid "ComicPress Settings SAVED!"
+msgstr "Paramètres de ComicPress ENREGISTRÉS&nnbsp;!"
+
+#: options/general.php:10
+#: options.php:174
+msgid "General"
+msgstr "Général"
+
+#: options/debug.php:10
+#: options.php:176
+msgid "Debug"
+msgstr "Déboguage"
+
+#: options.php:218
+msgid "Developed and maintained by"
+msgstr "Développé et maintenu par"
+
+#: options.php:218
+msgid "Originally created by"
+msgstr "Créé originellement par"
+
+#: options.php:233
+msgid "Reset All Settings"
+msgstr "Réinitialiser tous les paramètres"
+
+#: options.php:240
+msgid "Reset Customizer Colors"
+msgstr "Réinitialiser les couleurs personnalisées"
+
+#: search.php:8
+msgid "Search for &lsquo;"
+msgstr "Recherche pour &lsquo;"
+
+#: search.php:8
+msgid "&rsquo;"
+msgstr "&rsquo;"
+
+#: search.php:37
+msgid "No results found."
+msgstr "Aucun résultat trouvé."
+
+#: search.php:38
+msgid "Try another search?"
+msgstr "Essayer une nouvelle recherche&nnbsp;?"
+
+#: searchform.php:2
+msgid "Search..."
+msgstr "Rechercher..."
+
+#: sidebar-left.php:7
+msgid "There are currently no widgets assigned to the left-sidebar, place some!"
+msgstr ""
+"Il n'y a actuellement aucun widget assigné à la barre latérale gauche, "
+"ajoutez-en donc&nnbsp;!"
+
+#: sidebar-left.php:10
+#: sidebar-right.php:10
+msgid "Once you add widgets to this sidebar, this default information will go away."
+msgstr ""
+"Une fois vos widgets ajoutés à cette barre latérale, cette information "
+"affichée par défaut disparaîtra."
+
+#: sidebar-right.php:7
+msgid "There are currently no widgets assigned to the right-sidebar, place some!"
+msgstr ""
+"Il n'y a actuellement aucun widget assigné à la barre latérale droite, "
+"ajoutez-en donc&nnbsp;!"
+
+#: single.php:23
+msgid "Sorry, post is not found."
+msgstr "Désolé, cet article n'a pas été trouvé."
+
+#. translators: home link for breadcrumps
+#: functions/breadcrumbs.php:13
+msgid "Home"
+msgstr "Accueil"
+
+#: functions/breadcrumbs.php:35
+msgid "Archive by category"
+msgstr "Archive par catégorie"
+
+#: functions/breadcrumbs.php:67
+msgid "No Results"
+msgstr "Aucun résultat"
+
+#: functions/breadcrumbs.php:97
+msgid "Search results for"
+msgstr "Résultats de la recherche pour"
+
+#: functions/breadcrumbs.php:100
+msgid "Posts tagged"
+msgstr "Articles taggés"
+
+#: functions/breadcrumbs.php:105
+msgid "Articles posted by"
+msgstr "Articles postés par"
+
+#: functions/breadcrumbs.php:108
+msgid "Error 404"
+msgstr "Erreur 404"
+
+#: functions/breadcrumbs.php:114
+msgid "Page"
+msgstr "Page"
+
+#. translators: date and time in comments
+#: functions/comment-functions.php:131
+#, php-format
+msgid "%1$s, %2$s"
+msgstr "%1$s, %2$s"
+
+#: functions/comment-functions.php:135
+msgid "Permalink to comment"
+msgstr "Lien permanent du commentaire"
+
+#: functions/comment-functions.php:135
+msgid "#"
+msgstr "#"
+
+#: functions/comment-functions.php:141
+msgid "Reply"
+msgstr "Répondre"
+
+#: functions/comment-functions.php:142
+msgid "Login to Reply"
+msgstr "Se connecter pour répondre"
+
+#: functions/comment-functions.php:150
+#: functions/displaypost.php:240
+msgid "Edit"
+msgstr "Modifier"
+
+#: functions/comment-functions.php:153
+msgid "Your comment is awaiting moderation."
+msgstr "Votre commentaire est en attente de modération."
+
+#: functions/copyright.php:8
+msgid "Powered by"
+msgstr "Propulsé par"
+
+#: functions/copyright.php:8
+msgid "with"
+msgstr "avec"
+
+#: functions/copyright.php:17
+msgid "Back to Top &uarr;"
+msgstr "Haut de page &uarr;"
+
+#: functions/copyright.php:35
+msgid "Hosted on"
+msgstr "Hébergé par"
+
+#: functions/copyright.php:47
+msgid "&copy;"
+msgstr "&copy;"
+
+#: functions/customize.php:41
+msgid "Background Colors"
+msgstr "Couleurs d'arrière-plan"
+
+#: functions/customize.php:42
+msgid "Text Colors"
+msgstr "Couleurs du texte"
+
+#: functions/customize.php:43
+msgid "Link Colors"
+msgstr "Couleurs des liens"
+
+#: functions/customize.php:44
+msgid "Logo"
+msgstr "Logo"
+
+#: functions/customize.php:170
+msgid "Entire Content Area"
+msgstr "Ensemble de la zone de contenu"
