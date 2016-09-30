@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Comic Easel v1.9.11\n"
+"Project-Id-Version: Comic Easel v1.10\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2016-07-17 19:13:45+0000\n"
+"PO-Revision-Date: 2016-09-30 20:41:51+0000\n"
 "Last-Translator: frumph <philip@frumph.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -39,7 +39,6 @@ msgstr ""
 #: ceo-admin.php:46
 #: ceo-import.php:254
 #@ comiceasel
-#@ default
 msgid "Import"
 msgstr ""
 
@@ -146,6 +145,7 @@ msgid "files have valid naming and can be imported."
 msgstr ""
 
 #: ceo-import.php:106
+#: ceo-import.php:283
 #@ comiceasel
 msgid "No files found in"
 msgstr ""
@@ -231,7 +231,7 @@ msgid "Set Time of Comic Posts"
 msgstr ""
 
 #: ceo-import.php:181
-#@ default
+#@ comiceasel
 msgid "24 hour clock"
 msgstr ""
 
@@ -293,11 +293,6 @@ msgstr ""
 #: ceo-import.php:270
 #@ comiceasel
 msgid "ComicPress file convention requires that each comic is its own date., do not have comics uploaded on the same date.  While Comic Easel does not require each comic to have its own date, the Import does.  There will be other methods of importing made in the future that this will not be an issue."
-msgstr ""
-
-#: ceo-import.php:274
-#@ comiceasel
-msgid "Directory to scan: "
 msgstr ""
 
 #: comiceasel.php:37
@@ -557,12 +552,6 @@ msgstr ""
 msgid "Tags"
 msgstr ""
 
-#: functions/admin-meta.php:118
-#@ default
-msgctxt "column name"
-msgid "Date"
-msgstr ""
-
 #: functions/admin-meta.php:119
 #@ comiceasel
 msgid "Thumbnail"
@@ -723,7 +712,6 @@ msgstr ""
 
 #: functions/admin-meta.php:380
 #@ comiceasel
-#@ default
 msgid "Out of Stock"
 msgstr ""
 
@@ -819,13 +807,8 @@ msgid "Media Url as Comic"
 msgstr ""
 
 #: functions/admin-meta.php:476
-#@ default
-msgid "Instructions"
-msgstr ""
-
-#: functions/admin-meta.php:488
 #@ comiceasel
-msgid "Problem: "
+msgid "Instructions"
 msgstr ""
 
 #: functions/admin-meta.php:489
@@ -851,6 +834,7 @@ msgid "Comic Easel - Cast Hover"
 msgstr ""
 
 #: functions/casthover.php:118
+#: functions/shortcodes.php:521
 #: widgets/archive-dropdown.php:197
 #: widgets/casthover.php:128
 #: widgets/comiclist-dropdown.php:94
@@ -898,6 +882,7 @@ msgstr ""
 msgid "Buy!"
 msgstr ""
 
+#: widgets/comicblogpost.php:18
 #: widgets/navigation.php:291
 #: widgets/navigation.php:346
 #@ comiceasel
@@ -1051,11 +1036,6 @@ msgstr ""
 msgid "You do not have any characters yet."
 msgstr ""
 
-#: functions/shortcodes.php:127
-#@ comiceasel
-msgid "Unknown Character: "
-msgstr ""
-
 #: functions/shortcodes.php:194
 #: functions/shortcodes.php:242
 #: functions/shortcodes.php:293
@@ -1069,28 +1049,13 @@ msgid "Thank you for the purchase!"
 msgstr ""
 
 #: functions/shortcodes.php:484
-#@ default
+#@ comiceasel
 msgid "You have cancelled the transaction."
 msgstr ""
 
 #: functions/shortcodes.php:520
 #@ comiceasel
 msgid "Comic ID"
-msgstr ""
-
-#: functions/shortcodes.php:521
-#@ comiceasel
-msgid "Title: "
-msgstr ""
-
-#: functions/shortcodes.php:523
-#@ comiceasel
-msgid "Print Status: "
-msgstr ""
-
-#: functions/shortcodes.php:526
-#@ comiceasel
-msgid "Original Status: "
 msgstr ""
 
 #: functions/shortcodes.php:542
@@ -1356,11 +1321,6 @@ msgstr ""
 msgid "Thumbnail size for the direct comic & chapter RSS Feeds"
 msgstr ""
 
-#: options/general.php:178
-#@ comiceasel
-msgid "The thumbnail for the direct comic and chapter RSS /comic/feed/ and /chapter/chapter-slug/feed/ "
-msgstr ""
-
 #: options/general.php:183
 #@ comiceasel
 msgid "Thumbnail size for archive and search"
@@ -1547,23 +1507,15 @@ msgstr ""
 msgid "Exclude Chapters (comma seperated):"
 msgstr ""
 
-#. translators: Calendar caption: 1: month name, 2: 4-digit year
-#: widgets/comic-calendar.php:100
-#, php-format
-#@ default
-msgctxt "calendar caption"
-msgid "%1$s %2$s"
-msgstr ""
-
 #: widgets/comic-calendar.php:101
-#@ default
+#@ comiceasel
 msgid "Calendar"
 msgstr ""
 
 #: widgets/comic-calendar.php:126
 #: widgets/comic-calendar.php:134
 #, php-format
-#@ default
+#@ comiceasel
 msgid "View posts for %1$s %2$s"
 msgstr ""
 
@@ -1632,21 +1584,6 @@ msgstr ""
 msgid "Wallpaper URL (Large):"
 msgstr ""
 
-#: widgets/comicblogpost.php:18
-#@ comiceasel
-msgid "Comment&nbsp;"
-msgstr ""
-
-#: widgets/comicblogpost.php:18
-#@ comiceasel
-msgid "Comment "
-msgstr ""
-
-#: widgets/comicblogpost.php:18
-#@ comiceasel
-msgid "Comments "
-msgstr ""
-
 #: widgets/comicblogpost.php:33
 #@ comiceasel
 msgid "Displays the comic blog post for the day, best used when the comic blog post is disabled and you want to put this into a sidebar."
@@ -1690,11 +1627,6 @@ msgstr ""
 #: widgets/navigation.php:19
 #@ comiceasel
 msgid "Comic Easel - Navigation"
-msgstr ""
-
-#: widgets/navigation.php:181
-#@ comiceasel
-msgid "Image URL (for hotlinking/embedding): "
 msgstr ""
 
 #: widgets/navigation.php:279
@@ -2046,11 +1978,6 @@ msgstr ""
 msgid "Disable the the rewrite rules so numerical slugs do not get turned into dates?"
 msgstr ""
 
-#: options/archive.php:31
-#@ comiceasel
-msgid "This option disables the url line from interpreting numerical numbers as dates. ex. /comic/2014/ "
-msgstr ""
-
 #: options/archive.php:36
 #@ comiceasel
 msgid "Allow the URL to also denote the chapter?"
@@ -2158,17 +2085,7 @@ msgstr ""
 
 #: options/main.php:11
 #@ comiceasel
-msgid "The Comic Easel website: "
-msgstr ""
-
-#: options/main.php:11
-#@ comiceasel
 msgid "probably has the answer you're looking for in the form of a post or in the faqs section."
-msgstr ""
-
-#: options/main.php:13
-#@ comiceasel
-msgid "You can contact me for technical support at any of the following locations: "
 msgstr ""
 
 #: options/main.php:14
@@ -2355,7 +2272,7 @@ msgid "Only show this comic if it comes from referring URL?"
 msgstr ""
 
 #: functions/displaycomic.php:162
-#@ comic-easel
+#@ comiceasel
 msgid "Read post message below to find out how to view this."
 msgstr ""
 
@@ -2367,5 +2284,73 @@ msgstr ""
 #: widgets/archive-dropdown.php:202
 #@ comiceasel
 msgid "Show as a list instead of a dropdown?"
+msgstr ""
+
+#: functions/admin-meta.php:118
+#@ comiceasel
+msgid "Date"
+msgstr ""
+
+#. translators: Calendar caption: 1: month name, 2: 4-digit year
+#: widgets/comic-calendar.php:100
+#, php-format
+#@ comiceasel
+msgctxt "calendar caption"
+msgid "%1$s %2$s"
+msgstr ""
+
+#: ceo-import.php:274
+#@ comiceasel
+msgid "Directory to scan:"
+msgstr ""
+
+#: functions/admin-meta.php:488
+#@ comiceasel
+msgid "Problem."
+msgstr ""
+
+#: functions/shortcodes.php:127
+#@ comiceasel
+msgid "Unknown Character:"
+msgstr ""
+
+#: functions/shortcodes.php:523
+#@ comiceasel
+msgid "Print Status:"
+msgstr ""
+
+#: functions/shortcodes.php:526
+#@ comiceasel
+msgid "Original Status:"
+msgstr ""
+
+#: options/archive.php:31
+#@ comiceasel
+msgid "This option disables the url line from interpreting numerical numbers as dates. ex. /comic/2014/"
+msgstr ""
+
+#: options/general.php:178
+#@ comiceasel
+msgid "The thumbnail for the direct comic and chapter RSS /comic/feed/ and /chapter/chapter-slug/feed/"
+msgstr ""
+
+#: options/main.php:11
+#@ comiceasel
+msgid "The Comic Easel website:"
+msgstr ""
+
+#: options/main.php:13
+#@ comiceasel
+msgid "You can contact me for technical support at any of the following locations:"
+msgstr ""
+
+#: widgets/comicblogpost.php:18
+#@ comiceasel
+msgid "Comment"
+msgstr ""
+
+#: widgets/navigation.php:181
+#@ comiceasel
+msgid "Image URL (for hotlinking/embedding):"
 msgstr ""
 

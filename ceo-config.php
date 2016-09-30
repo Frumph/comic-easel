@@ -173,7 +173,7 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 			if (function_exists('comicpress_themeinfo')) $tab_info['landing'] = __('Landing Pages', 'comiceasel');
 			if (!defined('CEO_FEATURE_BUY_COMIC'))
 				$tab_info['buycomic'] = __('Buy Comic','comiceasel');
-		  	if (empty($tab)) { $tab = array_shift(array_keys($tab_info)); }
+		  	if (empty($tab)) { $tab = 'main'; }
 
 		  	foreach($tab_info as $tab_id => $label) { ?>
 		  		<div id="comiceasel-tab-<?php echo $tab_id ?>" class="comiceasel-tab <?php echo ($tab == $tab_id) ? 'on' : 'off'; ?>"><span><?php echo $label; ?></span></div>

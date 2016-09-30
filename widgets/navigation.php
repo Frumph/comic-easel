@@ -178,7 +178,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 			$thumbnail = wp_get_attachment_image_src( $post_image_id, 'full', false);
 			if (is_array($thumbnail) && !empty($thumbnail)) { 
 				$thumbnail = reset($thumbnail);
-				echo '<span class="comic-navi-href-info">'.__('Image URL (for hotlinking/embedding): ','comiceasel').$thumbnail.'</span>';
+				echo '<span class="comic-navi-href-info">'.__('Image URL (for hotlinking/embedding):','comiceasel').'&nbsp;'.$thumbnail.'</span>';
 			}
 			?>
 			</td>

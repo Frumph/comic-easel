@@ -28,7 +28,7 @@
 						<input id="disable_cal_rewrite_rules" name="disable_cal_rewrite_rules" type="checkbox" value="1" <?php checked(true, $ceo_options['disable_cal_rewrite_rules']); ?> />
 					</td>
 					<td>
-						<?php _e('This option disables the url line from interpreting numerical numbers as dates. ex. /comic/2014/ ','comiceasel'); ?>
+						<?php _e('This option disables the url line from interpreting numerical numbers as dates. ex. /comic/2014/','comiceasel'); ?>
 					</td>
 				</tr>
 				<tr class="alternate">

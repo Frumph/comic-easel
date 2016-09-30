@@ -159,7 +159,7 @@ function ceo_display_comic($size = 'full') {
 
 	if (!empty($refer_only) && !defined('CEO_DISABLE_REFER_ONLY')) {
 		$ref_only_msg = '';
-		$refer_only_msg = get_post_meta( $post->ID, 'refer-only-msg', 'true') ? get_post_meta( $post->ID, 'refer-only-msg', 'true') : __('Read post message below to find out how to view this.', 'comic-easel');
+		$refer_only_msg = get_post_meta( $post->ID, 'refer-only-msg', 'true') ? get_post_meta( $post->ID, 'refer-only-msg', 'true') : __('Read post message below to find out how to view this.', 'comiceasel');
 		if (ceo_get_referer() !== $refer_only) {
 				return apply_filters('ceo_refer_only_msg', $refer_only_msg);
 		}

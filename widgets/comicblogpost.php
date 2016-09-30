@@ -15,7 +15,7 @@ function ceo_display_comic_small_blog_post($instance) {
 	the_content();
 	if ($instance['showcommentlink'] && ($post->comment_status == 'open') && !is_singular()) { ?>
 		<div class="comment-link">
-		<?php comments_popup_link('<span class="comment-balloon comment-balloon-empty">&nbsp;</span>'.__('Comment&nbsp;','comiceasel'), '<span class="comment-balloon">1</span> '.__('Comment ','comiceasel'), '<span class="comment-balloon">%</span> '.__('Comments ','comiceasel')); ?>
+		<?php comments_popup_link('<span class="comment-balloon comment-balloon-empty">&nbsp;</span>'.__('Comment','comiceasel'), '<span class="comment-balloon">1</span> '.__('Comment','comiceasel'), '<span class="comment-balloon">%</span> '.__('Comments','comiceasel')); ?>
 		</div>
 		<?php
 	}

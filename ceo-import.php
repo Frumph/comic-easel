@@ -178,7 +178,7 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'comicease
 		</td>
 		<td align="left" colspan="9">
 			<?php _e('Set Time of Comic Posts','comiceasel'); ?><br />
-			<?php _e('24 hour clock'); ?><br />
+			<?php _e('24 hour clock','comiceasel'); ?><br />
 			<input name="import-time" class="import-time" value="<?php echo $import_time; ?>" />
 		</td>
 	</tr>
@@ -251,7 +251,7 @@ wp_dropdown_categories( $args );
 </thead>
 </table>
 <p class="submit" style="margin-left: 10px;">
-	<input type="submit" class="button-primary" value="<?php _e('Import') ?>" />
+	<input type="submit" class="button-primary" value="<?php _e('Import','comiceasel') ?>" />
 	<input type="hidden" name="action" value="ceo-import" />
 </p>
 <p>
@@ -271,7 +271,7 @@ echo '</ol>'
 </p>
 <br />
 <?php
-echo __('Directory to scan: ','comiceasel').'<strong>'.ABSPATH.$import_directory.'</strong>'."<br />\r\n";
+echo __('Directory to scan:','comiceasel').'&nbsp;<strong>'.ABSPATH.$import_directory.'</strong>'."<br />\r\n";
 if (count($results = glob(ABSPATH.$import_directory.'/*.*')) > 0) {
 	echo count($results).' '.__('Files found.','comiceasel')."<br />\r\n";
 	echo "<hr />\r\n";
@@ -280,5 +280,5 @@ if (count($results = glob(ABSPATH.$import_directory.'/*.*')) > 0) {
 		echo '<span style="width:320px;display:inline-block;float:left;">'.basename($filename).'</span>';
 	}
 } else {
-	echo "No files found in ".ABSPATH.$import_directory;
+	echo __('No files found in','comiceasel').'&nbsp;'.ABSPATH.$import_directory;
 }

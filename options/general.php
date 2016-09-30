@@ -175,7 +175,7 @@ foreach ($thumbnail_sizes as $size) { ?>
 						</select>
 					</th>
 					<td>
-						<?php _e('The thumbnail for the direct comic and chapter RSS /comic/feed/ and /chapter/chapter-slug/feed/ ','comiceasel'); ?>
+						<?php _e('The thumbnail for the direct comic and chapter RSS /comic/feed/ and /chapter/chapter-slug/feed/','comiceasel'); ?>
 					</td>
 				</tr>
 				<tr class="alternate">

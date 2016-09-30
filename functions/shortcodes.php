@@ -124,7 +124,7 @@ function ceo_cast_page( $atts, $content = '' ) {
 			$cast_output .= ceo_cast_display($single_character, $stats, $image)."\r\n";
 			$cast_output .= '</table>'."\r\n";
 		} else 
-			$cast_output .= __('Unknown Character: ', 'comiceasel').$character."<br />\r\n";
+			$cast_output .= __('Unknown Character:', 'comiceasel').'&nbsp;'.$character."<br />\r\n";
 	}
 	return $cast_output;
 }
@@ -481,7 +481,7 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 	extract(shortcode_atts( array(
 					'character' => '',
 					'thanks' => __('Thank you for the purchase!','comiceasel'),
-					'cancelled' => __('You have cancelled the transaction.')
+					'cancelled' => __('You have cancelled the transaction.','comiceasel')
 					), $atts ) );
 	$buy_output = '';
 	if (isset($_REQUEST['id'])) $comicnum = intval($_REQUEST['id']);
@@ -518,12 +518,12 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 		$post = get_post($comicnum); // Get the post
 		if (!is_wp_error($post) && !empty($post)) { // error check make sure it got a post
 			$buy_output .= __('Comic ID','comiceasel').' #'.$comicnum."<br />\r\n";
-			$buy_output .= __('Title: ','comiceasel').get_the_title($post)."<br />\r\n";
+			$buy_output .= __('Title:','comiceasel').'&nbsp;'.get_the_title($post)."<br />\r\n";
 			if (ceo_pluginfo('buy_comic_sell_print')) {
-				$buy_output .= __('Print Status: ','comiceasel').$buyprint_status."<br />\r\n";
+				$buy_output .= __('Print Status:','comiceasel').'&nbsp;'.$buyprint_status."<br />\r\n";
 			}
 			if (ceo_pluginfo('buy_comic_sell_original')) {
-				$buy_output .= __('Original Status: ','comiceasel').$buyorig_status."<br />\r\n";
+				$buy_output .= __('Original Status:','comiceasel').'&nbsp;'.$buyorig_status."<br />\r\n";
 			}
 			$buy_output .= "<br />\r\n";
 			$buy_output .= '<table class="buytable" style="width:100%;">';

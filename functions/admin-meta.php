@@ -115,7 +115,7 @@ function ceo_add_new_comic_columns($comic_columns) {
 		$new_columns['categories'] = __('Category', 'comiceasel');
 	$new_columns['locations'] = __('Location', 'comiceasel');
 	$new_columns['tags'] = __('Tags', 'comiceasel');
-	$new_columns['date'] = _x('Date', 'column name');
+	$new_columns['date'] = __('Date', 'comiceasel');
 	$new_columns['comicimages'] = __('Thumbnail', 'comiceasel');	
 
 	return $new_columns;
@@ -377,7 +377,7 @@ function ceo_edit_buycomic_in_post($post) {
 				<?php _e('Print Cost','comiceasel'); ?> <input name="buy_print_amount" id="buy_print_amount" type="text" size="5" value="<?php echo $currentbuyprintamount ?>" />  <br />
 				<input name="buyprint-status" id="buyprint-available" type="radio" value="<?php _e('Available','comiceasel'); ?>" <?php if (($currentbuyprintoption == __('Available','comiceasel')) || empty($currentbuyprintoption)) { echo " checked"; } ?> /> <label for="buyprint-available"><?php _e('Available','comiceasel'); ?></label><br />
 				<input name="buyprint-status" id="buyprint-sold" type="radio" value="<?php _e('Sold','comiceasel'); ?>" <?php if ($currentbuyprintoption == __('Sold','comiceasel')) { echo " checked"; } ?> /> <label for="buyprint-sold">Sold</label><br />
-				<input name="buyprint-status" id="buyprint-outofstock" type="radio" value="<?php _e('Out of Stock','comiceasel'); ?>" <?php if ($currentbuyprintoption == __('Out of Stock')) { echo " checked"; } ?> /> <label for="buyprint-outofstock"><?php _e('Out of Stock','comiceasel'); ?></label><br />
+				<input name="buyprint-status" id="buyprint-outofstock" type="radio" value="<?php _e('Out of Stock','comiceasel'); ?>" <?php if ($currentbuyprintoption == __('Out of Stock','comiceasel')) { echo " checked"; } ?> /> <label for="buyprint-outofstock"><?php _e('Out of Stock','comiceasel'); ?></label><br />
 				<input name="buyprint-status" id="buyprint-notavail" type="radio" value="<?php _e('Not Available','comiceasel'); ?>" <?php if ($currentbuyprintoption == __('Not Available','comiceasel')) { echo " checked"; } ?> /> <label for="buyprint-notavail"><?php _e('Not Available','comiceasel'); ?></label><br />
 			</td>
 		<?php }
@@ -473,7 +473,7 @@ function ceo_add_comic_in_post() {
 	$context_output .= __('Minimize these directions by clicking the title of the box.','comiceasel');
 	get_current_screen()->add_help_tab( array(
 				'id'      => 'my-help-id',
-				'title'   => __( 'Instructions' ),
+				'title'   => __( 'Instructions','comiceasel' ),
 				'content' => $context_output,
 			) );
 	add_action('admin_footer', 'ceo_change_chapter_to_radio');
@@ -485,7 +485,7 @@ function ceo_test_for_errors() {
 	global $post; 
 	if (is_numeric($post->post_name)) { ?>
 	<div class="error">
-		<h2><?php _e('Problem: ','comiceasel'); ?></h2>
+		<h2><?php _e('Problem.','comiceasel'); ?></h2>
 		<?php echo __('The slug for this comic post "','comiceasel').$post->post_name.__('" is numerical.  It needs to have a letter or character added to it to not be recognized as a date.  P.S. Cannot use these characters: !&#@','comiceasel'); ?><br />
 	</div>
 <?php }

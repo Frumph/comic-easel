@@ -8,9 +8,9 @@
 				</thead>
 				<tr>
 					<td>
-						<?php _e('The Comic Easel website: ','comiceasel'); ?> <a href="http://comiceasel.com">http://comiceasel.com</a> <?php _e('probably has the answer you\'re looking for in the form of a post or in the faqs section.','comiceasel'); ?><br />
+						<?php _e('The Comic Easel website:','comiceasel'); ?>&nbsp;<a href="http://comiceasel.com">http://comiceasel.com</a>&nbsp;<?php _e('probably has the answer you\'re looking for in the form of a post or in the faqs section.','comiceasel'); ?><br />
 						<br />
-						<?php _e('You can contact me for technical support at any of the following locations: ','comiceasel'); ?><br />
+						<?php _e('You can contact me for technical support at any of the following locations:','comiceasel'); ?><br />
 						<em><?php _e('(best chances to reach me at the top going down to the least chance)','comiceasel'); ?></em><br />
 						<br />
 						<?php _e('Form Email:','comiceasel'); ?> <a href="http://comiceasel.com/contact/">http://comiceasel.com/contact/</a><br />
