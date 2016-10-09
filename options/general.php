@@ -97,7 +97,7 @@
 						<input id="allow_comics_to_have_categories" name="allow_comics_to_have_categories" type="checkbox" value="1" <?php checked(true, $ceo_options['allow_comics_to_have_categories']); ?> />
 					</td>
 					<td>
-						<?php _e('For those people who need to allow comics associated with categories as well as chapters.','comiceasel'); ?>
+						<?php _e('For those people who need to allow comics associated with categories as well as chapters. (might cause problems)','comiceasel'); ?>
 					</td>
 				</tr>
 <?php if (!defined('CEO_FEATURE_DISABLE_TRANSCRIPT')) { ?>
@@ -133,6 +133,15 @@ wp_dropdown_categories($args);
 					<td>
 						<?php echo $ceo_options['chapter_on_home']; ?>
 						<?php _e('Select which chapter or (all) to display on the home page if you have different stories/chapters.','comiceasel'); ?>
+					</td>
+				</tr>
+				<tr class="alternate">
+					<th scope="row"><label for="remove_post_thumbnail"><?php _e('Remove featured image in posts on non-ComicPress themes?','comiceasel'); ?></label></th>
+					<td>
+						<input id="remove_post_thumbnail" name="remove_post_thumbnail" type="checkbox" value="1" <?php checked(true, $ceo_options['remove_post_thumbnail']); ?> />
+					</td>
+					<td>
+						<?php _e('Try to have Comic Easel automatically remove the featured image in posts on non-ComicPress themes?','comiceasel'); ?>
 					</td>
 				</tr>
 			</table>

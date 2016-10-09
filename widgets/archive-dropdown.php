@@ -77,26 +77,20 @@ class ceo_walker_taxonomy_list extends Walker_Category {
 
 	function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
 		$args['render_as_list'] = true;
-		ceo_taxonomy_walker_dropdown_or_list_start_el( $output, $category, $depth, $args, $id);
+		ceo_taxonomy_walker_dropdown_or_list_start_el( $output, $category, $depth = 0, $args, $id);
 	}
 }
 class ceo_walker_taxonomy_dropdown extends Walker_CategoryDropdown {
 
 	function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
 		$args['render_as_list'] = false;
-		ceo_taxonomy_walker_dropdown_or_list_start_el( $output, $category, $depth, $args, $id);
+		ceo_taxonomy_walker_dropdown_or_list_start_el( $output, $category, $depth = 0, $args, $id);
 	}
 }
 
-function ceo_comic_archive_jump_to_chapter($orderby = 0, $hide = true, $exclude = '', $showcount = false, $jumptoarchive = false, $echo = true, $render_as_list = false) {
+function ceo_comic_archive_jump_to_chapter($hide = true, $exclude = '', $showcount = false, $jumptoarchive = false, $echo = true, $render_as_list = false) {
 	ceo_protect();
-	if ($orderby == 2) {
-		$orderby = 'ID';
-	} else if ($orderby == 1) {
-		$orderby = 'tax_name';
-	} else {
-		$orderby = 'menu_order';
-	}
+
 	$output = '';
 	if ($render_as_list) {
 		global $post;
@@ -104,7 +98,7 @@ function ceo_comic_archive_jump_to_chapter($orderby = 0, $hide = true, $exclude 
 		// echo "<pre>the terms ";print_r($the_terms); echo "</pre>";
 		$args = array(
 			'walker'			 => new ceo_walker_taxonomy_list(),
-			'orderby'            => ''.$orderby.'', 
+			'orderby'            => 'menu_order', 
 			'order'              => 'ASC',
 			'show_count'         => $showcount,
 			'hide_empty'         => $hide,
@@ -126,7 +120,7 @@ function ceo_comic_archive_jump_to_chapter($orderby = 0, $hide = true, $exclude 
 			'walker' => new ceo_walker_taxonomy_dropdown(),
 			'show_option_all'	=>	__('Select','comiceasel').' '.ucwords(ceo_pluginfo('chapter_type_slug_name')),
 			'option_none_value'  => '-1',
-			'orderby'            => ''.$orderby.'', 
+			'orderby'            => 'menu_order', 
 			'order'              => 'ASC',
 			'name'               => ceo_pluginfo('chapter_type_slug_name'),
 			'show_count'         => $showcount,
@@ -174,10 +168,9 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 		echo $before_widget;
 		$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']); 
 		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; }; 
-		if (!isset($instance['orderby'])) $instance['orderby'] = 0;
 		if (!isset($instance['hide'])) $instance['hide'] = 1;
 		if (!isset($instance['render_as_list'])) $instance['render_as_list'] = false;
-		ceo_comic_archive_jump_to_chapter($instance['orderby'], $instance['hide'], $instance['exclude'], $instance['showcount'], $instance['jumptoarchive'], true, $instance['render_as_list']);
+		ceo_comic_archive_jump_to_chapter($instance['hide'], $instance['exclude'], $instance['showcount'], $instance['jumptoarchive'], true, $instance['render_as_list']);
 		echo $after_widget;
 	}
 	
@@ -185,7 +178,6 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['exclude'] = strip_tags($new_instance['exclude']);
-		$instance['orderby'] = $new_instance['orderby'];
 		$instance['hide'] = ($new_instance['hide']) ? 1:0;
 		$instance['showcount'] = ($new_instance['showcount']) ? 1:0;
 		$instance['jumptoarchive'] = ($new_instance['jumptoarchive']) ? 1:0;
@@ -194,10 +186,9 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 	}
 	
 	function form($instance) {
-		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'exclude' => '', 'orderby' => 0, 'hide' => 1, 'showcount' => 1, 'jumptoarchive' => 0, 'render_as_list' => 0) );
+		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'exclude' => '', 'hide' => 1, 'showcount' => 1, 'jumptoarchive' => 0, 'render_as_list' => 0) );
 		$title = $instance['title'];
 		$exclude = $instance['exclude'];
-		$orderby = $instance['orderby'];
 		$hide = ($instance['hide']) ? 1:0;
 		$showcount = ($instance['showcount']) ? 1:0;
 		$jumptoarchive = ($instance['jumptoarchive']) ? 1:0;
@@ -205,11 +196,6 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 		?>
 		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','comiceasel'); ?>&nbsp;<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
 		<p><label for="<?php echo $this->get_field_id('exclude'); ?>"><?php _e('Exclude Chapters (comma seperated):','comiceasel'); ?>&nbsp;<input class="widefat" id="<?php echo $this->get_field_id('exclude'); ?>" name="<?php echo $this->get_field_name('exclude'); ?>" type="text" value="<?php echo esc_attr($exclude); ?>" /></label><br /></p>
-		<p><label><?php _e('Order List By:','comiceasel'); ?><br/>
-			<input id="<?php echo $this->get_field_id('orderby'); ?>-0" name="<?php echo $this->get_field_name('orderby'); ?>" type="radio" value="0" <?php echo $orderby == 0 ? 'checked' : ''; ?> /> <?php _e('Menu Order','comiceasel'); ?><br/>
-		   	<input id="<?php echo $this->get_field_id('orderby'); ?>-1" name="<?php echo $this->get_field_name('orderby'); ?>" type="radio" value="1" <?php echo $orderby == 1 ? 'checked' : ''; ?> /> <?php _e('Category Name','comiceasel'); ?><br/>
-			<input id="<?php echo $this->get_field_id('orderby'); ?>-2" name="<?php echo $this->get_field_name('orderby'); ?>" type="radio" value="2" <?php echo $orderby == 2 ? 'checked' : ''; ?> /> <?php _e('Category ID','comiceasel'); ?>
-		</label></p>
 		<p><label for="<?php echo $this->get_field_id('hide'); ?>"><?php _e('Hide empty chapters?','comiceasel'); ?>&nbsp;<input id="<?php echo $this->get_field_id('hide'); ?>" name="<?php echo $this->get_field_name('hide'); ?>" type="checkbox" value="1" <?php checked(1, $hide); ?> /></label></p>
 		<p><label for="<?php echo $this->get_field_id('showcount'); ?>"><?php _e('Show the comic count in parenthesis?','comiceasel'); ?>&nbsp;<input id="<?php echo $this->get_field_id('showcount'); ?>" name="<?php echo $this->get_field_name('showcount'); ?>" type="checkbox" value="1" <?php checked(1, $showcount); ?> /></label></p>
 		<p><label for="<?php echo $this->get_field_id('jumptoarchive'); ?>"><?php _e('Jump to archive and not first page?','comiceasel'); ?>&nbsp;<input id="<?php echo $this->get_field_id('jumptoarchive'); ?>" name="<?php echo $this->get_field_name('jumptoarchive'); ?>" type="checkbox" value="1" <?php checked(1, $jumptoarchive); ?> /></label></p>

@@ -18,11 +18,12 @@ function ceo_init_filters() {
 	add_filter('the_excerpt_rss','ceo_insert_comic_into_feed');
 }
 
-
 add_filter('request', 'ceo_rss_request'); // Add comics to the main RSS
 add_filter('request', 'ceo_post_type_tags_fix');
 add_filter('previous_post_rel_link', 'ceo_change_prev_rel_link_two', $link); // change the rel links for comic pages
 add_filter('next_post_rel_link', 'ceo_change_next_rel_link_two', $link);
+if (ceo_pluginfo('remove_post_thumbnail')) 
+	add_filter('post_thumbnail_html','ceo_clear_post_thumbnail_on_comics');
 
 function ceo_allow_my_post_types($allowed_post_types) {
 	$allowed_post_types[] = 'comic';
@@ -143,3 +144,7 @@ function ceo_insert_comic_transcript_into_posts($content) {
 	return $content;
 }
 
+function ceo_clear_post_thumbnail_on_comics($content) {
+	global $post;
+	if ($post->post_type == 'comic') return '';
+}

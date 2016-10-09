@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Comic Easel v1.10\n"
+"Project-Id-Version: Comic Easel v1.11\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2016-09-30 20:41:51+0000\n"
+"PO-Revision-Date: 2016-10-09 19:34:59+0000\n"
 "Last-Translator: frumph <philip@frumph.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-Textdomain-Support: yes"
 
 #: ceo-admin.php:43
-#: ceo-config.php:215
+#: ceo-config.php:216
 #@ comiceasel
 msgid "Comic Easel"
 msgstr ""
@@ -52,38 +52,38 @@ msgstr ""
 msgid "Comic Easel Settings RESET!"
 msgstr ""
 
-#: ceo-config.php:158
+#: ceo-config.php:159
 #@ comiceasel
 msgid "Comic Easel Settings SAVED!"
 msgstr ""
 
-#: ceo-config.php:169
+#: ceo-config.php:170
 #@ comiceasel
 msgid "General"
 msgstr ""
 
-#: ceo-config.php:170
+#: ceo-config.php:171
 #@ comiceasel
 msgid "Navigation"
 msgstr ""
 
-#: ceo-config.php:171
+#: ceo-config.php:172
 #@ comiceasel
 msgid "Archive"
 msgstr ""
 
-#: ceo-config.php:175
+#: ceo-config.php:176
 #: options/buycomic.php:11
 #@ comiceasel
 msgid "Buy Comic"
 msgstr ""
 
-#: ceo-config.php:215
+#: ceo-config.php:216
 #@ comiceasel
 msgid "created, developed and maintained by"
 msgstr ""
 
-#: ceo-config.php:216
+#: ceo-config.php:217
 #@ comiceasel
 msgid "If you like the Comic Easel plugin, please donate.  It will help in developing new features and versions."
 msgstr ""
@@ -502,12 +502,12 @@ msgid "comic"
 msgstr ""
 
 #: comiceasel.php:435
-#: comiceasel.php:473
+#: comiceasel.php:474
 #@ comiceasel
 msgid "*Additional shipping charges will applied at time of purchase."
 msgstr ""
 
-#: comiceasel.php:554
+#: comiceasel.php:560
 #@ comiceasel
 msgid "Comic Easel - Test Information"
 msgstr ""
@@ -562,10 +562,10 @@ msgstr ""
 msgid "No thumbnail Found."
 msgstr ""
 
-#: options/general.php:150
-#: options/general.php:168
-#: options/general.php:185
-#: options/general.php:202
+#: options/general.php:159
+#: options/general.php:177
+#: options/general.php:194
+#: options/general.php:211
 #: widgets/scheduledcomics.php:38
 #@ comiceasel
 msgid "None"
@@ -1104,7 +1104,7 @@ msgstr ""
 
 #: options/archive.php:111
 #: options/buycomic.php:99
-#: options/general.php:228
+#: options/general.php:237
 #: options/landing.php:62
 #: options/navigation.php:199
 #@ comiceasel
@@ -1292,46 +1292,46 @@ msgstr ""
 msgid "Select which chapter or (all) to display on the home page if you have different stories/chapters."
 msgstr ""
 
-#: options/general.php:143
+#: options/general.php:152
 #@ comiceasel
 msgid "Thumbnail sizes for locations where used."
 msgstr ""
 
-#: options/general.php:148
+#: options/general.php:157
 #@ comiceasel
 msgid "Thumbnail size for main RSS Feed"
 msgstr ""
 
-#: options/general.php:157
-#: options/general.php:174
-#: options/general.php:191
-#: options/general.php:208
+#: options/general.php:166
+#: options/general.php:183
+#: options/general.php:200
+#: options/general.php:217
 #: widgets/thumbnail.php:130
 #@ comiceasel
 msgid "Full"
 msgstr ""
 
-#: options/general.php:161
+#: options/general.php:170
 #@ comiceasel
 msgid "The thumbnail for the main RSS /feed/"
 msgstr ""
 
-#: options/general.php:166
+#: options/general.php:175
 #@ comiceasel
 msgid "Thumbnail size for the direct comic & chapter RSS Feeds"
 msgstr ""
 
-#: options/general.php:183
+#: options/general.php:192
 #@ comiceasel
 msgid "Thumbnail size for archive and search"
 msgstr ""
 
-#: options/general.php:195
+#: options/general.php:204
 #@ comiceasel
 msgid "The thumbnail shown inside posts when viewed in the archive and search functions of WordPress"
 msgstr ""
 
-#: options/general.php:217
+#: options/general.php:226
 #@ comiceasel
 msgid "NOTE: Edit a post, click update on it for the feeds to refresh with new copies; to see changes."
 msgstr ""
@@ -1835,12 +1835,12 @@ msgstr ""
 msgid "This date in history?"
 msgstr ""
 
-#: ceo-config.php:168
+#: ceo-config.php:169
 #@ comiceasel
 msgid "Main"
 msgstr ""
 
-#: ceo-config.php:173
+#: ceo-config.php:174
 #: options/landing.php:14
 #@ comiceasel
 msgid "Landing Pages"
@@ -2018,17 +2018,12 @@ msgstr ""
 msgid "Allow comics to associate with WordPress categories?"
 msgstr ""
 
-#: options/general.php:100
-#@ comiceasel
-msgid "For those people who need to allow comics associated with categories as well as chapters."
-msgstr ""
-
-#: options/general.php:200
+#: options/general.php:209
 #@ comiceasel
 msgid "Thumbnail size for Facebook images"
 msgstr ""
 
-#: options/general.php:212
+#: options/general.php:221
 #@ comiceasel
 msgid "Comic Easel adds an og:image to the head section of the site.  This is the size of the image that is used for the image that facebook recognizes.  If you are having issues where the image is not the one you want, flip this."
 msgstr ""
@@ -2329,7 +2324,7 @@ msgstr ""
 msgid "This option disables the url line from interpreting numerical numbers as dates. ex. /comic/2014/"
 msgstr ""
 
-#: options/general.php:178
+#: options/general.php:187
 #@ comiceasel
 msgid "The thumbnail for the direct comic and chapter RSS /comic/feed/ and /chapter/chapter-slug/feed/"
 msgstr ""
@@ -2352,5 +2347,20 @@ msgstr ""
 #: widgets/navigation.php:181
 #@ comiceasel
 msgid "Image URL (for hotlinking/embedding):"
+msgstr ""
+
+#: options/general.php:100
+#@ comiceasel
+msgid "For those people who need to allow comics associated with categories as well as chapters. (might cause problems)"
+msgstr ""
+
+#: options/general.php:139
+#@ comiceasel
+msgid "Remove featured image in posts on non-ComicPress themes?"
+msgstr ""
+
+#: options/general.php:144
+#@ comiceasel
+msgid "Try to have Comic Easel automatically remove the featured image in posts on non-ComicPress themes?"
 msgstr ""
 

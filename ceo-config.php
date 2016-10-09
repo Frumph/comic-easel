@@ -26,7 +26,8 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 				'thumbnail_size_for_archive',
 				'thumbnail_size_for_facebook',
 				'custom_post_type_slug_name',
-				'chapter_on_home'
+				'chapter_on_home',
+				'remove_post_thumbnail'
 					) as $key) {
 						if (isset($_REQUEST[$key])) {
 							$ceo_options[$key] = wp_filter_nohtml_kses($_REQUEST[$key]);
