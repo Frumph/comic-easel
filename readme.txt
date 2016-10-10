@@ -4,7 +4,7 @@ Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 4.5
 Tested up to: 4.6.1
-Stable tag: 1.11
+Stable tag: 1.12
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -128,6 +128,9 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+= 1.12 =
+* Changed the new option to be off by default and only run on is_single pages if then
+
 = 1.11 =
 * Add option to 'remove' featured images from comic posts on non-ComicPress themes automagically, if theme uses the function the_post_thumbnail()
 

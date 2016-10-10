@@ -146,5 +146,5 @@ function ceo_insert_comic_transcript_into_posts($content) {
 
 function ceo_clear_post_thumbnail_on_comics($content) {
 	global $post;
-	if ($post->post_type == 'comic') return '';
+	if (is_single() && $post->post_type == 'comic') return '';
 }
