@@ -26,7 +26,7 @@ function ceo_transform_date_string($string, $replacements) {
 function ceo_breakdown_comic_filename($filename, $import_date_format, $import_filename_mask) {
 	
 	foreach (array('[0-9]{4}', '[0-9]{2}') as $year_pattern) {
-		$new_pattern = ceo_transform_date_string($import_date_format, array("Y" => $year_pattern, "m" => '[0-9]{2}', "d" => '[0-9]{2}', "y" => $year_pattern));
+		$new_pattern = ceo_transform_date_string($import_date_format, array("Y" => $year_pattern, "m" => '[0-9]{2}', "d" => '[0-9]{2}', "y" => '[0-9]{2}'));
 		if (@preg_match("#^(${new_pattern})(.*)\.[^\.]+$#", $filename, $matches) > 0) {
 			list($all, $date, $title) = $matches;
 			
