@@ -34,6 +34,7 @@ function ceo_display_featured_image_comic($size = 'full') {
 			
 			$linkto = '';
 			$linkto = get_post_meta($post->ID, 'link-to', true);
+			
 			if ($linkto) $next_comic = esc_url($linkto);
 			
 			if ($linkto && !$comic_has_map) $output .= '<a href="'.$linkto.'" '.$hovertext.'>';
