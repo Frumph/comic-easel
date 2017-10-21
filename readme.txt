@@ -3,8 +3,8 @@ Author: Frumph
 Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 4.5
-Tested up to: 4.6.1
-Stable tag: 1.13
+Tested up to: 4.8.2
+Stable tag: 1.14
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -128,6 +128,10 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+
+= 1.14 =
+* compatibility check w/4.8.2 of WordPress
+
 = 1.13 =
 * Added experimental compatibility to GlotPress making the plugin translateable at https://translate.wordpress.org/projects/wp-plugins/comic-easel
 * Fixed Text Domain files of the /lang folder by making the Text Domain matching the slug of the plugin header.
