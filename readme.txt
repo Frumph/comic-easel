@@ -5,6 +5,7 @@ Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 4.5
 Tested up to: 4.8.2
 Stable tag: 1.15
+Text Domain: comiceasel
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -130,6 +131,7 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 == Changelog ==
 = 1.15 =
 * keynav update - to preserve browser forward/back functions / jn-squire
+* added Text Domain: to readme / Frumph
 
 = 1.14 =
 * compatibility check w/4.8.2 of WordPress
