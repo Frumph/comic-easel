@@ -491,7 +491,7 @@ function ceo_pluginfo($whichinfo = null) {
 			update_option('comiceasel-config', $ceo_options);
 		}
 		if (version_compare($ceo_options['db_version'], '1.9.8', '<')) {
-			$ceo_options['db_version'] = '1.9.7';
+			$ceo_options['db_version'] = '1.9.8';
 			$ceo_options['bf_code'] = '';
 			update_option('comiceasel-config', $ceo_options);
 		}
