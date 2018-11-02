@@ -416,7 +416,8 @@ function ceo_load_options($reset = false) {
 			'enable_blog_on_chapter_landing' => false,
 			'enable_comments_on_chapter_landing' => false,
 			'default_nav_bar_chapter_goes_to_archive' => false,
-			'remove_post_thumbnail' => false
+			'remove_post_thumbnail' => false,
+			'bf_code' => ''
 		) as $field => $value) {
 			$ceo_config[$field] = $value;
 		}
@@ -487,6 +488,11 @@ function ceo_pluginfo($whichinfo = null) {
 		if (version_compare($ceo_options['db_version'], '1.9.7', '<')) {
 			$ceo_options['db_version'] = '1.9.7';
 			$ceo_options['remove_post_thumbnail'] = false;
+			update_option('comiceasel-config', $ceo_options);
+		}
+		if (version_compare($ceo_options['db_version'], '1.9.8', '<')) {
+			$ceo_options['db_version'] = '1.9.7';
+			$ceo_options['bf_code'] = '';
 			update_option('comiceasel-config', $ceo_options);
 		}
 		$ceo_coreinfo = wp_upload_dir();
