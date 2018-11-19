@@ -289,8 +289,6 @@ if (is_admin()) {
 
 // This style needs to be loaded on all the comic-easel pages inside ceo-core.php instead.
 
-
-
 function ceo_chapters_add_menu_order_column() {
 	global $wpdb;
 	$init_query = $wpdb->query("SHOW COLUMNS FROM $wpdb->terms LIKE 'menu_order'");
@@ -417,7 +415,7 @@ function ceo_load_options($reset = false) {
 			'enable_comments_on_chapter_landing' => false,
 			'default_nav_bar_chapter_goes_to_archive' => false,
 			'remove_post_thumbnail' => false,
-			'bf_code' => ''
+			'bf_adinfo' => ''
 		) as $field => $value) {
 			$ceo_config[$field] = $value;
 		}
@@ -492,7 +490,7 @@ function ceo_pluginfo($whichinfo = null) {
 		}
 		if (version_compare($ceo_options['db_version'], '1.9.8', '<')) {
 			$ceo_options['db_version'] = '1.9.8';
-			$ceo_options['bf_code'] = '';
+			$ceo_options['bf_adinfo'] = '';
 			update_option('comiceasel-config', $ceo_options);
 		}
 		$ceo_coreinfo = wp_upload_dir();
@@ -554,6 +552,7 @@ foreach (glob(ceo_pluginfo('plugin_path')  . 'widgets/*.php') as $widgefile) {
 add_action( 'widgets_init', 'ceo_register_widgets');
 
 function ceo_register_widgets() { 
+	register_widget('ceo_bf_adwidget');
 	register_widget('ceo_comic_archive_dropdown_widget');
 	register_widget('ceo_casthover_reference_widget');
 	register_widget('ceo_comic_blog_post_widget');
