@@ -23,15 +23,18 @@ class ceo_bf_adwidget extends WP_Widget {
 	function widget($args, $instance) {
 		global $post, $wp_query;		
 		extract($args, EXTR_SKIP);
-		ceo_protect();
 		$center = (isset($instance['center'])) ? $instance['center'] : '0';
 		$divID = (isset($instance['divID'])) ? $instance['divID'] : '';
 		
-		echo $before_widget;
-		$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']); 
-		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };			
-		echo $after_widget;
-		ceo_unprotect();
+		if ($divID) {
+			echo $before_widget;
+			$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']); 
+			if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
+			if ($center) echo '<center>';
+				if ($divID) echo '<div id="'.$divID.'"></div>';
+			if ($center) echo '</center>';
+			echo $after_widget;
+		}
 	}
 	
 	function update($new_instance, $old_instance) {
