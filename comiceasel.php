@@ -7,7 +7,7 @@ Version: 1.15
 Author: Philip M. Hofer (Frumph)
 Author URI: http://frumph.net/
 
-Copyright 2012,2013,2014 Philip M. Hofer (Frumph)  (email : philip@frumph.net)
+Copyright 2012-2018 Philip M. Hofer (Frumph)  (email : philip@frumph.net)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -415,7 +415,8 @@ function ceo_load_options($reset = false) {
 			'enable_comments_on_chapter_landing' => false,
 			'default_nav_bar_chapter_goes_to_archive' => false,
 			'remove_post_thumbnail' => false,
-			'bf_adinfo' => ''
+			'bf_adinfo' => '',
+			'bf_vidslider' => false
 		) as $field => $value) {
 			$ceo_config[$field] = $value;
 		}
@@ -491,6 +492,7 @@ function ceo_pluginfo($whichinfo = null) {
 		if (version_compare($ceo_options['db_version'], '1.9.8', '<')) {
 			$ceo_options['db_version'] = '1.9.8';
 			$ceo_options['bf_adinfo'] = '';
+			$ceo_options['bf_vidslider'] = false;
 			update_option('comiceasel-config', $ceo_options);
 		}
 		$ceo_coreinfo = wp_upload_dir();
@@ -590,6 +592,7 @@ function ceo_run_css() {
 
 function ceo_run_scripts() {
 	global $post;
+	add_action('wp_head', 'ceo_bf_add_script_to_head');
 	if (!empty($post)) {
 		$comic_content_warning = get_post_meta( $post->ID, 'comic-content-warning', true );
 		if ($comic_content_warning) {
@@ -599,5 +602,11 @@ function ceo_run_scripts() {
 	}
 	if (!ceo_pluginfo('disable_keynav')) {
 		wp_enqueue_script('ceo_keynav', ceo_pluginfo('plugin_url').'js/keynav.js', null, null, true);
+	}
+}
+
+function ceo_bf_add_script_to_head() {
+	if (!empty(ceo_pluginfo('bf_adinfo'))) {
+		echo '<script type="text/javascript" src="https://thor.blindferret.media/'.ceo_pluginfo('bf_adinfo').'/jita.js?dfp=1" async defer></script>'."\r\n";
 	}
 }

@@ -42,6 +42,7 @@ function ceo_add_menu_pages() {
 	$menu_location = 'edit.php?post_type=comic';
 	$plugin_title = __('Comic Easel', 'comiceasel');
 	$config_title = __('Config', 'comiceasel');
+	$monetize_title = __('Monetize', 'comiceasel');
 	$debug_title = __('Debug', 'comiceasel');
 	$import_title = __('Import', 'comiceasel');
 	
@@ -53,6 +54,12 @@ function ceo_add_menu_pages() {
 		add_action('admin_head-' . $config_hook, 'ceo_admin_page_head');
 		add_action('admin_print_scripts-' . $config_hook, 'ceo_admin_print_scripts');
 		add_action('admin_print_styles-' . $config_hook, 'ceo_admin_print_styles');
+	}
+	if (!defined('CEO_DISABLE_BFADS')){
+		$monetize_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $monetize_title, $monetize_title, 'edit_theme_options', 'comiceasel-monetize', 'ceo_manager_adconfig');
+		add_action('admin_head-' . $monetize_hook, 'ceo_admin_page_head');
+		add_action('admin_print_scripts-' . $monetize_hook, 'ceo_admin_print_scripts');
+		add_action('admin_print_styles-' . $monetize_hook, 'ceo_admin_print_styles');
 	}
 	if (!defined('CEO_FEATURE_DISABLE_DEBUG'))
 		$debug_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $debug_title, $debug_title, 'edit_theme_options', 'comiceasel-debug', 'ceo_debug');	
@@ -97,6 +104,10 @@ function ceo_debug() {
 
 function ceo_import() {
 	require_once('ceo-import.php');
+}
+
+function ceo_manager_adconfig() {
+	require_once('ceo-adconfig.php');
 }
 
 /**
