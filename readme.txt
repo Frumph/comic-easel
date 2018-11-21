@@ -2,8 +2,8 @@
 Author: Frumph
 Contributors: Frumph
 Tags: comiceasel, easel, webcomic, comic, webcomic
-Requires at least: 4.5
-Tested up to: 4.8.2
+Requires at least: 4.8.2
+Tested up to: 5.0
 Stable tag: 1.15
 Text Domain: comiceasel
 Donate link: http://frumph.net
