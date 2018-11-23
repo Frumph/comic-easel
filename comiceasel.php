@@ -606,7 +606,8 @@ function ceo_run_scripts() {
 }
 
 function ceo_bf_add_script_to_head() {
-	if (!empty(ceo_pluginfo('bf_adinfo'))) {
+	$ceo_options = get_option('comiceasel-config');
+	if (isset($ceo_options['bf_adinfo']) && !empty($ceo_options['bf_adinfo'])) {
 		echo '<script type="text/javascript" src="https://thor.blindferret.media/'.ceo_pluginfo('bf_adinfo').'/jita.js?dfp=1" async defer></script>'."\r\n";
 	}
 }
