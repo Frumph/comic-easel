@@ -3,7 +3,7 @@
 <div class="clear"></div>
 <?php
 $tab = '';
-if (isset($_GET['tab'])) $tab = wp_filter_nohtml_kses($_GET['tab']);
+if (isset($_GET['tab'])) $tab = sanitize_key($_GET['tab']);
 if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'comiceasel_reset') {
 	delete_option('comiceasel-config');
 	global $ceo_pluginfo;
