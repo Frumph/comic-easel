@@ -1,10 +1,10 @@
 === Comic Easel ===
 Author: Frumph
-Contributors: Frumph
+Contributors: Frumph, Shadchamp
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 4.8.2
-Tested up to: 5.0
-Stable tag: 1.15
+Tested up to: 6.8.3
+Stable tag: 1.16
 Text Domain: comiceasel
 Donate link: http://frumph.net
 License: GPLv3 or later
@@ -129,6 +129,10 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+
+= 1.16 =
+* Patched CVE-2024-31092
+
 = 1.15 =
 * keynav update - to preserve browser forward/back functions / jn-squire
 * added Text Domain: to readme / Frumph
