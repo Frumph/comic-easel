@@ -115,7 +115,7 @@ function ceo_manager_adconfig() {
  *
  */
 function ceo_dashboard_feed_widget() {
-	wp_widget_rss_output('http://comiceasel.com/?feed=rss2', array('items' => 3, 'show_summary' => true));
+	wp_widget_rss_output('https://comiceasel.com/?feed=rss2', array('items' => 3, 'show_summary' => true));
 } 
 
 function ceo_add_dashboard_widgets() {
