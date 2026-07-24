@@ -1,5 +1,26 @@
 <?php
 
+/*
+ * Normalize a stored meta value before it is re-displayed in the post editor.
+ *
+ * These meta values exist in the database in two different shapes:
+ *   1. written through this plugin's own meta boxes - ceo_handle_edit_save_comic()
+ *      runs the submitted value through esc_textarea(), so <b> is stored as &lt;b&gt;
+ *   2. written through WordPress' built-in Custom Fields panel - the comic post type
+ *      supports 'custom-fields' and none of these keys are protected, so whatever was
+ *      typed is stored verbatim and <b> is stored as <b>
+ *
+ * Decoding first collapses both shapes back to the same plain text, which is what makes
+ * a single escape at the output sink correct for both: the already-encoded value is not
+ * double-encoded (&lt;b&gt; -> <b> -> &lt;b&gt;, byte-identical to what the raw echo used
+ * to emit), and the raw value can no longer break out of the surrounding markup
+ * (<script> -> <script> -> &lt;script&gt;). Callers must still apply the escaper that
+ * matches their context: esc_textarea() inside <textarea>, esc_attr() inside an attribute.
+ */
+function ceo_meta_for_editor($value) {
+	return html_entity_decode((string)$value, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401);
+}
+
 add_action('admin_init', 'ceo_admin_init');
 
 function ceo_admin_init() {
@@ -253,10 +274,10 @@ function ceo_edit_toggles_in_post($post) {
 		<th scope="row"><label for="comic-gallery-columns"><?php _e('If not full sized, how many gallery rows to use?','comiceasel'); ?></label></th>
 		<td style="width: 30%">
 			<?php
-				$column_count = esc_attr( get_post_meta( $post->ID, 'comic-gallery-columns', true ));
+				$column_count = get_post_meta( $post->ID, 'comic-gallery-columns', true );
 				if (empty($column_count) || ($column_count > 10) || ($column_count < 1)) $column_count = 5;
 			?>
-			<input id="comic-gallery-columns" name="comic-gallery-columns" style="width: 40px;" type="text" value="<?php echo $column_count; ?>"  />
+			<input id="comic-gallery-columns" name="comic-gallery-columns" style="width: 40px;" type="text" value="<?php echo esc_attr(ceo_meta_for_editor($column_count)); ?>"  />
 		</td>
 	</tr>
 	<tr>
@@ -294,8 +315,8 @@ function ceo_media_embed_box($post) {
 You can add the url from:<br />
 blip.tv, DailyMotion, FunnyOrDie.com, Hulu, Instagram, Qik, Photobucket, Rdio, Revision3, Scribd, SlideShare, Smugmug, SoundCloud, Spotify, Youtube, Twitter, Vimeo, WordPress.tv<br />
 <em>You still need to add a featured image to be used as the thumbnail.</em><br />
-	<input id="media_url" name="media_url" type="input" style="width: 80%" value="<?php echo $media_url; ?>" /><br />
-	Width to use (default is global $content_width): <input id="media_width" name="media_width" type="input" style="width: 100px;" value="<?php echo $media_width; ?>" /> 
+	<input id="media_url" name="media_url" type="input" style="width: 80%" value="<?php echo esc_attr(ceo_meta_for_editor($media_url)); ?>" /><br />
+	Width to use (default is global $content_width): <input id="media_width" name="media_width" type="input" style="width: 100px;" value="<?php echo esc_attr(ceo_meta_for_editor($media_width)); ?>" />
 <?php
 }
 
@@ -304,7 +325,7 @@ function ceo_edit_linkto_in_post($post) {
 	_e('Add url here or leave empty to use next comic or default none', 'comiceasel');
 	?>
 	<br />
-	<input id="link-to" name="link-to" type="input" style="width: 80%" value="<?php echo $linkto_url; ?>" /><br />
+	<input id="link-to" name="link-to" type="input" style="width: 80%" value="<?php echo esc_attr(ceo_meta_for_editor($linkto_url)); ?>" /><br />
 	<?php
 }
 
@@ -314,21 +335,21 @@ function ceo_edit_refer_only_in_post($post) {
 	_e('Add url here of referring website to make it only visible when coming from that url.', 'comiceasel');
 	?>
 	<br />
-	<input id="refer-only" name="refer-only" type="input" style="width: 80%" value="<?php echo $refer_only; ?>" /><br />
+	<input id="refer-only" name="refer-only" type="input" style="width: 80%" value="<?php echo esc_attr(ceo_meta_for_editor($refer_only)); ?>" /><br />
 	<br />
 	<?php _e("Message to display to users who don't visit from the referring site.",'comiceasel'); ?><br />
-	<input id="refer-only-msg" name="refer-only-msg" type="input" style="width: 80%" value="<?php echo $refer_only_msg; ?>" /><br />
+	<input id="refer-only-msg" name="refer-only-msg" type="input" style="width: 80%" value="<?php echo esc_attr(ceo_meta_for_editor($refer_only_msg)); ?>" /><br />
 	<?php
 }
 
 function ceo_edit_hovertext_in_post($post) { 
 	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
-	$hovertext = esc_attr( get_post_meta( $post->ID, 'comic-hovertext', true ) );
-	if (empty($hovertext)) $hovertext = esc_attr( get_post_meta($post->ID, 'hovertext', true));
+	$hovertext = get_post_meta( $post->ID, 'comic-hovertext', true );
+	if (empty($hovertext)) $hovertext = get_post_meta($post->ID, 'hovertext', true);
 	if (!$hovertext) $hovertext = '';
 ?>
 	<?php _e('The text placed here will appear when you mouse over the comic.','comiceasel'); ?><br />
-	<textarea name="comic-hovertext" id="comic-hovertext" class="admin-comic-hovertext" style="width:100%"><?php echo $hovertext; ?></textarea>
+	<textarea name="comic-hovertext" id="comic-hovertext" class="admin-comic-hovertext" style="width:100%"><?php echo esc_textarea(ceo_meta_for_editor($hovertext)); ?></textarea>
 <?php
 }
 
@@ -336,7 +357,7 @@ function ceo_edit_transcript_in_post($post) {
 	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
 ?>
 	<?php _e('The text placed here will appear as the transcript.','comiceasel'); ?><br />
-	<textarea name="transcript" id="transcript" class="admin-transcript" style="width:100%; height: 100px;"><?php echo get_post_meta($post->ID, 'transcript', true); ?></textarea>
+	<textarea name="transcript" id="transcript" class="admin-transcript" style="width:100%; height: 100px;"><?php echo esc_textarea(ceo_meta_for_editor(get_post_meta($post->ID, 'transcript', true))); ?></textarea>
 <?php
 }
 
@@ -344,7 +365,7 @@ function ceo_edit_html_above_comic($post) {
 	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
 ?>
 	<?php _e('The html placed here will appear above the comic.','comiceasel'); ?><br />
-	<textarea name="comic-html-above" id="comic-html-above" class="admin-comic-html-above" style="width:100%"><?php echo get_post_meta( $post->ID, 'comic-html-above', true ); ?></textarea>
+	<textarea name="comic-html-above" id="comic-html-above" class="admin-comic-html-above" style="width:100%"><?php echo esc_textarea(ceo_meta_for_editor(get_post_meta( $post->ID, 'comic-html-above', true ))); ?></textarea>
 <?php
 }
 
@@ -352,7 +373,7 @@ function ceo_edit_html_below_comic($post) {
 	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
 ?>
 	<?php _e('The html placed here will appear below the comic.','comiceasel'); ?><br />
-	<textarea name="comic-html-below" id="comic-html-below" class="admin-comic-html-below" style="width:100%"><?php echo get_post_meta( $post->ID, 'comic-html-below', true ); ?></textarea>
+	<textarea name="comic-html-below" id="comic-html-below" class="admin-comic-html-below" style="width:100%"><?php echo esc_textarea(ceo_meta_for_editor(get_post_meta( $post->ID, 'comic-html-below', true ))); ?></textarea>
 <?php
 }
 
@@ -374,7 +395,7 @@ function ceo_edit_buycomic_in_post($post) {
 		<tr>
 		<?php if (ceo_pluginfo('buy_comic_sell_print')) { ?>
 			<td align="left" valign="top" width="50%">
-				<?php _e('Print Cost','comiceasel'); ?> <input name="buy_print_amount" id="buy_print_amount" type="text" size="5" value="<?php echo $currentbuyprintamount ?>" />  <br />
+				<?php _e('Print Cost','comiceasel'); ?> <input name="buy_print_amount" id="buy_print_amount" type="text" size="5" value="<?php echo esc_attr(ceo_meta_for_editor($currentbuyprintamount)) ?>" />  <br />
 				<input name="buyprint-status" id="buyprint-available" type="radio" value="<?php _e('Available','comiceasel'); ?>" <?php if (($currentbuyprintoption == __('Available','comiceasel')) || empty($currentbuyprintoption)) { echo " checked"; } ?> /> <label for="buyprint-available"><?php _e('Available','comiceasel'); ?></label><br />
 				<input name="buyprint-status" id="buyprint-sold" type="radio" value="<?php _e('Sold','comiceasel'); ?>" <?php if ($currentbuyprintoption == __('Sold','comiceasel')) { echo " checked"; } ?> /> <label for="buyprint-sold">Sold</label><br />
 				<input name="buyprint-status" id="buyprint-outofstock" type="radio" value="<?php _e('Out of Stock','comiceasel'); ?>" <?php if ($currentbuyprintoption == __('Out of Stock','comiceasel')) { echo " checked"; } ?> /> <label for="buyprint-outofstock"><?php _e('Out of Stock','comiceasel'); ?></label><br />
@@ -383,7 +404,7 @@ function ceo_edit_buycomic_in_post($post) {
 		<?php }
 			if (ceo_pluginfo('buy_comic_sell_original')) { ?>
 			<td align="left" valign="top">
-				<?php _e('Original Cost','comiceasel'); ?> <input name="buy_print_orig_amount" id="buy_print_orig_amount" size="5" type="text" value="<?php echo $currentbuyorigamount; ?>" /><br />
+				<?php _e('Original Cost','comiceasel'); ?> <input name="buy_print_orig_amount" id="buy_print_orig_amount" size="5" type="text" value="<?php echo esc_attr(ceo_meta_for_editor($currentbuyorigamount)); ?>" /><br />
 				<input name="buyorig-status" id="buyorig-available" type="radio" value="<?php _e('Available','comiceasel'); ?>" <?php if (($currentbuyorigoption == __('Available','comiceasel')) || empty($currentbuyorigoption)) { echo " checked"; } ?> /> <label for="buyorig-available"><?php _e('Available','comiceasel'); ?></label><br />
 				<input name="buyorig-status" id="buyorig-sold" type="radio" value="<?php _e('Sold','comiceasel'); ?>" <?php if ($currentbuyorigoption == __('Sold','comiceasel')) { echo " checked"; } ?> /> <label for="buyorig-sold"><?php _e('Sold','comiceasel'); ?></label><br />
 				<input name="buyorig-status" id="buyorig-notavail" type="radio" value="<?php _e('Not Available','comiceasel'); ?>" <?php if ($currentbuyorigoption == __('Not Available','comiceasel')) { echo " checked"; } ?> /> <label for="buyorig-notavail"><?php _e('Not Available','comiceasel'); ?></label><br />
@@ -397,13 +418,13 @@ function ceo_edit_buycomic_in_post($post) {
 function ceo_flash_upload_box($post) { ?>
 <label for="upload_flash">
     <?php _e('Enter a URL or upload a flash comic.','comiceasel'); ?><br />
-    <input id="flash_file" class="flash_file" type="text" name="flash_file" value="<?php echo get_post_meta( $post->ID, 'flash_file', true ); ?>" />
+    <input id="flash_file" class="flash_file" type="text" name="flash_file" value="<?php echo esc_attr(ceo_meta_for_editor(get_post_meta( $post->ID, 'flash_file', true ))); ?>" />
     <input name="upload_flash_button" class="upload_flash_button" type="button" value="<?php _e('Upload Flash','comiceasel'); ?>" /><br />
 </label>
 <br />
 <?php _e('Set the dimensions of the flash .swf comic.','comiceasel'); ?><br />
-<label for="flash_height"><?php _e('Height:','comiceasel'); ?> <input id="flash_height" name="flash_height" type="text" value="<?php echo get_post_meta( $post->ID, 'flash_height', true ); ?>" /></label>
-<label for="flash_width"><?php _e('Width:','comiceasel'); ?> <input id="flash_width" name="flash_width" type="text" value="<?php echo get_post_meta( $post->ID, 'flash_width', true ); ?>" /></label><br />
+<label for="flash_height"><?php _e('Height:','comiceasel'); ?> <input id="flash_height" name="flash_height" type="text" value="<?php echo esc_attr(ceo_meta_for_editor(get_post_meta( $post->ID, 'flash_height', true ))); ?>" /></label>
+<label for="flash_width"><?php _e('Width:','comiceasel'); ?> <input id="flash_width" name="flash_width" type="text" value="<?php echo esc_attr(ceo_meta_for_editor(get_post_meta( $post->ID, 'flash_width', true ))); ?>" /></label><br />
 <br />
 <em><?php _e('You still need to have a featured image set, it will be used as a thumbnail.','comiceasel'); ?></em>
 <?php }
