@@ -4,7 +4,7 @@ Contributors: Frumph, Shadchamp
 Tags: comiceasel, easel, webcomic, comic, webcomic
 Requires at least: 4.8.2
 Tested up to: 6.8.3
-Stable tag: 1.16
+Stable tag: 1.17
 Text Domain: comiceasel
 Donate link: http://frumph.net
 License: GPLv3 or later
@@ -129,6 +129,11 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+
+= 1.17 =
+* PHP 8.x compatibility: replaced deprecated ${var} string interpolation, fixed optional-before-required parameter declaration, converted PHP4-style constructor, pinned html_entity_decode() flags
+* All files now pass PHP 8.5 lint and a PHPCompatibility scan targeting PHP 8.0+
+* Fixed Version header in comiceasel.php, which still reported 1.15 in the 1.16 release
 
 = 1.16 =
 * Patched CVE-2024-31092
