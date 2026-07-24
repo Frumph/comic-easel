@@ -39,9 +39,11 @@ class ceo_bf_adwidget extends WP_Widget {
 	
 	function update($new_instance, $old_instance) {
 		$instance = $old_instance;
-		$instance['title'] = strip_tags($new_instance['title']);
-		$instance['divID'] = strip_tags($new_instance['divID']);
-		$instance['center'] =  (bool)( $new_instance['center'] == 1 ? true : false );
+		$instance['title'] = isset($new_instance['title']) ? sanitize_text_field($new_instance['title']) : '';
+		// This value is used as an HTML id, so restrict it to what an id may hold
+		// rather than only stripping tags -- strip_tags() leaves quotes and spaces.
+		$instance['divID'] = isset($new_instance['divID']) ? sanitize_html_class($new_instance['divID']) : '';
+		$instance['center'] =  (bool)( !empty($new_instance['center']) && $new_instance['center'] == 1 );
 		return $instance;
 	}
 	

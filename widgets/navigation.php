@@ -232,10 +232,14 @@ class ceo_comic_navigation_widget extends WP_Widget {
 					'comicchapter',
 					'imageurl',
 					'buycomic') as $key) {
-			$instance[$key] = ($new_instance[$key]) ? true : false;
+			// Unchecked boxes are not submitted at all, so the key may be absent.
+			$instance[$key] = (!empty($new_instance[$key])) ? true : false;
 		}
+		// The archive path is a URL, so sanitize it as one rather than lumping it
+		// in with the plain-text labels below -- esc_attr() would happily store a
+		// javascript: URI.
+		$instance['archive_path'] = isset($new_instance['archive_path']) ? esc_url_raw($new_instance['archive_path']) : '';
 		foreach (array(
-					'archive_path',
 					'previous_chap_title',
 					'next_chap_title',
 					'first_in_title',
@@ -251,7 +255,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 					'comments_title',
 					'buycomic_title'
 					) as $key) {
-			$instance[$key] = esc_attr($new_instance[$key]);
+			$instance[$key] = isset($new_instance[$key]) ? esc_attr($new_instance[$key]) : '';
 		}
 		return $instance;
 	}
