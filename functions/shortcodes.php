@@ -62,7 +62,8 @@ function ceo_cast_display($character, $stats, $image) {
 // , $limit, $stats, $image, $order
 function ceo_get_character_list($chapter) {
 	global $wpdb;
-	$sql_string3 = "SELECT DISTINCT terms2.name as tag
+	// $chapter arrives from the [cast-page] shortcode attribute, so it is untrusted.
+	$sql_string3 = $wpdb->prepare("SELECT DISTINCT terms2.name as tag
 			FROM
 			wp_posts as p1
 			LEFT JOIN wp_term_relationships as r1 ON p1.ID = r1.object_ID
@@ -74,10 +75,10 @@ function ceo_get_character_list($chapter) {
 			LEFT JOIN wp_term_taxonomy as t2 ON r2.term_taxonomy_id = t2.term_taxonomy_id
 			LEFT JOIN wp_terms as terms2 ON t2.term_id = terms2.term_id
 			WHERE
-			t1.taxonomy = 'chapters' AND p1.post_status = 'publish' AND terms1.term_id = '".$chapter."' AND
+			t1.taxonomy = 'chapters' AND p1.post_status = 'publish' AND terms1.term_id = %d AND
 			t2.taxonomy = 'characters' AND p2.post_status = 'publish'
-			AND p1.ID = p2.ID";
-	
+			AND p1.ID = p2.ID", (int)$chapter);
+
 	$character_list = $wpdb->get_results($sql_string3);
 	if (!empty($character_list)) return $character_list;
 	return false;
