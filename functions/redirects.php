@@ -110,14 +110,6 @@ function ceo_paypal_ipn_verify($ipn) {
 }
 
 /**
- * The asking price for one cart line, taken from the server side only.
- *
- * The checkout form ships the price to the browser as a hidden field, so the
- * buyer can change it before it ever reaches PayPal. This re-derives what the
- * item should have cost from post meta, falling back to the plugin defaults --
- * the same lookup ceo_display_buycomic() uses to build the form.
- */
-/**
  * Is this cart line an original rather than a print?
  *
  * ceo_display_buycomic() builds the item name as "<Original|Print> - <title> - <id>", so
@@ -130,6 +122,14 @@ function ceo_paypal_ipn_is_original($item_name) {
 	return (strpos(strtolower((string)$item_name), $prefix) === 0);
 }
 
+/**
+ * The asking price for one cart line, taken from the server side only.
+ *
+ * The checkout form ships the price to the browser as a hidden field, so the
+ * buyer can change it before it ever reaches PayPal. This re-derives what the
+ * item should have cost from post meta, falling back to the plugin defaults --
+ * the same lookup ceo_display_buycomic() uses to build the form.
+ */
 function ceo_paypal_ipn_expected_amount($post_id, $item_name) {
 	if (ceo_paypal_ipn_is_original($item_name)) {
 		$amount = get_post_meta($post_id, 'buy_print_orig_amount', true);
@@ -225,6 +225,14 @@ function ceo_paypal_ipn() {
 		$pid = (int)$item_number[$i];
 		if ($pid) $expected_total += ceo_paypal_ipn_expected_amount($pid, $item_name[$i]);
 	}
+	// mc_gross is a bare number, so comparing it to the asking price is only
+	// meaningful once the currency matches. The buy form sends no currency_code,
+	// which means PayPal settles these carts in the account's default -- but a
+	// hand-built cart naming notify_url can pick any currency, and 65 JPY would
+	// otherwise satisfy a $65 asking price.
+	$expected_currency = strtoupper(apply_filters('ceo_paypal_expected_currency', 'USD'));
+	$currency_ok = ($payment_currency === '') || (strtoupper($payment_currency) === $expected_currency);
+
 	// mc_gross is the cart total and includes shipping, so it may legitimately
 	// exceed the asking price -- only underpayment is rejected. A site with no
 	// prices recorded has nothing to compare against and is not blocked.
@@ -232,9 +240,10 @@ function ceo_paypal_ipn() {
 
 	if (!$payee_ok) $email_message .= __('REJECTED: payment was not made to the configured PayPal address.','comiceasel')."\r\n\r\n";
 	if (!$amount_ok) $email_message .= sprintf(__('REJECTED: amount paid (%1$s) is below the asking price (%2$s).','comiceasel'), $payment_amount, $expected_total)."\r\n\r\n";
+	if (!$currency_ok) $email_message .= sprintf(__('REJECTED: payment currency (%1$s) is not %2$s.','comiceasel'), $payment_currency, $expected_currency)."\r\n\r\n";
 
 	delete_option('ceo_paypal_receiver');
-	if ($payment_status == 'Completed' && $payee_ok && $amount_ok) {
+	if ($payment_status == 'Completed' && $payee_ok && $amount_ok && $currency_ok) {
 		$count = 1;
 		foreach ($item_number as $item_sub_number) {
 			$post_id = (int)$item_number[$count];
