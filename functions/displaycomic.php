@@ -129,11 +129,11 @@ function ceo_display_flash_comic($post, $flash_url) {
 	if (empty($height)) $height = '380';
 	if (empty($width)) $width = '520';
 	$output = '';
-	$output .= '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="'.$width.'" height="'.$height.'" id="flash_comic" align="middle">'."\r\n";
-	$output .= '	<param name="movie" value="'.$flash_url.'"/>'."\r\n";
+	$output .= '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="'.esc_attr($width).'" height="'.esc_attr($height).'" id="flash_comic" align="middle">'."\r\n";
+	$output .= '	<param name="movie" value="'.esc_url($flash_url).'"/>'."\r\n";
 	$output .= '    <!--[if !IE]>-->'."\r\n";
-	$output .= '    <object type="application/x-shockwave-flash" data="'.$flash_url.'" width="'.$width.'" height="'.$height.'">'."\r\n";
-	$output .= '        <param name="movie" value="'.$flash_url.'"/>'."\r\n";
+	$output .= '    <object type="application/x-shockwave-flash" data="'.esc_url($flash_url).'" width="'.esc_attr($width).'" height="'.esc_attr($height).'">'."\r\n";
+	$output .= '        <param name="movie" value="'.esc_url($flash_url).'"/>'."\r\n";
 	$output .= '    <!--<![endif]-->'."\r\n";
 	$output .= ceo_display_featured_image_comic('full');
 	$output .= '        <a href="http://www.adobe.com/go/getflash">'."\r\n";
