@@ -166,7 +166,7 @@ function ceo_display_comic($size = 'full') {
 		}
 	}
 	$output = '';
-	if (ceo_the_above_html()) $output .= html_entity_decode(ceo_the_above_html())."\r\n";
+	if (ceo_the_above_html()) $output .= html_entity_decode(ceo_the_above_html(), ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401)."\r\n";
 
 	if ($flash_file = get_post_meta($post->ID, "flash_file", true)) {
 		$output .= ceo_display_flash_comic($post, $flash_file);
@@ -187,7 +187,7 @@ function ceo_display_comic($size = 'full') {
 			$output .= ceo_display_featured_image_comic($size);
 		}
 	}	
-	if (ceo_the_below_html()) $output .= html_entity_decode(ceo_the_below_html())."\r\n";
+	if (ceo_the_below_html()) $output .= html_entity_decode(ceo_the_below_html(), ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401)."\r\n";
 	if ($output) { 
 		return apply_filters('ceo_comics_display_comic', $output);
 	} else

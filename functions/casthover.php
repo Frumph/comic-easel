@@ -69,9 +69,9 @@ function ceo_add_characters_hovercards($post_characters) {
 //widget code below here
 class ceo_casthover_reference_widget extends WP_Widget {
 	
-	function ceo_casthover_reference_widget() {
+	function __construct() {
 		$widget_ops = array('classname' => __CLASS__, 'description' => __('Creates a grid of avatars for characters in the current comic.', 'comiceasel') );
-		$this->WP_Widget(__CLASS__, __('Comic Easel - Cast Hover', 'comiceasel'), $widget_ops);
+		parent::__construct(__CLASS__, __('Comic Easel - Cast Hover', 'comiceasel'), $widget_ops);
 	}
 	
 	function widget($args, $instance) {

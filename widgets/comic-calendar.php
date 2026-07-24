@@ -45,7 +45,7 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 
 	// Quick check. If we have no posts at all, abort!
 	if ( !$posts ) {
-		$gotsome = $wpdb->get_var("SELECT 1 as test FROM $wpdb->posts WHERE post_type = '${taxonomy}' AND post_status = 'publish' LIMIT 1");
+		$gotsome = $wpdb->get_var("SELECT 1 as test FROM $wpdb->posts WHERE post_type = '{$taxonomy}' AND post_status = 'publish' LIMIT 1");
 		if ( !$gotsome ) {
 			$cache[ $key ] = '';
 			wp_cache_set( 'get_comic_calendar', $cache, 'calendar' );
@@ -67,7 +67,7 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 		// We need to get the month from MySQL
 		$thisyear = ''.intval(substr($m, 0, 4));
 		$d = (($w - 1) * 7) + 6; //it seems MySQL's weeks disagree with PHP's
-		$thismonth = $wpdb->get_var("SELECT DATE_FORMAT((DATE_ADD('${thisyear}0101', INTERVAL $d DAY) ), '%m')");
+		$thismonth = $wpdb->get_var("SELECT DATE_FORMAT((DATE_ADD('{$thisyear}0101', INTERVAL $d DAY) ), '%m')");
 	} elseif ( !empty($m) ) {
 		$thisyear = ''.intval(substr($m, 0, 4));
 		if ( strlen($m) < 6 )
@@ -85,14 +85,14 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 	$previous = $wpdb->get_row("SELECT DISTINCT MONTH(post_date) AS month, YEAR(post_date) AS year
 		FROM $wpdb->posts
 		WHERE post_date < '$thisyear-$thismonth-01'
-		AND post_type = '${taxonomy}' AND post_status = 'publish'
+		AND post_type = '{$taxonomy}' AND post_status = 'publish'
 			ORDER BY post_date DESC
 			LIMIT 1");
 	$next = $wpdb->get_row("SELECT	DISTINCT MONTH(post_date) AS month, YEAR(post_date) AS year
 		FROM $wpdb->posts
 		WHERE post_date >	'$thisyear-$thismonth-01'
 		AND MONTH( post_date ) != MONTH( '$thisyear-$thismonth-01' )
-		AND post_type = '${taxonomy}' AND post_status = 'publish'
+		AND post_type = '{$taxonomy}' AND post_status = 'publish'
 			ORDER	BY post_date ASC
 			LIMIT 1");
 
@@ -147,7 +147,7 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 	$dayswithposts = $wpdb->get_results("SELECT DISTINCT DAYOFMONTH(post_date)
 		FROM $wpdb->posts WHERE MONTH(post_date) = '$thismonth'
 		AND YEAR(post_date) = '$thisyear'
-		AND post_type = '${taxonomy}' AND post_status = 'publish'
+		AND post_type = '{$taxonomy}' AND post_status = 'publish'
 		AND post_date < '" . current_time('mysql') . '\'', ARRAY_N);
 	if ( $dayswithposts ) {
 		foreach ( (array) $dayswithposts as $daywith ) {
