@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; ?>
 <div id="comiceasel-landing">
 	<form method="post" id="myForm-general" enctype="multipart/form-data">
 	<?php wp_nonce_field('update-options') ?>

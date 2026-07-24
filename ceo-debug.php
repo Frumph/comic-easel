@@ -1,4 +1,6 @@
 <?php
+if (!defined('ABSPATH')) exit;
+
 // Show Config Variables for right now
 // var_dump(ceo_pluginfo());
 

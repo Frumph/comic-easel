@@ -1,4 +1,5 @@
 <?php
+if (!defined('ABSPATH')) exit;
 
 // actions
 add_action('admin_menu', 'ceo_add_menu_pages');

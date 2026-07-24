@@ -8,6 +8,8 @@ Author URI: http://frumph.net/
 Version: 1.00
 */
 
+if (!defined('ABSPATH')) exit;
+
 function ceo_display_comic_small_blog_post($instance) {
 	global $post;
 	if ($instance['showtitle']) { echo "<h3 class=\"comic-post-widget-title\">".get_the_title()."</h3>\r\n"; }

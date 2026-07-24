@@ -8,6 +8,8 @@ Author URI: http://frumph.net/
 Version: 1.1m
 */
 
+if (!defined('ABSPATH')) exit;
+
 class ceo_comic_navigation_widget extends WP_Widget {
 
 	/**

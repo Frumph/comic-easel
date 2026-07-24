@@ -6,6 +6,8 @@ Description: Display a list of links of the latest comics.
 Author: Philip M. Hofer (Frumph)
 Version: 1.02
 */
+
+if (!defined('ABSPATH')) exit;
 	
 class ceo_latest_comics_widget extends WP_Widget {
 

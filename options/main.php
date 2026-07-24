@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; ?>
 <div id="comiceasel-main">
 		<div class="comiceasel-options">
 			<table class="widefat">

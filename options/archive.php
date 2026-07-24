@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; ?>
 <div id="comiceasel-archive">
 
 	<form method="post" id="myForm-archive" enctype="multipart/form-data">

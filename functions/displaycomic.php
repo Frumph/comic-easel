@@ -1,4 +1,5 @@
 <?php
+if (!defined('ABSPATH')) exit;
 
 function ceo_display_featured_image_comic($size = 'full') {
 	global $post;

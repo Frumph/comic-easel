@@ -1,4 +1,5 @@
 <?php
+if (!defined('ABSPATH')) exit;
 
 // Make sure the injections happen at init time instead of before so other plugins are known
 add_action('plugins_loaded', 'ceo_init_injections');

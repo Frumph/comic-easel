@@ -1,4 +1,5 @@
 <?php
+if (!defined('ABSPATH')) exit;
 
 if ( isset( $_GET['latest'] ) )
 	add_action( 'template_redirect', 'ceo_latest_comic_jump' );

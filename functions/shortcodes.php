@@ -1,4 +1,6 @@
 <?php
+if (!defined('ABSPATH')) exit;
+
 /* Short Codes go Here */
 
 add_shortcode('cast-page', 'ceo_cast_page');
