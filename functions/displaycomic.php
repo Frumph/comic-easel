@@ -227,9 +227,18 @@ function ceo_the_hovertext($override_post = null) {
  */
 function ceo_comic_html_for_output($value, $post_to_use = null) {
 	$html = html_entity_decode((string)$value, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401);
-	$author = (!is_null($post_to_use) && !empty($post_to_use->post_author)) ? (int)$post_to_use->post_author : 0;
-	if ($author && user_can($author, 'unfiltered_html')) return $html;
-	return wp_kses_post($html);
+	if (is_null($post_to_use) || empty($post_to_use->post_author)) return wp_kses_post($html);
+
+	$author = (int)$post_to_use->post_author;
+	if (!user_can($author, 'unfiltered_html')) return wp_kses_post($html);
+
+	// The author being trusted is not enough on its own: someone else may have
+	// edited the post since. On multisite an Editor lacks unfiltered_html but can
+	// still edit an administrator's comic, so check whoever touched it last too.
+	$last_editor = (int)get_post_meta($post_to_use->ID, '_edit_last', true);
+	if ($last_editor && $last_editor !== $author && !user_can($last_editor, 'unfiltered_html')) return wp_kses_post($html);
+
+	return $html;
 }
 
 function ceo_the_above_html($override_post = null) {
