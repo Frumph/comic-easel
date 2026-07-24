@@ -388,7 +388,10 @@ function ceo_the_transcript($displaymode = 'raw') {
 
 function ceo_archive_list_by_year($thumbnail = false, $order = 'ASC', $chapter = 0) {
 	global $wpdb;
-	if (isset($_GET['archive_year'])) { 
+	// $order and $chapter arrive from shortcode attributes, so they are untrusted.
+	$chapter = (int)$chapter;
+	$order = (strtoupper($order) == 'DESC') ? 'DESC' : 'ASC';
+	if (isset($_GET['archive_year'])) {
 		$archive_year = (int)esc_attr($_GET['archive_year']); 
 	} else { 
 		$latest_comic = ceo_get_last_comic(false);
@@ -400,7 +403,7 @@ function ceo_archive_list_by_year($thumbnail = false, $order = 'ASC', $chapter =
 	$output .= '<div class="archive-yearlist">| ';
 	
 	if ($chapter) {
-		$years = $wpdb->get_col("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) WHERE $wpdb->posts.post_status = 'publish' AND $wpdb->term_taxonomy.taxonomy = 'chapters' AND $wpdb->term_taxonomy.term_id = ".$chapter." ORDER BY post_date ".$order);
+		$years = $wpdb->get_col($wpdb->prepare("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) WHERE $wpdb->posts.post_status = 'publish' AND $wpdb->term_taxonomy.taxonomy = 'chapters' AND $wpdb->term_taxonomy.term_id = %d ORDER BY post_date ".$order, $chapter));
 	} else {
 		$years = $wpdb->get_col("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type='comic' ORDER BY post_date ASC");
 	}
@@ -438,12 +441,15 @@ function ceo_archive_list_by_year($thumbnail = false, $order = 'ASC', $chapter =
 
 function ceo_archive_list_by_all_years($thumbnail = false, $order = 'ASC', $chapter = 0) {
 	global $wpdb;
+	// $order and $chapter arrive from shortcode attributes, so they are untrusted.
+	$chapter = (int)$chapter;
+	$order = (strtoupper($order) == 'DESC') ? 'DESC' : 'ASC';
 	$latest_comic = ceo_get_last_comic(false);
 	$archive_year_latest = get_post_time('Y', false, $latest_comic, true);
 	$first_comic = ceo_get_first_comic(false);
 	$archive_year_first = get_post_time('Y', false, $first_comic, true);
 	if ($chapter) {
-		$years = $wpdb->get_col("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) WHERE $wpdb->posts.post_status = 'publish' AND $wpdb->term_taxonomy.taxonomy = 'chapters' AND $wpdb->term_taxonomy.term_id = ".$chapter." ORDER BY post_date ".$order);
+		$years = $wpdb->get_col($wpdb->prepare("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) WHERE $wpdb->posts.post_status = 'publish' AND $wpdb->term_taxonomy.taxonomy = 'chapters' AND $wpdb->term_taxonomy.term_id = %d ORDER BY post_date ".$order, $chapter));
 	} else {
 		$years = $wpdb->get_col("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type='comic' ORDER BY post_date ".$order);
 	}
