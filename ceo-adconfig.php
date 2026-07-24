@@ -23,13 +23,25 @@ if ($action == 'comiceasel_reset') {
 		$ceo_options = get_option('comiceasel-config');
 		if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-options') ) {
 		if ($action == 'ceo_save_afmain') {
-			if (!empty($_REQUEST['bf_adinfo']) && empty($ceo_options['bf_adinf'])) {
-				$path = get_home_path();
-				$url = 'https://www.lfg.co/ads.txt';
-				$permfile = $path.'ads.txt';
-				$tmpfile = download_url( $url, $timeout = 300 );
-				copy( $tmpfile, $permfile );
-				unlink( $tmpfile ); // must unlink afterwards
+			// Only fetch ads.txt the first time a Site ID is entered. The guard
+			// used to test 'bf_adinf', which is never a key in the options array,
+			// so this ran on every single save.
+			if (!empty($_REQUEST['bf_adinfo']) && empty($ceo_options['bf_adinfo'])) {
+				if (!function_exists('download_url')) require_once(ABSPATH.'wp-admin/includes/file.php');
+				$tmpfile = download_url('https://www.lfg.co/ads.txt', 300);
+				if (is_wp_error($tmpfile)) { ?>
+					<div id="message" class="error"><p><strong><?php
+						printf(esc_html__('Could not download ads.txt: %s','comiceasel'), esc_html($tmpfile->get_error_message()));
+					?></strong></p></div>
+				<?php } else {
+					$permfile = trailingslashit(get_home_path()).'ads.txt';
+					if (!@copy($tmpfile, $permfile)) { ?>
+						<div id="message" class="error"><p><strong><?php
+							printf(esc_html__('Downloaded ads.txt but could not write it to %s -- check directory permissions.','comiceasel'), esc_html($permfile));
+						?></strong></p></div>
+					<?php }
+					@unlink($tmpfile); // must unlink afterwards
+				}
 			}
 			foreach (array(
 				'bf_adinfo'
