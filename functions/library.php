@@ -161,7 +161,7 @@ function ceo_content_warning() {
 function ceo_content_warning_in_head() {
 ?>
 <script>
-	var contentwarningtext = "<?php echo ceo_content_warning(); ?>";
+	var contentwarningtext = "<?php echo esc_js(ceo_content_warning()); ?>";
 </script>
 <?php
 }
