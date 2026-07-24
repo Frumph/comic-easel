@@ -109,6 +109,42 @@ function ceo_paypal_ipn_verify($ipn) {
 	return (trim(wp_remote_retrieve_body($response)) === 'VERIFIED');
 }
 
+/**
+ * The asking price for one cart line, taken from the server side only.
+ *
+ * The checkout form ships the price to the browser as a hidden field, so the
+ * buyer can change it before it ever reaches PayPal. This re-derives what the
+ * item should have cost from post meta, falling back to the plugin defaults --
+ * the same lookup ceo_display_buycomic() uses to build the form.
+ */
+function ceo_paypal_ipn_expected_amount($post_id, $item_name) {
+	if (strstr(strtolower($item_name), 'original')) {
+		$amount = get_post_meta($post_id, 'buy_print_orig_amount', true);
+		if ($amount === '' || $amount === false) $amount = ceo_pluginfo('buy_comic_orig_amount');
+	} else {
+		$amount = get_post_meta($post_id, 'buy_print_amount', true);
+		if ($amount === '' || $amount === false) $amount = ceo_pluginfo('buy_comic_print_amount');
+	}
+	return (float)preg_replace('/[^0-9.]/', '', (string)$amount);
+}
+
+/**
+ * Was this payment actually made to the site owner?
+ *
+ * The payee is a hidden form field too, so a buyer can redirect payment to
+ * their own account and still have PayPal send us a genuine notification.
+ * Sites that never configured an address, or left the shipped placeholder in
+ * place, have nothing to compare against and are not blocked.
+ */
+function ceo_paypal_ipn_payee_matches($ipn, $comiceasel_config) {
+	$expected = isset($comiceasel_config['buy_comic_email']) ? strtolower(trim($comiceasel_config['buy_comic_email'])) : '';
+	if (empty($expected) || $expected == 'yourname@yourpaypalemail.com') return true;
+	foreach (array('receiver_email', 'business') as $field) {
+		if (!empty($ipn[$field]) && strtolower(trim($ipn[$field])) == $expected) return true;
+	}
+	return false;
+}
+
 function ceo_paypal_ipn() {
 	// template_redirect fires for every front-end request, so this endpoint is
 	// reachable by anyone. The payload is hostile until PayPal confirms it sent
@@ -154,8 +190,27 @@ function ceo_paypal_ipn() {
 
 	$email_message = '';
 	$comiceasel_config = get_option('comiceasel-config');
+
+	// A VERIFIED response only proves PayPal sent the notification. It says
+	// nothing about who was paid or how much, both of which travel to PayPal as
+	// hidden fields the buyer controls. Re-check them against the server side.
+	$payee_ok = ceo_paypal_ipn_payee_matches($ipn, $comiceasel_config);
+
+	$expected_total = 0;
+	for ($i = 1; $i <= $num_cart_items; $i++) {
+		$pid = (int)$item_number[$i];
+		if ($pid) $expected_total += ceo_paypal_ipn_expected_amount($pid, $item_name[$i]);
+	}
+	// mc_gross is the cart total and includes shipping, so it may legitimately
+	// exceed the asking price -- only underpayment is rejected. A site with no
+	// prices recorded has nothing to compare against and is not blocked.
+	$amount_ok = ($expected_total <= 0) || (((float)$payment_amount + 0.001) >= $expected_total);
+
+	if (!$payee_ok) $email_message .= __('REJECTED: payment was not made to the configured PayPal address.','comiceasel')."\r\n\r\n";
+	if (!$amount_ok) $email_message .= sprintf(__('REJECTED: amount paid (%1$s) is below the asking price (%2$s).','comiceasel'), $payment_amount, $expected_total)."\r\n\r\n";
+
 	delete_option('ceo_paypal_receiver');
-	if ($payment_status == 'Completed') {
+	if ($payment_status == 'Completed' && $payee_ok && $amount_ok) {
 		$count = 1;
 		foreach ($item_number as $item_sub_number) {
 			$post_id = (int)$item_number[$count];
