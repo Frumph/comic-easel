@@ -530,10 +530,10 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 			$buy_output .= __('Comic ID','comiceasel').' #'.$comicnum."<br />\r\n";
 			$buy_output .= __('Title:','comiceasel').'&nbsp;'.get_the_title($post)."<br />\r\n";
 			if (ceo_pluginfo('buy_comic_sell_print')) {
-				$buy_output .= __('Print Status:','comiceasel').'&nbsp;'.$buyprint_status."<br />\r\n";
+				$buy_output .= __('Print Status:','comiceasel').'&nbsp;'.esc_html($buyprint_status)."<br />\r\n";
 			}
 			if (ceo_pluginfo('buy_comic_sell_original')) {
-				$buy_output .= __('Original Status:','comiceasel').'&nbsp;'.$buyorig_status."<br />\r\n";
+				$buy_output .= __('Original Status:','comiceasel').'&nbsp;'.esc_html($buyorig_status)."<br />\r\n";
 			}
 			$buy_output .= "<br />\r\n";
 			$buy_output .= '<table class="buytable" style="width:100%;">';
