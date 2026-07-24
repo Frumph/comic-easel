@@ -37,7 +37,7 @@ function ceo_display_featured_image_comic($size = 'full') {
 			
 			if ($linkto) $next_comic = esc_url($linkto);
 			
-			if ($linkto && !$comic_has_map) $output .= '<a href="'.$linkto.'" '.$hovertext.'>';
+			if ($linkto && !$comic_has_map) $output .= '<a href="'.esc_url($linkto).'" '.$hovertext.'>';
 			
 			if ($comic_lightbox && !$linkto && !$comic_has_map) {
 				$output .= '<a href="'.$thumbnail.'" '.$hovertext.' rel="lightbox">';
