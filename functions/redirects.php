@@ -191,9 +191,13 @@ function ceo_paypal_ipn() {
 	// PayPal retries notifications until the endpoint acknowledges them, and a
 	// captured notification can be replayed by hand, so act on each transaction
 	// exactly once.
+	// Key on the transaction AND its status: PayPal sends a fresh notification when a
+	// payment moves Pending -> Completed, and keying on txn_id alone would discard the
+	// Completed one as a duplicate, so the sale would never be recorded.
+	$txn_key = $txn_id.'|'.$payment_status;
 	$processed_txn = get_option('ceo_paypal_processed_txn', array());
 	if (!is_array($processed_txn)) $processed_txn = array();
-	if ($txn_id !== '' && in_array($txn_id, $processed_txn, true)) exit;
+	if ($txn_id !== '' && in_array($txn_key, $processed_txn, true)) exit;
 
 	$email_message = '';
 	$comiceasel_config = get_option('comiceasel-config');
@@ -261,7 +265,7 @@ function ceo_paypal_ipn() {
 				$email_message .= $post_info;
 			} */
 	if ($txn_id !== '') {
-		$processed_txn[] = $txn_id;
+		$processed_txn[] = $txn_key;
 		// Keep the ledger bounded; PayPal only retries for a few days.
 		if (count($processed_txn) > 500) $processed_txn = array_slice($processed_txn, -500);
 		update_option('ceo_paypal_processed_txn', $processed_txn, false);
