@@ -523,7 +523,10 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 		
 		ceo_protect();
 		$post = get_post($comicnum); // Get the post
-		if (!is_wp_error($post) && !empty($post)) { // error check make sure it got a post
+		// get_post() will happily return drafts, pending/private/trashed posts,
+		// revisions and other post types, so require that this really is public
+		// comic content before disclosing anything about it.
+		if (!is_wp_error($post) && !empty($post) && $post->post_type === 'comic' && $post->post_status === 'publish') {
 			$buy_output .= __('Comic ID','comiceasel').' #'.$comicnum."<br />\r\n";
 			$buy_output .= __('Title:','comiceasel').'&nbsp;'.get_the_title($post)."<br />\r\n";
 			if (ceo_pluginfo('buy_comic_sell_print')) {
