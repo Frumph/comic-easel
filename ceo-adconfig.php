@@ -4,7 +4,10 @@
 <?php
 $tab = '';
 if (isset($_GET['tab'])) $tab = sanitize_key($_GET['tab']);
-if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'comiceasel_reset') {
+if (isset($_POST['action']) && $_POST['action'] == 'comiceasel_reset') {
+	if (!current_user_can('edit_theme_options'))
+		wp_die(__('You do not have permission to reset these settings.','comiceasel'));
+	check_admin_referer('update-options');
 	delete_option('comiceasel-config');
 	global $ceo_pluginfo;
 	$ceo_pluginfo = array();
