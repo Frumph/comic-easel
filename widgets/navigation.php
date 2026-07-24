@@ -61,37 +61,37 @@ class ceo_comic_navigation_widget extends WP_Widget {
 		do_action('before-comic-navigation');
 		if ($instance['first']) {
 			if (!empty($first_comic) && ($first_comic !== $this_permalink)) { ?>
-				<a href="<?php echo $first_comic; ?>" class="navi navi-first" title="<?php echo $instance['first_title']; ?>"><?php echo $instance['first_title']; ?></a>
+				<a href="<?php echo esc_url($first_comic); ?>" class="navi navi-first" title="<?php echo esc_attr($instance['first_title']); ?>"><?php echo esc_html($instance['first_title']); ?></a>
 			<?php } else { ?>
-				<span class="navi navi-first navi-void"><?php echo $instance['first_title']; ?></span>
+				<span class="navi navi-first navi-void"><?php echo esc_html($instance['first_title']); ?></span>
 			<?php } 
 		}
 		if ($instance['first_in']) {
 			if (!empty($first_in_comic) && ($first_in_comic !== $this_permalink)) { ?>
-				<a href="<?php echo $first_in_comic; ?>" class="navi navi-first-in" title="<?php echo $instance['first_in_title']; ?>"><?php echo $instance['first_in_title']; ?></a>
+				<a href="<?php echo esc_url($first_in_comic); ?>" class="navi navi-first-in" title="<?php echo esc_attr($instance['first_in_title']); ?>"><?php echo esc_html($instance['first_in_title']); ?></a>
 			<?php } else { ?>
-				<span class="navi navi-first-in navi-void"><?php echo $instance['first_in_title']; ?></span>
+				<span class="navi navi-first-in navi-void"><?php echo esc_html($instance['first_in_title']); ?></span>
 			<?php } 
 		}
 		if ($instance['previous']) {
 			if (!empty($prev_comic)) { ?>
-				<a href="<?php echo $prev_comic; ?>" class="navi comic-nav-previous navi-prev" title="<?php echo $instance['previous_title']; ?>"><?php echo $instance['previous_title']; ?></a>
+				<a href="<?php echo esc_url($prev_comic); ?>" class="navi comic-nav-previous navi-prev" title="<?php echo esc_attr($instance['previous_title']); ?>"><?php echo esc_html($instance['previous_title']); ?></a>
 			<?php } else { ?>
-				<span class="navi navi-prev navi-void"><?php echo $instance['previous_title']; ?></span>
+				<span class="navi navi-prev navi-void"><?php echo esc_html($instance['previous_title']); ?></span>
 			<?php }
 		}
 		if ($instance['previous_in']) {
 			if (!empty($prev_in_comic)) { ?>
-				<a href="<?php echo $prev_in_comic; ?>" class="navi navi-prev-in" title="<?php echo $instance['previous_in_title']; ?>"><?php echo $instance['previous_in_title']; ?></a>
+				<a href="<?php echo esc_url($prev_in_comic); ?>" class="navi navi-prev-in" title="<?php echo esc_attr($instance['previous_in_title']); ?>"><?php echo esc_html($instance['previous_in_title']); ?></a>
 			<?php } else { ?>
-				<span class="navi navi-prev-in navi-void"><?php echo $instance['previous_in_title']; ?></span>
+				<span class="navi navi-prev-in navi-void"><?php echo esc_html($instance['previous_in_title']); ?></span>
 			<?php }
 		}
 		if ($instance['previous_chap']) {
 			if (!empty($previous_chap)) { ?>
-				<a href="<?php echo $previous_chap; ?>" class="navi navi-prev-chap" title="<?php echo $instance['previous_chap_title']; ?>"><?php echo $instance['previous_chap_title']; ?></a>
+				<a href="<?php echo esc_url($previous_chap); ?>" class="navi navi-prev-chap" title="<?php echo esc_attr($instance['previous_chap_title']); ?>"><?php echo esc_html($instance['previous_chap_title']); ?></a>
 			<?php } else { ?>
-				<span class="navi navi-prev-chap navi-void"><?php echo $instance['previous_chap_title']; ?></span>
+				<span class="navi navi-prev-chap navi-void"><?php echo esc_html($instance['previous_chap_title']); ?></span>
 			<?php } 
 		} 
 		?>
@@ -99,7 +99,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 		<td class="comic_navi_center">
 		<?php
 		if ($instance['archives'] && !empty($instance['archive_path'])) { ?>
-			<a href="<?php echo $instance['archive_path']; ?>" class="navi navi-archives navi-archive" title="<?php echo $instance['archives_title']; ?>"><?php echo $instance['archives_title']; ?></a>
+			<a href="<?php echo esc_url($instance['archive_path']); ?>" class="navi navi-archives navi-archive" title="<?php echo esc_attr($instance['archives_title']); ?>"><?php echo esc_html($instance['archives_title']); ?></a>
 		<?php } 
 		if ($instance['random']) {
 			$stay = '';	
@@ -108,7 +108,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 				if (!empty($chapter) && !is_wp_error($chapter)) $stay = '&stay='.reset($chapter)->term_id;
 			}
 			?>
-			<a href="<?php echo home_url(); ?>/?random&amp;nocache=1<?php echo $stay; ?>" class="navi navi-random" title="<?php echo $instance['random_title']; ?>"><?php echo $instance['random_title']; ?></a>
+			<a href="<?php echo esc_url(home_url()); ?>/?random&amp;nocache=1<?php echo esc_attr($stay); ?>" class="navi navi-random" title="<?php echo esc_attr($instance['random_title']); ?>"><?php echo esc_html($instance['random_title']); ?></a>
 		<?php }
 		if (ceo_pluginfo('enable_buy_comic') && isset($instance['buycomic']) && $instance['buycomic']) {
 			if (strpos(ceo_pluginfo('buy_comic_url'), '?') !== false) {
@@ -117,53 +117,53 @@ class ceo_comic_navigation_widget extends WP_Widget {
 				$bpsep = '?';
 			}
 		?>
-			<a href="<?php echo ceo_pluginfo('buy_comic_url').$bpsep.'id='.$post->ID; ?>" class="navi navi-buycomic" title="<?php echo $instance['buycomic_title']; ?>"><?php echo $instance['buycomic_title']; ?></a>
+			<a href="<?php echo esc_url(ceo_pluginfo('buy_comic_url').$bpsep.'id='.$post->ID); ?>" class="navi navi-buycomic" title="<?php echo esc_attr($instance['buycomic_title']); ?>"><?php echo esc_html($instance['buycomic_title']); ?></a>
 		<?php
 		}
 		do_action('inside-comic-navigation');
 		if ($instance['comments']) { ?>
-			<a href="<?php the_permalink(); ?>#comments" class="navi navi-comments" title="<?php echo $instance['comments_title']; ?>"><span class="navi-comments-count"><?php echo get_comments_number(); ?></span><?php echo $instance['comments_title']; ?></a>
+			<a href="<?php the_permalink(); ?>#comments" class="navi navi-comments" title="<?php echo esc_attr($instance['comments_title']); ?>"><span class="navi-comments-count"><?php echo get_comments_number(); ?></span><?php echo esc_html($instance['comments_title']); ?></a>
 		<?php } ?>
 		</td>
 		<td class="comic_navi_right">
 		<?php
 		if ($instance['next_chap']) {
 			if (!empty($next_chap)) { ?>
-				<a href="<?php echo $next_chap; ?>" class="navi navi-next-chap" title="<?php echo $instance['next_chap_title']; ?>"><?php echo $instance['next_chap_title']; ?></a>
+				<a href="<?php echo esc_url($next_chap); ?>" class="navi navi-next-chap" title="<?php echo esc_attr($instance['next_chap_title']); ?>"><?php echo esc_html($instance['next_chap_title']); ?></a>
 			<?php } else { ?>
-				<span class="navi navi-next-chap navi-void"><?php echo $instance['next_chap_title']; ?></span>
+				<span class="navi navi-next-chap navi-void"><?php echo esc_html($instance['next_chap_title']); ?></span>
 			<?php } 
 		}
 		if ($instance['next_in']) {
 			if (!empty($next_in_comic)) { ?>
-				<a href="<?php echo $next_in_comic; ?>" class="navi navi-next-in" title="<?php echo $instance['next_in_title']; ?>"><?php echo $instance['next_in_title']; ?></a>
+				<a href="<?php echo esc_url($next_in_comic); ?>" class="navi navi-next-in" title="<?php echo esc_attr($instance['next_in_title']); ?>"><?php echo esc_html($instance['next_in_title']); ?></a>
 			<?php } else { ?>
-				<span class="navi navi-next-in navi-void"><?php echo $instance['next_in_title']; ?></span>
+				<span class="navi navi-next-in navi-void"><?php echo esc_html($instance['next_in_title']); ?></span>
 			<?php }
 		}
 		if ($instance['next']) {
 			if (!empty($next_comic)) { ?>
-				<a href="<?php echo $next_comic; ?>" class="navi comic-nav-next navi-next" title="<?php echo $instance['next_title']; ?>"><?php echo $instance['next_title']; ?></a>
+				<a href="<?php echo esc_url($next_comic); ?>" class="navi comic-nav-next navi-next" title="<?php echo esc_attr($instance['next_title']); ?>"><?php echo esc_html($instance['next_title']); ?></a>
 			<?php } else { ?>
-				<span class="navi navi-next navi-void"><?php echo $instance['next_title']; ?></span>
+				<span class="navi navi-next navi-void"><?php echo esc_html($instance['next_title']); ?></span>
 			<?php }
 		}
 		if ($instance['last_in']) {
 			if (!empty($last_in_comic) && ($last_in_comic !== $this_permalink)) { ?>
-				<a href="<?php echo $last_in_comic; ?>" class="navi navi-last-in" title="<?php echo $instance['last_in_title']; ?>"><?php echo $instance['last_in_title']; ?></a>                  
+				<a href="<?php echo esc_url($last_in_comic); ?>" class="navi navi-last-in" title="<?php echo esc_attr($instance['last_in_title']); ?>"><?php echo esc_html($instance['last_in_title']); ?></a>                  
 			<?php } else { ?>
-				<span class="navi navi-last-in navi-void"><?php echo $instance['last_in_title']; ?></span>
+				<span class="navi navi-last-in navi-void"><?php echo esc_html($instance['last_in_title']); ?></span>
 			<?php }
 		}
 		if ($instance['last']) {
 			if (!empty($last_comic) && ($last_comic !== $this_permalink)) {
 				if (isset($instance['lastgohome']) && $instance['lastgohome']) { ?>
-					<a href="/" class="navi navi-last" title="<?php echo $instance['last_title']; ?>"><?php echo $instance['last_title']; ?></a>
+					<a href="/" class="navi navi-last" title="<?php echo esc_attr($instance['last_title']); ?>"><?php echo esc_html($instance['last_title']); ?></a>
 				<?php } else { ?>
-					<a href="<?php echo $last_comic; ?>" class="navi navi-last" title="<?php echo $instance['last_title']; ?>"><?php echo $instance['last_title']; ?></a>                  
+					<a href="<?php echo esc_url($last_comic); ?>" class="navi navi-last" title="<?php echo esc_attr($instance['last_title']); ?>"><?php echo esc_html($instance['last_title']); ?></a>                  
 				<?php } ?>
 			<?php } else { ?>
-				<span class="navi navi-last navi-void"><?php echo $instance['last_title']; ?></span>
+				<span class="navi navi-last navi-void"><?php echo esc_html($instance['last_title']); ?></span>
 			<?php }
 		} 
 		do_action('after-comic-navigation');
@@ -178,7 +178,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 			$thumbnail = wp_get_attachment_image_src( $post_image_id, 'full', false);
 			if (is_array($thumbnail) && !empty($thumbnail)) { 
 				$thumbnail = reset($thumbnail);
-				echo '<span class="comic-navi-href-info">'.__('Image URL (for hotlinking/embedding):','comiceasel').'&nbsp;'.$thumbnail.'</span>';
+				echo '<span class="comic-navi-href-info">'.__('Image URL (for hotlinking/embedding):','comiceasel').'&nbsp;'.esc_url($thumbnail).'</span>';
 			}
 			?>
 			</td>
@@ -293,43 +293,43 @@ class ceo_comic_navigation_widget extends WP_Widget {
 					));
 		?>
 		<input id="<?php echo $this->get_field_id('first'); ?>" name="<?php echo $this->get_field_name('first'); ?>" type="checkbox" value="1" <?php checked(true, $instance['first']); ?> /> <label for="<?php echo $this->get_field_id('first'); ?>"><strong><?php _e('First','comiceasel'); ?></strong></label><br />
-		<input id="<?php echo $this->get_field_id('first_title'); ?>" name="<?php echo $this->get_field_name('first_title'); ?>" type="text" value="<?php echo $instance['first_title']; ?>" /><br /> 
+		<input id="<?php echo $this->get_field_id('first_title'); ?>" name="<?php echo $this->get_field_name('first_title'); ?>" type="text" value="<?php echo esc_attr($instance['first_title']); ?>" /><br /> 
 		<br />
 
 		<input id="<?php echo $this->get_field_id('last'); ?>" name="<?php echo $this->get_field_name('last'); ?>" type="checkbox" value="1" <?php checked(true, $instance['last']); ?> /> <label for="<?php echo $this->get_field_id('last'); ?>"><strong><?php _e('Last','comiceasel'); ?></strong></label><br />
-		<input id="<?php echo $this->get_field_id('last_title'); ?>" name="<?php echo $this->get_field_name('last_title'); ?>" type="text" value="<?php echo $instance['last_title']; ?>" /><br />
+		<input id="<?php echo $this->get_field_id('last_title'); ?>" name="<?php echo $this->get_field_name('last_title'); ?>" type="text" value="<?php echo esc_attr($instance['last_title']); ?>" /><br />
 		<br />
 		
 		<input id="<?php echo $this->get_field_id('previous'); ?>" name="<?php echo $this->get_field_name('previous'); ?>" type="checkbox" value="1" <?php checked(true, $instance['previous']); ?> /> <label for="<?php echo $this->get_field_id('previous'); ?>"><strong><?php _e('Previous','comiceasel'); ?></strong></label><br />
-		<input id="<?php echo $this->get_field_id('previous_title'); ?>" name="<?php echo $this->get_field_name('previous_title'); ?>" type="text" value="<?php echo $instance['previous_title']; ?>" /><br />
+		<input id="<?php echo $this->get_field_id('previous_title'); ?>" name="<?php echo $this->get_field_name('previous_title'); ?>" type="text" value="<?php echo esc_attr($instance['previous_title']); ?>" /><br />
 		<br />
 		
 		<input id="<?php echo $this->get_field_id('next'); ?>" name="<?php echo $this->get_field_name('next'); ?>" type="checkbox" value="1" <?php checked(true, $instance['next']); ?> /> <label for="<?php echo $this->get_field_id('next'); ?>"><strong><?php _e('Next','comiceasel'); ?></strong></label><br />
-		<input id="<?php echo $this->get_field_id('next_title'); ?>" name="<?php echo $this->get_field_name('next_title'); ?>" type="text" value="<?php echo $instance['next_title']; ?>" /><br />
+		<input id="<?php echo $this->get_field_id('next_title'); ?>" name="<?php echo $this->get_field_name('next_title'); ?>" type="text" value="<?php echo esc_attr($instance['next_title']); ?>" /><br />
 		<br />
 		
 		<input id="<?php echo $this->get_field_id('first_in'); ?>" name="<?php echo $this->get_field_name('first_in'); ?>" type="checkbox" value="1" <?php checked(true, $instance['first_in']); ?> /> <label for="<?php echo $this->get_field_id('first_in'); ?>"><strong><?php _e('First in Chapter','comiceasel'); ?></strong></label><br />
-		<input id="<?php echo $this->get_field_id('first_in_title'); ?>" name="<?php echo $this->get_field_name('first_in_title'); ?>" type="text" value="<?php echo $instance['first_in_title']; ?>" /><br />   
+		<input id="<?php echo $this->get_field_id('first_in_title'); ?>" name="<?php echo $this->get_field_name('first_in_title'); ?>" type="text" value="<?php echo esc_attr($instance['first_in_title']); ?>" /><br />   
 		<br />
 		
 		<input id="<?php echo $this->get_field_id('last_in'); ?>" name="<?php echo $this->get_field_name('last_in'); ?>" type="checkbox" value="1" <?php checked(true, $instance['last_in']); ?> /> <label for="<?php echo $this->get_field_id('last_in'); ?>"><strong><?php _e('Last in Chapter','comiceasel'); ?></strong></label><br />
-		<input id="<?php echo $this->get_field_id('last_in_title'); ?>" name="<?php echo $this->get_field_name('last_in_title'); ?>" type="text" value="<?php echo $instance['last_in_title']; ?>" /><br />
+		<input id="<?php echo $this->get_field_id('last_in_title'); ?>" name="<?php echo $this->get_field_name('last_in_title'); ?>" type="text" value="<?php echo esc_attr($instance['last_in_title']); ?>" /><br />
 		<br />
 		
 		<input id="<?php echo $this->get_field_id('previous_in'); ?>" name="<?php echo $this->get_field_name('previous_in'); ?>" type="checkbox" value="1" <?php checked(true, $instance['previous_in']); ?> /> <label for="<?php echo $this->get_field_id('previous_in'); ?>"><strong><?php _e('Previous in Chapter','comiceasel'); ?></strong></label><br />
-		<input id="<?php echo $this->get_field_id('previous_in_title'); ?>" name="<?php echo $this->get_field_name('previous_in_title'); ?>" type="text" value="<?php echo $instance['previous_in_title']; ?>" /><br />   
+		<input id="<?php echo $this->get_field_id('previous_in_title'); ?>" name="<?php echo $this->get_field_name('previous_in_title'); ?>" type="text" value="<?php echo esc_attr($instance['previous_in_title']); ?>" /><br />   
 		<br />
 		
 		<input id="<?php echo $this->get_field_id('next_in'); ?>" name="<?php echo $this->get_field_name('next_in'); ?>" type="checkbox" value="1" <?php checked(true, $instance['next_in']); ?> /> <label for="<?php echo $this->get_field_id('next_in'); ?>"><strong><?php _e('Next in Chapter','comiceasel'); ?></strong></label><br />
-		<input id="<?php echo $this->get_field_id('next_in_title'); ?>" name="<?php echo $this->get_field_name('next_in_title'); ?>" type="text" value="<?php echo $instance['next_in_title']; ?>" /><br />
+		<input id="<?php echo $this->get_field_id('next_in_title'); ?>" name="<?php echo $this->get_field_name('next_in_title'); ?>" type="text" value="<?php echo esc_attr($instance['next_in_title']); ?>" /><br />
 		<br />
 		
 		<input id="<?php echo $this->get_field_id('previous_chap'); ?>" name="<?php echo $this->get_field_name('previous_chap'); ?>" type="checkbox" value="1" <?php checked(true, $instance['previous_chap']); ?> /> <label for="<?php echo $this->get_field_id('previous_chap'); ?>"><strong><?php _e('Previous Chapter','comiceasel'); ?></strong></label><br />
-		<input id="<?php echo $this->get_field_id('previous_chap_title'); ?>" name="<?php echo $this->get_field_name('previous_chap_title'); ?>" type="text" value="<?php echo $instance['previous_chap_title']; ?>" /><br />   
+		<input id="<?php echo $this->get_field_id('previous_chap_title'); ?>" name="<?php echo $this->get_field_name('previous_chap_title'); ?>" type="text" value="<?php echo esc_attr($instance['previous_chap_title']); ?>" /><br />   
 		<br />
 		
 		<input id="<?php echo $this->get_field_id('next_chap'); ?>" name="<?php echo $this->get_field_name('next_chap'); ?>" type="checkbox" value="1" <?php checked(true, $instance['next_chap']); ?> /> <label for="<?php echo $this->get_field_id('next_chap'); ?>"><strong><?php _e('Next Chapter','comiceasel'); ?></strong></label><br />
-		<input id="<?php echo $this->get_field_id('next_chap_title'); ?>" name="<?php echo $this->get_field_name('next_chap_title'); ?>" type="text" value="<?php echo $instance['next_chap_title']; ?>" /><br />
+		<input id="<?php echo $this->get_field_id('next_chap_title'); ?>" name="<?php echo $this->get_field_name('next_chap_title'); ?>" type="text" value="<?php echo esc_attr($instance['next_chap_title']); ?>" /><br />
 		<br />
 		
 		<input id="<?php echo $this->get_field_id('comictitle'); ?>" name="<?php echo $this->get_field_name('comictitle'); ?>" type="checkbox" value="1" <?php checked(true, $instance['comictitle']); ?> /> <label for="<?php echo $this->get_field_id('comictitle'); ?>"><strong><?php _e('Comic Title','comiceasel'); ?></strong></label>
@@ -339,20 +339,20 @@ class ceo_comic_navigation_widget extends WP_Widget {
 		<br />
 		
 		<input id="<?php echo $this->get_field_id('archives'); ?>" name="<?php echo $this->get_field_name('archives'); ?>" type="checkbox" value="1" <?php checked(true, $instance['archives']); ?> /> <label for="<?php echo $this->get_field_id('archives'); ?>"><strong><?php _e('Archives','comiceasel'); ?></strong></label><br />
-		<input id="<?php echo $this->get_field_id('archives_title'); ?>" name="<?php echo $this->get_field_name('archives_title'); ?>" type="text" value="<?php echo $instance['archives_title']; ?>" /><br />   
-		Archive URL: <input class="widefat" id="<?php echo $this->get_field_id('archive_path'); ?>" name="<?php echo $this->get_field_name('archive_path'); ?>" type="text" value="<?php echo $instance['archive_path']; ?>" /><br />
+		<input id="<?php echo $this->get_field_id('archives_title'); ?>" name="<?php echo $this->get_field_name('archives_title'); ?>" type="text" value="<?php echo esc_attr($instance['archives_title']); ?>" /><br />   
+		Archive URL: <input class="widefat" id="<?php echo $this->get_field_id('archive_path'); ?>" name="<?php echo $this->get_field_name('archive_path'); ?>" type="text" value="<?php echo esc_attr($instance['archive_path']); ?>" /><br />
 		<br />
 		
 		<input id="<?php echo $this->get_field_id('comments'); ?>" name="<?php echo $this->get_field_name('comments'); ?>" type="checkbox" value="1" <?php checked(true, $instance['comments']); ?> /> <label for="<?php echo $this->get_field_id('comments'); ?>"><strong><?php _e('Comments','comiceasel'); ?></strong></label><br />
-		<input id="<?php echo $this->get_field_id('comments_title'); ?>" name="<?php echo $this->get_field_name('comments_title'); ?>" type="text" value="<?php echo $instance['comments_title']; ?>" /><br />   
+		<input id="<?php echo $this->get_field_id('comments_title'); ?>" name="<?php echo $this->get_field_name('comments_title'); ?>" type="text" value="<?php echo esc_attr($instance['comments_title']); ?>" /><br />   
 		<br />
 		
 		<input id="<?php echo $this->get_field_id('random'); ?>" name="<?php echo $this->get_field_name('random'); ?>" type="checkbox" value="1" <?php checked(true, $instance['random']); ?> /> <label for="<?php echo $this->get_field_id('random'); ?>"><strong><?php _e('Random','comiceasel'); ?></strong></label><br />
-		<input id="<?php echo $this->get_field_id('random_title'); ?>" name="<?php echo $this->get_field_name('random_title'); ?>" type="text" value="<?php echo $instance['random_title']; ?>" /><br />   
+		<input id="<?php echo $this->get_field_id('random_title'); ?>" name="<?php echo $this->get_field_name('random_title'); ?>" type="text" value="<?php echo esc_attr($instance['random_title']); ?>" /><br />   
 		<br />
 <?php if (ceo_pluginfo('enable_buy_comic')) { ?>
 		<input id="<?php echo $this->get_field_id('buycomic'); ?>" name="<?php echo $this->get_field_name('buycomic'); ?>" type="checkbox" value="1" <?php checked(true, $instance['buycomic']); ?> /> <label for="<?php echo $this->get_field_id('buycomic'); ?>"><strong><?php _e('Buy!','comiceasel'); ?></strong></label><br />
-		<input id="<?php echo $this->get_field_id('buycomic_title'); ?>" name="<?php echo $this->get_field_name('buycomic_title'); ?>" type="text" value="<?php echo $instance['buycomic_title']; ?>" /><br />   
+		<input id="<?php echo $this->get_field_id('buycomic_title'); ?>" name="<?php echo $this->get_field_name('buycomic_title'); ?>" type="text" value="<?php echo esc_attr($instance['buycomic_title']); ?>" /><br />   
 		<br />
 <?php } ?>		
 		<input id="<?php echo $this->get_field_id('imageurl'); ?>" name="<?php echo $this->get_field_name('imageurl'); ?>" type="checkbox" value="1" <?php checked(true, $instance['imageurl']); ?> /> <label for="<?php echo $this->get_field_id('imageurl'); ?>"><strong><?php _e('ImageURL','comiceasel'); ?></strong></label>
