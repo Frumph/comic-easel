@@ -117,8 +117,21 @@ function ceo_paypal_ipn_verify($ipn) {
  * item should have cost from post meta, falling back to the plugin defaults --
  * the same lookup ceo_display_buycomic() uses to build the form.
  */
+/**
+ * Is this cart line an original rather than a print?
+ *
+ * ceo_display_buycomic() builds the item name as "<Original|Print> - <title> - <id>", so
+ * match the leading label rather than searching the whole string: the title sits inside
+ * the same field, and a comic called "The Original Sin" would otherwise make every print
+ * purchase look like an original.
+ */
+function ceo_paypal_ipn_is_original($item_name) {
+	$prefix = strtolower(__('Original','comiceasel')).' - ';
+	return (strpos(strtolower((string)$item_name), $prefix) === 0);
+}
+
 function ceo_paypal_ipn_expected_amount($post_id, $item_name) {
-	if (strstr(strtolower($item_name), 'original')) {
+	if (ceo_paypal_ipn_is_original($item_name)) {
 		$amount = get_post_meta($post_id, 'buy_print_orig_amount', true);
 		if ($amount === '' || $amount === false) $amount = ceo_pluginfo('buy_comic_orig_amount');
 	} else {
@@ -225,7 +238,7 @@ function ceo_paypal_ipn() {
 		$count = 1;
 		foreach ($item_number as $item_sub_number) {
 			$post_id = (int)$item_number[$count];
-			if ($post_id && strstr(strtolower($item_name[$count]), 'original')) {
+			if ($post_id && ceo_paypal_ipn_is_original($item_name[$count])) {
 				update_post_meta($post_id, 'buyorig-status', __('Sold','comiceasel'));
 				$email_message .= 'Comic ID #'.$post_id." Set to SOLD\r\n\r\n";
 				// Flush the cache on the item in question.
