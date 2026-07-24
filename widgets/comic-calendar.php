@@ -268,9 +268,9 @@ class ceo_calendar_widget extends WP_Widget {
 				<?php if (!empty($thumbnail)) { ?>
 					<div class="wp-calendar-download">
 					<?php if (!empty($link)) { ?>
-						<a href="<?php echo esc_attr($link); ?>"><img src="<?php echo esc_attr($thumbnail); ?>" class="wp-calendar-thumb" alt="" /></a>
+						<a href="<?php echo esc_url($link); ?>"><img src="<?php echo esc_url($thumbnail); ?>" class="wp-calendar-thumb" alt="" /></a>
 					<?php } else { ?>
-						<img src="<?php echo esc_attr($thumbnail); ?>" class="wp-calendar-thumb" alt="" />
+						<img src="<?php echo esc_url($thumbnail); ?>" class="wp-calendar-thumb" alt="" />
 					<?php } ?>
 						<div class="wp-calendar-download-links">
 							<?php if (!empty($small) || !empty($medium) || !empty($large)) { ?>
@@ -282,7 +282,7 @@ class ceo_calendar_widget extends WP_Widget {
 								  	'large' => array(__('Download Large', 'comiceasel'), __('L', 'comiceasel'))
 								 	) as $field => $text) {
 								 		if (!empty(${$field})) {
-								 			?><a href="<?php echo esc_attr(${$field}); ?>" title="<?php echo esc_attr($text[0]); ?>"><?php echo esc_html($text[1]); ?></a><?php
+								 			?><a href="<?php echo esc_url(${$field}); ?>" title="<?php echo esc_attr($text[0]); ?>"><?php echo esc_html($text[1]); ?></a><?php
 								 		}
 								 	}
 							} ?>
