@@ -192,7 +192,7 @@ function ceo_archive_list_single($chapter = 0, $order = 'ASC', $thumbnail = 0) {
 	foreach ($qposts as $qpost) {
 		$archive_count++;
 		if ($css_alt) { $alternate = ' comic-list-alt'; $css_alt = false; } else { $alternate = ''; $css_alt=true; }		
-		$output .= '<div class="comic-list comic-list-'.$archive_count.$alternate.'"><span class="comic-archive-date">'.get_the_time('M d, Y', $qpost->ID).'</span><span class="comic-archive-title"><a href="'.get_permalink($qpost->ID).'" rel="bookmark" title="'.__('Permanent Link:','comiceasel').' '.$qpost->post_title.'">'.$qpost->post_title.'</a></span></div>';
+		$output .= '<div class="comic-list comic-list-'.$archive_count.$alternate.'"><span class="comic-archive-date">'.get_the_time('M d, Y', $qpost->ID).'</span><span class="comic-archive-title"><a href="'.get_permalink($qpost->ID).'" rel="bookmark" title="'.esc_attr(__('Permanent Link:','comiceasel').' '.$qpost->post_title).'">'.esc_html($qpost->post_title).'</a></span></div>';
 	}
 	$output .= '</div>';
 	$output .= '<div style="clear:both;"></div></div>';
@@ -240,7 +240,7 @@ function ceo_archive_list_all($order = 'ASC', $thumbnail = 0) {
 			foreach ($qposts as $qpost) {
 				$archive_count++;
 				if ($css_alt) { $alternate = ' comic-list-alt'; $css_alt = false; } else { $alternate = ''; $css_alt=true; }
-				$output .= '<div class="comic-list comic-list-'.$archive_count.$alternate.'"><span class="comic-archive-date">'.get_the_time('M d, Y', $qpost->ID).'</span><span class="comic-archive-title"><a href="'.get_permalink($qpost->ID).'" rel="bookmark" title="'.__('Permanent Link:','comiceasel').' '.$qpost->post_title.'">'.$qpost->post_title.'</a></span></div>'."\r\n";
+				$output .= '<div class="comic-list comic-list-'.$archive_count.$alternate.'"><span class="comic-archive-date">'.get_the_time('M d, Y', $qpost->ID).'</span><span class="comic-archive-title"><a href="'.get_permalink($qpost->ID).'" rel="bookmark" title="'.esc_attr(__('Permanent Link:','comiceasel').' '.$qpost->post_title).'">'.esc_html($qpost->post_title).'</a></span></div>'."\r\n";
 			}
 			$output .= '</div>'."\r\n";
 			$output .= '<div style="clear:both;"></div></div>'."\r\n";
@@ -291,7 +291,7 @@ function ceo_archive_list_series($thumbnail = 0) {
 					foreach ($qcposts as $qcpost) {
 						$archive_count++;
 						if ($css_alt) { $alternate = ' comic-list-alt'; $css_alt = false; } else { $alternate = ''; $css_alt=true; }		
-						$output .= '<div class="comic-list comic-list-'.$archive_count.$alternate.'"><span class="comic-archive-date">'.get_the_time('M d, Y', $qcpost->ID).'</span><span class="comic-archive-title"><a href="'.get_permalink($qcpost->ID).'" rel="bookmark" title="'.__('Permanent Link:','comiceasel').' '.$qcpost->post_title.'">'.$qcpost->post_title.'</a></span></div>';
+						$output .= '<div class="comic-list comic-list-'.$archive_count.$alternate.'"><span class="comic-archive-date">'.get_the_time('M d, Y', $qcpost->ID).'</span><span class="comic-archive-title"><a href="'.get_permalink($qcpost->ID).'" rel="bookmark" title="'.esc_attr(__('Permanent Link:','comiceasel').' '.$qcpost->post_title).'">'.esc_html($qcpost->post_title).'</a></span></div>';
 					}
 					$output .= '</div>';
 					$output .= '<div style="clear:both;"></div></div>';	
