@@ -410,7 +410,7 @@ function ceo_archive_list_by_year($thumbnail = false, $order = 'ASC', $chapter =
 	}
 	foreach ( $years as $year ) {
 		if ($year != (0) ) {
-			$output .= '<a href="'.add_query_arg('archive_year', $year).'"><strong>'.$year.'</strong></a> | ';
+			$output .= '<a href="'.esc_url(add_query_arg('archive_year', $year)).'"><strong>'.esc_html($year).'</strong></a> | ';
 		} 
 	}
 	$output .= '</div>';
