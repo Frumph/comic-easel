@@ -27,14 +27,14 @@ function ceo_breakdown_comic_filename($filename, $import_date_format, $import_fi
 	
 	foreach (array('[0-9]{4}', '[0-9]{2}') as $year_pattern) {
 		$new_pattern = ceo_transform_date_string($import_date_format, array("Y" => $year_pattern, "m" => '[0-9]{2}', "d" => '[0-9]{2}'));
-		if (@preg_match("#^(${new_pattern})(.*)\.[^\.]+$#", $filename, $matches) > 0) {
+		if (@preg_match("#^({$new_pattern})(.*)\.[^\.]+$#", $filename, $matches) > 0) {
 			list($all, $date, $title) = $matches;
 			
 			if (strtotime($date) === false) { return false; }
 			$converted_title = ucwords(trim(preg_replace('/[\-\_]/', ' ', $title)));
 			$date = date($import_date_format, strtotime($date));
 			
-			if (is_numeric($converted_title)) {	$converted_title = "Title: ${converted_title}"; }
+			if (is_numeric($converted_title)) {	$converted_title = "Title: {$converted_title}"; }
 			return compact('filename', 'date', 'title', 'converted_title');
 		}
 	}

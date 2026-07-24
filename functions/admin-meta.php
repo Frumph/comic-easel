@@ -83,7 +83,7 @@ function ceo_chapters_sortable_columns( $columns ) {
 	return $columns;
 }
 
-function ceo_chapters_add_column_value($empty = '', $custom_column, $term_id) {
+function ceo_chapters_add_column_value($empty, $custom_column, $term_id) {
 	switch ($custom_column) {
 		case 'id':
 			echo $term_id;
