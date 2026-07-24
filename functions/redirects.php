@@ -188,6 +188,13 @@ function ceo_paypal_ipn() {
 	$address_country = isset($ipn['address_country']) ? $ipn['address_country'] : '';
 	$memo = isset($ipn['memo']) ? $ipn['memo'] : '';
 
+	// PayPal retries notifications until the endpoint acknowledges them, and a
+	// captured notification can be replayed by hand, so act on each transaction
+	// exactly once.
+	$processed_txn = get_option('ceo_paypal_processed_txn', array());
+	if (!is_array($processed_txn)) $processed_txn = array();
+	if ($txn_id !== '' && in_array($txn_id, $processed_txn, true)) exit;
+
 	$email_message = '';
 	$comiceasel_config = get_option('comiceasel-config');
 
@@ -253,6 +260,12 @@ function ceo_paypal_ipn() {
 	/*		foreach ($_POST as $post_info) {
 				$email_message .= $post_info;
 			} */
+	if ($txn_id !== '') {
+		$processed_txn[] = $txn_id;
+		// Keep the ledger bounded; PayPal only retries for a few days.
+		if (count($processed_txn) > 500) $processed_txn = array_slice($processed_txn, -500);
+		update_option('ceo_paypal_processed_txn', $processed_txn, false);
+	}
 	update_option('ceo_paypal_receiver', $email_message);
 	if (isset($comiceasel_config['buy_comic_email']))
 		wp_mail($comiceasel_config['buy_comic_email'], __('Comic Easel: Notification of Transaction - Buy Comic','comiceasel'), $email_message);
