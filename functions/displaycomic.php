@@ -162,11 +162,7 @@ function ceo_display_comic($size = 'full') {
 		$ref_only_msg = '';
 		$refer_only_msg = get_post_meta( $post->ID, 'refer-only-msg', 'true') ? get_post_meta( $post->ID, 'refer-only-msg', 'true') : __('Read post message below to find out how to view this.', 'comiceasel');
 		if (ceo_get_referer() !== $refer_only) {
-				// Same two storage shapes as the other comic meta: encoded when written
-				// through the meta box, raw when written through Custom Fields. Decode to
-				// normalise, then escape once with a double-encoding escaper so legacy
-				// values render exactly as before.
-				$refer_only_msg = htmlspecialchars(html_entity_decode((string)$refer_only_msg, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401), ENT_QUOTES, get_option('blog_charset'));
+				$refer_only_msg = ceo_escape_stored_text($refer_only_msg);
 				return apply_filters('ceo_refer_only_msg', $refer_only_msg);
 		}
 	}

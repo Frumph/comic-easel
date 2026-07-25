@@ -361,11 +361,7 @@ function ceo_the_transcript($displaymode = 'raw') {
 	// when it was written through WordPress's Custom Fields panel, which does
 	// not. Decoding first normalises both, so the escape below applies exactly
 	// once: legacy values render as they always did, raw markup stops executing.
-	// htmlspecialchars() rather than esc_html(), because esc_html() declines to
-	// re-encode text that already looks like an entity. A transcript containing the
-	// literal characters &lt;b&gt; would lose a level of encoding on every render and
-	// eventually display as <b>.
-	$transcript = htmlspecialchars(html_entity_decode((string)$transcript, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401), ENT_QUOTES, get_option('blog_charset'));
+	$transcript = ceo_escape_stored_text($transcript);
 	if (!empty($transcript)) {			
 		switch ($displaymode) {
 			case "raw":
