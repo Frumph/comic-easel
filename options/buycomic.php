@@ -31,7 +31,7 @@
 				<tr>
 					<th scope="row" colspan="2">
 						<label for="buy_comic_email"><?php _e('Paypal email address','comiceasel'); ?></label>
-						<input type="text" size="25" name="buy_comic_email" id="buy_comic_email" value="<?php echo $ceo_options['buy_comic_email']; ?>" />
+						<input type="text" size="25" name="buy_comic_email" id="buy_comic_email" value="<?php echo esc_attr($ceo_options['buy_comic_email']); ?>" />
 					</th>
 					<td>
 						<span style="color: #d54e21;"><?php _e('* This must be correct, you do not want other people getting your money.','comiceasel'); ?></span><br />
@@ -41,7 +41,7 @@
 				<tr class="alternate">
 					<th scope="row"colspan="2">
 						<label for="buy_comic_url"><?php _e('FULL URL of where the buy comic shortcode is. (required)','comiceasel'); ?></label>
-						<input type="text" size="25" name="buy_comic_url" id="buy_comic_url" value="<?php echo $ceo_options['buy_comic_url']; ?>" />
+						<input type="text" size="25" name="buy_comic_url" id="buy_comic_url" value="<?php echo esc_attr($ceo_options['buy_comic_url']); ?>" />
 					</th>
 					<td>
 						<span style="color: #d54e21;"><?php _e('* This must be correct, the form needs some place to go.','comiceasel'); ?></span><br />
@@ -65,7 +65,7 @@
 				<tr class="alternate">
 					<th scope="row"><label for="buy_comic_print_amount"><?php _e('Print Cost','comiceasel'); ?></label></th>
 					<td>
-						<input type="text" size="7" name="buy_comic_print_amount" id="buy_comic_print_amount" value="<?php echo $ceo_options['buy_comic_print_amount']; ?>" />
+						<input type="text" size="7" name="buy_comic_print_amount" id="buy_comic_print_amount" value="<?php echo esc_attr($ceo_options['buy_comic_print_amount']); ?>" />
 					</td>
 					<td>
 						<?php _e('How much does a print cost?','comiceasel'); ?>
@@ -83,7 +83,7 @@
 				<tr class="alternate">
 					<th scope="row"><label for="buy_comic_orig_amount"><?php _e('Original Cost','comiceasel'); ?></label></th>
 					<td>
-						<input type="text" size="7" name="buy_comic_orig_amount" id="buy_comic_orig_amount" value="<?php echo $ceo_options['buy_comic_orig_amount']; ?>" />
+						<input type="text" size="7" name="buy_comic_orig_amount" id="buy_comic_orig_amount" value="<?php echo esc_attr($ceo_options['buy_comic_orig_amount']); ?>" />
 					</td>
 					<td>
 						<?php _e('How much are you selling the Original for? (Default price, can set individual prices in each comic post)','comiceasel'); ?>

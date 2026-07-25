@@ -62,7 +62,8 @@ function ceo_cast_display($character, $stats, $image) {
 // , $limit, $stats, $image, $order
 function ceo_get_character_list($chapter) {
 	global $wpdb;
-	$sql_string3 = "SELECT DISTINCT terms2.name as tag
+	// $chapter arrives from the [cast-page] shortcode attribute, so it is untrusted.
+	$sql_string3 = $wpdb->prepare("SELECT DISTINCT terms2.name as tag
 			FROM
 			wp_posts as p1
 			LEFT JOIN wp_term_relationships as r1 ON p1.ID = r1.object_ID
@@ -74,10 +75,10 @@ function ceo_get_character_list($chapter) {
 			LEFT JOIN wp_term_taxonomy as t2 ON r2.term_taxonomy_id = t2.term_taxonomy_id
 			LEFT JOIN wp_terms as terms2 ON t2.term_id = terms2.term_id
 			WHERE
-			t1.taxonomy = 'chapters' AND p1.post_status = 'publish' AND terms1.term_id = '".$chapter."' AND
+			t1.taxonomy = 'chapters' AND p1.post_status = 'publish' AND terms1.term_id = %d AND
 			t2.taxonomy = 'characters' AND p2.post_status = 'publish'
-			AND p1.ID = p2.ID";
-	
+			AND p1.ID = p2.ID", (int)$chapter);
+
 	$character_list = $wpdb->get_results($sql_string3);
 	if (!empty($character_list)) return $character_list;
 	return false;
@@ -191,7 +192,7 @@ function ceo_archive_list_single($chapter = 0, $order = 'ASC', $thumbnail = 0) {
 	foreach ($qposts as $qpost) {
 		$archive_count++;
 		if ($css_alt) { $alternate = ' comic-list-alt'; $css_alt = false; } else { $alternate = ''; $css_alt=true; }		
-		$output .= '<div class="comic-list comic-list-'.$archive_count.$alternate.'"><span class="comic-archive-date">'.get_the_time('M d, Y', $qpost->ID).'</span><span class="comic-archive-title"><a href="'.get_permalink($qpost->ID).'" rel="bookmark" title="'.__('Permanent Link:','comiceasel').' '.$qpost->post_title.'">'.$qpost->post_title.'</a></span></div>';
+		$output .= '<div class="comic-list comic-list-'.$archive_count.$alternate.'"><span class="comic-archive-date">'.get_the_time('M d, Y', $qpost->ID).'</span><span class="comic-archive-title"><a href="'.get_permalink($qpost->ID).'" rel="bookmark" title="'.esc_attr(__('Permanent Link:','comiceasel').' '.$qpost->post_title).'">'.esc_html($qpost->post_title).'</a></span></div>';
 	}
 	$output .= '</div>';
 	$output .= '<div style="clear:both;"></div></div>';
@@ -239,7 +240,7 @@ function ceo_archive_list_all($order = 'ASC', $thumbnail = 0) {
 			foreach ($qposts as $qpost) {
 				$archive_count++;
 				if ($css_alt) { $alternate = ' comic-list-alt'; $css_alt = false; } else { $alternate = ''; $css_alt=true; }
-				$output .= '<div class="comic-list comic-list-'.$archive_count.$alternate.'"><span class="comic-archive-date">'.get_the_time('M d, Y', $qpost->ID).'</span><span class="comic-archive-title"><a href="'.get_permalink($qpost->ID).'" rel="bookmark" title="'.__('Permanent Link:','comiceasel').' '.$qpost->post_title.'">'.$qpost->post_title.'</a></span></div>'."\r\n";
+				$output .= '<div class="comic-list comic-list-'.$archive_count.$alternate.'"><span class="comic-archive-date">'.get_the_time('M d, Y', $qpost->ID).'</span><span class="comic-archive-title"><a href="'.get_permalink($qpost->ID).'" rel="bookmark" title="'.esc_attr(__('Permanent Link:','comiceasel').' '.$qpost->post_title).'">'.esc_html($qpost->post_title).'</a></span></div>'."\r\n";
 			}
 			$output .= '</div>'."\r\n";
 			$output .= '<div style="clear:both;"></div></div>'."\r\n";
@@ -290,7 +291,7 @@ function ceo_archive_list_series($thumbnail = 0) {
 					foreach ($qcposts as $qcpost) {
 						$archive_count++;
 						if ($css_alt) { $alternate = ' comic-list-alt'; $css_alt = false; } else { $alternate = ''; $css_alt=true; }		
-						$output .= '<div class="comic-list comic-list-'.$archive_count.$alternate.'"><span class="comic-archive-date">'.get_the_time('M d, Y', $qcpost->ID).'</span><span class="comic-archive-title"><a href="'.get_permalink($qcpost->ID).'" rel="bookmark" title="'.__('Permanent Link:','comiceasel').' '.$qcpost->post_title.'">'.$qcpost->post_title.'</a></span></div>';
+						$output .= '<div class="comic-list comic-list-'.$archive_count.$alternate.'"><span class="comic-archive-date">'.get_the_time('M d, Y', $qcpost->ID).'</span><span class="comic-archive-title"><a href="'.get_permalink($qcpost->ID).'" rel="bookmark" title="'.esc_attr(__('Permanent Link:','comiceasel').' '.$qcpost->post_title).'">'.esc_html($qcpost->post_title).'</a></span></div>';
 					}
 					$output .= '</div>';
 					$output .= '<div style="clear:both;"></div></div>';	
@@ -388,7 +389,10 @@ function ceo_the_transcript($displaymode = 'raw') {
 
 function ceo_archive_list_by_year($thumbnail = false, $order = 'ASC', $chapter = 0) {
 	global $wpdb;
-	if (isset($_GET['archive_year'])) { 
+	// $order and $chapter arrive from shortcode attributes, so they are untrusted.
+	$chapter = (int)$chapter;
+	$order = (strtoupper($order) == 'DESC') ? 'DESC' : 'ASC';
+	if (isset($_GET['archive_year'])) {
 		$archive_year = (int)esc_attr($_GET['archive_year']); 
 	} else { 
 		$latest_comic = ceo_get_last_comic(false);
@@ -400,13 +404,13 @@ function ceo_archive_list_by_year($thumbnail = false, $order = 'ASC', $chapter =
 	$output .= '<div class="archive-yearlist">| ';
 	
 	if ($chapter) {
-		$years = $wpdb->get_col("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) WHERE $wpdb->posts.post_status = 'publish' AND $wpdb->term_taxonomy.taxonomy = 'chapters' AND $wpdb->term_taxonomy.term_id = ".$chapter." ORDER BY post_date ".$order);
+		$years = $wpdb->get_col($wpdb->prepare("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) WHERE $wpdb->posts.post_status = 'publish' AND $wpdb->term_taxonomy.taxonomy = 'chapters' AND $wpdb->term_taxonomy.term_id = %d ORDER BY post_date ".$order, $chapter));
 	} else {
 		$years = $wpdb->get_col("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type='comic' ORDER BY post_date ASC");
 	}
 	foreach ( $years as $year ) {
 		if ($year != (0) ) {
-			$output .= '<a href="'.add_query_arg('archive_year', $year).'"><strong>'.$year.'</strong></a> | ';
+			$output .= '<a href="'.esc_url(add_query_arg('archive_year', $year)).'"><strong>'.esc_html($year).'</strong></a> | ';
 		} 
 	}
 	$output .= '</div>';
@@ -438,12 +442,15 @@ function ceo_archive_list_by_year($thumbnail = false, $order = 'ASC', $chapter =
 
 function ceo_archive_list_by_all_years($thumbnail = false, $order = 'ASC', $chapter = 0) {
 	global $wpdb;
+	// $order and $chapter arrive from shortcode attributes, so they are untrusted.
+	$chapter = (int)$chapter;
+	$order = (strtoupper($order) == 'DESC') ? 'DESC' : 'ASC';
 	$latest_comic = ceo_get_last_comic(false);
 	$archive_year_latest = get_post_time('Y', false, $latest_comic, true);
 	$first_comic = ceo_get_first_comic(false);
 	$archive_year_first = get_post_time('Y', false, $first_comic, true);
 	if ($chapter) {
-		$years = $wpdb->get_col("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) WHERE $wpdb->posts.post_status = 'publish' AND $wpdb->term_taxonomy.taxonomy = 'chapters' AND $wpdb->term_taxonomy.term_id = ".$chapter." ORDER BY post_date ".$order);
+		$years = $wpdb->get_col($wpdb->prepare("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) WHERE $wpdb->posts.post_status = 'publish' AND $wpdb->term_taxonomy.taxonomy = 'chapters' AND $wpdb->term_taxonomy.term_id = %d ORDER BY post_date ".$order, $chapter));
 	} else {
 		$years = $wpdb->get_col("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type='comic' ORDER BY post_date ".$order);
 	}
@@ -516,14 +523,17 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 		
 		ceo_protect();
 		$post = get_post($comicnum); // Get the post
-		if (!is_wp_error($post) && !empty($post)) { // error check make sure it got a post
+		// get_post() will happily return drafts, pending/private/trashed posts,
+		// revisions and other post types, so require that this really is public
+		// comic content before disclosing anything about it.
+		if (!is_wp_error($post) && !empty($post) && $post->post_type === 'comic' && $post->post_status === 'publish' && !post_password_required($post)) {
 			$buy_output .= __('Comic ID','comiceasel').' #'.$comicnum."<br />\r\n";
 			$buy_output .= __('Title:','comiceasel').'&nbsp;'.get_the_title($post)."<br />\r\n";
 			if (ceo_pluginfo('buy_comic_sell_print')) {
-				$buy_output .= __('Print Status:','comiceasel').'&nbsp;'.$buyprint_status."<br />\r\n";
+				$buy_output .= __('Print Status:','comiceasel').'&nbsp;'.esc_html($buyprint_status)."<br />\r\n";
 			}
 			if (ceo_pluginfo('buy_comic_sell_original')) {
-				$buy_output .= __('Original Status:','comiceasel').'&nbsp;'.$buyorig_status."<br />\r\n";
+				$buy_output .= __('Original Status:','comiceasel').'&nbsp;'.esc_html($buyorig_status)."<br />\r\n";
 			}
 			$buy_output .= "<br />\r\n";
 			$buy_output .= '<table class="buytable" style="width:100%;">';
@@ -533,21 +543,20 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 				$buy_output .= '<td align="left" valign="top" style="width:50%;">';
 				$buy_output .= '<div class="buycomic-us-form">';
 				$buy_output .= '<h4 class="buycomic-title">Print</h4>';
-				$buy_output .= '$'.$buy_print_amount.'<br />';
+				$buy_output .= '$'.esc_html($buy_print_amount).'<br />';
 				if ($buyprint_status == __('Available','comiceasel')) {
 					$buy_output .= '<form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">';
 					$buy_output .= '<input type="hidden" name="add" value="1" />';
 					$buy_output .= '<input type="hidden" name="cmd" value="_cart" />';
-					$buy_output .= '<input type="hidden" name="notify_url" value="'.home_url().'/?ceopaypalipn">';
-					$buy_output .= '<input type="hidden" name="item_name" value="'.__('Print','comiceasel').' - '.get_the_title($post->ID).' - '.$post->ID.'" />';
+					$buy_output .= '<input type="hidden" name="notify_url" value="'.esc_url(home_url('/?ceopaypalipn')).'">';
+					$buy_output .= '<input type="hidden" name="item_name" value="'.esc_attr(__('Print','comiceasel').' - '.get_the_title($post->ID).' - '.$post->ID).'" />';
 					// Say a thank you and that transaction went through with an action
-					$url = ceo_pluginfo('buy_comic_url');
-					$url_and = (strpos($url,'?')) ? $url.'&amp;' : $url.'?';
-					$buy_output .= '<input type="hidden" name="return" value="'.$url_and.'action=thankyou&amp;id='.$comicnum.'" />';
-					$buy_output .= '<input type="hidden" name="amount" value="'.$buy_print_amount.'" />';
-					$buy_output .= '<input type="hidden" name="item_number" value="'.$comicnum.'" />';
-					$buy_output .= '<input type="hidden" name="business" value="'.ceo_pluginfo('buy_comic_email').'" />';
-					$buy_output .= '<input type="image" src="'.ceo_pluginfo('plugin_url').'images/buynow_paypal.png" name="submit32" alt="'.__('Make payments with PayPal - it is fast, free and secure!','comiceasel').'" />';
+					$return_url = add_query_arg(array('action' => 'thankyou', 'id' => $comicnum), ceo_pluginfo('buy_comic_url'));
+					$buy_output .= '<input type="hidden" name="return" value="'.esc_url($return_url).'" />';
+					$buy_output .= '<input type="hidden" name="amount" value="'.esc_attr($buy_print_amount).'" />';
+					$buy_output .= '<input type="hidden" name="item_number" value="'.esc_attr($comicnum).'" />';
+					$buy_output .= '<input type="hidden" name="business" value="'.esc_attr(ceo_pluginfo('buy_comic_email')).'" />';
+					$buy_output .= '<input type="image" src="'.esc_url(ceo_pluginfo('plugin_url').'images/buynow_paypal.png').'" name="submit32" alt="'.esc_attr(__('Make payments with PayPal - it is fast, free and secure!','comiceasel')).'" />';
 					$buy_output .= '</form>';
 				}
 				if ($buyprint_status == __('Sold','comiceasel')) {
@@ -565,21 +574,20 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 				$buy_output .= '<td align="left" valign="top" style="width:50%;">';
 				$buy_output .= '<div class="buycomic-us-form" style="width:100%;">';
 				$buy_output .= '<h4 class="buycomic-title">Original</h4>';
-				$buy_output .= '$'.$buy_print_orig_amount.'<br />';
+				$buy_output .= '$'.esc_html($buy_print_orig_amount).'<br />';
 				if ($buyorig_status == __('Available','comiceasel')) {
 					$buy_output .= '<form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">';
 					$buy_output .= '<input type="hidden" name="add" value="1" />';
 					$buy_output .= '<input type="hidden" name="cmd" value="_cart" />';
-					$buy_output .= '<input type="hidden" name="notify_url" value="'.home_url().'/?ceopaypalipn">';
-					$buy_output .= '<input type="hidden" name="item_name" value="'.__('Original','comiceasel').' - '.get_the_title($post->ID).' - '.$post->ID.'" />';
+					$buy_output .= '<input type="hidden" name="notify_url" value="'.esc_url(home_url('/?ceopaypalipn')).'">';
+					$buy_output .= '<input type="hidden" name="item_name" value="'.esc_attr(__('Original','comiceasel').' - '.get_the_title($post->ID).' - '.$post->ID).'" />';
 					// Say a thank you and that transaction went through with an action
-					$url = ceo_pluginfo('buy_comic_url');
-					$url_and = (strpos($url,'?')) ? $url.'&amp;' : $url.'?';
-					$buy_output .= '<input type="hidden" name="return" value="'.$url_and.'action=thankyou&amp;id='.$comicnum.'" />';
-					$buy_output .= '<input type="hidden" name="amount" value="'.$buy_print_orig_amount.'" />';
-					$buy_output .= '<input type="hidden" name="item_number" value="'.$comicnum.'" />';
-					$buy_output .= '<input type="hidden" name="business" value="'.ceo_pluginfo('buy_comic_email').'" />';
-					$buy_output .= '<input type="image" src="'.ceo_pluginfo('plugin_url').'images/buynow_paypal.png" name="submit32" alt="'.__('Make payments with PayPal - it is fast, free and secure!','comiceasel').'" />';
+					$return_url = add_query_arg(array('action' => 'thankyou', 'id' => $comicnum), ceo_pluginfo('buy_comic_url'));
+					$buy_output .= '<input type="hidden" name="return" value="'.esc_url($return_url).'" />';
+					$buy_output .= '<input type="hidden" name="amount" value="'.esc_attr($buy_print_orig_amount).'" />';
+					$buy_output .= '<input type="hidden" name="item_number" value="'.esc_attr($comicnum).'" />';
+					$buy_output .= '<input type="hidden" name="business" value="'.esc_attr(ceo_pluginfo('buy_comic_email')).'" />';
+					$buy_output .= '<input type="image" src="'.esc_url(ceo_pluginfo('plugin_url').'images/buynow_paypal.png').'" name="submit32" alt="'.esc_attr(__('Make payments with PayPal - it is fast, free and secure!','comiceasel')).'" />';
 					$buy_output .= '</form>';
 				}
 				if ($buyorig_status == __('Sold','comiceasel')) {

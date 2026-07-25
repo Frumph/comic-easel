@@ -131,7 +131,7 @@ wp_dropdown_categories($args);
 ?>					
 					</td>
 					<td>
-						<?php echo $ceo_options['chapter_on_home']; ?>
+						<?php echo esc_html($ceo_options['chapter_on_home']); ?>
 						<?php _e('Select which chapter or (all) to display on the home page if you have different stories/chapters.','comiceasel'); ?>
 					</td>
 				</tr>
@@ -161,7 +161,7 @@ wp_dropdown_categories($args);
 $thumbnail_sizes = get_intermediate_image_sizes();
 if (!in_array($ceo_options['thumbnail_size_for_rss'], $thumbnail_sizes) && ($ceo_options['thumbnail_size_for_rss'] != 'none') && ($ceo_options['thumbnail_size_for_rss'] != 'full')) $ceo_options['thumbnail_size_for_rss'] = 'full';
 foreach ($thumbnail_sizes as $size) { ?>
-							<option class="level-0" value="<?php echo $size; ?>" <?php selected( $ceo_options['thumbnail_size_for_rss'], $size); ?>><?php echo ucfirst($size); ?></option>
+							<option class="level-0" value="<?php echo esc_attr($size); ?>" <?php selected( $ceo_options['thumbnail_size_for_rss'], $size); ?>><?php echo esc_html(ucfirst($size)); ?></option>
 <?php } ?>
 							<option class="level-0" value="full" <?php selected( $ceo_options['thumbnail_size_for_rss'],'full'); ?>><?php _e('Full', 'comiceasel'); ?></option>
 						</select>
@@ -178,7 +178,7 @@ foreach ($thumbnail_sizes as $size) { ?>
 <?php 
 if (!in_array($ceo_options['thumbnail_size_for_direct_rss'], $thumbnail_sizes) && ($ceo_options['thumbnail_size_for_direct_rss'] != 'none') && ($ceo_options['thumbnail_size_for_direct_rss'] != 'full')) $ceo_options['thumbnail_size_for_direct_rss'] = 'full';
 foreach ($thumbnail_sizes as $size) { ?>
-							<option class="level-0" value="<?php echo $size; ?>" <?php selected( $ceo_options['thumbnail_size_for_direct_rss'], $size); ?>><?php echo ucfirst($size); ?></option>
+							<option class="level-0" value="<?php echo esc_attr($size); ?>" <?php selected( $ceo_options['thumbnail_size_for_direct_rss'], $size); ?>><?php echo esc_html(ucfirst($size)); ?></option>
 <?php } ?>
 							<option class="level-0" value="full" <?php selected( $ceo_options['thumbnail_size_for_direct_rss'],'full'); ?>><?php _e('Full', 'comiceasel'); ?></option>
 						</select>
@@ -195,7 +195,7 @@ foreach ($thumbnail_sizes as $size) { ?>
 <?php 
 if (!in_array($ceo_options['thumbnail_size_for_archive'], $thumbnail_sizes) && ($ceo_options['thumbnail_size_for_archive'] != 'none') && ($ceo_options['thumbnail_size_for_archive'] != 'full')) $ceo_options['thumbnail_size_for_archive'] = 'large';
 foreach ($thumbnail_sizes as $size) { ?>
-							<option class="level-0" value="<?php echo $size; ?>" <?php selected( $ceo_options['thumbnail_size_for_archive'], $size); ?>><?php echo ucfirst($size); ?></option>
+							<option class="level-0" value="<?php echo esc_attr($size); ?>" <?php selected( $ceo_options['thumbnail_size_for_archive'], $size); ?>><?php echo esc_html(ucfirst($size)); ?></option>
 <?php } ?>
 							<option class="level-0" value="full" <?php selected( $ceo_options['thumbnail_size_for_archive'],'full'); ?>><?php _e('Full', 'comiceasel'); ?></option>							
 						</select>
@@ -212,7 +212,7 @@ foreach ($thumbnail_sizes as $size) { ?>
 <?php 
 if (!in_array($ceo_options['thumbnail_size_for_facebook'], $thumbnail_sizes) && ($ceo_options['thumbnail_size_for_facebook'] != 'none') && ($ceo_options['thumbnail_size_for_facebook'] != 'full')) $ceo_options['thumbnail_size_for_facebook'] = 'large';
 foreach ($thumbnail_sizes as $size) { ?>
-							<option class="level-0" value="<?php echo $size; ?>" <?php selected( $ceo_options['thumbnail_size_for_facebook'], $size); ?>><?php echo ucfirst($size); ?></option>
+							<option class="level-0" value="<?php echo esc_attr($size); ?>" <?php selected( $ceo_options['thumbnail_size_for_facebook'], $size); ?>><?php echo esc_html(ucfirst($size)); ?></option>
 <?php } ?>
 							<option class="level-0" value="full" <?php selected( $ceo_options['thumbnail_size_for_facebook'],'full'); ?>><?php _e('Full', 'comiceasel'); ?></option>							
 						</select>

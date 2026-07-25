@@ -26,15 +26,15 @@ function ceo_check_directory($dirpath) {
 	<th colspan="3"><?php _e('System Info','comiceasel'); ?></th>
 	</tr>
 </thead>
-<tr><td>error</td><td><?php echo ceo_pluginfo('error'); ?></td></tr>
-<tr><td>base_url</td><td><?php echo ceo_pluginfo('base_url'); ?></td></tr>
-<tr><td>base_path</td><td><?php echo ceo_pluginfo('base_path'); ?><br /><?php echo ceo_check_directory('base_path'); ?></td></tr>
-<tr><td>theme_url</td><td><?php echo ceo_pluginfo('theme_url'); ?></td></tr>
-<tr><td>theme_path</td><td><?php echo ceo_pluginfo('theme_path'); ?></td></tr>
-<tr><td>style_url</td><td><?php echo ceo_pluginfo('style_url'); ?></td></tr>
-<tr><td>style_path</td><td><?php echo ceo_pluginfo('style_path'); ?></td></tr>
-<tr><td>plugin_url</td><td><?php echo ceo_pluginfo('plugin_url'); ?></td></tr>
-<tr><td>plugin_path</td><td><?php echo ceo_pluginfo('plugin_path'); ?></td></tr>
+<tr><td>error</td><td><?php echo esc_html(ceo_pluginfo('error')); ?></td></tr>
+<tr><td>base_url</td><td><?php echo esc_html(ceo_pluginfo('base_url')); ?></td></tr>
+<tr><td>base_path</td><td><?php echo esc_html(ceo_pluginfo('base_path')); ?><br /><?php echo ceo_check_directory('base_path'); ?></td></tr>
+<tr><td>theme_url</td><td><?php echo esc_html(ceo_pluginfo('theme_url')); ?></td></tr>
+<tr><td>theme_path</td><td><?php echo esc_html(ceo_pluginfo('theme_path')); ?></td></tr>
+<tr><td>style_url</td><td><?php echo esc_html(ceo_pluginfo('style_url')); ?></td></tr>
+<tr><td>style_path</td><td><?php echo esc_html(ceo_pluginfo('style_path')); ?></td></tr>
+<tr><td>plugin_url</td><td><?php echo esc_html(ceo_pluginfo('plugin_url')); ?></td></tr>
+<tr><td>plugin_path</td><td><?php echo esc_html(ceo_pluginfo('plugin_path')); ?></td></tr>
 </table>
 </div>
 <br />
@@ -53,8 +53,8 @@ function ceo_check_directory($dirpath) {
 	if ($val == '1') $val = 'True';
 ?>
 		<tr>
-			<td><?php echo $key; ?></td>
-			<td><?php echo $val; ?></td>
+			<td><?php echo esc_html($key); ?></td>
+			<td><?php echo esc_html($val); ?></td>
 		</tr>
 <?php }
 ?>

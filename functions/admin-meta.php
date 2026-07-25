@@ -128,7 +128,7 @@ function ceo_manage_comic_columns($column_name, $id) {
 			$allterms = get_the_terms( $id, 'chapters');
 			if (!empty($allterms) && !isset($allterms->errors)) {
 				foreach ($allterms as $term) {
-					$term_list_chapters[] = '<a href="'.admin_url('edit.php?post_type=comic&chapters='.$term->name).'">'.$term->name.'</a>';
+					$term_list_chapters[] = '<a href="'.esc_url(admin_url('edit.php?post_type=comic&chapters='.urlencode($term->name))).'">'.esc_html($term->name).'</a>';
 				}
 				echo join(', ', $term_list_chapters );
 			}
@@ -137,7 +137,7 @@ function ceo_manage_comic_columns($column_name, $id) {
 			$allterms = get_the_terms( $id, 'characters');
 			if (!empty($allterms) && !isset($allterms->errors)) {
 				foreach ($allterms as $term) {
-					$term_list_characters[] = '<a href="'.admin_url('edit.php?post_type=comic&characters='.$term->name).'">'.$term->name.'</a>';
+					$term_list_characters[] = '<a href="'.esc_url(admin_url('edit.php?post_type=comic&characters='.urlencode($term->name))).'">'.esc_html($term->name).'</a>';
 				}
 				echo join(', ', $term_list_characters );
 			}
@@ -146,7 +146,7 @@ function ceo_manage_comic_columns($column_name, $id) {
 			$allterms = get_the_terms( $id, 'locations');
 			if (!empty($allterms) && !isset($allterms->errors)) {
 				foreach ($allterms as $term) {
-					$term_list_locations[] = '<a href="'.admin_url('/wp-admin/edit.php?post_type=comic&locations='.$term->name).'">'.$term->name.'</a>';
+					$term_list_locations[] = '<a href="'.esc_url(admin_url('/wp-admin/edit.php?post_type=comic&locations='.urlencode($term->name))).'">'.esc_html($term->name).'</a>';
 				}
 				echo join(', ', $term_list_locations );
 			}
@@ -423,7 +423,7 @@ function ceo_edit_taxonomy_archive_overwrite() {
 			<option class="level-0" value="" <?php if ($current_selected == 'none' || empty($current_selected)) { ?>selected="selected"<?php } ?>><?php echo __('Do Not Use', 'comiceasel'); ?></option>
 	<?php
 		foreach ($terms as $term) { ?>
-			<option class="level-0" value="<?php echo $term->slug; ?>" <?php if ($current_selected == $term->slug) { ?>selected="selected"<?php } ?>><?php echo $term->name; ?></option>
+			<option class="level-0" value="<?php echo esc_attr($term->slug); ?>" <?php if ($current_selected == $term->slug) { ?>selected="selected"<?php } ?>><?php echo esc_html($term->name); ?></option>
 	<?php } ?>
 		</select>
 <?php		

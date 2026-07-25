@@ -88,7 +88,7 @@ foreach ($dirs_to_search as $gnav_dir) {
 foreach ($gnav_directories as $gnav_dirs) {
 	if (is_dir($gnav_dirs)) {
 											$gnav_dir_name = basename($gnav_dirs); ?>
-											<option class="level-0" value="<?php echo $gnav_dir_name; ?>" <?php selected($current_gnav_directory, $gnav_dir_name); ?>><?php echo $gnav_dir_name; ?></option>
+											<option class="level-0" value="<?php echo esc_attr($gnav_dir_name); ?>" <?php selected($current_gnav_directory, $gnav_dir_name); ?>><?php echo esc_html($gnav_dir_name); ?></option>
 	<?php }
 }
 								?>

@@ -53,7 +53,7 @@
 					<?php if (empty($ceo_options['custom_post_type_slug_name'])) $ceo_options['custom_post_type_slug_name'] = 'comic'; ?>
 					<th scope="row"><label for="custom_post_type_slug_name"><?php _e('Custom Post Type slug name?','comiceasel'); ?></label></th>
 					<td>
-						<input id="custom_post_type_slug_name" name="custom_post_type_slug_name" type="text" value="<?php echo $ceo_options['custom_post_type_slug_name']; ?>" /><br />
+						<input id="custom_post_type_slug_name" name="custom_post_type_slug_name" type="text" value="<?php echo esc_attr($ceo_options['custom_post_type_slug_name']); ?>" /><br />
 <?php 
 $check_term = term_exists($ceo_options['custom_post_type_slug_name']);
 if ($check_term) { ?>
@@ -73,7 +73,7 @@ if ($check_term) { ?>
 					<?php if (empty($ceo_options['chapter_type_slug_name'])) $ceo_options['chapter_type_slug_name'] = 'comic'; ?>
 					<th scope="row"><label for="chapter_type_slug_name"><?php _e('Chapter Type slug name?','comiceasel'); ?></label></th>
 					<td>
-						<input id="chapter_type_slug_name" name="chapter_type_slug_name" type="text" value="<?php echo $ceo_options['chapter_type_slug_name']; ?>" /><br />
+						<input id="chapter_type_slug_name" name="chapter_type_slug_name" type="text" value="<?php echo esc_attr($ceo_options['chapter_type_slug_name']); ?>" /><br />
 <?php 
 $check_term = term_exists($ceo_options['chapter_type_slug_name']);
 if ($check_term) { ?>
@@ -93,7 +93,7 @@ if ($check_term) { ?>
 					<?php if (empty($ceo_options['chapter_type_name_plural'])) $ceo_options['chapter_type_name_plural'] = 'chapters'; ?>
 					<th scope="row"><label for="chapter_type_name_plural"><?php _e('Chapter name plural form?','comiceasel'); ?></label></th>
 					<td>
-						<input id="chapter_type_name_plural" name="chapter_type_name_plural" type="text" value="<?php echo $ceo_options['chapter_type_name_plural']; ?>" /><br />
+						<input id="chapter_type_name_plural" name="chapter_type_name_plural" type="text" value="<?php echo esc_attr($ceo_options['chapter_type_name_plural']); ?>" /><br />
 					</td>
 					<td>
 						<?php _e('Default: "chapters" changing this will modify the description information of the plural form of what is put as the chapters slug.  For example if you change the chapters slug to "story" this would be "stories" - use lowercase.','comiceasel'); ?><br />

@@ -23,7 +23,7 @@
 				<tr class="alternate">
 					<th scope="row"><label for="bf_adinfo"><?php _e('Site ID:','comiceasel'); ?></label></th>
 					<td>
-						<input id="bf_adinfo" name="bf_adinfo" type="text" value="<?php echo $ceo_options['bf_adinfo']; ?>" /><br />
+						<input id="bf_adinfo" name="bf_adinfo" type="text" value="<?php echo esc_attr($ceo_options['bf_adinfo']); ?>" /><br />
 					</td>
 				</tr>				
 				<tr>

@@ -27,7 +27,7 @@ add_action('comic-blog-area', 'ceo_display_comic_post_home');
 
 function ceo_version_meta() {
 	echo apply_filters('ceo_version_meta', '<meta name="Comic-Easel" content="'.ceo_pluginfo('version').'" />'."\r\n");
-	echo apply_filters('ceo_version_meta_referrer', '<meta name="Referrer" content="'.ceo_get_referer().'" />'."\r\n");
+	echo apply_filters('ceo_version_meta_referrer', '<meta name="Referrer" content="'.esc_attr(ceo_get_referer()).'" />'."\r\n");
 }
 
 function ceo_display_edit_link() {
@@ -130,7 +130,7 @@ function ceo_display_comic_navigation() {
 				$bpsep = '?';
 			}
 		?>
-		<td class="comic-nav"><a href="<?php echo ceo_pluginfo('buy_comic_url').$bpsep.'id='.$post->ID; ?>" class="comic-nav-base comic-nav-buycomic" title="Buy Comic"><?php _e('Buy!','comiceasel'); ?></a></td>
+		<td class="comic-nav"><a href="<?php echo esc_url(ceo_pluginfo('buy_comic_url').$bpsep.'id='.$post->ID); ?>" class="comic-nav-base comic-nav-buycomic" title="Buy Comic"><?php _e('Buy!','comiceasel'); ?></a></td>
 <?php }
 if (ceo_pluginfo('enable_comment_nav') && !wp_is_mobile()) { 
 			$commentscount = get_comments_number(); ?>
