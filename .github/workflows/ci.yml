@@ -48,11 +48,24 @@ jobs:
       - name: Run tests
         run: composer test
 
-  # Scoped to the files a pull request actually touches. An unscoped run reports thousands
-  # of pre-existing findings on decade-old code, which would make this job permanently red
-  # and train everyone to ignore it.
+  # Scoped to the LINES a pull request actually adds, not merely the files it touches.
+  #
+  # Scoping by file is not enough here. This plugin predates the WordPress coding standards
+  # by about a decade, and its files carry hundreds of pre-existing findings apiece -- so a
+  # per-file run goes red the moment a PR edits a legacy file, regardless of whether the PR
+  # made anything worse. A job that is red by default is a job everyone learns to scroll
+  # past, which is worse than not having it.
+  #
+  # Reporting only on added lines means the job stays quiet unless someone introduces a new
+  # finding, and cleaning up the historical ones stays an independent choice.
+  #
+  # Advisory, not a gate. Some of what it reports cannot reasonably be fixed -- the sniffs
+  # cannot see through apply_filters() to an escaper inside it, cannot know an interpolated
+  # ORDER BY direction was whitelisted, and object to the $before_title/$after_title that
+  # every WordPress widget emits. Gating on those would mean scattering phpcs:ignore
+  # annotations through unrelated changes. Add --strict below to make it blocking.
   phpcs:
-    name: PHPCS (changed files)
+    name: PHPCS (advisory, changed lines)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -64,21 +77,28 @@ jobs:
           coverage: none
       - name: Install dependencies
         run: composer update --no-interaction --prefer-dist
-      - name: Determine changed PHP files
-        id: changed
+      - name: Report PHPCS findings on added lines
         run: |
           BASE="${{ github.event.pull_request.base.sha }}"
-          if [ -z "$BASE" ]; then BASE="$(git rev-parse HEAD~1 2>/dev/null || echo '')"; fi
-          if [ -z "$BASE" ]; then
-            echo "files=" >> "$GITHUB_OUTPUT"
+          if [ -n "$BASE" ]; then
+            # Compare against the merge base, so a base branch that has moved on since the
+            # pull request opened does not drag unrelated commits into the diff.
+            BASE="$(git merge-base "$BASE" HEAD)"
           else
-            FILES="$(git diff --name-only --diff-filter=ACMR "$BASE" HEAD -- '*.php' | grep -v '^vendor/' | tr '\n' ' ')"
-            echo "files=$FILES" >> "$GITHUB_OUTPUT"
+            BASE="$(git rev-parse HEAD~1 2>/dev/null || true)"
           fi
-      - name: Run PHPCS on changed files
-        run: |
-          if [ -z "${{ steps.changed.outputs.files }}" ]; then
+          if [ -z "$BASE" ]; then
+            echo "No base commit to compare against; skipping."
+            exit 0
+          fi
+          echo "Comparing against $BASE"
+          git diff --unified=0 "$BASE" HEAD -- '*.php' > /tmp/pr.diff
+          FILES="$(git diff --name-only --diff-filter=ACMR "$BASE" HEAD -- '*.php' | grep -v '^vendor/' || true)"
+          if [ -z "$FILES" ]; then
             echo "No PHP files changed; nothing to check."
             exit 0
           fi
-          ./vendor/bin/phpcs ${{ steps.changed.outputs.files }}
+          echo "$FILES" | tr '\n' ' '; echo
+          # -q so the progress output does not corrupt the JSON report.
+          echo "$FILES" | xargs ./vendor/bin/phpcs -q --report=json > /tmp/phpcs.json || true
+          python3 .github/scripts/phpcs-added-lines.py /tmp/phpcs.json /tmp/pr.diff
