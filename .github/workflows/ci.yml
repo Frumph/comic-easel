@@ -1,0 +1,104 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  # Syntax check across every PHP version we claim to support. This is the cheapest useful
+  # signal in the repo: the plugin's recent history is PHP 8 compatibility work, and until
+  # now nothing verified it on more than one interpreter.
+  lint-php:
+    name: php -l (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4' ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+      - name: Lint every PHP file
+        run: |
+          find . -name '*.php' -not -path './vendor/*' -print0 \
+            | xargs -0 -n1 -P4 php -l
+
+  test:
+    name: PHPUnit (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [ '8.2', '8.3', '8.4' ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+      - name: Install dependencies
+        run: composer update --no-interaction --prefer-dist
+      - name: Run tests
+        run: composer test
+
+  # Scoped to the LINES a pull request actually adds, not merely the files it touches.
+  #
+  # Scoping by file is not enough here. This plugin predates the WordPress coding standards
+  # by about a decade, and its files carry hundreds of pre-existing findings apiece -- so a
+  # per-file run goes red the moment a PR edits a legacy file, regardless of whether the PR
+  # made anything worse. A job that is red by default is a job everyone learns to scroll
+  # past, which is worse than not having it.
+  #
+  # Reporting only on added lines means the job stays quiet unless someone introduces a new
+  # finding, and cleaning up the historical ones stays an independent choice.
+  #
+  # Advisory, not a gate. Some of what it reports cannot reasonably be fixed -- the sniffs
+  # cannot see through apply_filters() to an escaper inside it, cannot know an interpolated
+  # ORDER BY direction was whitelisted, and object to the $before_title/$after_title that
+  # every WordPress widget emits. Gating on those would mean scattering phpcs:ignore
+  # annotations through unrelated changes. Add --strict below to make it blocking.
+  phpcs:
+    name: PHPCS (advisory, changed lines)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+      - name: Install dependencies
+        run: composer update --no-interaction --prefer-dist
+      - name: Report PHPCS findings on added lines
+        run: |
+          BASE="${{ github.event.pull_request.base.sha }}"
+          if [ -n "$BASE" ]; then
+            # Compare against the merge base, so a base branch that has moved on since the
+            # pull request opened does not drag unrelated commits into the diff.
+            BASE="$(git merge-base "$BASE" HEAD)"
+          else
+            BASE="$(git rev-parse HEAD~1 2>/dev/null || true)"
+          fi
+          if [ -z "$BASE" ]; then
+            echo "No base commit to compare against; skipping."
+            exit 0
+          fi
+          echo "Comparing against $BASE"
+          git diff --unified=0 "$BASE" HEAD -- '*.php' > /tmp/pr.diff
+          FILES="$(git diff --name-only --diff-filter=ACMR "$BASE" HEAD -- '*.php' | grep -v '^vendor/' || true)"
+          if [ -z "$FILES" ]; then
+            echo "No PHP files changed; nothing to check."
+            exit 0
+          fi
+          echo "$FILES" | tr '\n' ' '; echo
+          # -q so the progress output does not corrupt the JSON report.
+          echo "$FILES" | xargs ./vendor/bin/phpcs -q --report=json > /tmp/phpcs.json || true
+          python3 .github/scripts/phpcs-added-lines.py /tmp/phpcs.json /tmp/pr.diff
