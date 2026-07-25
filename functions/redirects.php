@@ -97,12 +97,21 @@ function ceo_random_comic() {
  * Anything that is not an explicit VERIFIED must be discarded.
  */
 function ceo_paypal_ipn_verify($ipn) {
+	// The notification is echoed back verbatim, except that cmd is ours and must stay ours.
+	// $ipn is attacker-supplied, so a naive array_merge() with $ipn second lets a posted
+	// cmd=_cart overwrite the validation command. That fails closed today, since PayPal will
+	// not answer VERIFIED to a request that is not a validation request, but it is one
+	// refactor away from being a bypass.
+	$body = $ipn;
+	unset($body['cmd']);
+	$body = array_merge(array('cmd' => '_notify-validate'), $body);
+
 	$endpoint = apply_filters('ceo_paypal_ipn_endpoint', 'https://ipnpb.paypal.com/cgi-bin/webscr');
 	$response = wp_remote_post($endpoint, array(
 			'timeout' => 30,
 			'httpversion' => '1.1',
 			'user-agent' => 'ComicEasel/'.ceo_pluginfo('version').'; '.home_url(),
-			'body' => array_merge(array('cmd' => '_notify-validate'), $ipn)
+			'body' => $body
 			));
 	if (is_wp_error($response)) return false;
 	if (wp_remote_retrieve_response_code($response) != 200) return false;
