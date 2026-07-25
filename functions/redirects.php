@@ -147,12 +147,16 @@ function ceo_paypal_ipn_is_original($item_name) {
  * the same lookup ceo_display_buycomic() uses to build the form.
  */
 function ceo_paypal_ipn_expected_amount($post_id, $item_name) {
+	// empty() rather than a === comparison, to match how ceo_display_buycomic() and the meta
+	// box decide whether to fall back to the configured default. Diverging here would mean a
+	// stored '0' showed the default price on the form but expected 0.00 from the payment,
+	// which disables the amount check for the whole cart.
 	if (ceo_paypal_ipn_is_original($item_name)) {
 		$amount = get_post_meta($post_id, 'buy_print_orig_amount', true);
-		if ($amount === '' || $amount === false) $amount = ceo_pluginfo('buy_comic_orig_amount');
+		if (empty($amount)) $amount = ceo_pluginfo('buy_comic_orig_amount');
 	} else {
 		$amount = get_post_meta($post_id, 'buy_print_amount', true);
-		if ($amount === '' || $amount === false) $amount = ceo_pluginfo('buy_comic_print_amount');
+		if (empty($amount)) $amount = ceo_pluginfo('buy_comic_print_amount');
 	}
 	return (float)preg_replace('/[^0-9.]/', '', (string)$amount);
 }

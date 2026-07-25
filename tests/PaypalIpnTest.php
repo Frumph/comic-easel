@@ -136,4 +136,83 @@ class PaypalIpnTest extends CE_TestCase {
 		$this->assertTrue( ceo_paypal_ipn_is_original( 'Original - My Comic - 12' ) );
 		$this->assertFalse( ceo_paypal_ipn_is_original( 'Print - My Comic - 12' ) );
 	}
+
+	/* ---------------------------------------------------------------- *
+	 * ceo_paypal_ipn_expected_amount()
+	 * ---------------------------------------------------------------- */
+
+	public function testOriginalAndPrintPricesComeFromTheirOwnMetaKeys() {
+		$this->setPostMeta( 7, 'buy_print_orig_amount', '65.00' );
+		$this->setPostMeta( 7, 'buy_print_amount', '25.00' );
+
+		$this->assertSame( 65.0, ceo_paypal_ipn_expected_amount( 7, 'Original - x - 7' ) );
+		$this->assertSame( 25.0, ceo_paypal_ipn_expected_amount( 7, 'Print - x - 7' ) );
+	}
+
+	public function testPriceFallsBackToTheConfiguredDefault() {
+		CE_Test_State::$pluginfo['buy_comic_orig_amount']  = '80.00';
+		CE_Test_State::$pluginfo['buy_comic_print_amount'] = '30.00';
+
+		$this->assertSame( 80.0, ceo_paypal_ipn_expected_amount( 7, 'Original - x - 7' ) );
+		$this->assertSame( 30.0, ceo_paypal_ipn_expected_amount( 7, 'Print - x - 7' ) );
+	}
+
+	/**
+	 * A stored '0' must fall back to the configured default, because that is what the buy
+	 * form and the meta box both do. Diverging would mean the form advertised one price while
+	 * the IPN expected 0.00 — which switches the amount check off for the entire cart.
+	 */
+	public function testAStoredZeroFallsBackTheSameWayTheFormDoes() {
+		$this->setPostMeta( 7, 'buy_print_orig_amount', '0' );
+		CE_Test_State::$pluginfo['buy_comic_orig_amount'] = '65.00';
+		$this->assertSame( 65.0, ceo_paypal_ipn_expected_amount( 7, 'Original - x - 7' ) );
+	}
+
+	#[DataProvider( 'messyAmountProvider' )]
+	public function testAmountsAreParsedLeniently( $stored, $expected ) {
+		$this->setPostMeta( 7, 'buy_print_amount', $stored );
+		$this->assertSame( $expected, ceo_paypal_ipn_expected_amount( 7, 'Print - x - 7' ) );
+	}
+
+	public static function messyAmountProvider() {
+		return array(
+			'thousands separator' => array( '$1,299.00', 1299.0 ),
+			'currency suffix'     => array( '65.00 USD', 65.0 ),
+			'plain'               => array( '42', 42.0 ),
+			'not a number'        => array( 'abc', 0.0 ),
+		);
+	}
+
+	/* ---------------------------------------------------------------- *
+	 * ceo_paypal_ipn_payee_matches()
+	 * ---------------------------------------------------------------- */
+
+	public function testPayeeMatchesOnEitherReceiverEmailOrBusiness() {
+		$config = array( 'buy_comic_email' => 'me@example.com' );
+
+		$this->assertTrue( ceo_paypal_ipn_payee_matches( array( 'receiver_email' => ' ME@Example.com ' ), $config ) );
+		$this->assertTrue( ceo_paypal_ipn_payee_matches( array( 'business' => 'me@example.com' ), $config ) );
+		$this->assertFalse( ceo_paypal_ipn_payee_matches( array( 'receiver_email' => 'thief@evil.test' ), $config ) );
+		$this->assertFalse( ceo_paypal_ipn_payee_matches( array(), $config ) );
+	}
+
+	/**
+	 * The checks fail open where there is nothing to compare against, so a half-configured
+	 * shop is not broken by this. That is a deliberate trade-off and worth pinning, because
+	 * it means these sites accept a payment made to anybody.
+	 */
+	#[DataProvider( 'unconfiguredPayeeProvider' )]
+	public function testPayeeCheckFailsOpenWhenNothingIsConfigured( $config ) {
+		$this->assertTrue( ceo_paypal_ipn_payee_matches( array( 'receiver_email' => 'anyone@evil.test' ), $config ) );
+	}
+
+	public static function unconfiguredPayeeProvider() {
+		return array(
+			'option never saved'      => array( false ),
+			'key absent'             => array( array() ),
+			'empty string'           => array( array( 'buy_comic_email' => '' ) ),
+			'shipped placeholder'    => array( array( 'buy_comic_email' => 'yourname@yourpaypalemail.com' ) ),
+			'placeholder, odd case'  => array( array( 'buy_comic_email' => 'YourName@YourPayPalEmail.com' ) ),
+		);
+	}
 }
