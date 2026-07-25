@@ -97,4 +97,43 @@ class PaypalIpnTest extends CE_TestCase {
 		ceo_paypal_ipn_verify( array( 'txn_id' => '1' ) );
 		$this->assertSame( 'http://localhost:8081/stub.php', CE_Test_State::$http_requests[1]['url'] );
 	}
+
+	/* ---------------------------------------------------------------- *
+	 * ceo_paypal_ipn_is_original()
+	 * ---------------------------------------------------------------- */
+
+	#[DataProvider( 'itemNameProvider' )]
+	public function testOriginalIsIdentifiedByTheLeadingLabel( $item_name, $expected ) {
+		$this->assertSame( $expected, ceo_paypal_ipn_is_original( $item_name ) );
+	}
+
+	public static function itemNameProvider() {
+		return array(
+			'an original'                   => array( 'Original - My Comic - 12', true ),
+			'case insensitive'              => array( 'ORIGINAL - My Comic - 12', true ),
+			// The bug this test exists for: the comic title sits inside the item name, so a
+			// substring search found "original" in the title and priced every print as an
+			// original.
+			'a print of a comic titled "The Original Sin"' => array( 'Print - The Original Sin - 12', false ),
+			'a plain print'                 => array( 'Print - My Comic - 12', false ),
+			'a similar word'                => array( 'Originals - x', false ),
+			'missing the separator'         => array( 'Original- x', false ),
+			'leading whitespace'            => array( ' Original - x', false ),
+			'empty'                         => array( '', false ),
+			'null'                          => array( null, false ),
+			'numeric'                       => array( 123, false ),
+		);
+	}
+
+	/**
+	 * The item name is built when the form renders, but __() here resolves when the
+	 * notification arrives. Both labels must work, or changing the site language silently
+	 * reprices every original already on sale.
+	 */
+	public function testBothTranslatedAndUntranslatedLabelsAreRecognised() {
+		CE_Test_State::$translations['Original'] = 'Origineel';
+		$this->assertTrue( ceo_paypal_ipn_is_original( 'Origineel - My Comic - 12' ) );
+		$this->assertTrue( ceo_paypal_ipn_is_original( 'Original - My Comic - 12' ) );
+		$this->assertFalse( ceo_paypal_ipn_is_original( 'Print - My Comic - 12' ) );
+	}
 }

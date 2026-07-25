@@ -127,8 +127,15 @@ function ceo_paypal_ipn_verify($ipn) {
  * purchase look like an original.
  */
 function ceo_paypal_ipn_is_original($item_name) {
-	$prefix = strtolower(__('Original','comiceasel')).' - ';
-	return (strpos(strtolower((string)$item_name), $prefix) === 0);
+	$item_name = strtolower((string)$item_name);
+	// Match the translated label AND the untranslated one. The item name was built when the
+	// form rendered, but __() here resolves in whatever locale is active when the
+	// notification arrives -- change the site language between those two moments and every
+	// original would otherwise be misread as a print.
+	foreach (array(strtolower(__('Original','comiceasel')), 'original') as $label) {
+		if (strpos($item_name, $label.' - ') === 0) return true;
+	}
+	return false;
 }
 
 /**
