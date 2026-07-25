@@ -7,9 +7,13 @@
 <?php
 $tab = '';
 if (isset($_GET['tab'])) $tab = sanitize_key($_GET['tab']);
-if (isset($_POST['action']) && $_POST['action'] == 'comiceasel_reset') {
+// Read the submitted action once. The forms on this page post it, but a request carrying
+// only a nonce does not, so the reads below were emitting an undefined-key warning apiece
+// on PHP 8. Action names are plain keys, so sanitize_key() is the right shape for it.
+$action = isset($_POST['action']) ? sanitize_key(wp_unslash($_POST['action'])) : '';
+if ($action == 'comiceasel_reset') {
 	if (!current_user_can('edit_theme_options'))
-		wp_die(__('You do not have permission to reset these settings.','comiceasel'));
+		wp_die(esc_html__('You do not have permission to reset these settings.','comiceasel'));
 	check_admin_referer('update-options');
 	delete_option('comiceasel-config');
 	global $ceo_pluginfo;
@@ -21,7 +25,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'comiceasel_reset') {
 }
 $ceo_options = get_option('comiceasel-config');
 if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-options') ) {
-		if ($_REQUEST['action'] == 'ceo_save_general') {
+		if ($action == 'ceo_save_general') {
 
 			foreach (array(
 				'thumbnail_size_for_rss',
@@ -60,7 +64,7 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 			update_option('comiceasel-config', $ceo_options);
 		}
 		
-		if ($_REQUEST['action'] == 'ceo_save_navigation') {
+		if ($action == 'ceo_save_navigation') {
 
 			foreach (array(
 				'graphic_navigation_directory'
@@ -93,7 +97,7 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 			update_option('comiceasel-config', $ceo_options);
 		}
 
-		if ($_REQUEST['action'] == 'ceo_save_archive') {
+		if ($action == 'ceo_save_archive') {
 
 			foreach (array(
 				'custom_post_type_slug_name',
@@ -117,7 +121,7 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 			update_option('comiceasel-config', $ceo_options);
 		}
 		
-		if ($_REQUEST['action'] == 'ceo_save_landing') {
+		if ($action == 'ceo_save_landing') {
 			foreach (array(
 				'enable_chapter_landing',
 				'enable_chapter_landing_first',
@@ -131,7 +135,7 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 			update_option('comiceasel-config', $ceo_options);
 		}
 		
-		if ($_REQUEST['action'] == 'ceo_save_buycomic') {
+		if ($action == 'ceo_save_buycomic') {
 
 			foreach (array(
 				'buy_comic_email',
