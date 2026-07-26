@@ -1,4 +1,5 @@
 <?php
+if (!defined('ABSPATH')) exit;
 
 /*
  * Normalize a stored meta value before it is re-displayed in the post editor.

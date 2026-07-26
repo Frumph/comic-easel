@@ -8,6 +8,8 @@ Author URI: http://frumph.net/
 Version: 1.03
 */
 
+if (!defined('ABSPATH')) exit;
+
 /**
  * Display calendar with days that have posts as links.
  *

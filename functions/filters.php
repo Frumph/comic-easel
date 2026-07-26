@@ -1,4 +1,6 @@
 <?php
+if (!defined('ABSPATH')) exit;
+
 // set filters to run at 'init' time instead of before 
 add_action('init', 'ceo_init_filters');
 

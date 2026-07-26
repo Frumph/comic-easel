@@ -1,4 +1,5 @@
 <?php
+if (!defined('ABSPATH')) exit;
 
 // Set values used (changed if returned changed)
 $import_directory = 'import';

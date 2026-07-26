@@ -1,4 +1,6 @@
 <?php
+if (!defined('ABSPATH')) exit;
+
 /*
 *  Get a sidebar and create a generic dynamic sidebar for it, else find the sidebar-*.php in the theme/childtheme
 */
@@ -161,7 +163,7 @@ function ceo_content_warning() {
 function ceo_content_warning_in_head() {
 ?>
 <script>
-	var contentwarningtext = "<?php echo ceo_content_warning(); ?>";
+	var contentwarningtext = "<?php echo esc_js(ceo_content_warning()); ?>";
 </script>
 <?php
 }

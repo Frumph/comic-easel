@@ -25,6 +25,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
      
 */
 
+if (!defined('ABSPATH')) exit;
+
 add_action('init', 'ceo_initialize_post_types');
 
 function ceo_initialize_post_types() {
@@ -363,6 +365,10 @@ function ceo_load_options($reset = false) {
 	$ceo_config = get_option('comiceasel-config');
 	if (empty($ceo_config)) {
 		delete_option('comiceasel-config');
+		// get_option() returns false when the option is absent, which is exactly the case
+		// this branch handles. Assigning into that false is a deprecation on PHP 8.1 and an
+		// error on PHP 9, so start from a real array.
+		$ceo_config = array();
 		foreach (array(
 			'db_version' => '1.2',
 			'add_dashboard_frumph_feed_widget' => true,

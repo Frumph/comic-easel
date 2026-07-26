@@ -24,6 +24,8 @@ License: GPL2
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+if (!defined('ABSPATH')) exit;
+
 // Only enqueue if the widget is active
 if (is_active_widget(false, false, 'ceo_casthover_reference_widget', true)) {
 	add_filter('ceo_display_comic_characters', 'ceo_add_characters_hovercards');

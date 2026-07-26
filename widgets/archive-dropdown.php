@@ -7,6 +7,8 @@ Author: Philip M. Hofer (Frumph)
 Version: 1.1
 */
 
+if (!defined('ABSPATH')) exit;
+
 function ceo_taxonomy_walker_dropdown_or_list_start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
 	
 	// echo "<pre>args ";print_r($args); echo "</pre>";

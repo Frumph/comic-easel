@@ -1,4 +1,5 @@
 <?php
+if (!defined('ABSPATH')) exit;
 
 function ceo_get_first_comic($in_chapter = false) {
 	global $post;

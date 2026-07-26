@@ -7,6 +7,8 @@ Author: Philip M. Hofer (Frumph)
 Version: 1.02
 */
 
+if (!defined('ABSPATH')) exit;
+
 function ceo_list_jump_to_comic($exclude = '', $return = false) {
 	global $post;
 	ceo_protect();

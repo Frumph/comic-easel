@@ -6,6 +6,8 @@ Author: Philip M. Hofer (Frumph)
 Author URI: http://frumph.net/
 Version: 1.3
 */
+
+if (!defined('ABSPATH')) exit;
 	
 class ceo_thumbnail_widget extends WP_Widget {
 
