@@ -355,6 +355,13 @@ function ceo_the_transcript($displaymode = 'raw') {
 	global $post;
 	$transcript = get_post_meta( $post->ID, "transcript", true );
 	apply_filters('ceo_the_transcript_raw', $transcript);
+	// A transcript is plain text and every display mode below emits it into the
+	// page. The stored value arrives in two shapes -- entity-encoded when it was
+	// written through the Comic Easel meta box, which escapes on save, and raw
+	// when it was written through WordPress's Custom Fields panel, which does
+	// not. Decoding first normalises both, so the escape below applies exactly
+	// once: legacy values render as they always did, raw markup stops executing.
+	$transcript = ceo_escape_stored_text($transcript);
 	if (!empty($transcript)) {			
 		switch ($displaymode) {
 			case "raw":

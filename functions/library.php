@@ -127,6 +127,33 @@ function ceo_get_referer() {
 	return $ref;
 }
 
+/**
+ * Escape a stored comic meta value for output as HTML text.
+ *
+ * These meta values exist in the database in two shapes: entity-encoded when written through
+ * the Comic Easel meta boxes, which escape on save, and raw when written through WordPress's
+ * own Custom Fields panel, which does not. Decoding first normalises both, so the escape
+ * below applies exactly once.
+ *
+ * htmlspecialchars() rather than esc_html(), and deliberately so: esc_html() passes
+ * $double_encode = false, which means it declines to re-encode text that already looks like
+ * an entity. A value an author typed as the literal characters "&lt;b&gt;" is stored as
+ * "&amp;lt;b&amp;gt;", and esc_html() would hand back "&lt;b&gt;" -- one level short. Repeat
+ * that on each save and the author's literal text decays into a live tag.
+ *
+ * ENT_SUBSTITUTE matters as much: from PHP 8.1 the default flag set is
+ * ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, and passing ENT_QUOTES alone REPLACES that
+ * default rather than adding to it. Without ENT_SUBSTITUTE a single invalid UTF-8 byte makes
+ * htmlspecialchars() return an empty string, silently blanking the whole value. The charset
+ * fallback is for the same reason -- an empty or unrecognised blog_charset does likewise.
+ */
+function ceo_escape_stored_text($value) {
+	$charset = get_option('blog_charset');
+	if (empty($charset)) $charset = 'UTF-8';
+	$decoded = html_entity_decode((string)$value, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401);
+	return htmlspecialchars($decoded, ENT_QUOTES | ENT_SUBSTITUTE, $charset);
+}
+
 function ceo_content_warning() {
 	return apply_filters('ceo-content-warning', __('Warning, Mature Content.','comiceasel'));
 }

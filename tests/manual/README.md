@@ -89,9 +89,42 @@ Reachable with no theme support at all, via shortcodes on an ordinary page:
 
 ## The PayPal endpoint
 
-`POST /?ceopaypalipn` talks to PayPal directly, with the hostname written into the code, so
-there is no supported way to exercise it against a local stub. Testing it means either
-editing that hostname in a scratch copy or using a PayPal sandbox account.
+`POST /?ceopaypalipn` discards anything PayPal does not confirm with a literal `VERIFIED`, so
+it cannot be exercised without either a PayPal sandbox account or a local stand-in. Three
+filters exist to make the local route possible; drop this in `wp-content/mu-plugins/`:
+
+```php
+<?php
+// Answer the verification handshake ourselves.
+add_filter( 'ceo_paypal_ipn_endpoint', function () {
+	return 'http://127.0.0.1:8080/ipn-stub.php'; // a file that echoes: VERIFIED
+} );
+
+// Capture the notification email instead of sending it.
+add_filter( 'pre_wp_mail', function ( $null, $atts ) {
+	file_put_contents( WP_CONTENT_DIR . '/ce-mail.log', json_encode( $atts ) . "\n", FILE_APPEND );
+	return true;
+}, 10, 2 );
+```
+
+`ceo_paypal_expected_currency` (default `USD`) and `ceo_paypal_max_cart_items` are filterable
+too.
+
+Then POST to `/?ceopaypalipn` directly. The reject paths matter as much as the accept path,
+because each should say *why* in the notification email rather than silently doing nothing:
+
+| Case | Expected |
+|---|---|
+| stub answers anything but `VERIFIED` | nothing written, no mail |
+| valid: right payee, currency and amount | comic marked Sold, owner emailed |
+| `business` is not the configured address | not sold, "REJECTED: payment was not made to the configured PayPal address." |
+| `mc_currency` is not the expected currency | not sold, "REJECTED: payment currency ... is not USD." |
+| `mc_gross` below the asking price | not sold, "REJECTED: amount paid ... is below the asking price" |
+| same `txn_id` and status replayed | ignored, no second mail |
+| `Pending` then `Completed`, same `txn_id` | both processed; the `Completed` one marks it Sold |
+
+That last row is worth keeping: the ledger is keyed on transaction *and* status precisely so a
+Pending notification cannot swallow the Completed one that follows it.
 
 ## Always
 

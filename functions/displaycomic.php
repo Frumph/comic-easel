@@ -162,11 +162,12 @@ function ceo_display_comic($size = 'full') {
 		$ref_only_msg = '';
 		$refer_only_msg = get_post_meta( $post->ID, 'refer-only-msg', 'true') ? get_post_meta( $post->ID, 'refer-only-msg', 'true') : __('Read post message below to find out how to view this.', 'comiceasel');
 		if (ceo_get_referer() !== $refer_only) {
+				$refer_only_msg = ceo_escape_stored_text($refer_only_msg);
 				return apply_filters('ceo_refer_only_msg', $refer_only_msg);
 		}
 	}
 	$output = '';
-	if (ceo_the_above_html()) $output .= html_entity_decode(ceo_the_above_html(), ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401)."\r\n";
+	if (ceo_the_above_html()) $output .= ceo_comic_html_for_output(ceo_the_above_html(), $post)."\r\n";
 
 	if ($flash_file = get_post_meta($post->ID, "flash_file", true)) {
 		$output .= ceo_display_flash_comic($post, $flash_file);
@@ -187,7 +188,7 @@ function ceo_display_comic($size = 'full') {
 			$output .= ceo_display_featured_image_comic($size);
 		}
 	}	
-	if (ceo_the_below_html()) $output .= html_entity_decode(ceo_the_below_html(), ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401)."\r\n";
+	if (ceo_the_below_html()) $output .= ceo_comic_html_for_output(ceo_the_below_html(), $post)."\r\n";
 	if ($output) { 
 		return apply_filters('ceo_comics_display_comic', $output);
 	} else
@@ -208,6 +209,37 @@ function ceo_the_hovertext($override_post = null) {
 	if (empty($hovertext)) $hovertext = esc_attr( get_post_meta($post_to_use->ID, 'hovertext', true) ); // check if using old hovertext
 //	return (empty($hovertext)) ? get_the_title($post_to_use->ID) : $hovertext;
 	return (empty($hovertext)) ? '' : $hovertext;
+}
+
+/**
+ * Prepare a comic-html-above / comic-html-below value for output.
+ *
+ * These two fields are meant to hold markup, so the value is not escaped. It
+ * cannot be trusted blindly either: the meta keys are unprotected on a post
+ * type that declares custom-fields support, so anyone who can edit a comic can
+ * write to them through WordPress's own Custom Fields panel, bypassing the
+ * plugin's meta box entirely.
+ *
+ * The stored value therefore arrives in two shapes -- entity-encoded when it
+ * came through the meta box (which escapes on save), raw when it came through
+ * Custom Fields -- so decode first to normalise, then apply WordPress's own
+ * trust rule: content from an author who holds unfiltered_html renders as
+ * written, anything else is filtered exactly like post content would be.
+ */
+function ceo_comic_html_for_output($value, $post_to_use = null) {
+	$html = html_entity_decode((string)$value, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401);
+	if (is_null($post_to_use) || empty($post_to_use->post_author)) return wp_kses_post($html);
+
+	$author = (int)$post_to_use->post_author;
+	if (!user_can($author, 'unfiltered_html')) return wp_kses_post($html);
+
+	// The author being trusted is not enough on its own: someone else may have
+	// edited the post since. On multisite an Editor lacks unfiltered_html but can
+	// still edit an administrator's comic, so check whoever touched it last too.
+	$last_editor = (int)get_post_meta($post_to_use->ID, '_edit_last', true);
+	if ($last_editor && $last_editor !== $author && !user_can($last_editor, 'unfiltered_html')) return wp_kses_post($html);
+
+	return $html;
 }
 
 function ceo_the_above_html($override_post = null) {
