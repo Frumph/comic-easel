@@ -420,9 +420,7 @@ function ceo_load_options($reset = false) {
 			'enable_blog_on_chapter_landing' => false,
 			'enable_comments_on_chapter_landing' => false,
 			'default_nav_bar_chapter_goes_to_archive' => false,
-			'remove_post_thumbnail' => false,
-			'bf_adinfo' => '',
-			'bf_vidslider' => false
+			'remove_post_thumbnail' => false
 		) as $field => $value) {
 			$ceo_config[$field] = $value;
 		}
@@ -497,8 +495,6 @@ function ceo_pluginfo($whichinfo = null) {
 		}
 		if (version_compare($ceo_options['db_version'], '1.9.8', '<')) {
 			$ceo_options['db_version'] = '1.9.8';
-			$ceo_options['bf_adinfo'] = '';
-			$ceo_options['bf_vidslider'] = false;
 			update_option('comiceasel-config', $ceo_options);
 		}
 		$ceo_coreinfo = wp_upload_dir();
@@ -560,7 +556,6 @@ foreach (glob(ceo_pluginfo('plugin_path')  . 'widgets/*.php') as $widgefile) {
 add_action( 'widgets_init', 'ceo_register_widgets');
 
 function ceo_register_widgets() { 
-	register_widget('ceo_bf_adwidget');
 	register_widget('ceo_comic_archive_dropdown_widget');
 	register_widget('ceo_casthover_reference_widget');
 	register_widget('ceo_comic_blog_post_widget');
@@ -598,7 +593,6 @@ function ceo_run_css() {
 
 function ceo_run_scripts() {
 	global $post;
-	add_action('wp_head', 'ceo_bf_add_script_to_head');
 	if (!empty($post)) {
 		$comic_content_warning = get_post_meta( $post->ID, 'comic-content-warning', true );
 		if ($comic_content_warning) {
@@ -608,12 +602,5 @@ function ceo_run_scripts() {
 	}
 	if (!ceo_pluginfo('disable_keynav')) {
 		wp_enqueue_script('ceo_keynav', ceo_pluginfo('plugin_url').'js/keynav.js', null, null, true);
-	}
-}
-
-function ceo_bf_add_script_to_head() {
-	$ceo_options = get_option('comiceasel-config');
-	if (isset($ceo_options['bf_adinfo']) && !empty($ceo_options['bf_adinfo'])) {
-		echo '<script type="text/javascript" src="'.esc_url('https://thor.blindferret.media/'.rawurlencode(ceo_pluginfo('bf_adinfo')).'/jita.js?dfp=1').'" async defer></script>'."\r\n";
 	}
 }

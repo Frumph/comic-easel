@@ -11,12 +11,10 @@ class HarnessTest extends CE_TestCase {
 	public function testPluginFilesLoadAgainstStubs() {
 		self::loadPluginFile( 'functions/shortcodes.php' );
 		self::loadPluginFile( 'functions/displaycomic.php' );
-		self::loadPluginFile( 'widgets/bf_adwidget.php' );
 		self::loadPluginFile( 'widgets/navigation.php' );
 
 		$this->assertTrue( function_exists( 'ceo_the_transcript' ) );
 		$this->assertTrue( function_exists( 'ceo_get_character_list' ) );
-		$this->assertTrue( class_exists( 'ceo_bf_adwidget' ) );
 		$this->assertTrue( class_exists( 'ceo_comic_navigation_widget' ) );
 	}
 

@@ -67,8 +67,8 @@ config array and is the quickest assertion target for any option write.
   (that option only controls the "Buy!" nav links).
 - `enable_chapter_in_url` puts a literal `%chapters%` in the permalink of any comic that has
   no chapter term.
-- All four plugin admin pages require `edit_theme_options`, so an Editor-role account sees
-  the Comics menu but none of Config, Monetize, Debug or Import.
+- All three plugin admin pages require `edit_theme_options`, so an Editor-role account sees
+  the Comics menu but none of Config, Debug or Import.
 
 ## Seeing a comic actually render
 

@@ -142,7 +142,6 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 * keynav update - to preserve browser forward/back functions / jn-squire
 * added Text Domain: to readme / Frumph
 * added .comic_navi width auto to fix for alternative themes that adjust tables to max width
-* added Monetize with widgets* 
 
 = 1.14 =
 * compatibility check w/4.8.2 of WordPress
@@ -534,7 +533,6 @@ Updated: 05/26/2012 5:25pm Pacific
 == Upgrade Notice ==
 = 1.0.16 =
 * You should go to settings -> permalinks and click save again.
-
 
 
 
