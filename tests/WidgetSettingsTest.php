@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Widget update() methods — widgets/bf_adwidget.php, widgets/navigation.php
+ * Widget update() methods — widgets/navigation.php
  *
  * These decide what gets persisted from the widget admin form, so they are the storage half
  * of the escaping story. Characterization only: assertions here hold regardless of which
@@ -11,7 +11,6 @@ class WidgetSettingsTest extends CE_TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		self::loadPluginFile( 'widgets/bf_adwidget.php' );
 		self::loadPluginFile( 'widgets/navigation.php' );
 	}
 
@@ -36,35 +35,6 @@ class WidgetSettingsTest extends CE_TestCase {
 			$instance[ $key ] = '';
 		}
 		return array_merge( $instance, $overrides );
-	}
-
-	public function testBfWidgetStripsMarkupFromTheDivId() {
-		$widget = new ceo_bf_adwidget();
-		$out    = $widget->update(
-			array( 'title' => 'Ad', 'divID' => '<b>slot</b>', 'center' => '1' ),
-			array()
-		);
-		$this->assertStringNotContainsString( '<', $out['divID'] );
-		$this->assertStringNotContainsString( '>', $out['divID'] );
-	}
-
-	public function testBfWidgetStoresCenterAsBoolean() {
-		$widget = new ceo_bf_adwidget();
-
-		$on = $widget->update( array( 'title' => '', 'divID' => 'x', 'center' => '1' ), array() );
-		$this->assertTrue( $on['center'] );
-
-		$off = $widget->update( array( 'title' => '', 'divID' => 'x', 'center' => '0' ), array() );
-		$this->assertFalse( $off['center'] );
-	}
-
-	public function testBfWidgetStripsMarkupFromTheTitle() {
-		$widget = new ceo_bf_adwidget();
-		$out    = $widget->update(
-			array( 'title' => '<em>Sponsored</em>', 'divID' => 'x', 'center' => '0' ),
-			array()
-		);
-		$this->assertSame( 'Sponsored', $out['title'] );
 	}
 
 	public function testNavigationWidgetStoresCheckboxesAsBooleans() {
