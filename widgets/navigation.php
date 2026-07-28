@@ -1,7 +1,7 @@
 <?php
 /*
 Widget Name: Graphical Navigation
-Widget URI: http://comiceasel.com/
+Widget URI: https://github.com/Frumph/comic-easel
 Description: You can place graphical navigation buttons on your comic.
 Author: Philip M. Hofer (Frumph) (mods by Chris Maverick)
 Author URI: http://frumph.net/
@@ -365,4 +365,3 @@ class ceo_comic_navigation_widget extends WP_Widget {
 		<?php
 	}
 }
-

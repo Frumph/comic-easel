@@ -1,7 +1,7 @@
 <?php
 /*
 Widget Name: Latest Comics Widget
-Widget URI: http://comiceasel.org/
+Widget URI: https://github.com/Frumph/comic-easel
 Description: Display a list of links of the latest comics.
 Author: Philip M. Hofer (Frumph)
 Version: 1.02
@@ -62,4 +62,3 @@ class ceo_latest_comics_widget extends WP_Widget {
 		<?php
 	}
 }
-

@@ -15,7 +15,7 @@ Comic Easel allows you to post webcomics to your theme.
 
 == Description ==
 
-Comic Easel Website: [Comic Easel](http://comiceasel.com/ "Comic Easel - Plugin your WebComic")
+Comic Easel project: [Comic Easel on GitHub](https://github.com/Frumph/comic-easel)
 
 Comic Easel allows you to incorporate a WebComic using the WordPress Media Library functionality with Navigation into almost any WordPress theme. With just a few modifications of adding *injection* action locations into a theme, you can have the theme of your choice display a comic.
 
@@ -117,7 +117,7 @@ Sidebars for Comic Easel are added automatically since 05/28/2012 They should ap
 
 == Frequently Asked Questions ==
 
-Comic Easel Website, Troubleshoot Page: [Comic Easel](http://comiceasel.com/faqs/troubleshoot/ "Comic Easel - Plugin your Website - Troubleshooting Comic Easel")
+Project and support: [Comic Easel on GitHub](https://github.com/Frumph/comic-easel)
 
 = The permalinks are not working to go to the comic =
 
@@ -396,7 +396,7 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 * shuffle some logic around in the casthover widget so it doesn't display title if there are no cast members set
 
 = 1.4 =
-* Added support for 'motion artist' comics.   Read documentation at comiceasel.com
+* Added support for 'motion artist' comics.
 * Fixed some visual issues on the comic - comics page, where the thumbnail was being cut off
 * made the admin-editor.css file enqueue on the comics list page as well
 * added 'this day in history' to the thumbnail widget, needs testing
@@ -437,7 +437,7 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 * Comic blog post widget now has an Ordering based on the option in the config.  
 
 = 1.3.8 =
-* Revamped the cast-page shortcode, in tables now, also shows most recent comic the character was in, cast-page now accepts order=(asc/desc) and limit=# arguments documentation now available at comiceasel.com
+* Revamped the cast-page shortcode, in tables now, also shows most recent comic the character was in, cast-page now accepts order=(asc/desc) and limit=# arguments
 
 = 1.3.7 =
 * New debug screen for variables and system information. (for me to help people with mainly)

@@ -1,7 +1,7 @@
 <?php
 /*
 Widget Name: Comic Archive Dropdown
-Widget URI: http://comiceasel.org/
+Widget URI: https://github.com/Frumph/comic-easel
 Description: Display a list of links of the latest comics.
 Author: Philip M. Hofer (Frumph)
 Version: 1.1
@@ -205,4 +205,3 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 		<?php
 	}
 }
-

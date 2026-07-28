@@ -9,12 +9,12 @@
 				</thead>
 				<tr>
 					<td>
-						<?php _e('The Comic Easel website:','comiceasel'); ?>&nbsp;<a href="http://comiceasel.com">http://comiceasel.com</a>&nbsp;<?php _e('probably has the answer you\'re looking for in the form of a post or in the faqs section.','comiceasel'); ?><br />
+						<?php _e('Comic Easel project and support:','comiceasel'); ?>&nbsp;<a href="https://github.com/Frumph/comic-easel">https://github.com/Frumph/comic-easel</a><br />
 						<br />
 						<?php _e('You can contact me for technical support at any of the following locations:','comiceasel'); ?><br />
 						<em><?php _e('(best chances to reach me at the top going down to the least chance)','comiceasel'); ?></em><br />
 						<br />
-						<?php _e('Form Email:','comiceasel'); ?> <a href="http://comiceasel.com/contact/">http://comiceasel.com/contact/</a><br />
+						<?php _e('GitHub Issues:', 'comiceasel'); ?> <a href="https://github.com/Frumph/comic-easel/issues">https://github.com/Frumph/comic-easel/issues</a><br />
 						<?php _e('Via Facebook:','comiceasel'); ?> <a href="http://facebook.com/philip.hofer">http://facebook.com/philip.hofer</a><br />
 						<?php _e('WebComics.COM Forums:', 'comiceasel'); ?> <a href="http://webcomics.com/forum/website-design-assistance/">http://webcomics.com/forum/website-design-assistance/</a>  <?php _e('(Subscription only)','comiceasel'); ?><br />
 						<?php _e('WordPress.ORG Forums:', 'comiceasel'); ?> <a href="https://wordpress.org/support/plugin/comic-easel">https://wordpress.org/support/plugin/comic-easel</a> <?php _e('(rarely go here)','comiceasel'); ?><br />
