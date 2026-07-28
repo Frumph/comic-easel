@@ -5,9 +5,6 @@ if (!defined('ABSPATH')) exit;
 add_action('admin_menu', 'ceo_add_menu_pages');
 add_action('admin_enqueue_scripts', 'ceo_comic_editor_scripts', 10, 1 );
 
-if (ceo_pluginfo('add_dashboard_frumph_feed_widget'))
-	add_action('wp_dashboard_setup', 'ceo_add_dashboard_widgets' );
-
 function ceo_comic_editor_scripts( $hook ) {
 	global $pagenow, $post;
 	if (!empty($pagenow)) {
@@ -100,18 +97,6 @@ function ceo_import() {
 	require_once('ceo-import.php');
 }
 
-/**
- * This set of functions is for displaying the dashboard feed widget.
- *
- */
-function ceo_dashboard_feed_widget() {
-	wp_widget_rss_output('https://comiceasel.com/?feed=rss2', array('items' => 3, 'show_summary' => true));
-} 
-
-function ceo_add_dashboard_widgets() {
-	wp_add_dashboard_widget('ceo_dashboard_widget', 'Comic Easel News', 'ceo_dashboard_feed_widget');	
-}
-
 function ceo_enqueue_admin_cpt_style( $cpt, $handle, $src = false, $deps = array(), $ver = false, $media = 'all' ) {
  
 	/* Check the admin page we are on. */
@@ -136,4 +121,3 @@ function ceo_enqueue_admin_cpt_style( $cpt, $handle, $src = false, $deps = array
 	/* Only enqueue if editor page is the correct CPT. */
 	if ($enqueue) wp_enqueue_style( $handle, $src, $deps, $ver, $media );
 }
-

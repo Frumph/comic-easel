@@ -9,15 +9,6 @@
 						<th colspan="3"><?php _e('Configuration','comiceasel'); ?></th>
 					</tr>
 				</thead>
-				<tr class="alternate">
-					<th scope="row"><label for="add_dashboard_frumph_feed_widget"><?php _e('Enable Dashboard Feed to ComicEasel.com','comiceasel'); ?></label></th>
-					<td>
-						<input id="add_dashboard_frumph_feed_widget" name="add_dashboard_frumph_feed_widget" type="checkbox" value="1" <?php checked(true, $ceo_options['add_dashboard_frumph_feed_widget']); ?> />
-					</td>
-					<td>
-						<?php _e('This is a feed that shows what is happening on ComicEasel.com','comiceasel'); ?>
-					</td>
-				</tr>
 				<tr>
 					<th scope="row"><label for="disable_comic_on_home_page"><?php _e('Disable Comic on the Home Page?','comiceasel'); ?></label></th>
 					<td>

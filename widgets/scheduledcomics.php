@@ -1,7 +1,7 @@
 <?php
 /*
 Widget Name: Scheduled Posts
-Widget URI: http://comiceasel.com/
+Widget URI: https://github.com/Frumph/comic-easel
 Description: Display a list of comic posts that are due to be scheduled.
 Author: Philip M. Hofer (Frumph)
 Author URI: http://frumph.net/
@@ -63,4 +63,3 @@ class ceo_scheduled_comics_widget extends WP_Widget {
 		<?php
 	}
 }
-

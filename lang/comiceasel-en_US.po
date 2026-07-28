@@ -1192,16 +1192,6 @@ msgstr ""
 msgid "Configuration"
 msgstr ""
 
-#: options/general.php:12
-#@ comic-easel
-msgid "Enable Dashboard Feed to ComicEasel.com"
-msgstr ""
-
-#: options/general.php:17
-#@ comic-easel
-msgid "This is a feed that shows what is happening on ComicEasel.com"
-msgstr ""
-
 #: options/general.php:21
 #@ comic-easel
 msgid "Disable Comic on the Home Page?"
@@ -2078,19 +2068,19 @@ msgstr ""
 msgid "Technical Support"
 msgstr ""
 
-#: options/main.php:11
+#: options/main.php:12
 #@ comic-easel
-msgid "probably has the answer you're looking for in the form of a post or in the faqs section."
+msgid "Comic Easel project and support:"
+msgstr ""
+
+#: options/main.php:17
+#@ comic-easel
+msgid "GitHub Issues:"
 msgstr ""
 
 #: options/main.php:14
 #@ comic-easel
 msgid "(best chances to reach me at the top going down to the least chance)"
-msgstr ""
-
-#: options/main.php:16
-#@ comic-easel
-msgid "Form Email:"
 msgstr ""
 
 #: options/main.php:17
@@ -2329,11 +2319,6 @@ msgstr ""
 msgid "The thumbnail for the direct comic and chapter RSS /comic/feed/ and /chapter/chapter-slug/feed/"
 msgstr ""
 
-#: options/main.php:11
-#@ comic-easel
-msgid "The Comic Easel website:"
-msgstr ""
-
 #: options/main.php:13
 #@ comic-easel
 msgid "You can contact me for technical support at any of the following locations:"
@@ -2363,4 +2348,3 @@ msgstr ""
 #@ comic-easel
 msgid "Try to have Comic Easel automatically remove the featured image in posts on non-ComicPress themes?"
 msgstr ""
-

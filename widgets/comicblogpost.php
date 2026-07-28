@@ -1,7 +1,7 @@
 <?php
 /*
 Widget Name: Comic Blog Post Widget
-Widget URI: http://comiceasel.com
+Widget URI: https://github.com/Frumph/comic-easel
 Description: Display's the comic's blog post.
 Author: Philip M. Hofer (Frumph)
 Author URI: http://frumph.net/
@@ -106,4 +106,3 @@ class ceo_comic_blog_post_widget extends WP_Widget {
 		<?php
 	}
 }
-
