@@ -125,6 +125,12 @@ class PaypalIpnTest extends CE_TestCase {
 		);
 	}
 
+	public function testUnknownItemLabelsAreNotTreatedAsPrints() {
+		CE_Test_State::$pluginfo['buy_comic_print_amount'] = '25.00';
+		$this->assertFalse( ceo_paypal_ipn_item_type( 'Poster - My Comic - 7' ) );
+		$this->assertSame( 0.0, ceo_paypal_ipn_expected_amount( 7, 'Poster - My Comic - 7' ) );
+	}
+
 	/**
 	 * The item name is built when the form renders, but __() here resolves when the
 	 * notification arrives. Both labels must work, or changing the site language silently
@@ -196,14 +202,9 @@ class PaypalIpnTest extends CE_TestCase {
 		$this->assertFalse( ceo_paypal_ipn_payee_matches( array(), $config ) );
 	}
 
-	/**
-	 * The checks fail open where there is nothing to compare against, so a half-configured
-	 * shop is not broken by this. That is a deliberate trade-off and worth pinning, because
-	 * it means these sites accept a payment made to anybody.
-	 */
 	#[DataProvider( 'unconfiguredPayeeProvider' )]
-	public function testPayeeCheckFailsOpenWhenNothingIsConfigured( $config ) {
-		$this->assertTrue( ceo_paypal_ipn_payee_matches( array( 'receiver_email' => 'anyone@evil.test' ), $config ) );
+	public function testPayeeCheckFailsClosedWhenNothingIsConfigured( $config ) {
+		$this->assertFalse( ceo_paypal_ipn_payee_matches( array( 'receiver_email' => 'anyone@evil.test' ), $config ) );
 	}
 
 	public static function unconfiguredPayeeProvider() {
@@ -214,5 +215,108 @@ class PaypalIpnTest extends CE_TestCase {
 			'shipped placeholder'    => array( array( 'buy_comic_email' => 'yourname@yourpaypalemail.com' ) ),
 			'placeholder, odd case'  => array( array( 'buy_comic_email' => 'YourName@YourPayPalEmail.com' ) ),
 		);
+	}
+
+	/* ---------------------------------------------------------------- *
+	 * Full server-side cart validation
+	 * ---------------------------------------------------------------- */
+
+	private function validStoreConfig() {
+		return array(
+			'buy_comic_email'         => 'merchant@example.com',
+			'buy_comic_currency'      => 'USD',
+			'buy_comic_sell_print'    => true,
+			'buy_comic_sell_original' => true,
+		);
+	}
+
+	public function testCurrencyMustBeExplicitAndThreeLetters() {
+		$this->assertSame( '', ceo_paypal_currency( array() ) );
+		$this->assertSame( '', ceo_paypal_currency( array( 'buy_comic_currency' => 'US' ) ) );
+		$this->assertSame( 'CAD', ceo_paypal_currency( array( 'buy_comic_currency' => ' cad ' ) ) );
+
+		CE_Test_State::$filters['ceo_paypal_expected_currency'] = 'EUR';
+		$this->assertSame( 'EUR', ceo_paypal_currency( array( 'buy_comic_currency' => 'USD' ) ) );
+	}
+
+	public function testAValidPublishedAvailableComicIsAccepted() {
+		$this->setPost( 7 );
+		$this->setPostMeta( 7, 'buy_print_orig_amount', '65.00' );
+
+		$item = ceo_paypal_ipn_validate_item( 7, 'Original - My Comic - 7', $this->validStoreConfig() );
+
+		$this->assertSame(
+			array( 'post_id' => 7, 'type' => 'original', 'amount' => 65.0 ),
+			$item
+		);
+	}
+
+	#[DataProvider( 'invalidPostProvider' )]
+	public function testOnlyPublicUnprotectedComicsAreAccepted( $type, $status, $password ) {
+		$this->setPost( 7, $type, $status, $password );
+		$this->setPostMeta( 7, 'buy_print_orig_amount', '65.00' );
+
+		$this->assertFalse(
+			ceo_paypal_ipn_validate_item( 7, 'Original - My Comic - 7', $this->validStoreConfig() )
+		);
+	}
+
+	public static function invalidPostProvider() {
+		return array(
+			'ordinary post'       => array( 'post', 'publish', '' ),
+			'draft comic'         => array( 'comic', 'draft', '' ),
+			'private comic'       => array( 'comic', 'private', '' ),
+			'password protected'  => array( 'comic', 'publish', 'secret' ),
+		);
+	}
+
+	public function testDisabledSoldUnknownAndZeroPricedProductsAreRejected() {
+		$this->setPost( 7 );
+		$this->setPostMeta( 7, 'buy_print_orig_amount', '65.00' );
+		$config = $this->validStoreConfig();
+
+		$config['buy_comic_sell_original'] = false;
+		$this->assertFalse( ceo_paypal_ipn_validate_item( 7, 'Original - x - 7', $config ) );
+
+		$config['buy_comic_sell_original'] = true;
+		$this->setPostMeta( 7, 'buyorig-status', 'Sold' );
+		$this->assertFalse( ceo_paypal_ipn_validate_item( 7, 'Original - x - 7', $config ) );
+
+		$this->setPostMeta( 7, 'buyorig-status', '' );
+		$this->assertFalse( ceo_paypal_ipn_validate_item( 7, 'Poster - x - 7', $config ) );
+
+		$this->setPostMeta( 7, 'buy_print_orig_amount', 'not a price' );
+		$this->assertFalse( ceo_paypal_ipn_validate_item( 7, 'Original - x - 7', $config ) );
+	}
+
+	public function testOneBadLineRejectsTheEntireCart() {
+		$this->setPost( 7 );
+		$this->setPostMeta( 7, 'buy_print_orig_amount', '65.00' );
+
+		$this->assertFalse(
+			ceo_paypal_ipn_validate_cart(
+				array( 1 => 'Original - Good - 7', 2 => 'Original - Missing - 8' ),
+				array( 1 => 7, 2 => 8 ),
+				$this->validStoreConfig()
+			)
+		);
+	}
+
+	public function testCartTotalsAndAmountChecksUseServerPrices() {
+		$this->setPost( 7 );
+		$this->setPost( 8 );
+		$this->setPostMeta( 7, 'buy_print_orig_amount', '65.00' );
+		$this->setPostMeta( 8, 'buy_print_amount', '25.00' );
+
+		$cart = ceo_paypal_ipn_validate_cart(
+			array( 1 => 'Original - One - 7', 2 => 'Print - Two - 8' ),
+			array( 1 => 7, 2 => 8 ),
+			$this->validStoreConfig()
+		);
+
+		$this->assertSame( 90.0, $cart['total'] );
+		$this->assertFalse( ceo_paypal_ipn_amount_covers( '89.99', $cart['total'] ) );
+		$this->assertTrue( ceo_paypal_ipn_amount_covers( '95.00', $cart['total'] ) );
+		$this->assertFalse( ceo_paypal_ipn_amount_covers( '95 dollars', $cart['total'] ) );
 	}
 }

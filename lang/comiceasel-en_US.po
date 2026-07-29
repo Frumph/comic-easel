@@ -2348,3 +2348,24 @@ msgstr ""
 #@ comic-easel
 msgid "Try to have Comic Easel automatically remove the featured image in posts on non-ComicPress themes?"
 msgstr ""
+
+#: options/buycomic.php:44
+#@ comic-easel
+msgid "PayPal currency code"
+msgstr ""
+
+#: options/buycomic.php:48
+#@ comic-easel
+msgid "The three-letter currency code used for prices and payments, for example USD, CAD, EUR, or GBP."
+msgstr ""
+
+#: functions/redirects.php:356
+#@ comic-easel
+msgid "REJECTED: the cart does not match an available Comic Easel product."
+msgstr ""
+
+#: functions/redirects.php:358
+#, php-format
+#@ comic-easel
+msgid "REJECTED: payment currency (%1$s) is not the configured currency (%2$s)."
+msgstr ""

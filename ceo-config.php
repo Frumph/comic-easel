@@ -149,6 +149,9 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 							$ceo_options[$key] = '';
 			}
 
+			$currency = isset($_REQUEST['buy_comic_currency']) ? strtoupper(trim(sanitize_text_field(wp_unslash($_REQUEST['buy_comic_currency'])))) : '';
+			$ceo_options['buy_comic_currency'] = preg_match('/^[A-Z]{3}$/', $currency) ? $currency : '';
+
 			foreach (array(
 				'enable_buy_comic',
 				'buy_comic_sell_print',

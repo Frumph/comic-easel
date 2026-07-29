@@ -40,6 +40,15 @@
 					</td>
 				</tr>
 				<tr class="alternate">
+					<th scope="row" colspan="2">
+						<label for="buy_comic_currency"><?php esc_html_e('PayPal currency code','comiceasel'); ?></label>
+						<input type="text" size="3" maxlength="3" name="buy_comic_currency" id="buy_comic_currency" value="<?php echo esc_attr($ceo_options['buy_comic_currency']); ?>" />
+					</th>
+					<td>
+						<?php esc_html_e('The three-letter currency code used for prices and payments, for example USD, CAD, EUR, or GBP.','comiceasel'); ?>
+					</td>
+				</tr>
+				<tr>
 					<th scope="row"colspan="2">
 						<label for="buy_comic_url"><?php _e('FULL URL of where the buy comic shortcode is. (required)','comiceasel'); ?></label>
 						<input type="text" size="25" name="buy_comic_url" id="buy_comic_url" value="<?php echo esc_attr($ceo_options['buy_comic_url']); ?>" />
@@ -54,7 +63,7 @@
 						</em>
 					</td>
 				</tr>
-				<tr>
+				<tr class="alternate">
 					<th scope="row"><label for="buy_comic_sell_print"><?php _e('Are you selling prints?','comiceasel'); ?></label></th>
 					<td>
 						<input id="buy_comic_sell_print" name="buy_comic_sell_print" type="checkbox" value="1" <?php checked(true, $ceo_options['buy_comic_sell_print']); ?> />
@@ -63,7 +72,7 @@
 						<?php _e('<strong>NOTE: If you want to add shipping you will have to do that from your profile on paypal.</strong>','comiceasel'); ?>
 					</td>
 				</tr>
-				<tr class="alternate">
+				<tr>
 					<th scope="row"><label for="buy_comic_print_amount"><?php _e('Print Cost','comiceasel'); ?></label></th>
 					<td>
 						<input type="text" size="7" name="buy_comic_print_amount" id="buy_comic_print_amount" value="<?php echo esc_attr($ceo_options['buy_comic_print_amount']); ?>" />
@@ -72,7 +81,7 @@
 						<?php _e('How much does a print cost?','comiceasel'); ?>
 					</td>
 				</tr>
-				<tr>
+				<tr class="alternate">
 					<th scope="row"><label for="buy_comic_sell_original"><?php _e('Are you selling the original?','comiceasel'); ?></label></th>
 					<td>
 						<input id="buy_comic_sell_original" name="buy_comic_sell_original" type="checkbox" value="1" <?php checked(true, $ceo_options['buy_comic_sell_original']); ?> />
@@ -81,7 +90,7 @@
 						<?php _e('<strong>NOTE: If you want to add shipping you will have to do that from your profile on paypal.</strong>','comiceasel'); ?>
 					</td>
 				</tr>
-				<tr class="alternate">
+				<tr>
 					<th scope="row"><label for="buy_comic_orig_amount"><?php _e('Original Cost','comiceasel'); ?></label></th>
 					<td>
 						<input type="text" size="7" name="buy_comic_orig_amount" id="buy_comic_orig_amount" value="<?php echo esc_attr($ceo_options['buy_comic_orig_amount']); ?>" />

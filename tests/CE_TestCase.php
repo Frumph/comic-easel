@@ -54,6 +54,16 @@ abstract class CE_TestCase extends TestCase {
 		CE_Test_State::$post_meta[ $post_id . ':' . $key ] = $value;
 	}
 
+	protected function setPost( $id, $type = 'comic', $status = 'publish', $password = '' ) {
+		$post                = new stdClass();
+		$post->ID            = $id;
+		$post->post_type     = $type;
+		$post->post_status   = $status;
+		$post->post_password = $password;
+		CE_Test_State::$posts[ $id ] = $post;
+		return $post;
+	}
+
 	protected function grantCap( $user_id, $cap ) {
 		CE_Test_State::$user_caps[ $user_id . ':' . $cap ] = true;
 	}
