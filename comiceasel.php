@@ -600,6 +600,6 @@ function ceo_run_scripts() {
 		}
 	}
 	if (!ceo_pluginfo('disable_keynav')) {
-		wp_enqueue_script('ceo_keynav', ceo_pluginfo('plugin_url').'js/keynav.js', null, null, true);
+		wp_enqueue_script('ceo_keynav', ceo_pluginfo('plugin_url').'js/keynav.js', array('jquery'), null, true);
 	}
 }
