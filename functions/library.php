@@ -1,6 +1,23 @@
 <?php
 if (!defined('ABSPATH')) exit;
 
+/**
+ * A post title prepared for an HTML attribute.
+ */
+function ceo_title_for_attribute($post = 0) {
+	return esc_attr(get_the_title($post));
+}
+
+/**
+ * A post title prepared for normal HTML content.
+ *
+ * Titles are filterable, and some existing sites add harmless inline markup. KSES preserves
+ * that markup while removing scripts and event handlers.
+ */
+function ceo_title_for_html($post = 0) {
+	return wp_kses_post(get_the_title($post));
+}
+
 /*
 *  Get a sidebar and create a generic dynamic sidebar for it, else find the sidebar-*.php in the theme/childtheme
 */

@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) exit;
 
 function ceo_display_comic_small_blog_post($instance) {
 	global $post;
-	if ($instance['showtitle']) { echo "<h3 class=\"comic-post-widget-title\">".get_the_title()."</h3>\r\n"; }
+	if ($instance['showtitle']) { echo '<h3 class="comic-post-widget-title">'.ceo_title_for_html($post->ID)."</h3>\r\n"; }
 	if ($instance['showdate']) { echo "<div class=\"comic-post-widget-date\">".get_the_time(get_option('date_format'))."</div>\r\n"; }
 	the_content();
 	if ($instance['showcommentlink'] && ($post->comment_status == 'open') && !is_singular()) { ?>

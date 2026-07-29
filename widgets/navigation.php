@@ -52,7 +52,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 				<?php if ($instance['comictitle']) { echo '- '; }
 			}
 			if ($instance['comictitle']) { ?>
-				<span class="navi-comictitle"><a href="<?php the_permalink(); ?>" class="comic-nav-title">"<?php the_title(); ?>"</a></span>
+				<span class="navi-comictitle"><a href="<?php echo esc_url(get_permalink($post->ID)); ?>" class="comic-nav-title">"<?php echo ceo_title_for_html($post->ID); ?>"</a></span>
 			<?php } ?>
 			</td>
 			</tr>

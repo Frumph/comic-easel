@@ -41,7 +41,7 @@ class ceo_scheduled_comics_widget extends WP_Widget {
 		} else { ?>
 			<ul>
 			<?php foreach($scheduled_posts as $post) : ?>
-				<li><span class="scheduled-post-date"><?php echo date('m/d/Y',strtotime($post->post_date)); ?></span> <span class="scheduled-post-title"><?php echo $post->post_title; ?></span></li>
+				<li><span class="scheduled-post-date"><?php echo esc_html(date('m/d/Y',strtotime($post->post_date))); ?></span> <span class="scheduled-post-title"><?php echo wp_kses_post($post->post_title); ?></span></li>
 			<?php endforeach; ?>
 			</ul>
 		<?php } 

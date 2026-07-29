@@ -30,7 +30,7 @@ function ceo_list_jump_to_comic($exclude = '', $return = false) {
 		$qposts = get_posts( $post_args );
 		foreach($qposts as $qpost) {
 			$permalink = get_permalink($qpost->ID);
-			if (!empty($permalink)) $output .='<option class="level-0" value="'.esc_url($permalink).'">'.$qpost->post_title.'</option>';
+			if (!empty($permalink)) $output .='<option class="level-0" value="'.esc_url($permalink).'">'.esc_html($qpost->post_title).'</option>';
 		}
 		$output .= '</select>';
 		$output .= '<noscript>';

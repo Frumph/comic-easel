@@ -15,7 +15,8 @@ function ceo_display_featured_image_comic($size = 'full') {
 		if (!empty($hovertext)) {
 			$hovertext = 'alt="'.$hovertext.'" title="'.$hovertext.'" ';
 		} else {
-			$hovertext = 'alt="'.get_the_title($post->ID).'" title="'.get_the_title($post->ID).'" ';
+			$title = ceo_title_for_attribute($post->ID);
+			$hovertext = 'alt="'.$title.'" title="'.$title.'" ';
 		}
 		$thumbnail = wp_get_attachment_image_src( $post_image_id, $size, false);
 		if (is_array($thumbnail)) {
@@ -41,16 +42,16 @@ function ceo_display_featured_image_comic($size = 'full') {
 			if ($linkto && !$comic_has_map) $output .= '<a href="'.esc_url($linkto).'" '.$hovertext.'>';
 			
 			if ($comic_lightbox && !$linkto && !$comic_has_map) {
-				$output .= '<a href="'.$thumbnail.'" '.$hovertext.' rel="lightbox">';
+				$output .= '<a href="'.esc_url($thumbnail).'" '.$hovertext.' rel="lightbox">';
 			}
-			
+
 			if (ceo_pluginfo('click_comic_next') && !empty($next_comic) && !$comic_lightbox && !$linkto && !$comic_has_map) {
-				$output .= '<a href="'.$next_comic.'" '.$hovertext.'>';
+				$output .= '<a href="'.esc_url($next_comic).'" '.$hovertext.'>';
 			}
 			// only show if the comic is not linkable
 			if ($comic_has_map) $usemap = 'usemap="#comicmap" ';
 			
-			$output .= '<img src="'.$thumbnail.'" '.$hovertext.' '.$usemap.' />';
+			$output .= '<img src="'.esc_url($thumbnail).'" '.$hovertext.' '.$usemap.' />';
 			if ((ceo_pluginfo('click_comic_next') && !empty($next_comic) && !$comic_has_map) || $comic_lightbox || $linkto) {
 				$output .= '</a>';
 			}
@@ -94,12 +95,12 @@ function ceo_display_comic_gallery($size = 'full') {
 //				$thumbnail = apply_filters('jetpack_photon_url', $thumbnail);
 
 				if ($comic_lightbox) {
-					$output .= '<a href="'.$thumbnail.'" title="'.$hovertext.'" rel="lightbox">';
+					$output .= '<a href="'.esc_url($thumbnail).'" title="'.$hovertext.'" rel="lightbox">';
 				}
 				if (ceo_pluginfo('click_comic_next') && !empty($next_comic) && !$comic_lightbox) {
-					$output .= '<a href="'.$next_comic.'" title="'.$hovertext.'">';
+					$output .= '<a href="'.esc_url($next_comic).'" title="'.$hovertext.'">';
 				}
-				$output .= '<img src="'.$thumbnail.'" alt="'.$hovertext.'" title="'.$hovertext.'" />';
+				$output .= '<img src="'.esc_url($thumbnail).'" alt="'.$hovertext.'" title="'.$hovertext.'" />';
 				if ((ceo_pluginfo('click_comic_next') && !empty($next_comic)) || $comic_lightbox) {
 					$output .= '</a>';
 				}
@@ -271,7 +272,7 @@ function ceo_display_comic_thumbnail($thumbnail_size = 'thumbnail', $override_po
 			$thumbnail = get_the_post_thumbnail($post_to_use->ID, $thumbnail_size);
 	}
 	if ( has_post_thumbnail($post_to_use->ID) ) {
-		$output =  '<a href="'.get_permalink($post_to_use->ID).'" rel="bookmark" title="'.get_the_title().'">'.$thumbnail.'</a>'."\r\n";
+		$output =  '<a href="'.esc_url(get_permalink($post_to_use->ID)).'" rel="bookmark" title="'.ceo_title_for_attribute($post_to_use->ID).'">'.$thumbnail.'</a>'."\r\n";
 	} else {
 //			$output = "No Thumbnail Found.";
 	}
