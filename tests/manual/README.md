@@ -107,8 +107,11 @@ add_filter( 'pre_wp_mail', function ( $null, $atts ) {
 }, 10, 2 );
 ```
 
-`ceo_paypal_expected_currency` (default `USD`) and `ceo_paypal_max_cart_items` are filterable
-too.
+Set the three-letter PayPal currency on Comic Easel's Buy Comic settings tab. Existing stores
+must choose and save it once after upgrading; checkout stays hidden until both the merchant
+address and currency are configured. `ceo_paypal_expected_currency` can override that setting
+for integrations that hide the built-in tab, and the same resolved value is used by checkout
+and IPN validation. `ceo_paypal_max_cart_items` is filterable too.
 
 Then POST to `/?ceopaypalipn` directly. The reject paths matter as much as the accept path,
 because each should say *why* in the notification email rather than silently doing nothing:
@@ -116,15 +119,15 @@ because each should say *why* in the notification email rather than silently doi
 | Case | Expected |
 |---|---|
 | stub answers anything but `VERIFIED` | nothing written, no mail |
-| valid: right payee, currency and amount | comic marked Sold, owner emailed |
+| valid: right payee, configured currency and amount | comic marked Sold, owner emailed |
 | `business` is not the configured address | not sold, "REJECTED: payment was not made to the configured PayPal address." |
-| `mc_currency` is not the expected currency | not sold, "REJECTED: payment currency ... is not USD." |
+| `mc_currency` is not the configured currency | not sold, "REJECTED: payment currency ... is not the configured currency ..." |
 | `mc_gross` below the asking price | not sold, "REJECTED: amount paid ... is below the asking price" |
 | same `txn_id` and status replayed | ignored, no second mail |
-| `Pending` then `Completed`, same `txn_id` | both processed; the `Completed` one marks it Sold |
+| `Pending` then `Completed`, same `txn_id` | Pending ignored; Completed marks it Sold |
 
-That last row is worth keeping: the ledger is keyed on transaction *and* status precisely so a
-Pending notification cannot swallow the Completed one that follows it.
+That last row is worth keeping: ignored statuses never enter the replay ledger, so a Pending
+notification cannot swallow the Completed one that follows it.
 
 ## Always
 

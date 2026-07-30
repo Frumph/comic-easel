@@ -401,6 +401,7 @@ function ceo_load_options($reset = false) {
 			'enable_hoverbox' => false,
 			'enable_buy_comic' => false,
 			'buy_comic_email' => 'yourname@yourpaypalemail.com',
+			'buy_comic_currency' => 'USD',
 			'buy_comic_url' => home_url().'/shop/',
 			'buy_comic_sell_print' => false,
 			'buy_comic_print_amount' => '25.00',
@@ -494,6 +495,14 @@ function ceo_pluginfo($whichinfo = null) {
 		}
 		if (version_compare($ceo_options['db_version'], '1.9.8', '<')) {
 			$ceo_options['db_version'] = '1.9.8';
+			update_option('comiceasel-config', $ceo_options);
+		}
+		if (version_compare($ceo_options['db_version'], '1.9.9', '<')) {
+			$ceo_options['db_version'] = '1.9.9';
+			$currency = isset($ceo_options['buy_comic_currency']) ? strtoupper(trim((string)$ceo_options['buy_comic_currency'])) : '';
+			// Existing stores previously relied on the PayPal account's implicit currency.
+			// Do not guess and risk charging in the wrong one; the owner must choose it once.
+			$ceo_options['buy_comic_currency'] = preg_match('/^[A-Z]{3}$/', $currency) ? $currency : '';
 			update_option('comiceasel-config', $ceo_options);
 		}
 		$ceo_coreinfo = wp_upload_dir();

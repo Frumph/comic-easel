@@ -26,6 +26,8 @@ class CE_Test_State {
 	public static $options = array();
 	/** @var array<string,mixed> "postid:metakey" => value */
 	public static $post_meta = array();
+	/** @var array<int,object> post ID => lightweight WP_Post stand-in */
+	public static $posts = array();
 	/** @var array<string,bool> "userid:cap" => bool */
 	public static $user_caps = array();
 	/** @var array<string,mixed> filter tag => value to return */
@@ -48,6 +50,7 @@ class CE_Test_State {
 	public static function reset() {
 		self::$options = array( 'blog_charset' => 'UTF-8' );
 		self::$post_meta = array();
+		self::$posts = array();
 		self::$user_caps = array();
 		self::$filters = array();
 		self::$translations = array();
@@ -369,6 +372,13 @@ if ( ! function_exists( 'shortcode_atts' ) ) {
 if ( ! function_exists( 'get_posts' ) ) {
 	function get_posts( $args = array() ) {
 		return array();
+	}
+}
+
+if ( ! function_exists( 'get_post' ) ) {
+	function get_post( $post = null ) {
+		$post_id = is_object( $post ) && isset( $post->ID ) ? (int) $post->ID : (int) $post;
+		return array_key_exists( $post_id, CE_Test_State::$posts ) ? CE_Test_State::$posts[ $post_id ] : null;
 	}
 }
 

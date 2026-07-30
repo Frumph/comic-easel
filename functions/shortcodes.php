@@ -500,6 +500,9 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 					'cancelled' => __('You have cancelled the transaction.','comiceasel')
 					), $atts ) );
 	$buy_output = '';
+	$paypal_config = ceo_pluginfo();
+	$paypal_currency = ceo_paypal_currency($paypal_config);
+	$paypal_ready = (ceo_paypal_merchant($paypal_config) !== '' && $paypal_currency !== '');
 	if (isset($_REQUEST['id'])) $comicnum = intval($_REQUEST['id']);
 	if (isset($_REQUEST['action'])) { 
 		$action = esc_attr($_REQUEST['action']);
@@ -552,8 +555,8 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 				$buy_output .= '<td align="left" valign="top" style="width:50%;">';
 				$buy_output .= '<div class="buycomic-us-form">';
 				$buy_output .= '<h4 class="buycomic-title">Print</h4>';
-				$buy_output .= '$'.esc_html($buy_print_amount).'<br />';
-				if ($buyprint_status == __('Available','comiceasel')) {
+				$buy_output .= esc_html($paypal_currency).' '.esc_html($buy_print_amount).'<br />';
+				if ($paypal_ready && $buyprint_status == __('Available','comiceasel')) {
 					$buy_output .= '<form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">';
 					$buy_output .= '<input type="hidden" name="add" value="1" />';
 					$buy_output .= '<input type="hidden" name="cmd" value="_cart" />';
@@ -563,6 +566,7 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 					$return_url = add_query_arg(array('action' => 'thankyou', 'id' => $comicnum), ceo_pluginfo('buy_comic_url'));
 					$buy_output .= '<input type="hidden" name="return" value="'.esc_url($return_url).'" />';
 					$buy_output .= '<input type="hidden" name="amount" value="'.esc_attr($buy_print_amount).'" />';
+					$buy_output .= '<input type="hidden" name="currency_code" value="'.esc_attr($paypal_currency).'" />';
 					$buy_output .= '<input type="hidden" name="item_number" value="'.esc_attr($comicnum).'" />';
 					$buy_output .= '<input type="hidden" name="business" value="'.esc_attr(ceo_pluginfo('buy_comic_email')).'" />';
 					$buy_output .= '<input type="image" src="'.esc_url(ceo_pluginfo('plugin_url').'images/buynow_paypal.png').'" name="submit32" alt="'.esc_attr(__('Make payments with PayPal - it is fast, free and secure!','comiceasel')).'" />';
@@ -583,8 +587,8 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 				$buy_output .= '<td align="left" valign="top" style="width:50%;">';
 				$buy_output .= '<div class="buycomic-us-form" style="width:100%;">';
 				$buy_output .= '<h4 class="buycomic-title">Original</h4>';
-				$buy_output .= '$'.esc_html($buy_print_orig_amount).'<br />';
-				if ($buyorig_status == __('Available','comiceasel')) {
+				$buy_output .= esc_html($paypal_currency).' '.esc_html($buy_print_orig_amount).'<br />';
+				if ($paypal_ready && $buyorig_status == __('Available','comiceasel')) {
 					$buy_output .= '<form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">';
 					$buy_output .= '<input type="hidden" name="add" value="1" />';
 					$buy_output .= '<input type="hidden" name="cmd" value="_cart" />';
@@ -594,6 +598,7 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 					$return_url = add_query_arg(array('action' => 'thankyou', 'id' => $comicnum), ceo_pluginfo('buy_comic_url'));
 					$buy_output .= '<input type="hidden" name="return" value="'.esc_url($return_url).'" />';
 					$buy_output .= '<input type="hidden" name="amount" value="'.esc_attr($buy_print_orig_amount).'" />';
+					$buy_output .= '<input type="hidden" name="currency_code" value="'.esc_attr($paypal_currency).'" />';
 					$buy_output .= '<input type="hidden" name="item_number" value="'.esc_attr($comicnum).'" />';
 					$buy_output .= '<input type="hidden" name="business" value="'.esc_attr(ceo_pluginfo('buy_comic_email')).'" />';
 					$buy_output .= '<input type="image" src="'.esc_url(ceo_pluginfo('plugin_url').'images/buynow_paypal.png').'" name="submit32" alt="'.esc_attr(__('Make payments with PayPal - it is fast, free and secure!','comiceasel')).'" />';
