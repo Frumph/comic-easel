@@ -9,6 +9,7 @@ class OutputEscapingTest extends CE_TestCase {
 		parent::setUp();
 		self::loadPluginFile( 'functions/library.php' );
 		self::loadPluginFile( 'functions/shortcodes.php' );
+		self::loadPluginFile( 'functions/redirects.php' );
 	}
 
 	public function testTitleAttributeCannotCreateANewAttribute() {
