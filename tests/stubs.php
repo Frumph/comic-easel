@@ -36,6 +36,8 @@ class CE_Test_State {
 	public static $translations = array();
 	/** @var array<string,mixed> ceo_pluginfo key => value */
 	public static $pluginfo = array();
+	/** @var array<int,string> post ID => filtered post title */
+	public static $titles = array();
 	/** @var mixed value returned by wp_remote_post() */
 	public static $http_response = array();
 	/** @var array recorded wp_remote_post() calls */
@@ -55,6 +57,7 @@ class CE_Test_State {
 		self::$filters = array();
 		self::$translations = array();
 		self::$pluginfo = array();
+		self::$titles = array();
 		self::$http_response = array();
 		self::$http_requests = array();
 		self::$kses_calls = array();
@@ -388,9 +391,22 @@ if ( ! function_exists( 'get_permalink' ) ) {
 	}
 }
 
+if ( ! function_exists( 'get_term_link' ) ) {
+	function get_term_link( $term, $taxonomy = '' ) {
+		return 'https://example.test/' . $taxonomy . '/' . $term;
+	}
+}
+
+if ( ! function_exists( 'get_term_by' ) ) {
+	function get_term_by( $field, $value, $taxonomy = '', $output = 'OBJECT', $filter = 'raw' ) {
+		return false;
+	}
+}
+
 if ( ! function_exists( 'get_the_title' ) ) {
 	function get_the_title( $post = 0 ) {
-		return 'Title';
+		$post_id = is_object( $post ) && isset( $post->ID ) ? (int) $post->ID : (int) $post;
+		return array_key_exists( $post_id, CE_Test_State::$titles ) ? CE_Test_State::$titles[ $post_id ] : 'Title';
 	}
 }
 

@@ -61,17 +61,17 @@ function ceo_taxonomy_walker_dropdown_or_list_start_el( &$output, $category, $de
 	
 	if ($args['render_as_list']) {
 		
-		$output .= "\t<li class=\"level-$depth $css_classes\"><a href=\"".$permalink."\">";
+		$output .= "\t<li class=\"".esc_attr("level-$depth $css_classes")."\"><a href=\"".esc_url($permalink)."\">";
 	} else {
-        $output .= "\t<option class=\"level-$depth\" value=\"".$permalink."\"";
+        $output .= "\t<option class=\"".esc_attr("level-$depth")."\" value=\"".esc_url($permalink)."\"";
         if ( $value === (string) $args['selected'] ) {   
             $output .= ' selected="selected"';
         }
        	$output .= '>';
 	}
-    $output .= $pad.$cat_name;
+    $output .= $args['render_as_list'] ? wp_kses_post($pad.$cat_name) : esc_html($pad.$cat_name);
     if ( $args['show_count'] )
-        $output .= '&nbsp;&nbsp;('. $category->count .')';
+        $output .= '&nbsp;&nbsp;('. (int)$category->count .')';
 	$output .= ($args['render_as_list']) ? "</a>" : "</option>\n";
 }
 

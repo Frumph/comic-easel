@@ -45,7 +45,7 @@ function ceo_casthover_res_init_scripts() {
 function ceo_insert_character_hovercard($character) {
 	$ccard = '';
 	if ($character) {
-		$ccard .= '<div class="casthover-hovercard" id="chc-'.$character.'">';
+		$ccard .= '<div class="casthover-hovercard" id="'.esc_attr('chc-'.$character).'">';
 		$ccard .= do_shortcode('[cast-page character="'.$character.'"]');
 		$ccard .= '</div>';
 	}
@@ -60,7 +60,7 @@ function ceo_add_characters_hovercards($post_characters) {
 	if ( !empty( $terms ) ) {
 		$out = array();
 		foreach ( $terms as $term ) {
-			$out[] = '<span class="casthover-hovercard-hook"><a href="'.get_term_link($term->slug, 'characters').'">'.$term->name.'</a>'.ceo_insert_character_hovercard($term->slug).'</span>';
+			$out[] = '<span class="casthover-hovercard-hook"><a href="'.esc_url(get_term_link($term->slug, 'characters')).'">'.wp_kses_post($term->name).'</a>'.ceo_insert_character_hovercard($term->slug).'</span>';
 		}
 		$return = join( ', ', $out );
 	}
@@ -110,7 +110,7 @@ class ceo_casthover_reference_widget extends WP_Widget {
 				}				
 				?><div class="castrefwidget-wrapper"><?php 
 				foreach ( $post_characters as $mychar ) {
-					$out[] = '<span class="castrefwidget-line casthover-hovercard-hook"><a href="'.get_term_link($mychar->slug, 'characters').'"><div class="castrefwidget-block character-'.$mychar->slug.'"></div></a>'.ceo_insert_character_hovercard($mychar->slug).'</span>';
+					$out[] = '<span class="castrefwidget-line casthover-hovercard-hook"><a href="'.esc_url(get_term_link($mychar->slug, 'characters')).'"><div class="'.esc_attr('castrefwidget-block character-'.$mychar->slug).'"></div></a>'.ceo_insert_character_hovercard($mychar->slug).'</span>';
 				}
 				echo join('',$out);
 				?></div><?php 

@@ -36,7 +36,7 @@ class ceo_latest_comics_widget extends WP_Widget {
 		$latestcomics = get_posts($args); ?>
 		<ul>
 		<?php foreach($latestcomics as $post) : ?>
-			<li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
+			<li><a href="<?php echo esc_url(get_permalink($post->ID)); ?>"><?php echo ceo_title_for_html($post->ID); ?></a></li>
 		<?php endforeach; ?>
 		</ul>
 		<?php

@@ -66,7 +66,7 @@ function ceo_change_prev_rel_link_two($link) {
 	if ($post->post_type=='comic' || is_home() || is_front_page()) {
 		$link_url = ceo_get_previous_comic_permalink();
 		if (!empty($link_url)) {
-			$link='<link rel="prev" href="'.$link_url.'" />'."\r\n";
+			$link='<link rel="prev" href="'.esc_url($link_url).'" />'."\r\n";
 		}
 	}
 	return $link;
@@ -77,7 +77,7 @@ function ceo_change_next_rel_link_two($link) {
 	if ($post->post_type=='comic' || is_home() || is_front_page()) {
 		$link_url = ceo_get_next_comic_permalink();
 		if (!empty($link_url)) {
-			$link='<link rel="next" href="'.$link_url.'" />'."\r\n";
+			$link='<link rel="next" href="'.esc_url($link_url).'" />'."\r\n";
 		}
 	}
 	return $link;
