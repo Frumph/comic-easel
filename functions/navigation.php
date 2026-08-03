@@ -156,19 +156,23 @@ function ceo_get_adjacent_comic($previous = true, $in_same_chapter = false, $tax
 	if ( $in_same_chapter ) {
 		$join = " INNER JOIN $wpdb->term_relationships AS tr ON p.ID = tr.object_id INNER JOIN $wpdb->term_taxonomy tt ON tr.term_taxonomy_id = tt.term_taxonomy_id";
 
-		if ( $in_same_chapter ) {
-			$chapt_array = wp_get_object_terms($post->ID, 'chapters', array('fields' => 'ids'));
-			if (!empty($chapt_array))
-				$join .= " AND tt.taxonomy = 'chapters' AND tt.term_id IN (" . implode(',', $chapt_array) . ")";
-		}
+		$chapt_array = wp_get_object_terms($post->ID, 'chapters', array('fields' => 'ids'));
+		$chapt_array = array_values(array_unique(array_filter(array_map('absint', (array)$chapt_array))));
+		if (!empty($chapt_array))
+			$join .= " AND tt.taxonomy = 'chapters' AND tt.term_id IN (" . implode(',', $chapt_array) . ")";
 	}
 
 	$adjacent = $previous ? 'previous' : 'next';
-	$op = $previous ? '<' : '>';
-	$order = $previous ? 'DESC' : 'ASC';
+	if ( $previous ) {
+		$where = $wpdb->prepare("WHERE p.post_date < %s AND p.post_type = %s AND p.post_status = 'publish'", $current_post_date, $post->post_type);
+		$sort = 'ORDER BY p.post_date DESC LIMIT 1';
+	} else {
+		$where = $wpdb->prepare("WHERE p.post_date > %s AND p.post_type = %s AND p.post_status = 'publish'", $current_post_date, $post->post_type);
+		$sort = 'ORDER BY p.post_date ASC LIMIT 1';
+	}
 
-	$where = apply_filters( "get_{$adjacent}_{$taxonomy}_where", $wpdb->prepare("WHERE p.post_date $op %s AND p.post_type = %s AND p.post_status = 'publish'", $current_post_date, $post->post_type), $in_same_chapter);
-	$sort  = apply_filters( "get_{$adjacent}_{$taxonomy}_sort", "ORDER BY p.post_date $order LIMIT 1" );
+	$where = apply_filters( "get_{$adjacent}_{$taxonomy}_where", $where, $in_same_chapter);
+	$sort  = apply_filters( "get_{$adjacent}_{$taxonomy}_sort", $sort );
 
 	$query = "SELECT p.* FROM $wpdb->posts AS p $join $where $sort";
 	$query_key = "adjacent_{$taxonomy}_{$post->ID}_{$previous}_{$in_same_chapter}"; // . md5($query);
@@ -176,7 +180,10 @@ function ceo_get_adjacent_comic($previous = true, $in_same_chapter = false, $tax
 	if ( false !== $result )
 		return $result;
 
-	$result = $wpdb->get_row("SELECT p.* FROM $wpdb->posts AS p $join $where $sort");
+	// $join is assembled from fixed SQL plus integer term IDs. $where and $sort retain the
+	// plugin's longstanding SQL-fragment filters for compatibility with existing sites.
+	// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Dynamic fragments are either prepared above or intentionally supplied through compatibility filters.
+	$result = $wpdb->get_row($query);
 	if ( null === $result )
 		$result = '';
 	wp_cache_set($query_key, $result, 'counts');

@@ -25,9 +25,11 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 	global $wpdb, $m, $monthnum, $year, $wp_locale, $posts;
 
 	if (empty($taxonomy)) $taxonomy = 'post';
-	$taxonomy = esc_attr($taxonomy);
+	$taxonomy = is_scalar($taxonomy) ? (string)$taxonomy : 'post';
+	if (empty($taxonomy)) $taxonomy = 'post';
 
-	if ( get_option('permalink_structure') ) { $the_post_type = '?post_type='.$taxonomy; } else { $the_post_type = '&post_type='.$taxonomy; }
+	$taxonomy_query_value = rawurlencode($taxonomy);
+	if ( get_option('permalink_structure') ) { $the_post_type = '?post_type='.$taxonomy_query_value; } else { $the_post_type = '&post_type='.$taxonomy_query_value; }
 	
 	$cache = array();
 	$key = md5( $m . $monthnum . $year );
@@ -47,7 +49,7 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 
 	// Quick check. If we have no posts at all, abort!
 	if ( !$posts ) {
-		$gotsome = $wpdb->get_var("SELECT 1 as test FROM $wpdb->posts WHERE post_type = '{$taxonomy}' AND post_status = 'publish' LIMIT 1");
+		$gotsome = $wpdb->get_var($wpdb->prepare("SELECT 1 as test FROM $wpdb->posts WHERE post_type = %s AND post_status = 'publish' LIMIT 1", $taxonomy));
 		if ( !$gotsome ) {
 			$cache[ $key ] = '';
 			wp_cache_set( 'get_comic_calendar', $cache, 'calendar' );
@@ -55,8 +57,8 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 		}
 	}
 
-	if ( isset($_GET['w']) )
-		$w = ''.intval($_GET['w']);
+	if ( isset($_GET['w']) && is_scalar($_GET['w']) )
+		$w = ''.intval(wp_unslash($_GET['w']));
 
 	// week_begins = 0 stands for Sunday
 	$week_begins = intval(get_option('start_of_week'));
@@ -69,7 +71,7 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 		// We need to get the month from MySQL
 		$thisyear = ''.intval(substr($m, 0, 4));
 		$d = (($w - 1) * 7) + 6; //it seems MySQL's weeks disagree with PHP's
-		$thismonth = $wpdb->get_var("SELECT DATE_FORMAT((DATE_ADD('{$thisyear}0101', INTERVAL $d DAY) ), '%m')");
+		$thismonth = $wpdb->get_var($wpdb->prepare("SELECT DATE_FORMAT((DATE_ADD(%s, INTERVAL %d DAY) ), '%%m')", $thisyear . '0101', $d));
 	} elseif ( !empty($m) ) {
 		$thisyear = ''.intval(substr($m, 0, 4));
 		if ( strlen($m) < 6 )
@@ -82,21 +84,22 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 	}
 
 	$unixmonth = mktime(0, 0 , 0, $thismonth, 1, $thisyear);
+	$calendar_month_start = sprintf('%04d-%02d-01', $thisyear, $thismonth);
 
 	// Get the next and previous month and year with at least one post
-	$previous = $wpdb->get_row("SELECT DISTINCT MONTH(post_date) AS month, YEAR(post_date) AS year
+	$previous = $wpdb->get_row($wpdb->prepare("SELECT DISTINCT MONTH(post_date) AS month, YEAR(post_date) AS year
 		FROM $wpdb->posts
-		WHERE post_date < '$thisyear-$thismonth-01'
-		AND post_type = '{$taxonomy}' AND post_status = 'publish'
+		WHERE post_date < %s
+		AND post_type = %s AND post_status = 'publish'
 			ORDER BY post_date DESC
-			LIMIT 1");
-	$next = $wpdb->get_row("SELECT	DISTINCT MONTH(post_date) AS month, YEAR(post_date) AS year
+			LIMIT 1", $calendar_month_start, $taxonomy));
+	$next = $wpdb->get_row($wpdb->prepare("SELECT	DISTINCT MONTH(post_date) AS month, YEAR(post_date) AS year
 		FROM $wpdb->posts
-		WHERE post_date >	'$thisyear-$thismonth-01'
-		AND MONTH( post_date ) != MONTH( '$thisyear-$thismonth-01' )
-		AND post_type = '{$taxonomy}' AND post_status = 'publish'
+		WHERE post_date > %s
+		AND MONTH( post_date ) != MONTH( %s )
+		AND post_type = %s AND post_status = 'publish'
 			ORDER	BY post_date ASC
-			LIMIT 1");
+			LIMIT 1", $calendar_month_start, $calendar_month_start, $taxonomy));
 
 	/* translators: Calendar caption: 1: month name, 2: 4-digit year */
 	$calendar_caption = _x('%1$s %2$s', 'calendar caption', 'comiceasel');
@@ -146,11 +149,11 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 	<tr>';
 
 	// Get days with posts
-	$dayswithposts = $wpdb->get_results("SELECT DISTINCT DAYOFMONTH(post_date)
-		FROM $wpdb->posts WHERE MONTH(post_date) = '$thismonth'
-		AND YEAR(post_date) = '$thisyear'
-		AND post_type = '{$taxonomy}' AND post_status = 'publish'
-		AND post_date < '" . current_time('mysql') . '\'', ARRAY_N);
+	$dayswithposts = $wpdb->get_results($wpdb->prepare("SELECT DISTINCT DAYOFMONTH(post_date)
+		FROM $wpdb->posts WHERE MONTH(post_date) = %d
+		AND YEAR(post_date) = %d
+		AND post_type = %s AND post_status = 'publish'
+		AND post_date < %s", $thismonth, $thisyear, $taxonomy, current_time('mysql')), ARRAY_N);
 	if ( $dayswithposts ) {
 		foreach ( (array) $dayswithposts as $daywith ) {
 			$daywithpost[] = $daywith[0];
@@ -159,19 +162,20 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 		$daywithpost = array();
 	}
 
-	if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false || stripos($_SERVER['HTTP_USER_AGENT'], 'camino') !== false || stripos($_SERVER['HTTP_USER_AGENT'], 'safari') !== false)
+	$user_agent = isset($_SERVER['HTTP_USER_AGENT']) && is_scalar($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field(wp_unslash($_SERVER['HTTP_USER_AGENT'])) : '';
+	if (strpos($user_agent, 'MSIE') !== false || stripos($user_agent, 'camino') !== false || stripos($user_agent, 'safari') !== false)
 		$ak_title_separator = "\n";
 	else
 		$ak_title_separator = ', ';
 
 	$ak_titles_for_day = array();
-	$ak_post_titles = $wpdb->get_results("SELECT ID, post_title, DAYOFMONTH(post_date) as dom "
+	$ak_post_titles = $wpdb->get_results($wpdb->prepare("SELECT ID, post_title, DAYOFMONTH(post_date) as dom "
 		."FROM $wpdb->posts "
-		."WHERE YEAR(post_date) = '$thisyear' "
-		."AND MONTH(post_date) = '$thismonth' "
-		."AND post_date < '".current_time('mysql')."' "
+		."WHERE YEAR(post_date) = %d "
+		."AND MONTH(post_date) = %d "
+		."AND post_date < %s "
 		."AND post_type = 'post' AND post_status = 'publish'"
-	);
+	, $thisyear, $thismonth, current_time('mysql')));
 	if ( $ak_post_titles ) {
 		foreach ( (array) $ak_post_titles as $ak_post_title ) {
 
@@ -342,4 +346,3 @@ class ceo_calendar_widget extends WP_Widget {
 		}
 	}
 }
-

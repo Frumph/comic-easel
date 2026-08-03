@@ -28,8 +28,14 @@ class CE_Test_State {
 	public static $post_meta = array();
 	/** @var array<int,object> post ID => lightweight WP_Post stand-in */
 	public static $posts = array();
+	/** @var array<string,array<int,object>> taxonomy => term objects */
+	public static $terms = array();
 	/** @var array<string,bool> "userid:cap" => bool */
 	public static $user_caps = array();
+	/** @var array<string,bool> capability => bool for current_user_can() */
+	public static $current_user_caps = array();
+	/** @var array<string,string> nonce action => accepted nonce */
+	public static $valid_nonces = array();
 	/** @var array<string,mixed> filter tag => value to return */
 	public static $filters = array();
 	/** @var array<string,string> msgid => translation */
@@ -53,7 +59,10 @@ class CE_Test_State {
 		self::$options = array( 'blog_charset' => 'UTF-8' );
 		self::$post_meta = array();
 		self::$posts = array();
+		self::$terms = array();
 		self::$user_caps = array();
+		self::$current_user_caps = array();
+		self::$valid_nonces = array();
 		self::$filters = array();
 		self::$translations = array();
 		self::$pluginfo = array();
@@ -154,6 +163,12 @@ if ( ! function_exists( 'sanitize_key' ) ) {
 	}
 }
 
+if ( ! function_exists( 'absint' ) ) {
+	function absint( $value ) {
+		return abs( (int) $value );
+	}
+}
+
 /**
  * Recorder, not a reimplementation. Returns a sentinel so a test can assert that filtering
  * was applied without depending on what kses would actually have stripped.
@@ -209,10 +224,36 @@ if ( ! function_exists( 'update_post_meta' ) ) {
 	}
 }
 
+if ( ! function_exists( 'add_post_meta' ) ) {
+	function add_post_meta( $post_id, $key, $value, $unique = false ) {
+		return update_post_meta( $post_id, $key, $value );
+	}
+}
+
+if ( ! function_exists( 'delete_post_meta' ) ) {
+	function delete_post_meta( $post_id, $key, $value = '' ) {
+		unset( CE_Test_State::$post_meta[ $post_id . ':' . $key ] );
+		return true;
+	}
+}
+
 if ( ! function_exists( 'user_can' ) ) {
 	function user_can( $user, $capability, ...$args ) {
 		$id = is_object( $user ) ? $user->ID : (int) $user;
 		return ! empty( CE_Test_State::$user_caps[ $id . ':' . $capability ] );
+	}
+}
+
+if ( ! function_exists( 'current_user_can' ) ) {
+	function current_user_can( $capability, ...$args ) {
+		return ! empty( CE_Test_State::$current_user_caps[ $capability ] );
+	}
+}
+
+if ( ! function_exists( 'wp_verify_nonce' ) ) {
+	function wp_verify_nonce( $nonce, $action = -1 ) {
+		return isset( CE_Test_State::$valid_nonces[ $action ] )
+			&& hash_equals( CE_Test_State::$valid_nonces[ $action ], (string) $nonce );
 	}
 }
 
@@ -243,6 +284,12 @@ if ( ! function_exists( '_x' ) ) {
 if ( ! function_exists( 'esc_html__' ) ) {
 	function esc_html__( $text, $domain = 'default' ) {
 		return esc_html( __( $text, $domain ) );
+	}
+}
+
+if ( ! function_exists( 'esc_attr__' ) ) {
+	function esc_attr__( $text, $domain = 'default' ) {
+		return esc_attr( __( $text, $domain ) );
 	}
 }
 
@@ -385,6 +432,14 @@ if ( ! function_exists( 'get_post' ) ) {
 	}
 }
 
+if ( ! function_exists( 'get_post_type_object' ) ) {
+	function get_post_type_object( $post_type ) {
+		return (object) array(
+			'cap' => (object) array( 'edit_post' => 'edit_post' ),
+		);
+	}
+}
+
 if ( ! function_exists( 'get_permalink' ) ) {
 	function get_permalink( $post = 0 ) {
 		return 'https://example.test/?p=' . ( is_object( $post ) ? $post->ID : (int) $post );
@@ -399,6 +454,36 @@ if ( ! function_exists( 'get_term_link' ) ) {
 
 if ( ! function_exists( 'get_term_by' ) ) {
 	function get_term_by( $field, $value, $taxonomy = '', $output = 'OBJECT', $filter = 'raw' ) {
+		return false;
+	}
+}
+
+if ( ! function_exists( 'wp_get_post_terms' ) ) {
+	function wp_get_post_terms( $post_id, $taxonomy, $args = array() ) {
+		return array_key_exists( $taxonomy, CE_Test_State::$terms ) ? CE_Test_State::$terms[ $taxonomy ] : array();
+	}
+}
+
+if ( ! function_exists( 'wptexturize' ) ) {
+	function wptexturize( $text ) {
+		return $text;
+	}
+}
+
+if ( ! function_exists( 'is_feed' ) ) {
+	function is_feed() {
+		return false;
+	}
+}
+
+if ( ! function_exists( 'is_archive' ) ) {
+	function is_archive() {
+		return false;
+	}
+}
+
+if ( ! function_exists( 'is_search' ) ) {
+	function is_search() {
 		return false;
 	}
 }
@@ -431,6 +516,45 @@ if ( ! function_exists( 'wp_cache_get' ) ) {
 if ( ! function_exists( 'wp_cache_set' ) ) {
 	function wp_cache_set( $key, $data, $group = '', $expire = 0 ) {
 		return true;
+	}
+}
+
+if ( ! function_exists( 'wp_cache_delete' ) ) {
+	function wp_cache_delete( $key, $group = '' ) {
+		return true;
+	}
+}
+
+if ( ! function_exists( 'current_time' ) ) {
+	function current_time( $type, $gmt = 0 ) {
+		if ( 'timestamp' === $type || 'U' === $type ) {
+			return 1579089600;
+		}
+		return '2020-01-15 12:00:00';
+	}
+}
+
+if ( ! function_exists( 'zeroise' ) ) {
+	function zeroise( $number, $threshold ) {
+		return sprintf( '%0' . $threshold . 's', $number );
+	}
+}
+
+if ( ! function_exists( 'calendar_week_mod' ) ) {
+	function calendar_week_mod( $number ) {
+		return ( $number % 7 + 7 ) % 7;
+	}
+}
+
+if ( ! function_exists( 'get_month_link' ) ) {
+	function get_month_link( $year, $month ) {
+		return 'https://example.test/' . (int) $year . '/' . (int) $month . '/';
+	}
+}
+
+if ( ! function_exists( 'get_day_link' ) ) {
+	function get_day_link( $year, $month, $day ) {
+		return 'https://example.test/' . (int) $year . '/' . (int) $month . '/' . (int) $day . '/';
 	}
 }
 

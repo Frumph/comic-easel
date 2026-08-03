@@ -296,6 +296,7 @@ function ceo_chapters_add_menu_order_column() {
 	$init_query = $wpdb->query("SHOW COLUMNS FROM $wpdb->terms LIKE 'menu_order'");
 	if (!$init_query) {
 		$sql = "ALTER TABLE `{$wpdb->terms}` ADD `menu_order` INT (11) NOT NULL DEFAULT 0;";
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- The table identifier comes from WordPress's wpdb object; this query has no variable values.
 		$wpdb->query($sql);
 	}
 }
@@ -304,6 +305,7 @@ function ceo_chapters_add_menu_order_column() {
 function ceo_chapters_deactivate() {
 	global $wpdb;
 	$sql = "ALTER TABLE `{$wpdb->terms}` DROP COLUMN `menu_order`;";
+	// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- The table identifier comes from WordPress's wpdb object; this query has no variable values.
 	$result = $wpdb->query($sql);	
 }
 
