@@ -65,7 +65,7 @@ function ceo_cast_display($character, $stats, $image) {
 function ceo_get_character_list($chapter) {
 	global $wpdb;
 	// $chapter arrives from the [cast-page] shortcode attribute, so it is untrusted.
-	$sql_string3 = $wpdb->prepare("SELECT DISTINCT terms2.name as tag
+	$character_list = $wpdb->get_results($wpdb->prepare("SELECT DISTINCT terms2.name as tag
 			FROM
 			$wpdb->posts as p1
 			LEFT JOIN $wpdb->term_relationships as r1 ON p1.ID = r1.object_ID
@@ -79,9 +79,7 @@ function ceo_get_character_list($chapter) {
 			WHERE
 			t1.taxonomy = 'chapters' AND p1.post_status = 'publish' AND terms1.term_id = %d AND
 			t2.taxonomy = 'characters' AND p2.post_status = 'publish'
-			AND p1.ID = p2.ID", (int)$chapter);
-
-	$character_list = $wpdb->get_results($sql_string3);
+			AND p1.ID = p2.ID", (int)$chapter));
 	if (!empty($character_list)) return $character_list;
 	return false;
 }
@@ -396,13 +394,41 @@ function ceo_the_transcript($displaymode = 'raw') {
 	}
 }
 
+/**
+ * Query the years that contain published comics.
+ *
+ * ORDER BY directions cannot use SQL placeholders. The caller already normalizes the
+ * direction, and the branches below select literal clauses so no request value is ever
+ * concatenated into a query.
+ */
+function ceo_get_archive_years($chapter, $order, $chronological_without_chapter = false) {
+	global $wpdb;
+	$chapter = (int)$chapter;
+	$order = ('DESC' === $order) ? 'DESC' : 'ASC';
+
+	if ($chapter) {
+		if ('DESC' === $order) {
+			return $wpdb->get_col($wpdb->prepare("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) WHERE $wpdb->posts.post_status = 'publish' AND $wpdb->term_taxonomy.taxonomy = 'chapters' AND $wpdb->term_taxonomy.term_id = %d ORDER BY post_date DESC", $chapter));
+		}
+
+		return $wpdb->get_col($wpdb->prepare("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) WHERE $wpdb->posts.post_status = 'publish' AND $wpdb->term_taxonomy.taxonomy = 'chapters' AND $wpdb->term_taxonomy.term_id = %d ORDER BY post_date ASC", $chapter));
+	}
+
+	if ($chronological_without_chapter || 'ASC' === $order) {
+		return $wpdb->get_col("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type='comic' ORDER BY post_date ASC");
+	}
+
+	return $wpdb->get_col("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type='comic' ORDER BY post_date DESC");
+}
+
 function ceo_archive_list_by_year($thumbnail = false, $order = 'ASC', $chapter = 0) {
 	global $wpdb;
 	// $order and $chapter arrive from shortcode attributes, so they are untrusted.
 	$chapter = (int)$chapter;
 	$order = (strtoupper($order) == 'DESC') ? 'DESC' : 'ASC';
-	if (isset($_GET['archive_year'])) {
-		$archive_year = (int)esc_attr($_GET['archive_year']); 
+	if (isset($_GET['archive_year']) && is_scalar($_GET['archive_year'])) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Archive selection is a read-only public query argument.
+		$archive_year = intval(wp_unslash($_GET['archive_year']));
 	} else { 
 		$latest_comic = ceo_get_last_comic(false);
 		$archive_year = get_post_time('Y', false, $latest_comic, true);
@@ -412,11 +438,7 @@ function ceo_archive_list_by_year($thumbnail = false, $order = 'ASC', $chapter =
 	$output .= '<br />';
 	$output .= '<div class="archive-yearlist">| ';
 	
-	if ($chapter) {
-		$years = $wpdb->get_col($wpdb->prepare("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) WHERE $wpdb->posts.post_status = 'publish' AND $wpdb->term_taxonomy.taxonomy = 'chapters' AND $wpdb->term_taxonomy.term_id = %d ORDER BY post_date ".$order, $chapter));
-	} else {
-		$years = $wpdb->get_col("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type='comic' ORDER BY post_date ASC");
-	}
+	$years = ceo_get_archive_years($chapter, $order, true);
 	foreach ( $years as $year ) {
 		if ($year != (0) ) {
 			$output .= '<a href="'.esc_url(add_query_arg('archive_year', $year)).'"><strong>'.esc_html($year).'</strong></a> | ';
@@ -458,11 +480,7 @@ function ceo_archive_list_by_all_years($thumbnail = false, $order = 'ASC', $chap
 	$archive_year_latest = get_post_time('Y', false, $latest_comic, true);
 	$first_comic = ceo_get_first_comic(false);
 	$archive_year_first = get_post_time('Y', false, $first_comic, true);
-	if ($chapter) {
-		$years = $wpdb->get_col($wpdb->prepare("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) WHERE $wpdb->posts.post_status = 'publish' AND $wpdb->term_taxonomy.taxonomy = 'chapters' AND $wpdb->term_taxonomy.term_id = %d ORDER BY post_date ".$order, $chapter));
-	} else {
-		$years = $wpdb->get_col("SELECT DISTINCT YEAR(post_date) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type='comic' ORDER BY post_date ".$order);
-	}
+	$years = ceo_get_archive_years($chapter, $order);
 	$output = '';
 	foreach ( $years as $year ) {
 		if ($chapter) {
@@ -503,9 +521,10 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 	$paypal_config = ceo_pluginfo();
 	$paypal_currency = ceo_paypal_currency($paypal_config);
 	$paypal_ready = (ceo_paypal_merchant($paypal_config) !== '' && $paypal_currency !== '');
-	if (isset($_REQUEST['id'])) $comicnum = intval($_REQUEST['id']);
-	if (isset($_REQUEST['action'])) { 
-		$action = esc_attr($_REQUEST['action']);
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- BuyComic return URLs are read-only display routes and historically contain this argument.
+	if (isset($_REQUEST['id']) && is_scalar($_REQUEST['id'])) $comicnum = intval(wp_unslash($_REQUEST['id']));
+	if (isset($_REQUEST['action']) && is_scalar($_REQUEST['action'])) {
+		$action = sanitize_key(wp_unslash($_REQUEST['action']));
 		switch ($action) {
 			case 'thankyou':
 				$buy_output .= '<div class="buycomic-thankyou">';

@@ -7,11 +7,11 @@
 <div class="clear"></div>
 <?php
 $tab = '';
-if (isset($_GET['tab'])) $tab = sanitize_key($_GET['tab']);
+if (isset($_GET['tab']) && is_scalar($_GET['tab'])) $tab = sanitize_key(wp_unslash($_GET['tab']));
 // Read the submitted action once. The forms on this page post it, but a request carrying
 // only a nonce does not, so the reads below were emitting an undefined-key warning apiece
 // on PHP 8. Action names are plain keys, so sanitize_key() is the right shape for it.
-$action = isset($_POST['action']) ? sanitize_key(wp_unslash($_POST['action'])) : '';
+$action = isset($_POST['action']) && is_scalar($_POST['action']) ? sanitize_key(wp_unslash($_POST['action'])) : '';
 if ($action == 'comiceasel_reset') {
 	if (!current_user_can('edit_theme_options'))
 		wp_die(esc_html__('You do not have permission to reset these settings.','comiceasel'));
@@ -25,7 +25,12 @@ if ($action == 'comiceasel_reset') {
 	<?php
 }
 $ceo_options = get_option('comiceasel-config');
-if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-options') ) {
+$nonce = isset($_POST['_wpnonce']) && is_scalar($_POST['_wpnonce']) ? sanitize_text_field(wp_unslash($_POST['_wpnonce'])) : '';
+if ( wp_verify_nonce($nonce, 'update-options') ) {
+		// Historically the nonce and action came from POST while option values came from
+		// $_REQUEST. Keep that integration behavior after the POST nonce has been verified;
+		// each individual value is still checked, unslashed, and sanitized below.
+		$ceo_request = $_REQUEST;
 		if ($action == 'ceo_save_general') {
 
 			foreach (array(
@@ -37,9 +42,9 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 				'chapter_on_home',
 				'remove_post_thumbnail'
 					) as $key) {
-						if (isset($_REQUEST[$key])) {
-							$ceo_options[$key] = wp_filter_nohtml_kses($_REQUEST[$key]);
-						} elseif (empty($_REQUEST[$key]))
+						if (isset($ceo_request[$key]) && is_scalar($ceo_request[$key])) {
+							$ceo_options[$key] = wp_filter_nohtml_kses(wp_unslash($ceo_request[$key]));
+						} elseif (empty($ceo_request[$key]))
 							$ceo_options[$key] = '';
 			}
 
@@ -56,8 +61,7 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 				'enable_hoverbox',
 				'allow_comics_to_have_categories'
 			) as $key) {
-				if (!isset($_REQUEST[$key])) $_REQUEST[$key] = 0;
-				$ceo_options[$key] = (bool)( $_REQUEST[$key] == 1 ? true : false );
+				$ceo_options[$key] = isset($ceo_request[$key]) && is_scalar($ceo_request[$key]) && 1 == sanitize_text_field(wp_unslash($ceo_request[$key]));
 			}
 			
 			$tab = 'general';
@@ -69,8 +73,8 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 			foreach (array(
 				'graphic_navigation_directory'
 					) as $key) {
-							if (isset($_REQUEST[$key])) 
-								$ceo_options[$key] = wp_filter_nohtml_kses($_REQUEST[$key]);
+							if (isset($ceo_request[$key]) && is_scalar($ceo_request[$key]))
+								$ceo_options[$key] = wp_filter_nohtml_kses(wp_unslash($ceo_request[$key]));
 			}
 
 			foreach (array(
@@ -89,8 +93,7 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 				'disable_keynav',
 				'default_nav_bar_chapter_goes_to_archive'
 			) as $key) {
-				if (!isset($_REQUEST[$key])) $_REQUEST[$key] = 0;
-				$ceo_options[$key] = (bool)( $_REQUEST[$key] == 1 ? true : false );
+				$ceo_options[$key] = isset($ceo_request[$key]) && is_scalar($ceo_request[$key]) && 1 == sanitize_text_field(wp_unslash($ceo_request[$key]));
 			}
 			
 			$tab = 'navigation';
@@ -104,8 +107,8 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 				'chapter_type_slug_name',
 				'chapter_type_name_plural'
 					) as $key) {
-							if (isset($_REQUEST[$key]) && !empty($_REQUEST[$key])) 
-								$ceo_options[$key] = strtolower(wp_filter_nohtml_kses($_REQUEST[$key]));
+							if (isset($ceo_request[$key]) && is_scalar($ceo_request[$key]) && !empty($ceo_request[$key]))
+								$ceo_options[$key] = strtolower(wp_filter_nohtml_kses(wp_unslash($ceo_request[$key])));
 			}
 
 			foreach (array(
@@ -113,8 +116,7 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 				'disable_cal_rewrite_rules',
 				'enable_chapter_in_url'
 			) as $key) {
-				if (!isset($_REQUEST[$key])) $_REQUEST[$key] = 0;
-				$ceo_options[$key] = (bool)( $_REQUEST[$key] == 1 ? true : false );
+				$ceo_options[$key] = isset($ceo_request[$key]) && is_scalar($ceo_request[$key]) && 1 == sanitize_text_field(wp_unslash($ceo_request[$key]));
 			}
 			
 			$tab = 'archive';
@@ -128,8 +130,7 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 				'enable_blog_on_chapter_landing',
 				'enable_comments_on_chapter_landing'
 			) as $key) {
-				if (!isset($_REQUEST[$key])) $_REQUEST[$key] = 0;
-				$ceo_options[$key] = (bool)( $_REQUEST[$key] == 1 ? true : false );
+				$ceo_options[$key] = isset($ceo_request[$key]) && is_scalar($ceo_request[$key]) && 1 == sanitize_text_field(wp_unslash($ceo_request[$key]));
 			}
 			$tab = 'landing';
 			update_option('comiceasel-config', $ceo_options);
@@ -143,13 +144,13 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 				'buy_comic_print_amount',
 				'buy_comic_orig_amount'
 					) as $key) {
-						if (isset($_REQUEST[$key])) {
-							$ceo_options[$key] = wp_filter_nohtml_kses($_REQUEST[$key]);
-						} elseif (empty($_REQUEST[$key]))
+						if (isset($ceo_request[$key]) && is_scalar($ceo_request[$key])) {
+							$ceo_options[$key] = wp_filter_nohtml_kses(wp_unslash($ceo_request[$key]));
+						} elseif (empty($ceo_request[$key]))
 							$ceo_options[$key] = '';
 			}
 
-			$currency = isset($_REQUEST['buy_comic_currency']) ? strtoupper(trim(sanitize_text_field(wp_unslash($_REQUEST['buy_comic_currency'])))) : '';
+			$currency = isset($ceo_request['buy_comic_currency']) && is_scalar($ceo_request['buy_comic_currency']) ? strtoupper(trim(sanitize_text_field(wp_unslash($ceo_request['buy_comic_currency'])))) : '';
 			$ceo_options['buy_comic_currency'] = preg_match('/^[A-Z]{3}$/', $currency) ? $currency : '';
 
 			foreach (array(
@@ -157,8 +158,7 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'update-op
 				'buy_comic_sell_print',
 				'buy_comic_sell_original'
 			) as $key) {
-				if (!isset($_REQUEST[$key])) $_REQUEST[$key] = 0;
-				$ceo_options[$key] = (bool)( $_REQUEST[$key] == 1 ? true : false );
+				$ceo_options[$key] = isset($ceo_request[$key]) && is_scalar($ceo_request[$key]) && 1 == sanitize_text_field(wp_unslash($ceo_request[$key]));
 			}
 			
 			$tab = 'buycomic';

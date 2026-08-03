@@ -376,25 +376,25 @@ global $post, $wp_query, $wpdb, $table_prefix;
 		$character_terms = wp_get_post_terms( $post->ID, 'characters' );
 		if (is_array($character_terms) && (count($character_terms) > 0) && !is_wp_error($character_terms)) {
 			foreach ($character_terms as $term) {
-				$termarray[] = $term->term_id;
+				$termarray[] = absint($term->term_id);
 			}
 		}
 		$location_terms = wp_get_post_terms( $post->ID, 'locations' );
 		if (is_array($location_terms) && (count($location_terms) > 0) && !is_wp_error($location_terms)) {
 			foreach ($location_terms as $term) {
-				$termarray[] = $term->term_id;
+				$termarray[] = absint($term->term_id);
 			}
 		}
 		$post_tag_terms = wp_get_post_terms( $post->ID, 'post_tag' );
 		if (is_array($post_tag_terms) && (count($post_tag_terms) > 0) && !is_wp_error($post_tag_terms)) {
 			foreach ($post_tag_terms as $term) {
-				$termarray[] = $term->term_id;
+				$termarray[] = absint($term->term_id);
 			}
 		}
+		$termarray = array_values(array_unique(array_filter($termarray)));
 		if (is_array($termarray) && (count($termarray) > 0)) {
-			$termlist = implode(',', $termarray);
-			if (!empty($termlist)) {
-				if (empty($limit)) $limit = 5;
+			$term_placeholders = implode(',', array_fill(0, count($termarray), '%d'));
+			if (!empty($term_placeholders)) {
 				// Do the query
 				$query = "SELECT p.*, count(tr.object_id) as count
 						FROM $wpdb->term_taxonomy AS tt,
@@ -402,14 +402,16 @@ global $post, $wp_query, $wpdb, $table_prefix;
 						$wpdb->posts AS p WHERE (tt.taxonomy = 'post_tag' OR tt.taxonomy = 'characters' OR tt.taxonomy = 'locations') 
 						AND tt.term_taxonomy_id = tr.term_taxonomy_id 
 						AND tr.object_id  = p.ID 
-						AND tt.term_id IN ($termlist) AND p.ID != $post->ID
+						AND tt.term_id IN ($term_placeholders) AND p.ID != %d
 						AND p.post_status = 'publish'
 						AND p.post_type = 'comic'
 						AND p.post_date_gmt < NOW()
 						GROUP BY tr.object_id
 						ORDER BY RAND() DESC, p.post_date_gmt DESC
-						LIMIT $limit;";
-				$related = $wpdb->get_results($query);
+						LIMIT %d;";
+				$query_args = array_merge($termarray, array(absint($post->ID), 5));
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- $query contains generated placeholders; every value is supplied to prepare().
+				$related = $wpdb->get_results($wpdb->prepare($query, ...$query_args));
 				$output = '';
 				if (!empty($related)) {
 					$output .= '<div class="related-comics">'."\r\n";

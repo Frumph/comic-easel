@@ -12,6 +12,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', dirname( __DIR__ ) . '/' );
 }
 
+if ( ! defined( 'ARRAY_N' ) ) {
+	define( 'ARRAY_N', 'ARRAY_N' );
+}
+
 define( 'CE_PLUGIN_DIR', dirname( __DIR__ ) );
 
 require_once __DIR__ . '/stubs.php';

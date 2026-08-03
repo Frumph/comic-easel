@@ -15,6 +15,11 @@ class EscapeStoredTextTest extends CE_TestCase {
 		self::loadPluginFile( 'functions/library.php' );
 	}
 
+	protected function tearDown(): void {
+		unset( $_REQUEST['_wp_http_referer'], $_SERVER['HTTP_REFERER'] );
+		parent::tearDown();
+	}
+
 	/**
 	 * A single invalid UTF-8 byte must not blank the value.
 	 *
@@ -91,5 +96,17 @@ class EscapeStoredTextTest extends CE_TestCase {
 			array( false, '' ),
 			array( 123, '123' ),
 		);
+	}
+
+	public function testRawRefererPreservesTheLegacyExactComparisonValue() {
+		$_SERVER['HTTP_REFERER'] = "https://legacy.example/comic/O\\'Brien";
+
+		$this->assertSame( "https://legacy.example/comic/O\\'Brien", ceo_get_referer( true ) );
+	}
+
+	public function testDefaultRefererModeUnslashesAndSanitizesForOutput() {
+		$_SERVER['HTTP_REFERER'] = "https://legacy.example/comic/O\\'Brien";
+
+		$this->assertSame( "https://legacy.example/comic/O'Brien", ceo_get_referer() );
 	}
 }
