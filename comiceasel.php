@@ -545,21 +545,6 @@ function ceo_pluginfo($whichinfo = null) {
 	return $ceo_pluginfo;
 }
 
-/**
- * This functions is to display test information on the dashboard, instead of dumping it out to everyone.
- * This is so that a plugin doesn't generate errors on output of the var_dump() to the end user.
- */
-function ceo_test_information($vartodump) { ?>
-	<div class="error">
-		<h2><?php _e('Comic Easel - Test Information','comiceasel'); ?></h2>
-		<?php 
-			var_dump($vartodump);
-		?>
-	</div>
-<?php }
-
-// if (is_admin()) add_action( 'admin_notices', 'ceo_test_information' );
-
 // Load all the widgets
 
 foreach (glob(ceo_pluginfo('plugin_path')  . 'widgets/*.php') as $widgefile) {
