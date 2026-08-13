@@ -21,11 +21,11 @@ function ceo_check_directory($dirpath) {
 
 ?>
 <div class="wrap">
-<h2><?php _e('Comic Easel - Debug','comiceasel'); ?></h2>
+<h2><?php esc_html_e('Comic Easel - Debug','comiceasel'); ?></h2>
 <table class="widefat">
 <thead>
 	<tr>
-	<th colspan="3"><?php _e('System Info','comiceasel'); ?></th>
+	<th colspan="3"><?php esc_html_e('System Info','comiceasel'); ?></th>
 	</tr>
 </thead>
 <tr><td>error</td><td><?php echo esc_html(ceo_pluginfo('error')); ?></td></tr>
@@ -44,7 +44,7 @@ function ceo_check_directory($dirpath) {
 <thead>
 <tr>
 <th colspan = "3">
-	<?php _e('Variables', 'comiceasel'); ?>
+	<?php esc_html_e('Variables', 'comiceasel'); ?>
 </th>
 </tr>
 </thead>

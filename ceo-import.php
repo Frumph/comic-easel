@@ -106,31 +106,31 @@ function ceo_import_add_comic_and_post($comic_to_add, $date_to_add, $title_to_ad
 }
 
 function ceo_import_by_namedate($import_directory, $import_date_format, $import_filename_mask, $import_create_post, $import_chapter, $import_time) {
-	echo '<strong><h2>'.__('Import type: by Filename w/date','comiceasel').'</strong></h2>';
+	echo '<strong><h2>'.esc_html__('Import type: by Filename w/date','comiceasel').'</strong></h2>';
 	$file_list = array();
 	if (count($results = glob(ABSPATH.$import_directory.'/*.*')) > 0) {
-		echo count($results).' '.__('Files found.','comiceasel')."<br />\r\n";
+		echo count($results).' '.esc_html__('Files found.','comiceasel')."<br />\r\n";
 		natcasesort($results);
 		foreach ($results as $filename) {
 			$breakdown = ceo_breakdown_comic_filename(basename($filename), $import_date_format, $import_filename_mask);
 			if ($breakdown && is_array($breakdown)) $file_list[] = $breakdown;
 		}
-		echo count($file_list).' '.__('files have valid naming and can be imported.','comiceasel');
+		echo count($file_list).' '.esc_html__('files have valid naming and can be imported.','comiceasel');
 	} else {
-		echo __('No files found in','comiceasel').' '.ABSPATH.$import_directory.' '.__('or directory does not exist','comiceasel').'<br />';
+		echo esc_html__('No files found in','comiceasel').' '.esc_html(ABSPATH.$import_directory).' '.esc_html__('or directory does not exist','comiceasel').'<br />';
 		return;
 	}
 	echo "<hr />\r\n";
 	if (count($file_list)) {
 		$chapter_object = get_term_by('id', $import_chapter, 'chapters');
-		echo __('Processing Files...','comiceasel').' '.__('Importing to chapter:','comiceasel').' <strong>'.$chapter_object->name.'</strong><br />'."\r\n";
+		echo esc_html__('Processing Files...','comiceasel').' '.esc_html__('Importing to chapter:','comiceasel').' <strong>'.esc_html($chapter_object->name).'</strong><br />'."\r\n";
 		echo '<table>';
 		foreach ($file_list as $file_to_process) {
 			echo '<tr>';
 			if (empty($file_to_process['converted_title'])) $file_to_process['converted_title'] = $file_to_process['date'];
 			$result = ceo_import_add_comic_and_post($file_to_process['filename'], $file_to_process['date'], $file_to_process['converted_title'], $import_create_post, $import_chapter, $import_time, $import_directory);
 			$result = ($result) ? $result : __('System Process Error','comiceasel');
-			echo '<td>'.__('Date:','comiceasel').' <strong>'.$file_to_process['date'].'</strong></td><td> ---- </td><td>'.__('Title of Post:','comiceasel').' <strong>'.$file_to_process['converted_title'].'</strong></td><td> --- </td><td>'.__('Result:','comiceasel').' <strong>'.$result.'</strong></td>';
+			echo '<td>'.esc_html__('Date:','comiceasel').' <strong>'.esc_html($file_to_process['date']).'</strong></td><td> ---- </td><td>'.esc_html__('Title of Post:','comiceasel').' <strong>'.esc_html($file_to_process['converted_title']).'</strong></td><td> --- </td><td>'.esc_html__('Result:','comiceasel').' <strong>'.$result.'</strong></td>';
 			echo '</tr>';
 		}
 		echo '</table>';
@@ -146,20 +146,20 @@ if ($import_request_is_valid) {
 			ceo_import_by_namedate($import_directory, $import_date_format, $import_filename_mask, $import_create_post, $import_chapter, $import_time);
 			break;
 		default:
-			_e('ERROR: No selection made.', 'comiceasel');
+			esc_html_e('ERROR: No selection made.', 'comiceasel');
 			break;
 	}
 }
 
 ?>
 <div class="wrap">
-<h2><?php _e('Comic Easel - Import','comiceasel'); ?></h2>
+<h2><?php esc_html_e('Comic Easel - Import','comiceasel'); ?></h2>
 <form method="post" id="myForm-import" name="template">
 <?php wp_nonce_field('comiceasel-import') ?>
 <table class="widefat">
 <thead>
 	<tr>
-	<th colspan="10"><?php _e('Options','comiceasel'); ?></th>
+	<th colspan="10"><?php esc_html_e('Options','comiceasel'); ?></th>
 	</tr>
 <?php 
 	/*
@@ -168,7 +168,7 @@ if ($import_request_is_valid) {
 			<input name="import-type" class="import-type" type="radio" value="date" disabled="disabled" />
 		</td>
 		<td valign="top" align="left" colspan="12">
-			<?php _e('by Date Stamp of file','comiceasel'); ?>
+			<?php esc_html_e('by Date Stamp of file','comiceasel'); ?>
 		</td>
 	</tr>
 	*/
@@ -178,27 +178,27 @@ if ($import_request_is_valid) {
 			<input name="import-type" class="import-type" type="radio" value="namedate" <?php checked($import_type, true); ?> />
 		</td>
 		<td align="left" style="width:180px">
-			<?php _e('by Filename w/date','comiceasel'); ?> <cite>(*1)</cite>
+			<?php esc_html_e('by Filename w/date','comiceasel'); ?> <cite>(*1)</cite>
 		</td>
 		<td align="left" style="width:260px">
-			<?php _e('Date Format','comiceasel'); ?><br />
-			<a href="http://codex.wordpress.org/Formatting_Date_and_Time" target="_blank"><?php _e('Documentation on date formats','comiceasel'); ?></a><br />
+			<?php esc_html_e('Date Format','comiceasel'); ?><br />
+			<a href="http://codex.wordpress.org/Formatting_Date_and_Time" target="_blank"><?php esc_html_e('Documentation on date formats','comiceasel'); ?></a><br />
 			<input name="import-date-format" class="import-date-format" value="<?php echo esc_attr($import_date_format); ?>" />
 		</td>
 		<td align="left" style="width:240px;">
-			<?php _e('Filename Mask','comiceasel'); ?><br />
-			{DATE} <?php _e('will be replaced','comiceasel'); ?><br />
+			<?php esc_html_e('Filename Mask','comiceasel'); ?><br />
+			{DATE} <?php esc_html_e('will be replaced','comiceasel'); ?><br />
 			<input name="import-date-mask" class="import-date-mask" value="<?php echo esc_attr($import_filename_mask); ?>" />
 		</td>
 		<td align="left" colspan="9">
-			<?php _e('Set Time of Comic Posts','comiceasel'); ?><br />
-			<?php _e('24 hour clock','comiceasel'); ?><br />
+			<?php esc_html_e('Set Time of Comic Posts','comiceasel'); ?><br />
+			<?php esc_html_e('24 hour clock','comiceasel'); ?><br />
 			<input name="import-time" class="import-time" value="<?php echo esc_attr($import_time); ?>" />
 		</td>
 	</tr>
 	<tr>
 		<td colspan="13">
-		<?php echo '<center><strong>'.__('WARNING: When uploading your comics to the import directory, make sure there is only 1 comic per day, multiple comics per day will have issues.','comiceasel').'</strong></center>';  ?>
+		<?php echo '<center><strong>'.esc_html__('WARNING: When uploading your comics to the import directory, make sure there is only 1 comic per day, multiple comics per day will have issues.','comiceasel').'</strong></center>';  ?>
 		</td>
 	</tr>
 <?php 
@@ -208,15 +208,15 @@ if ($import_request_is_valid) {
 			<input name="import-type" class="import-type" type="radio" value="numbered" disabled="disabled" />
 		</td>
 		<td align="left">
-			<?php _e('by Numbered filename','comiceasel'); ?>
+			<?php esc_html_e('by Numbered filename','comiceasel'); ?>
 		</td>
 		<td align="left">
-			<?php _e('Filename Mask','comiceasel'); ?><br />
-			{NUM} <?php _e('gets replaced with the comic number, starting at 1 - use Backdate Files option', 'comiceasel'); ?><br />
+			<?php esc_html_e('Filename Mask','comiceasel'); ?><br />
+			{NUM} <?php esc_html_e('gets replaced with the comic number, starting at 1 - use Backdate Files option', 'comiceasel'); ?><br />
 			<input name="import-filename-mask" class="import-filename-mask" value="comic{NUM}.*" disabled="disabled" />
 		</td>
 		<td align="left">
-			<input name="import-backdate" class="import-backdate" type="checkbox" value="1" checked disabled="disabled" /> <?php _e('Backdate Files', 'comiceasel'); ?><br />
+			<input name="import-backdate" class="import-backdate" type="checkbox" value="1" checked disabled="disabled" /> <?php esc_html_e('Backdate Files', 'comiceasel'); ?><br />
 			<input name="import-backdate-how" class="import-backdate-how-everyday" type="radio" value="everyday" disabled="disabled" /> Everyday<br />
 			<input name="import-backdate-how" class="import-backdate-how-weekdays" type="radio" value="weekdays" disabled="disabled" /> Weekdays<br />			
 			<input name="import-backdate-how" class="import-backdate-how-mwf" type="radio" value="mwf" disabled="disabled" /> MWF
@@ -231,10 +231,10 @@ if ($import_request_is_valid) {
 			<input name="import-create-post" class="import-create-post" type="checkbox" value="1" <?php checked($import_create_post, true); ?> />
 		</td>
 		<td align="left">
-			<?php _e('Import even if comic post already exists for that date.','comiceasel'); ?>
+			<?php esc_html_e('Import even if comic post already exists for that date.','comiceasel'); ?>
 		</td>
 		<td align="left" colspan="11">
-			<?php _e('Having this NOT checked (default) will make it so that if there is already a comic for that date it will not add another one.', 'comiceasel'); ?>
+			<?php esc_html_e('Having this NOT checked (default) will make it so that if there is already a comic for that date it will not add another one.', 'comiceasel'); ?>
 		</td>
 	</tr>
 */
@@ -259,40 +259,40 @@ wp_dropdown_categories( $args );
 
 		</td>
 		<td align="left" colspan="11">
-			<?php _e('Select a chapter the comics will go in.  If there are multiple chapters, then modify the comics in the import directory and only add the ones you want for the chapter selected.  You need to create the chapter first in the comics - chapters area.', 'comiceasel'); ?>
+			<?php esc_html_e('Select a chapter the comics will go in.  If there are multiple chapters, then modify the comics in the import directory and only add the ones you want for the chapter selected.  You need to create the chapter first in the comics - chapters area.', 'comiceasel'); ?>
 		</td>
 	</tr>
 </thead>
 </table>
 <p class="submit" style="margin-left: 10px;">
-	<input type="submit" class="button-primary" value="<?php _e('Import','comiceasel') ?>" />
+	<input type="submit" class="button-primary" value="<?php esc_attr_e('Import','comiceasel') ?>" />
 	<input type="hidden" name="action" value="ceo-import" />
 </p>
 <p>
 <?php 
-echo '<h3>'.__('DIRECTIONS:','comiceasel').'</h3>';
+echo '<h3>'.esc_html__('DIRECTIONS:','comiceasel').'</h3>';
 echo '<ol>';
-echo '<li>'.__('FTP into your site and create a directory named','comiceasel').' <strong>"'.$import_directory.'"</strong> '.__('off of the root installation folder of your site.','comiceasel').'</li>';
-echo '<li>'.__('Upload into that directory the comics using the ComicPress filename convention for each individual chapter you are importing.','comiceasel').'</li>';
-echo '<li>'.__('Make sure the chapter the comics are going into is created in the comic - chapters section of the wp-admin.','comiceasel').'</li>';
-echo '<li>'.__('Select chapter in the import section, modify any other values as needed, if you do not know what they are, do not modify them.','comiceasel').'</li>';
-echo '<li>'.__('Press the Import button and wish for the best.','comiceasel').'</li>';
+echo '<li>'.esc_html__('FTP into your site and create a directory named','comiceasel').' <strong>"'.esc_html($import_directory).'"</strong> '.esc_html__('off of the root installation folder of your site.','comiceasel').'</li>';
+echo '<li>'.esc_html__('Upload into that directory the comics using the ComicPress filename convention for each individual chapter you are importing.','comiceasel').'</li>';
+echo '<li>'.esc_html__('Make sure the chapter the comics are going into is created in the comic - chapters section of the wp-admin.','comiceasel').'</li>';
+echo '<li>'.esc_html__('Select chapter in the import section, modify any other values as needed, if you do not know what they are, do not modify them.','comiceasel').'</li>';
+echo '<li>'.esc_html__('Press the Import button and wish for the best.','comiceasel').'</li>';
 echo '</ol>'
 ?>
 </p>
-<cite>*1</cite> - <?php _e('eg, ComicPress style filenames, if Date Format is: Y-m-d and Date Mask is {DATE}*.* the filename would be (as example if image is a .jpg):','comiceasel'); ?> <strong><?php _e('2012-01-01-title-of-comic.jpg','comiceasel'); ?></strong><br />
-<cite>*2</cite> - <?php _e('ComicPress file convention requires that each comic is its own date., do not have comics uploaded on the same date.  While Comic Easel does not require each comic to have its own date, the Import does.  There will be other methods of importing made in the future that this will not be an issue.','comiceasel'); ?><br />
+<cite>*1</cite> - <?php esc_html_e('eg, ComicPress style filenames, if Date Format is: Y-m-d and Date Mask is {DATE}*.* the filename would be (as example if image is a .jpg):','comiceasel'); ?> <strong><?php esc_html_e('2012-01-01-title-of-comic.jpg','comiceasel'); ?></strong><br />
+<cite>*2</cite> - <?php esc_html_e('ComicPress file convention requires that each comic is its own date., do not have comics uploaded on the same date.  While Comic Easel does not require each comic to have its own date, the Import does.  There will be other methods of importing made in the future that this will not be an issue.','comiceasel'); ?><br />
 </p>
 <br />
 <?php
-echo __('Directory to scan:','comiceasel').'&nbsp;<strong>'.ABSPATH.$import_directory.'</strong>'."<br />\r\n";
+echo esc_html__('Directory to scan:','comiceasel').'&nbsp;<strong>'.esc_html(ABSPATH.$import_directory).'</strong>'."<br />\r\n";
 if (count($results = glob(ABSPATH.$import_directory.'/*.*')) > 0) {
-	echo count($results).' '.__('Files found.','comiceasel')."<br />\r\n";
+	echo count($results).' '.esc_html__('Files found.','comiceasel')."<br />\r\n";
 	echo "<hr />\r\n";
 	natcasesort($results);
 	foreach ($results as $filename) {
-		echo '<span style="width:320px;display:inline-block;float:left;">'.basename($filename).'</span>';
+		echo '<span style="width:320px;display:inline-block;float:left;">'.esc_html(basename($filename)).'</span>';
 	}
 } else {
-	echo __('No files found in','comiceasel').'&nbsp;'.ABSPATH.$import_directory;
+	echo esc_html__('No files found in','comiceasel').'&nbsp;'.esc_html(ABSPATH.$import_directory);
 }
