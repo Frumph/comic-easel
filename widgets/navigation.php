@@ -18,8 +18,8 @@ class ceo_comic_navigation_widget extends WP_Widget {
 	function __construct() {
 		parent::__construct(
 			__CLASS__, // Base ID
-			__( 'Comic Easel - Navigation', 'comiceasel' ), // Name
-			array( 'classname' => __CLASS__, 'description' => __( 'Displays navigation links for navigating your comics.  This widget works in the above-comic and under-comic sidebars if you set them in the theme you use.', 'comiceasel' ), ) // Args
+			__( 'Comic Easel - Navigation', 'comic-easel' ), // Name
+			array( 'classname' => __CLASS__, 'description' => __( 'Displays navigation links for navigating your comics.  This widget works in the above-comic and under-comic sidebars if you set them in the theme you use.', 'comic-easel' ), ) // Args
 		);
 	}
 	
@@ -180,7 +180,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 			$thumbnail = wp_get_attachment_image_src( $post_image_id, 'full', false);
 			if (is_array($thumbnail) && !empty($thumbnail)) { 
 				$thumbnail = reset($thumbnail);
-				echo '<span class="comic-navi-href-info">'.esc_html__('Image URL (for hotlinking/embedding):','comiceasel').'&nbsp;'.esc_url($thumbnail).'</span>';
+				echo '<span class="comic-navi-href-info">'.esc_html__('Image URL (for hotlinking/embedding):','comic-easel').'&nbsp;'.esc_url($thumbnail).'</span>';
 			}
 			?>
 			</td>
@@ -282,86 +282,86 @@ class ceo_comic_navigation_widget extends WP_Widget {
 					'imageurl' => false,
 					'buycomic' => false,
 					'archive_path' => '',
-					'previous_chap_title' => __('<[ Prev Chapter', 'comiceasel'),
-					'next_chap_title' => __('Next Chapter ]>', 'comiceasel'),
-					'first_in_title' => __('<<[ First', 'comiceasel'),
-					'last_in_title' => __('Last ]>>', 'comiceasel'),
-					'previous_in_title' => __('<[ Prev', 'comiceasel'),
-					'next_in_title' => __('Next ]>', 'comiceasel'),
-					'first_title' => __('<< First', 'comiceasel'),
-					'last_title' => __('Last >>', 'comiceasel'),
-					'previous_title' => __('< Prev', 'comiceasel'),
-					'next_title' => __('Next >', 'comiceasel'),
-					'random_title' => __('Random', 'comiceasel'),
-					'archives_title' => __('Archives', 'comiceasel'),
-					'comments_title' => __('Comments', 'comiceasel'),
-					'buycomic_title' => __('Buy!', 'comiceasel')
+					'previous_chap_title' => __('<[ Prev Chapter', 'comic-easel'),
+					'next_chap_title' => __('Next Chapter ]>', 'comic-easel'),
+					'first_in_title' => __('<<[ First', 'comic-easel'),
+					'last_in_title' => __('Last ]>>', 'comic-easel'),
+					'previous_in_title' => __('<[ Prev', 'comic-easel'),
+					'next_in_title' => __('Next ]>', 'comic-easel'),
+					'first_title' => __('<< First', 'comic-easel'),
+					'last_title' => __('Last >>', 'comic-easel'),
+					'previous_title' => __('< Prev', 'comic-easel'),
+					'next_title' => __('Next >', 'comic-easel'),
+					'random_title' => __('Random', 'comic-easel'),
+					'archives_title' => __('Archives', 'comic-easel'),
+					'comments_title' => __('Comments', 'comic-easel'),
+					'buycomic_title' => __('Buy!', 'comic-easel')
 					));
 		?>
-		<input id="<?php echo esc_attr($this->get_field_id('first')); ?>" name="<?php echo esc_attr($this->get_field_name('first')); ?>" type="checkbox" value="1" <?php checked(true, $instance['first']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('first')); ?>"><strong><?php esc_html_e('First','comiceasel'); ?></strong></label><br />
+		<input id="<?php echo esc_attr($this->get_field_id('first')); ?>" name="<?php echo esc_attr($this->get_field_name('first')); ?>" type="checkbox" value="1" <?php checked(true, $instance['first']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('first')); ?>"><strong><?php esc_html_e('First','comic-easel'); ?></strong></label><br />
 		<input id="<?php echo esc_attr($this->get_field_id('first_title')); ?>" name="<?php echo esc_attr($this->get_field_name('first_title')); ?>" type="text" value="<?php echo esc_attr($instance['first_title']); ?>" /><br /> 
 		<br />
 
-		<input id="<?php echo esc_attr($this->get_field_id('last')); ?>" name="<?php echo esc_attr($this->get_field_name('last')); ?>" type="checkbox" value="1" <?php checked(true, $instance['last']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('last')); ?>"><strong><?php esc_html_e('Last','comiceasel'); ?></strong></label><br />
+		<input id="<?php echo esc_attr($this->get_field_id('last')); ?>" name="<?php echo esc_attr($this->get_field_name('last')); ?>" type="checkbox" value="1" <?php checked(true, $instance['last']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('last')); ?>"><strong><?php esc_html_e('Last','comic-easel'); ?></strong></label><br />
 		<input id="<?php echo esc_attr($this->get_field_id('last_title')); ?>" name="<?php echo esc_attr($this->get_field_name('last_title')); ?>" type="text" value="<?php echo esc_attr($instance['last_title']); ?>" /><br />
 		<br />
 		
-		<input id="<?php echo esc_attr($this->get_field_id('previous')); ?>" name="<?php echo esc_attr($this->get_field_name('previous')); ?>" type="checkbox" value="1" <?php checked(true, $instance['previous']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('previous')); ?>"><strong><?php esc_html_e('Previous','comiceasel'); ?></strong></label><br />
+		<input id="<?php echo esc_attr($this->get_field_id('previous')); ?>" name="<?php echo esc_attr($this->get_field_name('previous')); ?>" type="checkbox" value="1" <?php checked(true, $instance['previous']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('previous')); ?>"><strong><?php esc_html_e('Previous','comic-easel'); ?></strong></label><br />
 		<input id="<?php echo esc_attr($this->get_field_id('previous_title')); ?>" name="<?php echo esc_attr($this->get_field_name('previous_title')); ?>" type="text" value="<?php echo esc_attr($instance['previous_title']); ?>" /><br />
 		<br />
 		
-		<input id="<?php echo esc_attr($this->get_field_id('next')); ?>" name="<?php echo esc_attr($this->get_field_name('next')); ?>" type="checkbox" value="1" <?php checked(true, $instance['next']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('next')); ?>"><strong><?php esc_html_e('Next','comiceasel'); ?></strong></label><br />
+		<input id="<?php echo esc_attr($this->get_field_id('next')); ?>" name="<?php echo esc_attr($this->get_field_name('next')); ?>" type="checkbox" value="1" <?php checked(true, $instance['next']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('next')); ?>"><strong><?php esc_html_e('Next','comic-easel'); ?></strong></label><br />
 		<input id="<?php echo esc_attr($this->get_field_id('next_title')); ?>" name="<?php echo esc_attr($this->get_field_name('next_title')); ?>" type="text" value="<?php echo esc_attr($instance['next_title']); ?>" /><br />
 		<br />
 		
-		<input id="<?php echo esc_attr($this->get_field_id('first_in')); ?>" name="<?php echo esc_attr($this->get_field_name('first_in')); ?>" type="checkbox" value="1" <?php checked(true, $instance['first_in']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('first_in')); ?>"><strong><?php esc_html_e('First in Chapter','comiceasel'); ?></strong></label><br />
+		<input id="<?php echo esc_attr($this->get_field_id('first_in')); ?>" name="<?php echo esc_attr($this->get_field_name('first_in')); ?>" type="checkbox" value="1" <?php checked(true, $instance['first_in']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('first_in')); ?>"><strong><?php esc_html_e('First in Chapter','comic-easel'); ?></strong></label><br />
 		<input id="<?php echo esc_attr($this->get_field_id('first_in_title')); ?>" name="<?php echo esc_attr($this->get_field_name('first_in_title')); ?>" type="text" value="<?php echo esc_attr($instance['first_in_title']); ?>" /><br />   
 		<br />
 		
-		<input id="<?php echo esc_attr($this->get_field_id('last_in')); ?>" name="<?php echo esc_attr($this->get_field_name('last_in')); ?>" type="checkbox" value="1" <?php checked(true, $instance['last_in']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('last_in')); ?>"><strong><?php esc_html_e('Last in Chapter','comiceasel'); ?></strong></label><br />
+		<input id="<?php echo esc_attr($this->get_field_id('last_in')); ?>" name="<?php echo esc_attr($this->get_field_name('last_in')); ?>" type="checkbox" value="1" <?php checked(true, $instance['last_in']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('last_in')); ?>"><strong><?php esc_html_e('Last in Chapter','comic-easel'); ?></strong></label><br />
 		<input id="<?php echo esc_attr($this->get_field_id('last_in_title')); ?>" name="<?php echo esc_attr($this->get_field_name('last_in_title')); ?>" type="text" value="<?php echo esc_attr($instance['last_in_title']); ?>" /><br />
 		<br />
 		
-		<input id="<?php echo esc_attr($this->get_field_id('previous_in')); ?>" name="<?php echo esc_attr($this->get_field_name('previous_in')); ?>" type="checkbox" value="1" <?php checked(true, $instance['previous_in']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('previous_in')); ?>"><strong><?php esc_html_e('Previous in Chapter','comiceasel'); ?></strong></label><br />
+		<input id="<?php echo esc_attr($this->get_field_id('previous_in')); ?>" name="<?php echo esc_attr($this->get_field_name('previous_in')); ?>" type="checkbox" value="1" <?php checked(true, $instance['previous_in']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('previous_in')); ?>"><strong><?php esc_html_e('Previous in Chapter','comic-easel'); ?></strong></label><br />
 		<input id="<?php echo esc_attr($this->get_field_id('previous_in_title')); ?>" name="<?php echo esc_attr($this->get_field_name('previous_in_title')); ?>" type="text" value="<?php echo esc_attr($instance['previous_in_title']); ?>" /><br />   
 		<br />
 		
-		<input id="<?php echo esc_attr($this->get_field_id('next_in')); ?>" name="<?php echo esc_attr($this->get_field_name('next_in')); ?>" type="checkbox" value="1" <?php checked(true, $instance['next_in']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('next_in')); ?>"><strong><?php esc_html_e('Next in Chapter','comiceasel'); ?></strong></label><br />
+		<input id="<?php echo esc_attr($this->get_field_id('next_in')); ?>" name="<?php echo esc_attr($this->get_field_name('next_in')); ?>" type="checkbox" value="1" <?php checked(true, $instance['next_in']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('next_in')); ?>"><strong><?php esc_html_e('Next in Chapter','comic-easel'); ?></strong></label><br />
 		<input id="<?php echo esc_attr($this->get_field_id('next_in_title')); ?>" name="<?php echo esc_attr($this->get_field_name('next_in_title')); ?>" type="text" value="<?php echo esc_attr($instance['next_in_title']); ?>" /><br />
 		<br />
 		
-		<input id="<?php echo esc_attr($this->get_field_id('previous_chap')); ?>" name="<?php echo esc_attr($this->get_field_name('previous_chap')); ?>" type="checkbox" value="1" <?php checked(true, $instance['previous_chap']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('previous_chap')); ?>"><strong><?php esc_html_e('Previous Chapter','comiceasel'); ?></strong></label><br />
+		<input id="<?php echo esc_attr($this->get_field_id('previous_chap')); ?>" name="<?php echo esc_attr($this->get_field_name('previous_chap')); ?>" type="checkbox" value="1" <?php checked(true, $instance['previous_chap']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('previous_chap')); ?>"><strong><?php esc_html_e('Previous Chapter','comic-easel'); ?></strong></label><br />
 		<input id="<?php echo esc_attr($this->get_field_id('previous_chap_title')); ?>" name="<?php echo esc_attr($this->get_field_name('previous_chap_title')); ?>" type="text" value="<?php echo esc_attr($instance['previous_chap_title']); ?>" /><br />   
 		<br />
 		
-		<input id="<?php echo esc_attr($this->get_field_id('next_chap')); ?>" name="<?php echo esc_attr($this->get_field_name('next_chap')); ?>" type="checkbox" value="1" <?php checked(true, $instance['next_chap']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('next_chap')); ?>"><strong><?php esc_html_e('Next Chapter','comiceasel'); ?></strong></label><br />
+		<input id="<?php echo esc_attr($this->get_field_id('next_chap')); ?>" name="<?php echo esc_attr($this->get_field_name('next_chap')); ?>" type="checkbox" value="1" <?php checked(true, $instance['next_chap']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('next_chap')); ?>"><strong><?php esc_html_e('Next Chapter','comic-easel'); ?></strong></label><br />
 		<input id="<?php echo esc_attr($this->get_field_id('next_chap_title')); ?>" name="<?php echo esc_attr($this->get_field_name('next_chap_title')); ?>" type="text" value="<?php echo esc_attr($instance['next_chap_title']); ?>" /><br />
 		<br />
 		
-		<input id="<?php echo esc_attr($this->get_field_id('comictitle')); ?>" name="<?php echo esc_attr($this->get_field_name('comictitle')); ?>" type="checkbox" value="1" <?php checked(true, $instance['comictitle']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('comictitle')); ?>"><strong><?php esc_html_e('Comic Title','comiceasel'); ?></strong></label>
+		<input id="<?php echo esc_attr($this->get_field_id('comictitle')); ?>" name="<?php echo esc_attr($this->get_field_name('comictitle')); ?>" type="checkbox" value="1" <?php checked(true, $instance['comictitle']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('comictitle')); ?>"><strong><?php esc_html_e('Comic Title','comic-easel'); ?></strong></label>
 		<br />
 		
-		<input id="<?php echo esc_attr($this->get_field_id('comicchapter')); ?>" name="<?php echo esc_attr($this->get_field_name('comicchapter')); ?>" type="checkbox" value="1" <?php checked(true, $instance['comicchapter']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('comicchapter')); ?>"><strong><?php esc_html_e('Comic Chapter','comiceasel'); ?></strong></label><br />
+		<input id="<?php echo esc_attr($this->get_field_id('comicchapter')); ?>" name="<?php echo esc_attr($this->get_field_name('comicchapter')); ?>" type="checkbox" value="1" <?php checked(true, $instance['comicchapter']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('comicchapter')); ?>"><strong><?php esc_html_e('Comic Chapter','comic-easel'); ?></strong></label><br />
 		<br />
 		
-		<input id="<?php echo esc_attr($this->get_field_id('archives')); ?>" name="<?php echo esc_attr($this->get_field_name('archives')); ?>" type="checkbox" value="1" <?php checked(true, $instance['archives']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('archives')); ?>"><strong><?php esc_html_e('Archives','comiceasel'); ?></strong></label><br />
+		<input id="<?php echo esc_attr($this->get_field_id('archives')); ?>" name="<?php echo esc_attr($this->get_field_name('archives')); ?>" type="checkbox" value="1" <?php checked(true, $instance['archives']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('archives')); ?>"><strong><?php esc_html_e('Archives','comic-easel'); ?></strong></label><br />
 		<input id="<?php echo esc_attr($this->get_field_id('archives_title')); ?>" name="<?php echo esc_attr($this->get_field_name('archives_title')); ?>" type="text" value="<?php echo esc_attr($instance['archives_title']); ?>" /><br />   
 		Archive URL: <input class="widefat" id="<?php echo esc_attr($this->get_field_id('archive_path')); ?>" name="<?php echo esc_attr($this->get_field_name('archive_path')); ?>" type="text" value="<?php echo esc_attr($instance['archive_path']); ?>" /><br />
 		<br />
 		
-		<input id="<?php echo esc_attr($this->get_field_id('comments')); ?>" name="<?php echo esc_attr($this->get_field_name('comments')); ?>" type="checkbox" value="1" <?php checked(true, $instance['comments']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('comments')); ?>"><strong><?php esc_html_e('Comments','comiceasel'); ?></strong></label><br />
+		<input id="<?php echo esc_attr($this->get_field_id('comments')); ?>" name="<?php echo esc_attr($this->get_field_name('comments')); ?>" type="checkbox" value="1" <?php checked(true, $instance['comments']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('comments')); ?>"><strong><?php esc_html_e('Comments','comic-easel'); ?></strong></label><br />
 		<input id="<?php echo esc_attr($this->get_field_id('comments_title')); ?>" name="<?php echo esc_attr($this->get_field_name('comments_title')); ?>" type="text" value="<?php echo esc_attr($instance['comments_title']); ?>" /><br />   
 		<br />
 		
-		<input id="<?php echo esc_attr($this->get_field_id('random')); ?>" name="<?php echo esc_attr($this->get_field_name('random')); ?>" type="checkbox" value="1" <?php checked(true, $instance['random']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('random')); ?>"><strong><?php esc_html_e('Random','comiceasel'); ?></strong></label><br />
+		<input id="<?php echo esc_attr($this->get_field_id('random')); ?>" name="<?php echo esc_attr($this->get_field_name('random')); ?>" type="checkbox" value="1" <?php checked(true, $instance['random']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('random')); ?>"><strong><?php esc_html_e('Random','comic-easel'); ?></strong></label><br />
 		<input id="<?php echo esc_attr($this->get_field_id('random_title')); ?>" name="<?php echo esc_attr($this->get_field_name('random_title')); ?>" type="text" value="<?php echo esc_attr($instance['random_title']); ?>" /><br />   
 		<br />
 <?php if (ceo_pluginfo('enable_buy_comic')) { ?>
-		<input id="<?php echo esc_attr($this->get_field_id('buycomic')); ?>" name="<?php echo esc_attr($this->get_field_name('buycomic')); ?>" type="checkbox" value="1" <?php checked(true, $instance['buycomic']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('buycomic')); ?>"><strong><?php esc_html_e('Buy!','comiceasel'); ?></strong></label><br />
+		<input id="<?php echo esc_attr($this->get_field_id('buycomic')); ?>" name="<?php echo esc_attr($this->get_field_name('buycomic')); ?>" type="checkbox" value="1" <?php checked(true, $instance['buycomic']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('buycomic')); ?>"><strong><?php esc_html_e('Buy!','comic-easel'); ?></strong></label><br />
 		<input id="<?php echo esc_attr($this->get_field_id('buycomic_title')); ?>" name="<?php echo esc_attr($this->get_field_name('buycomic_title')); ?>" type="text" value="<?php echo esc_attr($instance['buycomic_title']); ?>" /><br />   
 		<br />
 <?php } ?>		
-		<input id="<?php echo esc_attr($this->get_field_id('imageurl')); ?>" name="<?php echo esc_attr($this->get_field_name('imageurl')); ?>" type="checkbox" value="1" <?php checked(true, $instance['imageurl']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('imageurl')); ?>"><strong><?php esc_html_e('ImageURL','comiceasel'); ?></strong></label>
+		<input id="<?php echo esc_attr($this->get_field_id('imageurl')); ?>" name="<?php echo esc_attr($this->get_field_name('imageurl')); ?>" type="checkbox" value="1" <?php checked(true, $instance['imageurl']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('imageurl')); ?>"><strong><?php esc_html_e('ImageURL','comic-easel'); ?></strong></label>
 		<?php
 	}
 }

@@ -7,25 +7,25 @@ if (!defined('ABSPATH')) exit;
 function ceo_check_directory($dirpath) {
 	$output = '';
 	if (is_dir(ceo_pluginfo($dirpath))) {
-		$output = '<span style="color:green;">'.__('Directory Exists,','comiceasel').'</span>';
+		$output = '<span style="color:green;">'.__('Directory Exists,','comic-easel').'</span>';
 		if (is_writable(ceo_pluginfo($dirpath))) {
-			$output .= ' <span style="color:green;">'.__('and is writable.','comiceasel').'</span>';
+			$output .= ' <span style="color:green;">'.__('and is writable.','comic-easel').'</span>';
 		} else {
-			$output .= ' <span style="color:red;">'.__('and is not writable.','comiceasel').'</span>';
+			$output .= ' <span style="color:red;">'.__('and is not writable.','comic-easel').'</span>';
 		}			
 	} else {
-		$output = '<span style="color:red;">'.__('Directory does not exist,','comiceasel').'</span>';
+		$output = '<span style="color:red;">'.__('Directory does not exist,','comic-easel').'</span>';
 	}
 	return $output;
 }
 
 ?>
 <div class="wrap">
-<h2><?php esc_html_e('Comic Easel - Debug','comiceasel'); ?></h2>
+<h2><?php esc_html_e('Comic Easel - Debug','comic-easel'); ?></h2>
 <table class="widefat">
 <thead>
 	<tr>
-	<th colspan="3"><?php esc_html_e('System Info','comiceasel'); ?></th>
+	<th colspan="3"><?php esc_html_e('System Info','comic-easel'); ?></th>
 	</tr>
 </thead>
 <tr><td>error</td><td><?php echo esc_html(ceo_pluginfo('error')); ?></td></tr>
@@ -44,7 +44,7 @@ function ceo_check_directory($dirpath) {
 <thead>
 <tr>
 <th colspan = "3">
-	<?php esc_html_e('Variables', 'comiceasel'); ?>
+	<?php esc_html_e('Variables', 'comic-easel'); ?>
 </th>
 </tr>
 </thead>

@@ -34,7 +34,7 @@ function ceo_version_meta() {
 function ceo_display_edit_link() {
 	global $post;
 	if (($post->post_type == 'comic') && current_user_can('edit_post', $post->ID)) {
-		echo '<a href="'.esc_url(get_edit_post_link()).'">'.esc_html__('Edit Comic.','comiceasel')."</a><br />\r\n";
+		echo '<a href="'.esc_url(get_edit_post_link()).'">'.esc_html__('Edit Comic.','comic-easel')."</a><br />\r\n";
 	}
 }
 
@@ -113,10 +113,10 @@ function ceo_display_comic_navigation() {
 		$next_comic = ceo_get_next_comic_permalink();
 		$prev_comic = ceo_get_previous_comic_permalink();
 	}
-	$first_text = __('&lsaquo;&lsaquo; First','comiceasel');
-	$last_text = __('Last &rsaquo;&rsaquo;','comiceasel'); 
-	$next_text = __('Next &rsaquo;','comiceasel');
-	$prev_text = __('&lsaquo; Prev','comiceasel');
+	$first_text = __('&lsaquo;&lsaquo; First','comic-easel');
+	$last_text = __('Last &rsaquo;&rsaquo;','comic-easel'); 
+	$next_text = __('Next &rsaquo;','comic-easel');
+	$prev_text = __('&lsaquo; Prev','comic-easel');
 	
 	?>
 	<table id="comic-nav-wrapper">
@@ -131,11 +131,11 @@ function ceo_display_comic_navigation() {
 				$bpsep = '?';
 			}
 		?>
-		<td class="comic-nav"><a href="<?php echo esc_url(ceo_pluginfo('buy_comic_url').$bpsep.'id='.$post->ID); ?>" class="comic-nav-base comic-nav-buycomic" title="Buy Comic"><?php esc_html_e('Buy!','comiceasel'); ?></a></td>
+		<td class="comic-nav"><a href="<?php echo esc_url(ceo_pluginfo('buy_comic_url').$bpsep.'id='.$post->ID); ?>" class="comic-nav-base comic-nav-buycomic" title="Buy Comic"><?php esc_html_e('Buy!','comic-easel'); ?></a></td>
 <?php }
 if (ceo_pluginfo('enable_comment_nav') && !wp_is_mobile()) { 
 			$commentscount = get_comments_number(); ?>
-			<td class="comic-nav"><a href="<?php comments_link(); ?>" class="comic-nav-comments" title="<?php echo ceo_title_for_attribute($post->ID); ?>"><span class="comic-nav-comment-count"><?php /* translators: %d: number of comments on the comic. */ echo esc_html(sprintf( _n( 'Comment(%d)', 'Comments(%d)', $commentscount, 'comiceasel' ), $commentscount )); ?></span></a></td>
+			<td class="comic-nav"><a href="<?php comments_link(); ?>" class="comic-nav-comments" title="<?php echo ceo_title_for_attribute($post->ID); ?>"><span class="comic-nav-comment-count"><?php /* translators: %d: number of comments on the comic. */ echo esc_html(sprintf( _n( 'Comment(%d)', 'Comments(%d)', $commentscount, 'comic-easel' ), $commentscount )); ?></span></a></td>
 <?php } 
 	if (ceo_pluginfo('enable_random_nav') && !wp_is_mobile()) { 
 		$stay = '';
@@ -144,7 +144,7 @@ if (ceo_pluginfo('enable_comment_nav') && !wp_is_mobile()) {
 			if (!empty($chapter) && !is_wp_error($chapter)) $stay = '&stay='.reset($chapter)->term_id;
 		}
 ?>
-			<td class="comic-nav"><a href="<?php bloginfo('url') ?>?random&nocache=1<?php echo esc_attr($stay); ?>" class="comic-nav-random" title="Random Comic"><?php esc_html_e('Random','comiceasel'); ?></a></td>
+			<td class="comic-nav"><a href="<?php bloginfo('url') ?>?random&nocache=1<?php echo esc_attr($stay); ?>" class="comic-nav-random" title="Random Comic"><?php esc_html_e('Random','comic-easel'); ?></a></td>
 <?php } ?>
 	<td class="comic-nav"><?php if ($next_comic) { ?><a href="<?php echo esc_url($next_comic); ?>" class="comic-nav-base comic-nav-next<?php if (!$next_comic) { ?> comic-nav-inactive<?php } ?>"><?php echo esc_html($next_text); ?></a><?php } else { echo '<span class="comic-nav-base comic-nav-next comic-nav-void ">'.esc_html($next_text).'</span>'; } ?></td>
 	<td class="comic-nav"><?php if ( get_permalink() != $last_comic ) { ?><a href="<?php echo esc_url($last_comic); ?>" class="comic-nav-base comic-nav-last<?php if ( get_permalink() == $last_comic ) { ?> comic-nav-inactive<?php } ?>"><?php echo esc_html($last_text); ?></a><?php } else { echo '<span class="comic-nav-base comic-nav-last comic-nav-void">'.esc_html($last_text).'</span>'; } ?></td>
@@ -203,7 +203,7 @@ if (!function_exists('ceo_display_comic_wrapper')) {
 function ceo_display_comic_locations() {
 	global $post;
 	if ($post->post_type == 'comic') {
-		$before = '<div class="comic-locations">'.__('Location','comiceasel').': ';
+		$before = '<div class="comic-locations">'.__('Location','comic-easel').': ';
 		$sep = ', '; 
 		$after = '</div>';
 		echo get_the_term_list( $post->ID, 'locations', $before, $sep, $after );
@@ -213,7 +213,7 @@ function ceo_display_comic_locations() {
 function ceo_display_comic_characters() {
 	global $post;
 	if ($post->post_type == 'comic') {
-		$before = '<div class="comic-characters">'.__('Characters','comiceasel').': ';
+		$before = '<div class="comic-characters">'.__('Characters','comic-easel').': ';
 		$sep = ', '; 
 		$after = '</div>';
 		echo get_the_term_list( $post->ID, 'characters', $before, $sep, $after );
@@ -262,8 +262,8 @@ function ceo_inject_mini_navigation() {
 			}
 		}
 		if (!empty($next_comic) || !empty($prev_comic)) {
-			$next_text = __('&rsaquo;','comiceasel');
-			$prev_text = __('&lsaquo;','comiceasel');
+			$next_text = __('&rsaquo;','comic-easel');
+			$prev_text = __('&lsaquo;','comic-easel');
 			$output = '<div class="mininav-wrapper">'."\r\n";
 			if (!empty($prev_comic))
 				$output .= '<span class="mininav-prev"><a href="'.$prev_comic.'">'.$prev_text.'</a></span>';
@@ -415,7 +415,7 @@ global $post, $wp_query, $wpdb, $table_prefix;
 				$output = '';
 				if (!empty($related)) {
 					$output .= '<div class="related-comics">'."\r\n";
-					$output .= '<h4 class="related-title">'.__('Related Comics &not;','comiceasel').'</h4>'."\r\n";
+					$output .= '<h4 class="related-title">'.__('Related Comics &not;','comic-easel').'</h4>'."\r\n";
 					$output .= '<ul class="related-ul">'."\r\n";
 					foreach ($related as $post_info) {
 //						if (has_post_thumbnail($post_info->ID)) the_post_thumbnail($post_info->ID);

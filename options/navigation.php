@@ -11,52 +11,52 @@
 			<table class="widefat">
 				<thead>
 					<tr>
-						<th colspan="3"><?php esc_html_e('Navigation Options','comiceasel'); ?></th>
+						<th colspan="3"><?php esc_html_e('Navigation Options','comic-easel'); ?></th>
 					</tr>
 				</thead>
 				<tr class="alternate">
-					<th scope="row"><label for="click_comic_next"><?php esc_html_e('Clicking the comic goes to next comic?','comiceasel'); ?></label></th>
+					<th scope="row"><label for="click_comic_next"><?php esc_html_e('Clicking the comic goes to next comic?','comic-easel'); ?></label></th>
 					<td>
 						<input id="click_comic_next" name="click_comic_next" type="checkbox" value="1" <?php checked(true, $ceo_options['click_comic_next']); ?> />
 					</td>
 					<td>
-						<?php esc_html_e('When this is enabled, when the comic is mouse over and clicked it will go to the next comic in the chapter.','comiceasel'); ?>
+						<?php esc_html_e('When this is enabled, when the comic is mouse over and clicked it will go to the next comic in the chapter.','comic-easel'); ?>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><label for="disable_mininav"><?php esc_html_e('Disable the Menubar Mini-navigation? (if implemented)','comiceasel'); ?></label></th>
+					<th scope="row"><label for="disable_mininav"><?php esc_html_e('Disable the Menubar Mini-navigation? (if implemented)','comic-easel'); ?></label></th>
 					<td>
 						<input id="disable_mininav" name="disable_mininav" type="checkbox" value="1" <?php checked(true, $ceo_options['disable_mininav']); ?> />
 					</td>
 					<td>
-						<?php esc_html_e('Checking this will disable the mini navigation in the menubar if the theme you are using supports it.','comiceasel'); ?>
+						<?php esc_html_e('Checking this will disable the mini navigation in the menubar if the theme you are using supports it.','comic-easel'); ?>
 					</td>
 				</tr>
 				<tr class="alternate">
-					<th scope="row"><label for="enable_chapter_only_random"><?php esc_html_e('Random button (both default and widget) jumps only in the same chapter?','comiceasel'); ?></label></th>
+					<th scope="row"><label for="enable_chapter_only_random"><?php esc_html_e('Random button (both default and widget) jumps only in the same chapter?','comic-easel'); ?></label></th>
 					<td>
 						<input id="enable_chapter_only_random" name="enable_chapter_only_random" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_chapter_only_random']); ?> />
 					</td>
 					<td>
-						<?php esc_html_e('Make the random button only jump to the comics within the same chapter?','comiceasel'); ?>
+						<?php esc_html_e('Make the random button only jump to the comics within the same chapter?','comic-easel'); ?>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><label for="enable_prevnext_chapter_traversing"><?php esc_html_e('Traverse comic chapters with the previous/next?','comiceasel'); ?></label></th>
+					<th scope="row"><label for="enable_prevnext_chapter_traversing"><?php esc_html_e('Traverse comic chapters with the previous/next?','comic-easel'); ?></label></th>
 					<td>
 						<input id="enable_prevnext_chapter_traversing" name="enable_prevnext_chapter_traversing" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_prevnext_chapter_traversing']); ?> />
 					</td>
 					<td>
-						<?php esc_html_e('If at the first or last comic in a chapter, have the previous and next (in chapter) buttons navigate to the beginning or end of the connected in order chapters?','comiceasel'); ?>
+						<?php esc_html_e('If at the first or last comic in a chapter, have the previous and next (in chapter) buttons navigate to the beginning or end of the connected in order chapters?','comic-easel'); ?>
 					</td>
 				</tr>
 				<tr class="alternate">
-					<th scope="row"><label for="disable_keynav"><?php esc_html_e('Disable Keyboard Navigation?','comiceasel'); ?></label></th>
+					<th scope="row"><label for="disable_keynav"><?php esc_html_e('Disable Keyboard Navigation?','comic-easel'); ?></label></th>
 					<td>
 						<input id="disable_keynav" name="disable_keynav" type="checkbox" value="1" <?php checked(true, $ceo_options['disable_keynav']); ?> />
 					</td>
 					<td>
-						<?php esc_html_e('When checked this disables the keyboard navigation script from being run.','comiceasel'); ?>
+						<?php esc_html_e('When checked this disables the keyboard navigation script from being run.','comic-easel'); ?>
 					</td>
 				</tr>
 			</table>
@@ -64,7 +64,7 @@
 			<table class="widefat">
 				<thead>
 					<tr>
-						<th colspan="3"><?php esc_html_e('Navigation Widget','comiceasel'); ?></th>
+						<th colspan="3"><?php esc_html_e('Navigation Widget','comic-easel'); ?></th>
 					</tr>
 				</thead>
 <?php
@@ -82,7 +82,7 @@ foreach ($dirs_to_search as $gnav_dir) {
 }
 				?>
 				<tr>
-					<th scope="row" colspan="2"><label for="graphic_navigation_directory"><?php esc_html_e('Graphic Navigation Set','comiceasel'); ?></label>
+					<th scope="row" colspan="2"><label for="graphic_navigation_directory"><?php esc_html_e('Graphic Navigation Set','comic-easel'); ?></label>
 
 							<select name="graphic_navigation_directory" id="graphic_navigation_directory">
 <?php
@@ -96,8 +96,8 @@ foreach ($gnav_directories as $gnav_dirs) {
 							</select>
 					</th>
 					<td>
-						<?php _e('Choose a directory to get the graphic navigation styling from. To create your own custom graphic navigation menu buttons just create a directory under <i>images/nav/</i> in your child theme and place your image files and navstyle.css file inside of it to determine the style of your navigation display.','comiceasel'); ?>
-						<?php if ($ceo_options['disable_style_sheet']) { echo '<br /><strong>'; esc_html_e('The navstyle.css is disable via the option in the general tab of this config section, this will have no effect.','comiceasel'); ?></strong><br /><?php } ?>
+						<?php _e('Choose a directory to get the graphic navigation styling from. To create your own custom graphic navigation menu buttons just create a directory under <i>images/nav/</i> in your child theme and place your image files and navstyle.css file inside of it to determine the style of your navigation display.','comic-easel'); ?>
+						<?php if ($ceo_options['disable_style_sheet']) { echo '<br /><strong>'; esc_html_e('The navstyle.css is disable via the option in the general tab of this config section, this will have no effect.','comic-easel'); ?></strong><br /><?php } ?>
 					</td>
 				</tr>
 			</table>
@@ -105,88 +105,88 @@ foreach ($gnav_directories as $gnav_dirs) {
 			<table class="widefat">
 				<thead>
 					<tr>
-						<th colspan="3"><?php esc_html_e('Default Navigation','comiceasel'); ?></th>
+						<th colspan="3"><?php esc_html_e('Default Navigation','comic-easel'); ?></th>
 					</tr>
 				</thead>
 				<tr class="alternate">
-					<th scope="row"><label for="disable_default_nav"><?php esc_html_e('Disable default navigation?','comiceasel'); ?></label></th>
+					<th scope="row"><label for="disable_default_nav"><?php esc_html_e('Disable default navigation?','comic-easel'); ?></label></th>
 					<td>
 						<input id="disable_default_nav" name="disable_default_nav" type="checkbox" value="1" <?php checked(true, $ceo_options['disable_default_nav']); ?> />
 					</td>
 					<td>
-						<?php esc_html_e('Checking this will disable the default navigation, you could use and skin the navigation widget.','comiceasel'); ?>
+						<?php esc_html_e('Checking this will disable the default navigation, you could use and skin the navigation widget.','comic-easel'); ?>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><label for="enable_nav_above_comic"><?php esc_html_e('Enable Default Navigation above comic?','comiceasel'); ?></label></th>
+					<th scope="row"><label for="enable_nav_above_comic"><?php esc_html_e('Enable Default Navigation above comic?','comic-easel'); ?></label></th>
 					<td>
 						<input id="enable_nav_above_comic" name="enable_nav_above_comic" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_nav_above_comic']); ?> />
 					</td>
 					<td>
-						<?php esc_html_e('Check this to enable the default navigation to appear above the comic.','comiceasel'); ?>
+						<?php esc_html_e('Check this to enable the default navigation to appear above the comic.','comic-easel'); ?>
 					</td>
 				</tr>
 				<tr class="alternate">
-					<th scope="row"><label for="navigate_only_chapters"><?php esc_html_e('Navigate through only the chapters and not all comics?','comiceasel'); ?></label></th>
+					<th scope="row"><label for="navigate_only_chapters"><?php esc_html_e('Navigate through only the chapters and not all comics?','comic-easel'); ?></label></th>
 					<td>
 						<input id="navigate_only_chapters" name="navigate_only_chapters" type="checkbox" value="1" <?php checked(true, $ceo_options['navigate_only_chapters']); ?> />
 					</td>
 					<td>
-						<?php esc_html_e('Enabling this make the navigation only navigate through individual chapters with the default navigation.','comiceasel'); ?>
+						<?php esc_html_e('Enabling this make the navigation only navigate through individual chapters with the default navigation.','comic-easel'); ?>
 					</td>
 				</tr>				
 				<tr>
-					<th scope="row"><label for="enable_chapter_nav"><?php esc_html_e('Enable the chapter navigation drop down in the comic navigation?','comiceasel'); ?></label></th>
+					<th scope="row"><label for="enable_chapter_nav"><?php esc_html_e('Enable the chapter navigation drop down in the comic navigation?','comic-easel'); ?></label></th>
 					<td>
 						<input id="enable_chapter_nav" name="enable_chapter_nav" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_chapter_nav']); ?> />
 					</td>
 					<td>
-						<?php esc_html_e('When this is enabled, a drop down archive box will appear in the navigation that lets you go to the start of each chapter','comiceasel'); ?>
+						<?php esc_html_e('When this is enabled, a drop down archive box will appear in the navigation that lets you go to the start of each chapter','comic-easel'); ?>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><label for="default_nav_bar_chapter_goes_to_archive"><?php esc_html_e('Chapter navigation jumps to the archive/landing page?','comiceasel'); ?></label></th>
+					<th scope="row"><label for="default_nav_bar_chapter_goes_to_archive"><?php esc_html_e('Chapter navigation jumps to the archive/landing page?','comic-easel'); ?></label></th>
 					<td>
 						<input id="default_nav_bar_chapter_goes_to_archive" name="default_nav_bar_chapter_goes_to_archive" type="checkbox" value="1" <?php checked(true, $ceo_options['default_nav_bar_chapter_goes_to_archive']); ?> />
 					</td>
 					<td>
-						<?php esc_html_e('default goes to first comic in the chapter, this option makes it go to the landing page/archive.','comiceasel'); ?>
+						<?php esc_html_e('default goes to first comic in the chapter, this option makes it go to the landing page/archive.','comic-easel'); ?>
 					</td>
 				</tr>
 				<tr class="alternate">
-					<th scope="row"><label for="enable_comic_nav"><?php esc_html_e('Enable the comic navigation for the current chapter drop down in the comic navigation?','comiceasel'); ?></label></th>
+					<th scope="row"><label for="enable_comic_nav"><?php esc_html_e('Enable the comic navigation for the current chapter drop down in the comic navigation?','comic-easel'); ?></label></th>
 					<td>
 						<input id="enable_comic_nav" name="enable_comic_nav" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_comic_nav']); ?> />
 					</td>
 					<td>
-						<?php esc_html_e('When this is enabled, a drop down list box will appear in the navigation that lets you go to the any of the comics of the current chapter','comiceasel'); ?>
+						<?php esc_html_e('When this is enabled, a drop down list box will appear in the navigation that lets you go to the any of the comics of the current chapter','comic-easel'); ?>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><label for="enable_random_nav"><?php esc_html_e('Enable the random comic link in the comic navigation?','comiceasel'); ?></label></th>
+					<th scope="row"><label for="enable_random_nav"><?php esc_html_e('Enable the random comic link in the comic navigation?','comic-easel'); ?></label></th>
 					<td>
 						<input id="enable_random_nav" name="enable_random_nav" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_random_nav']); ?> />
 					</td>
 					<td>
-						<?php esc_html_e('When this is enabled, a link will appear in the navigation that lets you go to a random comic in all chapters.','comiceasel'); ?>
+						<?php esc_html_e('When this is enabled, a link will appear in the navigation that lets you go to a random comic in all chapters.','comic-easel'); ?>
 					</td>
 				</tr>
 				<tr class="alternate">
-					<th scope="row"><label for="enable_comment_nav"><?php esc_html_e('Enable the comment link in the comic navigation?','comiceasel'); ?></label></th>
+					<th scope="row"><label for="enable_comment_nav"><?php esc_html_e('Enable the comment link in the comic navigation?','comic-easel'); ?></label></th>
 					<td>
 						<input id="enable_comment_nav" name="enable_comment_nav" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_comment_nav']); ?> />
 					</td>
 					<td>
-						<?php esc_html_e('When this is enabled, a link will appear in the navigation that lets you go to the comments section of the current post, it also shows how many comments there currently are.','comiceasel'); ?>
+						<?php esc_html_e('When this is enabled, a link will appear in the navigation that lets you go to the comments section of the current post, it also shows how many comments there currently are.','comic-easel'); ?>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><label for="enable_embed_nav"><?php esc_html_e('Enable the "embed this comic" textarea in the comic navigation?','comiceasel'); ?></label></th>
+					<th scope="row"><label for="enable_embed_nav"><?php esc_html_e('Enable the "embed this comic" textarea in the comic navigation?','comic-easel'); ?></label></th>
 					<td>
 						<input id="enable_embed_nav" name="enable_embed_nav" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_embed_nav']); ?> />
 					</td>
 					<td>
-						<?php esc_html_e('When this is enabled, a textarea will appear under the navigation with the href and image link to have users embed this comic on their site.','comiceasel'); ?>
+						<?php esc_html_e('When this is enabled, a textarea will appear under the navigation with the href and image link to have users embed this comic on their site.','comic-easel'); ?>
 					</td>
 				</tr>				
 			</table>
@@ -197,7 +197,7 @@ foreach ($gnav_directories as $gnav_dirs) {
 		<div class="ceo-options-save">
 			<div class="ceo-major-publishing-actions">
 				<div class="ceo-publishing-action">
-					<input name="ceo_save_config" type="submit" class="button-primary" value="<?php esc_attr_e('Save Settings', 'comiceasel'); ?>" />
+					<input name="ceo_save_config" type="submit" class="button-primary" value="<?php esc_attr_e('Save Settings', 'comic-easel'); ?>" />
 					<input type="hidden" name="action" value="ceo_save_navigation" />
 				</div>
 				<div class="clear"></div>

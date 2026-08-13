@@ -19,7 +19,7 @@ function ceo_list_jump_to_comic($exclude = '', $return = false) {
 		$output = '<form method="get" class="comic-list-dropdown-form">';
 		$output .= '<select onchange="document.location.href=this.options[this.selectedIndex].value;">';
 		$level = 0;
-		$output .= '<option class="level-select" value="">'.__('Jump To','comiceasel').'</option>';
+		$output .= '<option class="level-select" value="">'.__('Jump To','comic-easel').'</option>';
 		$post_args = array( 
 			'showposts' => -1,
 			'post_type' => 'comic',
@@ -52,8 +52,8 @@ class ceo_comic_list_dropdown_widget extends WP_Widget {
 	function __construct() {
 		parent::__construct(
 			__CLASS__, // Base ID
-			__( 'Comic Easel - Comic List Dropdown', 'comiceasel' ), // Name
-			array( 'classname' => __CLASS__, 'description' => __( 'Display dropdown list of comics.', 'comiceasel' ), ) // Args
+			__( 'Comic Easel - Comic List Dropdown', 'comic-easel' ), // Name
+			array( 'classname' => __CLASS__, 'description' => __( 'Display dropdown list of comics.', 'comic-easel' ), ) // Args
 		);
 	}
 	
@@ -93,7 +93,7 @@ class ceo_comic_list_dropdown_widget extends WP_Widget {
 		$title = $instance['title'];
 		$exclude = $instance['exclude'];
 		?>
-		<p><label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php esc_html_e('Title:','comiceasel'); ?> <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>" name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
+		<p><label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php esc_html_e('Title:','comic-easel'); ?> <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>" name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
 		</p>
 		<?php
 	}

@@ -55,7 +55,7 @@ function ceo_display_featured_image_comic($size = 'full') {
 			if ((ceo_pluginfo('click_comic_next') && !empty($next_comic) && !$comic_has_map) || $comic_lightbox || $linkto) {
 				$output .= '</a>';
 			}
-//			if ($comic_lightbox) $output .= '<div class="comic-lightbox-text">'.__('Click comic to view larger version.','comiceasel').'</div>';
+//			if ($comic_lightbox) $output .= '<div class="comic-lightbox-text">'.__('Click comic to view larger version.','comic-easel').'</div>';
 		}
 	}
 	return apply_filters('ceo_display_featured_image_comic', $output);
@@ -109,7 +109,7 @@ function ceo_display_comic_gallery($size = 'full') {
 				$count += 1;
 			}
 			if ($comic_galleries_jquery) $output .= "<button id=\"show-".$count."\" type=\"button\" style=\"display:none;\">".$count."</button>\r\n";
-//			if ($comic_lightbox) $output .= '<div class="comic-lightbox-text">'.__('Click comic to view larger version.','comiceasel').'</div>';
+//			if ($comic_lightbox) $output .= '<div class="comic-lightbox-text">'.__('Click comic to view larger version.','comic-easel').'</div>';
 		}			
 	} else {
 		$output .= ceo_display_featured_image_comic($size);
@@ -128,13 +128,13 @@ function ceo_display_comic_gallery($size = 'full') {
 function ceo_display_comic($size = 'full') {
 	global $post;
     if ( post_password_required() ) { 
-		return __('This comic is password protected.','comiceasel');
+		return __('This comic is password protected.','comic-easel');
     }
     $refer_only = get_post_meta( $post->ID, 'refer-only', 'true');
 
 	if (!empty($refer_only) && !defined('CEO_DISABLE_REFER_ONLY')) {
 		$ref_only_msg = '';
-		$refer_only_msg = get_post_meta( $post->ID, 'refer-only-msg', 'true') ? get_post_meta( $post->ID, 'refer-only-msg', 'true') : __('Read post message below to find out how to view this.', 'comiceasel');
+		$refer_only_msg = get_post_meta( $post->ID, 'refer-only-msg', 'true') ? get_post_meta( $post->ID, 'refer-only-msg', 'true') : __('Read post message below to find out how to view this.', 'comic-easel');
 		if (ceo_get_referer(true) !== $refer_only) {
 				$refer_only_msg = ceo_escape_stored_text($refer_only_msg);
 				return apply_filters('ceo_refer_only_msg', $refer_only_msg);
@@ -164,7 +164,7 @@ function ceo_display_comic($size = 'full') {
 	if ($output) { 
 		return apply_filters('ceo_comics_display_comic', $output);
 	} else
-		return apply_filters('ceo_comics_display_comic', __('<!-- No HTML, Gallery or Featured Image Found. //-->', 'comiceasel'));
+		return apply_filters('ceo_comics_display_comic', __('<!-- No HTML, Gallery or Featured Image Found. //-->', 'comic-easel'));
 }
 
 add_filter('ceo_comics_display_comic', 'ceo_filter_comic_output',10,1);

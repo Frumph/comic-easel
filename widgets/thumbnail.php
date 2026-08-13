@@ -17,8 +17,8 @@ class ceo_thumbnail_widget extends WP_Widget {
 	function __construct() {
 		parent::__construct(
 			__CLASS__, // Base ID
-			__( 'Comic Easel - Thumbnail', 'comiceasel' ), // Name
-			array( 'classname' => __CLASS__, 'description' => __( 'Display a thumbnail of a comic, by chapter, newest, first or random, clickable to go to the comic.', 'comiceasel' ), ) // Args
+			__( 'Comic Easel - Thumbnail', 'comic-easel' ), // Name
+			array( 'classname' => __CLASS__, 'description' => __( 'Display a thumbnail of a comic, by chapter, newest, first or random, clickable to go to the comic.', 'comic-easel' ), ) // Args
 		);
 	}
 	
@@ -63,22 +63,22 @@ class ceo_thumbnail_widget extends WP_Widget {
 					if (isset($instance['secondary']) && $instance['secondary'] && class_exists('MultiPostThumbnails')) {
 						$secondary_image = MultiPostThumbnails::get_the_post_thumbnail(get_post_type(), 'secondary-image', $post->ID,  'secondary-image');
 						if (!empty($secondary_image)) {
-							echo '<a href="'.esc_url($the_permalink).'" rel="bookmark" title="'.esc_attr(__('Permanent Link to','comiceasel').' '.get_the_title()).'">'.$secondary_image.'</a>'."\r\n";
+							echo '<a href="'.esc_url($the_permalink).'" rel="bookmark" title="'.esc_attr(__('Permanent Link to','comic-easel').' '.get_the_title()).'">'.$secondary_image.'</a>'."\r\n";
 						} else {
 							if ( has_post_thumbnail($post->ID) ) {
-								echo '<a href="'.esc_url($the_permalink).'" rel="bookmark" title="'.esc_attr(__('Permanent Link to','comiceasel').' '.get_the_title()).'">'.get_the_post_thumbnail($post->ID, $thumbnail_size).'</a>'."\r\n";
+								echo '<a href="'.esc_url($the_permalink).'" rel="bookmark" title="'.esc_attr(__('Permanent Link to','comic-easel').' '.get_the_title()).'">'.get_the_post_thumbnail($post->ID, $thumbnail_size).'</a>'."\r\n";
 							} else {
-								echo esc_html__('No Thumbnail Found.','comiceasel');	
+								echo esc_html__('No Thumbnail Found.','comic-easel');	
 							}							
 						}
 					} else {
 						if ( has_post_thumbnail($post->ID) ) {
-							echo '<a href="'.esc_url($the_permalink).'" rel="bookmark" title="'.esc_attr(__('Permanent Link to','comiceasel').' '.get_the_title()).'">'.get_the_post_thumbnail($post->ID, $thumbnail_size).'</a>'."\r\n";
+							echo '<a href="'.esc_url($the_permalink).'" rel="bookmark" title="'.esc_attr(__('Permanent Link to','comic-easel').' '.get_the_title()).'">'.get_the_post_thumbnail($post->ID, $thumbnail_size).'</a>'."\r\n";
 						} else {
-							echo esc_html__('No Thumbnail Found.','comiceasel');	
+							echo esc_html__('No Thumbnail Found.','comic-easel');	
 						}
 					}
-					if ($instance['linktitle']) { echo '<div class="comic-thumb-title"><a href="'.esc_url($the_permalink).'" rel="bookmark" title="'.esc_attr(__('Permanent Link to','comiceasel').' '.get_the_title()).'">'.ceo_title_for_html($post->ID).'</a></div><div class="clear"></div>'; }
+					if ($instance['linktitle']) { echo '<div class="comic-thumb-title"><a href="'.esc_url($the_permalink).'" rel="bookmark" title="'.esc_attr(__('Permanent Link to','comic-easel').' '.get_the_title()).'">'.ceo_title_for_html($post->ID).'</a></div><div class="clear"></div>'; }
 					if ($instance['showdate']) { echo '<div class="comic-thumb-date">'.get_the_date(get_option('date_format')).'</div>'; }
 					if ($instance['centering']) echo "\r\n</center>\r\n";
 					echo "</div>\r\n";
@@ -121,17 +121,17 @@ class ceo_thumbnail_widget extends WP_Widget {
 		$same = $instance['same'];
 		$inhistory = $instance['inhistory'];
 		?>
-		<p><label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php esc_html_e('Title:', 'comiceasel'); ?> <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>" name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
-		<p><label for="<?php echo esc_attr($this->get_field_id('thumbnail_size')); ?>"><?php esc_html_e('Thumbnail size to use:','comiceasel'); ?></label>
+		<p><label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php esc_html_e('Title:', 'comic-easel'); ?> <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>" name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
+		<p><label for="<?php echo esc_attr($this->get_field_id('thumbnail_size')); ?>"><?php esc_html_e('Thumbnail size to use:','comic-easel'); ?></label>
 		<select name="<?php echo esc_attr($this->get_field_name('thumbnail_size')); ?>" id="<?php echo esc_attr($this->get_field_id('thumbnail_size')); ?>">
 		<?php 
 			$thumbnail_sizes = get_intermediate_image_sizes();
 			foreach ($thumbnail_sizes as $size) { ?>
 				<option class="level-0" value="<?php echo esc_attr($size); ?>" <?php selected( $thumbnail_size, $size); ?>><?php echo esc_html(ucfirst($size)); ?></option>
 		<?php } ?>
-			<option class="level-0" value="full" <?php selected($thumbnail_size, 'full'); ?>><?php esc_html_e('Full', 'comiceasel'); ?></option>
+			<option class="level-0" value="full" <?php selected($thumbnail_size, 'full'); ?>><?php esc_html_e('Full', 'comic-easel'); ?></option>
 		</select></p>
-		<p><?php esc_html_e('Which Chapter?', 'comiceasel'); ?><br />	
+		<p><?php esc_html_e('Which Chapter?', 'comic-easel'); ?><br />	
 		<?php 
 		
 		$allterms = &get_terms('chapters');
@@ -150,17 +150,17 @@ class ceo_thumbnail_widget extends WP_Widget {
 			</select>
 		<?php } ?>
 		</p>
-		<p><label for="<?php echo esc_attr($this->get_field_id('first')); ?>"><?php esc_html_e('Get first in chapter instead?','comiceasel'); ?> <input id="<?php echo esc_attr($this->get_field_id('first')); ?>" name="<?php echo esc_attr($this->get_field_name('first')); ?>" type="checkbox" value="1" <?php checked(true, $first); ?> /></label></p>		
-		<p><label for="<?php echo esc_attr($this->get_field_id('random')); ?>"><?php esc_html_e('Display a random Thumbnail?','comiceasel'); ?> <input id="<?php echo esc_attr($this->get_field_id('random')); ?>" name="<?php echo esc_attr($this->get_field_name('random')); ?>" type="checkbox" value="1" <?php checked(true, $random); ?> /></label></p>
-		<p><em><?php esc_html_e('*note: Random thumbnail overrides the get first in chapter option.','comiceasel'); ?></em></p>
-		<p><?php esc_html_e('Display how many thumbnails?', 'comiceasel'); ?><input style="width:40px;" id="<?php echo esc_attr($this->get_field_id('thumbcount')); ?>" name="<?php echo esc_attr($this->get_field_name('thumbcount')); ?>" type="text" value="<?php echo esc_attr(stripcslashes($instance['thumbcount'])); ?>" /></label></p>
-		<p><label for="<?php echo esc_attr($this->get_field_id('linktitle')); ?>"><?php esc_html_e('Include comic title?','comiceasel'); ?> <input id="<?php echo esc_attr($this->get_field_id('linktitle')); ?>" name="<?php echo esc_attr($this->get_field_name('linktitle')); ?>" type="checkbox" value="1" <?php checked(true, $linktitle); ?> /></label></p>
-		<p><label for="<?php echo esc_attr($this->get_field_id('centering')); ?>"><?php esc_html_e('Add centering html?','comiceasel'); ?> <input id="<?php echo esc_attr($this->get_field_id('centering')); ?>" name="<?php echo esc_attr($this->get_field_name('centering')); ?>" type="checkbox" value="1" <?php checked(true, $centering); ?> /></label></p>
-		<p><label for="<?php echo esc_attr($this->get_field_id('showdate')); ?>"><?php esc_html_e('Show the date of the post under image?','comiceasel'); ?> <input id="<?php echo esc_attr($this->get_field_id('showdate')); ?>" name="<?php echo esc_attr($this->get_field_name('showdate')); ?>" type="checkbox" value="1" <?php checked(true, $showdate); ?> /></label></p>
-		<p><label for="<?php echo esc_attr($this->get_field_id('secondary')); ?>"><?php esc_html_e('Use Secondary Image if plugin active?','comiceasel'); ?> <input id="<?php echo esc_attr($this->get_field_id('secondary')); ?>" name="<?php echo esc_attr($this->get_field_name('secondary')); ?>" type="checkbox" value="1" <?php checked(true, $secondary); ?> /></label></p>		
-		<p><label for="<?php echo esc_attr($this->get_field_id('same')); ?>"><?php esc_html_e('Disable thumbnail from showing on same page the comic in the thumbnail displays?','comiceasel'); ?> <input id="<?php echo esc_attr($this->get_field_id('same')); ?>" name="<?php echo esc_attr($this->get_field_name('same')); ?>" type="checkbox" value="1" <?php checked(true, $same); ?> /></label></p>
+		<p><label for="<?php echo esc_attr($this->get_field_id('first')); ?>"><?php esc_html_e('Get first in chapter instead?','comic-easel'); ?> <input id="<?php echo esc_attr($this->get_field_id('first')); ?>" name="<?php echo esc_attr($this->get_field_name('first')); ?>" type="checkbox" value="1" <?php checked(true, $first); ?> /></label></p>		
+		<p><label for="<?php echo esc_attr($this->get_field_id('random')); ?>"><?php esc_html_e('Display a random Thumbnail?','comic-easel'); ?> <input id="<?php echo esc_attr($this->get_field_id('random')); ?>" name="<?php echo esc_attr($this->get_field_name('random')); ?>" type="checkbox" value="1" <?php checked(true, $random); ?> /></label></p>
+		<p><em><?php esc_html_e('*note: Random thumbnail overrides the get first in chapter option.','comic-easel'); ?></em></p>
+		<p><?php esc_html_e('Display how many thumbnails?', 'comic-easel'); ?><input style="width:40px;" id="<?php echo esc_attr($this->get_field_id('thumbcount')); ?>" name="<?php echo esc_attr($this->get_field_name('thumbcount')); ?>" type="text" value="<?php echo esc_attr(stripcslashes($instance['thumbcount'])); ?>" /></label></p>
+		<p><label for="<?php echo esc_attr($this->get_field_id('linktitle')); ?>"><?php esc_html_e('Include comic title?','comic-easel'); ?> <input id="<?php echo esc_attr($this->get_field_id('linktitle')); ?>" name="<?php echo esc_attr($this->get_field_name('linktitle')); ?>" type="checkbox" value="1" <?php checked(true, $linktitle); ?> /></label></p>
+		<p><label for="<?php echo esc_attr($this->get_field_id('centering')); ?>"><?php esc_html_e('Add centering html?','comic-easel'); ?> <input id="<?php echo esc_attr($this->get_field_id('centering')); ?>" name="<?php echo esc_attr($this->get_field_name('centering')); ?>" type="checkbox" value="1" <?php checked(true, $centering); ?> /></label></p>
+		<p><label for="<?php echo esc_attr($this->get_field_id('showdate')); ?>"><?php esc_html_e('Show the date of the post under image?','comic-easel'); ?> <input id="<?php echo esc_attr($this->get_field_id('showdate')); ?>" name="<?php echo esc_attr($this->get_field_name('showdate')); ?>" type="checkbox" value="1" <?php checked(true, $showdate); ?> /></label></p>
+		<p><label for="<?php echo esc_attr($this->get_field_id('secondary')); ?>"><?php esc_html_e('Use Secondary Image if plugin active?','comic-easel'); ?> <input id="<?php echo esc_attr($this->get_field_id('secondary')); ?>" name="<?php echo esc_attr($this->get_field_name('secondary')); ?>" type="checkbox" value="1" <?php checked(true, $secondary); ?> /></label></p>		
+		<p><label for="<?php echo esc_attr($this->get_field_id('same')); ?>"><?php esc_html_e('Disable thumbnail from showing on same page the comic in the thumbnail displays?','comic-easel'); ?> <input id="<?php echo esc_attr($this->get_field_id('same')); ?>" name="<?php echo esc_attr($this->get_field_name('same')); ?>" type="checkbox" value="1" <?php checked(true, $same); ?> /></label></p>
 		<hr />
-		<p><label for="<?php echo esc_attr($this->get_field_id('inhistory')); ?>"><?php esc_html_e('This date in history?','comiceasel'); ?> <input id="<?php echo esc_attr($this->get_field_id('inhistory')); ?>" name="<?php echo esc_attr($this->get_field_name('inhistory')); ?>" type="checkbox" value="1" <?php checked(true, $inhistory); ?> /></label></p>
+		<p><label for="<?php echo esc_attr($this->get_field_id('inhistory')); ?>"><?php esc_html_e('This date in history?','comic-easel'); ?> <input id="<?php echo esc_attr($this->get_field_id('inhistory')); ?>" name="<?php echo esc_attr($this->get_field_name('inhistory')); ?>" type="checkbox" value="1" <?php checked(true, $inhistory); ?> /></label></p>
 		<br />
 	<?php
 	}

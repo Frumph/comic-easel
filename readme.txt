@@ -6,7 +6,7 @@ Requires at least: 4.8.2
 Requires PHP: 7.4
 Tested up to: 6.8.3
 Stable tag: 1.17
-Text Domain: comiceasel
+Text Domain: comic-easel
 Donate link: http://frumph.net
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html

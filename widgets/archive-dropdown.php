@@ -120,7 +120,7 @@ function ceo_comic_archive_jump_to_chapter($hide = true, $exclude = '', $showcou
 	} else {
 		$args = array(
 			'walker' => new ceo_walker_taxonomy_dropdown(),
-			'show_option_all'	=>	__('Select','comiceasel').' '.ucwords(ceo_pluginfo('chapter_type_slug_name')),
+			'show_option_all'	=>	__('Select','comic-easel').' '.ucwords(ceo_pluginfo('chapter_type_slug_name')),
 			'option_none_value'  => '-1',
 			'orderby'            => 'menu_order', 
 			'order'              => 'ASC',
@@ -159,8 +159,8 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 	function __construct() {
 		parent::__construct(
 			__CLASS__, // Base ID
-			__( 'Comic Easel - Comic Chapters', 'comiceasel' ), // Name
-			array( 'classname' => __CLASS__, 'description' => __( 'Display dropdown list of comic chapters.', 'comiceasel' ), )
+			__( 'Comic Easel - Comic Chapters', 'comic-easel' ), // Name
+			array( 'classname' => __CLASS__, 'description' => __( 'Display dropdown list of comic chapters.', 'comic-easel' ), )
 		);
 	}
 	
@@ -196,12 +196,12 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 		$jumptoarchive = ($instance['jumptoarchive']) ? 1:0;
 		$render_as_list = ($instance['render_as_list']) ? 1:0;
 		?>
-		<p><label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php esc_html_e('Title:','comiceasel'); ?>&nbsp;<input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>" name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
-		<p><label for="<?php echo esc_attr($this->get_field_id('exclude')); ?>"><?php esc_html_e('Exclude Chapters (comma seperated):','comiceasel'); ?>&nbsp;<input class="widefat" id="<?php echo esc_attr($this->get_field_id('exclude')); ?>" name="<?php echo esc_attr($this->get_field_name('exclude')); ?>" type="text" value="<?php echo esc_attr($exclude); ?>" /></label><br /></p>
-		<p><label for="<?php echo esc_attr($this->get_field_id('hide')); ?>"><?php esc_html_e('Hide empty chapters?','comiceasel'); ?>&nbsp;<input id="<?php echo esc_attr($this->get_field_id('hide')); ?>" name="<?php echo esc_attr($this->get_field_name('hide')); ?>" type="checkbox" value="1" <?php checked(1, $hide); ?> /></label></p>
-		<p><label for="<?php echo esc_attr($this->get_field_id('showcount')); ?>"><?php esc_html_e('Show the comic count in parenthesis?','comiceasel'); ?>&nbsp;<input id="<?php echo esc_attr($this->get_field_id('showcount')); ?>" name="<?php echo esc_attr($this->get_field_name('showcount')); ?>" type="checkbox" value="1" <?php checked(1, $showcount); ?> /></label></p>
-		<p><label for="<?php echo esc_attr($this->get_field_id('jumptoarchive')); ?>"><?php esc_html_e('Jump to archive and not first page?','comiceasel'); ?>&nbsp;<input id="<?php echo esc_attr($this->get_field_id('jumptoarchive')); ?>" name="<?php echo esc_attr($this->get_field_name('jumptoarchive')); ?>" type="checkbox" value="1" <?php checked(1, $jumptoarchive); ?> /></label></p>
-		<p><label for="<?php echo esc_attr($this->get_field_id('render_as_list')); ?>"><?php esc_html_e('Show as a list instead of a dropdown?','comiceasel'); ?>&nbsp;<input id="<?php echo esc_attr($this->get_field_id('render_as_list')); ?>" name="<?php echo esc_attr($this->get_field_name('render_as_list')); ?>" type="checkbox" value="1" <?php checked(1, $render_as_list); ?> /></label></p>
+		<p><label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php esc_html_e('Title:','comic-easel'); ?>&nbsp;<input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>" name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
+		<p><label for="<?php echo esc_attr($this->get_field_id('exclude')); ?>"><?php esc_html_e('Exclude Chapters (comma seperated):','comic-easel'); ?>&nbsp;<input class="widefat" id="<?php echo esc_attr($this->get_field_id('exclude')); ?>" name="<?php echo esc_attr($this->get_field_name('exclude')); ?>" type="text" value="<?php echo esc_attr($exclude); ?>" /></label><br /></p>
+		<p><label for="<?php echo esc_attr($this->get_field_id('hide')); ?>"><?php esc_html_e('Hide empty chapters?','comic-easel'); ?>&nbsp;<input id="<?php echo esc_attr($this->get_field_id('hide')); ?>" name="<?php echo esc_attr($this->get_field_name('hide')); ?>" type="checkbox" value="1" <?php checked(1, $hide); ?> /></label></p>
+		<p><label for="<?php echo esc_attr($this->get_field_id('showcount')); ?>"><?php esc_html_e('Show the comic count in parenthesis?','comic-easel'); ?>&nbsp;<input id="<?php echo esc_attr($this->get_field_id('showcount')); ?>" name="<?php echo esc_attr($this->get_field_name('showcount')); ?>" type="checkbox" value="1" <?php checked(1, $showcount); ?> /></label></p>
+		<p><label for="<?php echo esc_attr($this->get_field_id('jumptoarchive')); ?>"><?php esc_html_e('Jump to archive and not first page?','comic-easel'); ?>&nbsp;<input id="<?php echo esc_attr($this->get_field_id('jumptoarchive')); ?>" name="<?php echo esc_attr($this->get_field_name('jumptoarchive')); ?>" type="checkbox" value="1" <?php checked(1, $jumptoarchive); ?> /></label></p>
+		<p><label for="<?php echo esc_attr($this->get_field_id('render_as_list')); ?>"><?php esc_html_e('Show as a list instead of a dropdown?','comic-easel'); ?>&nbsp;<input id="<?php echo esc_attr($this->get_field_id('render_as_list')); ?>" name="<?php echo esc_attr($this->get_field_name('render_as_list')); ?>" type="checkbox" value="1" <?php checked(1, $render_as_list); ?> /></label></p>
 		<?php
 	}
 }

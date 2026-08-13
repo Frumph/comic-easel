@@ -18,8 +18,8 @@ class ceo_scheduled_comics_widget extends WP_Widget {
 	function __construct() {
 		parent::__construct(
 			__CLASS__, // Base ID
-			__( 'Comic Easel - Scheduled Posts', 'comiceasel' ), // Name
-			array( 'classname' => __CLASS__, 'description' => __( 'Display a list of comics that are scheduled to be published.', 'comiceasel' ), ) // Args
+			__( 'Comic Easel - Scheduled Posts', 'comic-easel' ), // Name
+			array( 'classname' => __CLASS__, 'description' => __( 'Display a list of comics that are scheduled to be published.', 'comic-easel' ), ) // Args
 		);
 	}
 	
@@ -27,7 +27,7 @@ class ceo_scheduled_comics_widget extends WP_Widget {
 		extract($args, EXTR_SKIP); 
 		echo $before_widget;
 		ceo_protect();
-		$title = empty($instance['title']) ? __('Scheduled Comics','comiceasel') : apply_filters('widget_title', $instance['title']); 
+		$title = empty($instance['title']) ? __('Scheduled Comics','comic-easel') : apply_filters('widget_title', $instance['title']); 
 		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; }; 
 		$args = array(
 				'post_status' => 'future',
@@ -37,7 +37,7 @@ class ceo_scheduled_comics_widget extends WP_Widget {
 				);
 		$scheduled_posts = get_posts($args);
 		if (empty($scheduled_posts)) {
-			echo '<ul><li>'.esc_html__('None','comiceasel').'</li></ul>';
+			echo '<ul><li>'.esc_html__('None','comic-easel').'</li></ul>';
 		} else { ?>
 			<ul>
 			<?php foreach($scheduled_posts as $post) : ?>
@@ -59,7 +59,7 @@ class ceo_scheduled_comics_widget extends WP_Widget {
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
 		$title = wp_strip_all_tags($instance['title']);
 		?>
-		<p><label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php esc_html_e('Title:','comiceasel'); ?> <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>" name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
+		<p><label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php esc_html_e('Title:','comic-easel'); ?> <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>" name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
 		<?php
 	}
 }

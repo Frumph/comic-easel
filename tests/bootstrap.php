@@ -16,6 +16,12 @@ if ( ! defined( 'ARRAY_N' ) ) {
 	define( 'ARRAY_N', 'ARRAY_N' );
 }
 
+// WordPress points this at wp-content/languages. ceo_legacy_textdomain_mofile() looks under it
+// for translations a site installed itself, so the tests aim it at a directory they can write to.
+if ( ! defined( 'WP_LANG_DIR' ) ) {
+	define( 'WP_LANG_DIR', sys_get_temp_dir() . '/ce-wp-lang-' . getmypid() );
+}
+
 define( 'CE_PLUGIN_DIR', dirname( __DIR__ ) );
 
 require_once __DIR__ . '/stubs.php';

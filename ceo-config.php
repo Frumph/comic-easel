@@ -2,7 +2,7 @@
 <div class="wrap">
 	<div id="ceoadmin-headericon" style="background: url('<?php echo ceo_pluginfo('plugin_url') ?>images/easel_small.png') no-repeat;"></div>
 <p class="alignleft">
-	<h2><?php esc_html_e('Comic Easel - Config','comiceasel'); ?></h2>
+	<h2><?php esc_html_e('Comic Easel - Config','comic-easel'); ?></h2>
 </p>
 <div class="clear"></div>
 <?php
@@ -14,14 +14,14 @@ if (isset($_GET['tab']) && is_scalar($_GET['tab'])) $tab = sanitize_key(wp_unsla
 $action = isset($_POST['action']) && is_scalar($_POST['action']) ? sanitize_key(wp_unslash($_POST['action'])) : '';
 if ($action == 'comiceasel_reset') {
 	if (!current_user_can('edit_theme_options'))
-		wp_die(esc_html__('You do not have permission to reset these settings.','comiceasel'));
+		wp_die(esc_html__('You do not have permission to reset these settings.','comic-easel'));
 	check_admin_referer('update-options');
 	delete_option('comiceasel-config');
 	global $ceo_pluginfo;
 	$ceo_pluginfo = array();
 	ceo_load_options('reset');
 	?>
-			<div id="message" class="updated"><p><strong><?php esc_html_e('Comic Easel Settings RESET!','comiceasel'); ?></strong></p></div>
+			<div id="message" class="updated"><p><strong><?php esc_html_e('Comic Easel Settings RESET!','comic-easel'); ?></strong></p></div>
 	<?php
 }
 $ceo_options = get_option('comiceasel-config');
@@ -166,7 +166,7 @@ if ( wp_verify_nonce($nonce, 'update-options') ) {
 		}
 		
 		if ($tab) { ?>
-			<div id="message" class="updated"><p><strong><?php esc_html_e('Comic Easel Settings SAVED!','comiceasel'); ?></strong></p></div>
+			<div id="message" class="updated"><p><strong><?php esc_html_e('Comic Easel Settings SAVED!','comic-easel'); ?></strong></p></div>
 			<script>function hidemessage() { document.getElementById('message').style.display = 'none'; }</script>
 		<?php }
 	} 
@@ -176,14 +176,14 @@ if ( wp_verify_nonce($nonce, 'update-options') ) {
 		<div id="ceoadmin">
 		  <?php
 			$tab_info = array(
-				'main' => __('Main', 'comiceasel'),
-		  		'general' => __('General', 'comiceasel'),
-		  		'navigation' => __('Navigation', 'comiceasel'),
-				'archive' => __('Archive', 'comiceasel')
+				'main' => __('Main', 'comic-easel'),
+		  		'general' => __('General', 'comic-easel'),
+		  		'navigation' => __('Navigation', 'comic-easel'),
+				'archive' => __('Archive', 'comic-easel')
 		  	);
-			if (function_exists('comicpress_themeinfo')) $tab_info['landing'] = __('Landing Pages', 'comiceasel');
+			if (function_exists('comicpress_themeinfo')) $tab_info['landing'] = __('Landing Pages', 'comic-easel');
 			if (!defined('CEO_FEATURE_BUY_COMIC'))
-				$tab_info['buycomic'] = __('Buy Comic','comiceasel');
+				$tab_info['buycomic'] = __('Buy Comic','comic-easel');
 		  	if (empty($tab)) { $tab = 'main'; }
 
 		  	foreach($tab_info as $tab_id => $label) { ?>
@@ -223,12 +223,12 @@ if ( wp_verify_nonce($nonce, 'update-options') ) {
 
 	<div class="ceoadmin-footer">
 		<br />
-		<a href="https://github.com/Frumph/comic-easel"><?php esc_html_e('Comic Easel','comiceasel'); ?></a> <?php esc_html_e('created, developed and maintained by','comiceasel'); ?> <a href="http://frumph.net/">Philip M. Hofer</a> <small>(<a href="http://frumph.net/">Frumph</a>)</small><br />
-		<?php esc_html_e('If you like the Comic Easel plugin, please donate.  It will help in developing new features and versions.','comiceasel'); ?><br />
+		<a href="https://github.com/Frumph/comic-easel"><?php esc_html_e('Comic Easel','comic-easel'); ?></a> <?php esc_html_e('created, developed and maintained by','comic-easel'); ?> <a href="http://frumph.net/">Philip M. Hofer</a> <small>(<a href="http://frumph.net/">Frumph</a>)</small><br />
+		<?php esc_html_e('If you like the Comic Easel plugin, please donate.  It will help in developing new features and versions.','comic-easel'); ?><br />
 		<table style="margin:0 auto;">
 			<tr>
 				<td style="width:200px;">
-					<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=46RNWXBE7467Q"><?php esc_html_e('Donate to Frumph (PayPal)','comiceasel'); ?></a>
+					<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=46RNWXBE7467Q"><?php esc_html_e('Donate to Frumph (PayPal)','comic-easel'); ?></a>
 				</td>
 				<td style="width:200px;">
 					<form method="post" id="myForm" name="template" enctype="multipart/form-data" action="">
