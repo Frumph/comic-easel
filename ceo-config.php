@@ -228,12 +228,7 @@ if ( wp_verify_nonce($nonce, 'update-options') ) {
 		<table style="margin:0 auto;">
 			<tr>
 				<td style="width:200px;">
-					<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-						<input type="hidden" name="cmd" value="_s-xclick" />
-						<input type="hidden" name="hosted_button_id" value="46RNWXBE7467Q" />
-						<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!" />
-						<img alt="" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
-					</form>
+					<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=46RNWXBE7467Q"><?php esc_html_e('Donate to Frumph (PayPal)','comiceasel'); ?></a>
 				</td>
 				<td style="width:200px;">
 					<form method="post" id="myForm" name="template" enctype="multipart/form-data" action="">
