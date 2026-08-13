@@ -23,9 +23,6 @@ testing, or rely on `tests/ArchiveQueryTest.php`, which asserts the emitted SQL 
 
 ## Installing the plugin
 
-- The directory **must** be named `comic-easel`. `widgets/casthover.php` hardcodes
-  `plugins_url('comic-easel/css/casthover.css')`, so a renamed folder loses that widget's
-  CSS and JS.
 - **Activate through the Plugins screen.** Activation runs
   `ALTER TABLE wp_terms ADD menu_order`, and a `get_terms_orderby` filter rewrites
   `orderby=menu_order` to `t.menu_order`. Without that column, every chapter-ordered query
