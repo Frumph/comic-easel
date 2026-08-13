@@ -12,7 +12,6 @@ function ceo_comic_editor_scripts( $hook ) {
 		if ( $pagenow == 'post-new.php' || $pagenow == 'post.php' ) {
 			if ('comic' === $post->post_type) {
 
-				wp_enqueue_script('ceo-upload-flash', ceo_pluginfo('plugin_url').'js/upload-flash.js');
 				wp_enqueue_media();
 			}
 		}
