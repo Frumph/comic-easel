@@ -13,7 +13,8 @@ if (isset($_GET['ceopaypalipn']))
 //to use simply create a URL link to "/?latest"
 function ceo_latest_comic_jump() {
 	$chapter = 0; $respond = ''; 
-	if (isset($_GET['latest'])) $chapter = esc_attr($_GET['latest']);
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public read-only navigation URLs historically accept this query argument.
+	if (isset($_GET['latest']) && is_scalar($_GET['latest'])) $chapter = sanitize_text_field(wp_unslash($_GET['latest']));
 	if (isset($_GET['comment'])) $respond = '#respond';
 	if (!empty($chapter)) {
 		if (!is_numeric($chapter)) { //if the argument after latest is not a number, we assume it is the slugname
@@ -57,7 +58,8 @@ function ceo_latest_comic_jump() {
 }
 
 function ceo_random_comic() {
-	if (isset($_GET['stay'])) $chapter = (int)esc_attr($_GET['stay']);
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public read-only navigation URLs historically accept this query argument.
+	$chapter = isset($_GET['stay']) && is_scalar($_GET['stay']) ? intval(wp_unslash($_GET['stay'])) : 0;
 	if (!empty($chapter)) {
 		$this_chapter = get_term_by('term_id', $chapter, 'chapters');
 		$args = array( 

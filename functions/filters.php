@@ -22,8 +22,12 @@ function ceo_init_filters() {
 
 add_filter('request', 'ceo_rss_request'); // Add comics to the main RSS
 add_filter('request', 'ceo_post_type_tags_fix');
-add_filter('previous_post_rel_link', 'ceo_change_prev_rel_link_two', $link); // change the rel links for comic pages
-add_filter('next_post_rel_link', 'ceo_change_next_rel_link_two', $link);
+// The legacy undefined third argument passed null. Preserve that exact registration key for
+// old integrations that remove these callbacks with null, without the undefined-variable warning.
+$ceo_legacy_rel_link_priority = null;
+add_filter('previous_post_rel_link', 'ceo_change_prev_rel_link_two', $ceo_legacy_rel_link_priority, 1); // change the rel links for comic pages
+add_filter('next_post_rel_link', 'ceo_change_next_rel_link_two', $ceo_legacy_rel_link_priority, 1);
+unset($ceo_legacy_rel_link_priority);
 if (ceo_pluginfo('remove_post_thumbnail')) 
 	add_filter('post_thumbnail_html','ceo_clear_post_thumbnail_on_comics');
 
@@ -131,8 +135,13 @@ function ceo_lastpostmodified() {
 	$lastpostmodified = wp_cache_get( "lastpostmodified:custom:server", 'timeinfo' );
 	if ( $lastpostmodified ) return $lastpostmodified;
 	global $wpdb;
-	$add_seconds_server = date('Z');
-	$lastpostmodified = $wpdb->get_var("SELECT DATE_ADD(post_modified_gmt, INTERVAL '$add_seconds_server' SECOND) FROM $wpdb->posts WHERE post_status = 'publish' ORDER  BY post_modified_gmt DESC LIMIT 1");
+	$add_seconds_server = (int) date('Z');
+	$lastpostmodified = $wpdb->get_var(
+		$wpdb->prepare(
+			"SELECT DATE_ADD(post_modified_gmt, INTERVAL %d SECOND) FROM $wpdb->posts WHERE post_status = 'publish' ORDER BY post_modified_gmt DESC LIMIT 1",
+			$add_seconds_server
+		)
+	);
 	wp_cache_set( "lastpostmodified:custom:server", $lastpostmodified, 'timeinfo', 3600 );
 	return $lastpostmodified;
 }

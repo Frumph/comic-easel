@@ -106,15 +106,18 @@ function ceo_enqueue_admin_cpt_style( $cpt, $handle, $src = false, $deps = array
 	$enqueue = null;
  
 	/* Enqueue style only if we are on the correct CPT editor page. */
-	if ( isset($_GET['post_type']) && $_GET['post_type'] == $cpt && ($pagenow == "post-new.php" || $pagenow == 'edit.php')) {
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin routing must remain compatible with core editor URLs.
+	if ( isset($_GET['post_type']) && is_scalar($_GET['post_type']) && sanitize_text_field(wp_unslash($_GET['post_type'])) == $cpt && ($pagenow == "post-new.php" || $pagenow == 'edit.php')) {
 		$enqueue = true;
 	}
  
 	/* Enqueue style only if we are on the correct CPT editor page. */
-	if ( isset($_GET['post']) && ($pagenow == "post.php" || $pagenow == 'edit.php')) {
-		$post_id = $_GET['post'];
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin routing must remain compatible with core editor URLs.
+	if ( isset($_GET['post']) && is_scalar($_GET['post']) && ($pagenow == "post.php" || $pagenow == 'edit.php')) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin routing must remain compatible with core editor URLs.
+		$post_id = intval(wp_unslash($_GET['post']));
 		$post_obj = get_post( $post_id );
-		if( $post_obj->post_type == $cpt )
+		if( is_object($post_obj) && $post_obj->post_type == $cpt )
 			$enqueue = true;
 	}
  

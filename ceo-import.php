@@ -3,12 +3,26 @@ if (!defined('ABSPATH')) exit;
 
 // Set values used (changed if returned changed)
 $import_directory = 'import';
-$import_time = isset($_POST['import-time']) ? esc_attr( $_POST['import-time'] ) : '00:01';
-$import_type = isset($_POST['import-type']) ? esc_attr( $_POST['import-type'] ) : true;
-$import_date_format = isset($_POST['import-date-format']) ? esc_attr($_POST['import-date-format']) : 'Y-m-d';
-$import_filename_mask = isset($_POST['import-date-mask']) ? esc_attr($_POST['import-date-mask']) : '{DATE}*.*';
-$import_create_post = (isset($_POST['import-create-post']) && !empty($_POST['import-create-post'])) ? true : false;
-$import_chapter = isset($_POST['import-chapter']) ? (int)$_POST['import-chapter'] : 0;
+$import_time = '00:01';
+$import_type = true;
+$import_date_format = 'Y-m-d';
+$import_filename_mask = '{DATE}*.*';
+$import_create_post = false;
+$import_chapter = 0;
+$import_request_is_valid = false;
+
+if (isset($_POST['_wpnonce']) && is_scalar($_POST['_wpnonce'])) {
+	$import_nonce = sanitize_text_field(wp_unslash($_POST['_wpnonce']));
+	if (wp_verify_nonce($import_nonce, 'comiceasel-import')) {
+		$import_request_is_valid = true;
+		$import_time = isset($_POST['import-time']) && is_scalar($_POST['import-time']) ? sanitize_text_field(wp_unslash($_POST['import-time'])) : $import_time;
+		$import_type = isset($_POST['import-type']) && is_scalar($_POST['import-type']) ? sanitize_key(wp_unslash($_POST['import-type'])) : $import_type;
+		$import_date_format = isset($_POST['import-date-format']) && is_scalar($_POST['import-date-format']) ? sanitize_text_field(wp_unslash($_POST['import-date-format'])) : $import_date_format;
+		$import_filename_mask = isset($_POST['import-date-mask']) && is_scalar($_POST['import-date-mask']) ? sanitize_text_field(wp_unslash($_POST['import-date-mask'])) : $import_filename_mask;
+		$import_create_post = isset($_POST['import-create-post']) && is_scalar($_POST['import-create-post']) && !empty(sanitize_text_field(wp_unslash($_POST['import-create-post'])));
+		$import_chapter = isset($_POST['import-chapter']) && is_scalar($_POST['import-chapter']) ? intval(wp_unslash($_POST['import-chapter'])) : $import_chapter;
+	}
+}
 
 function ceo_transform_date_string($string, $replacements) {
 	if (!is_array($replacements)) { return false; }
@@ -126,7 +140,7 @@ function ceo_import_by_namedate($import_directory, $import_date_format, $import_
 
 
 // Catch the return $_POST and do something with them.
-if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'comiceasel-import') ) {
+if ($import_request_is_valid) {
 	switch ($import_type) {
 		case 'namedate':
 			ceo_import_by_namedate($import_directory, $import_date_format, $import_filename_mask, $import_create_post, $import_chapter, $import_time);
@@ -169,17 +183,17 @@ if ( isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'comicease
 		<td align="left" style="width:260px">
 			<?php _e('Date Format','comiceasel'); ?><br />
 			<a href="http://codex.wordpress.org/Formatting_Date_and_Time" target="_blank"><?php _e('Documentation on date formats','comiceasel'); ?></a><br />
-			<input name="import-date-format" class="import-date-format" value="<?php echo $import_date_format; ?>" />
+			<input name="import-date-format" class="import-date-format" value="<?php echo esc_attr($import_date_format); ?>" />
 		</td>
 		<td align="left" style="width:240px;">
 			<?php _e('Filename Mask','comiceasel'); ?><br />
 			{DATE} <?php _e('will be replaced','comiceasel'); ?><br />
-			<input name="import-date-mask" class="import-date-mask" value="<?php echo $import_filename_mask; ?>" />
+			<input name="import-date-mask" class="import-date-mask" value="<?php echo esc_attr($import_filename_mask); ?>" />
 		</td>
 		<td align="left" colspan="9">
 			<?php _e('Set Time of Comic Posts','comiceasel'); ?><br />
 			<?php _e('24 hour clock','comiceasel'); ?><br />
-			<input name="import-time" class="import-time" value="<?php echo $import_time; ?>" />
+			<input name="import-time" class="import-time" value="<?php echo esc_attr($import_time); ?>" />
 		</td>
 	</tr>
 	<tr>

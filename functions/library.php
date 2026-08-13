@@ -136,14 +136,34 @@ function ceo_apply_orderby_filter($orderby, $args) {
 add_filter('get_terms_orderby', 'ceo_apply_orderby_filter', 10, 2);
 
 
-function ceo_get_referer() {
-	$ref = '';
-	if ( ! empty( $_REQUEST['_wp_http_referer'] ) )
-		$ref = $_REQUEST['_wp_http_referer'];
-	else if ( ! empty( $_SERVER['HTTP_REFERER'] ) )
-		$ref = $_SERVER['HTTP_REFERER'];
-	
-	return $ref;
+/**
+ * Return the request referrer.
+ *
+ * The refer-only feature historically compares the exact, WordPress-slashed request value
+ * against stored metadata. Its optional raw mode preserves that behavior. Raw values must
+ * only be used for equality checks; the default mode is safe for output after context-aware
+ * escaping by the caller.
+ */
+function ceo_get_referer($raw = false) {
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- A referrer read does not change state and must accept WordPress's standard request value.
+	if ( ! empty( $_REQUEST['_wp_http_referer'] ) && is_scalar($_REQUEST['_wp_http_referer']) ) {
+		if ($raw) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Exact legacy value is used only in a strict equality comparison.
+			return (string)$_REQUEST['_wp_http_referer'];
+		}
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- A referrer read does not change state and must accept WordPress's standard request value.
+		return esc_url_raw(wp_unslash($_REQUEST['_wp_http_referer']));
+	}
+
+	if ( ! empty( $_SERVER['HTTP_REFERER'] ) && is_scalar($_SERVER['HTTP_REFERER']) ) {
+		if ($raw) {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Exact legacy value is used only in a strict equality comparison.
+			return (string)$_SERVER['HTTP_REFERER'];
+		}
+		return esc_url_raw(wp_unslash($_SERVER['HTTP_REFERER']));
+	}
+
+	return '';
 }
 
 /**

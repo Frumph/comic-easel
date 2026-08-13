@@ -37,6 +37,15 @@ class ArchiveQueryTest extends CE_TestCase {
 		$this->assertStringContainsString( "post_status = 'publish'", $sql );
 	}
 
+	/**
+	 * The year selector has historically stayed chronological even when the posts inside
+	 * the selected year are requested newest-first.
+	 */
+	public function testByYearWithoutChapterKeepsTheYearSelectorAscending() {
+		ceo_archive_list_by_year( false, 'DESC', 0 );
+		$this->assertStringContainsString( 'ORDER BY post_date ASC', $this->wpdb->last() );
+	}
+
 	public function testByYearWithChapterJoinsTheChaptersTaxonomy() {
 		ceo_archive_list_by_year( false, 'ASC', 5 );
 		$sql = $this->wpdb->last();
@@ -48,6 +57,11 @@ class ArchiveQueryTest extends CE_TestCase {
 	public function testByAllYearsWithChapterJoinsTheChaptersTaxonomy() {
 		ceo_archive_list_by_all_years( false, 'ASC', 5 );
 		$this->assertStringContainsString( "taxonomy = 'chapters'", $this->wpdb->last() );
+	}
+
+	public function testByAllYearsWithoutChapterHonorsDescendingOrder() {
+		ceo_archive_list_by_all_years( false, 'DESC', 0 );
+		$this->assertStringContainsString( 'ORDER BY post_date DESC', $this->wpdb->last() );
 	}
 
 	/**
@@ -77,5 +91,12 @@ class ArchiveQueryTest extends CE_TestCase {
 		$out = ceo_archive_list_by_year( false, 'ASC', 0 );
 		$this->assertStringNotContainsString( '<script>', $out );
 		$this->assertStringContainsString( '2020', $out );
+	}
+
+	public function testArchiveYearPreservesLegacySignedIntegerCoercion() {
+		$_GET['archive_year'] = '-2020';
+		$out = ceo_archive_list_by_year( false, 'ASC', 0 );
+
+		$this->assertStringContainsString( '-2020', $out );
 	}
 }

@@ -89,4 +89,50 @@ class MetaForEditorTest extends CE_TestCase {
 			array( 123, '123' ),
 		);
 	}
+
+	public function testSaveHandlerUnslashesEditorTextExactlyOnce() {
+		$post = $this->setGlobalPost( 17 );
+		$this->grantCurrentUserCap( 'edit_post' );
+		CE_Test_State::$valid_nonces['admin-meta.php'] = 'valid-nonce';
+		$typed = "C:\\comics\\today's <b>note</b>";
+		$_POST = array(
+			'comic_nonce' => 'valid-nonce',
+			'transcript'  => addslashes( $typed ),
+		);
+
+		ceo_handle_edit_save_comic( 17, $post );
+
+		$this->assertSame( esc_textarea( $typed ), CE_Test_State::$post_meta['17:transcript'] );
+		unset( $_POST );
+	}
+
+	public function testSaveHandlerRejectsAnInvalidNonce() {
+		$post = $this->setGlobalPost( 17 );
+		$this->grantCurrentUserCap( 'edit_post' );
+		$_POST = array(
+			'comic_nonce' => 'invalid',
+			'transcript'  => 'must not be saved',
+		);
+
+		ceo_handle_edit_save_comic( 17, $post );
+
+		$this->assertArrayNotHasKey( '17:transcript', CE_Test_State::$post_meta );
+		unset( $_POST );
+	}
+
+	public function testSaveHandlerIgnoresArrayShapedMetaValues() {
+		$post = $this->setGlobalPost( 17 );
+		$this->grantCurrentUserCap( 'edit_post' );
+		CE_Test_State::$valid_nonces['admin-meta.php'] = 'valid-nonce';
+		$this->setPostMeta( 17, 'transcript', 'existing transcript' );
+		$_POST = array(
+			'comic_nonce' => 'valid-nonce',
+			'transcript'  => array( 'unexpected value' ),
+		);
+
+		ceo_handle_edit_save_comic( 17, $post );
+
+		$this->assertSame( 'existing transcript', CE_Test_State::$post_meta['17:transcript'] );
+		unset( $_POST );
+	}
 }

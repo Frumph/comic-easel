@@ -67,4 +67,8 @@ abstract class CE_TestCase extends TestCase {
 	protected function grantCap( $user_id, $cap ) {
 		CE_Test_State::$user_caps[ $user_id . ':' . $cap ] = true;
 	}
+
+	protected function grantCurrentUserCap( $cap ) {
+		CE_Test_State::$current_user_caps[ $cap ] = true;
+	}
 }
