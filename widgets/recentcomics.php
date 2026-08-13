@@ -46,19 +46,19 @@ class ceo_latest_comics_widget extends WP_Widget {
 	
 	function update($new_instance, $old_instance) {
 		$instance = $old_instance;
-		$instance['title'] = strip_tags($new_instance['title']);
+		$instance['title'] = wp_strip_all_tags($new_instance['title']);
 		$instance['count'] = (int)$new_instance['count'];
 		return $instance;
 	}
 	
 	function form($instance) {
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'count' => 5 ) );
-		$title = strip_tags($instance['title']);
+		$title = wp_strip_all_tags($instance['title']);
 		$count = (int)$instance['count'];
 		if (($count > 50) || ($count < 1)) $count = 5;
 		?>
-		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','comiceasel'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
-		<p><label for="<?php echo $this->get_field_id('count'); ?>"><?php _e('Display Amount (1-50):','comiceasel'); ?> <input class="widefat" id="<?php echo $this->get_field_id('count'); ?>" name="<?php echo $this->get_field_name('count'); ?>" type="text" value="<?php echo esc_attr($count); ?>" /></label></p>
+		<p><label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php esc_html_e('Title:','comiceasel'); ?> <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>" name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
+		<p><label for="<?php echo esc_attr($this->get_field_id('count')); ?>"><?php esc_html_e('Display Amount (1-50):','comiceasel'); ?> <input class="widefat" id="<?php echo esc_attr($this->get_field_id('count')); ?>" name="<?php echo esc_attr($this->get_field_name('count')); ?>" type="text" value="<?php echo esc_attr($count); ?>" /></label></p>
 		<?php
 	}
 }

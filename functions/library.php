@@ -28,7 +28,7 @@ function ceo_get_sidebar($location = '') {
 	if (file_exists(get_stylesheet_directory().'/sidebar-'.$location.'.php')) {
 		get_sidebar($location);
 	} elseif (is_active_sidebar('ceo-sidebar-'.$location)) { ?>
-		<div id="sidebar-<?php echo $location; ?>" class="sidebar">
+		<div id="sidebar-<?php echo esc_attr($location); ?>" class="sidebar">
 			<?php dynamic_sidebar('ceo-sidebar-'.$location); ?>
 		</div>
 	<?php }

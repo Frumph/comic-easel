@@ -2,7 +2,7 @@
 <div class="wrap">
 	<div id="ceoadmin-headericon" style="background: url('<?php echo ceo_pluginfo('plugin_url') ?>images/easel_small.png') no-repeat;"></div>
 <p class="alignleft">
-	<h2><?php _e('Comic Easel - Config','comiceasel'); ?></h2>
+	<h2><?php esc_html_e('Comic Easel - Config','comiceasel'); ?></h2>
 </p>
 <div class="clear"></div>
 <?php
@@ -21,7 +21,7 @@ if ($action == 'comiceasel_reset') {
 	$ceo_pluginfo = array();
 	ceo_load_options('reset');
 	?>
-			<div id="message" class="updated"><p><strong><?php _e('Comic Easel Settings RESET!','comiceasel'); ?></strong></p></div>
+			<div id="message" class="updated"><p><strong><?php esc_html_e('Comic Easel Settings RESET!','comiceasel'); ?></strong></p></div>
 	<?php
 }
 $ceo_options = get_option('comiceasel-config');
@@ -166,7 +166,7 @@ if ( wp_verify_nonce($nonce, 'update-options') ) {
 		}
 		
 		if ($tab) { ?>
-			<div id="message" class="updated"><p><strong><?php _e('Comic Easel Settings SAVED!','comiceasel'); ?></strong></p></div>
+			<div id="message" class="updated"><p><strong><?php esc_html_e('Comic Easel Settings SAVED!','comiceasel'); ?></strong></p></div>
 			<script>function hidemessage() { document.getElementById('message').style.display = 'none'; }</script>
 		<?php }
 	} 
@@ -187,7 +187,7 @@ if ( wp_verify_nonce($nonce, 'update-options') ) {
 		  	if (empty($tab)) { $tab = 'main'; }
 
 		  	foreach($tab_info as $tab_id => $label) { ?>
-		  		<div id="comiceasel-tab-<?php echo $tab_id ?>" class="comiceasel-tab <?php echo ($tab == $tab_id) ? 'on' : 'off'; ?>"><span><?php echo $label; ?></span></div>
+		  		<div id="comiceasel-tab-<?php echo esc_attr($tab_id) ?>" class="comiceasel-tab <?php echo ($tab == $tab_id) ? 'on' : 'off'; ?>"><span><?php echo esc_html($label); ?></span></div>
 		  	<?php }
 		  ?>
 		</div>
@@ -223,8 +223,8 @@ if ( wp_verify_nonce($nonce, 'update-options') ) {
 
 	<div class="ceoadmin-footer">
 		<br />
-		<a href="https://github.com/Frumph/comic-easel"><?php _e('Comic Easel','comiceasel'); ?></a> <?php _e('created, developed and maintained by','comiceasel'); ?> <a href="http://frumph.net/">Philip M. Hofer</a> <small>(<a href="http://frumph.net/">Frumph</a>)</small><br />
-		<?php _e('If you like the Comic Easel plugin, please donate.  It will help in developing new features and versions.','comiceasel'); ?><br />
+		<a href="https://github.com/Frumph/comic-easel"><?php esc_html_e('Comic Easel','comiceasel'); ?></a> <?php esc_html_e('created, developed and maintained by','comiceasel'); ?> <a href="http://frumph.net/">Philip M. Hofer</a> <small>(<a href="http://frumph.net/">Frumph</a>)</small><br />
+		<?php esc_html_e('If you like the Comic Easel plugin, please donate.  It will help in developing new features and versions.','comiceasel'); ?><br />
 		<table style="margin:0 auto;">
 			<tr>
 				<td style="width:200px;">

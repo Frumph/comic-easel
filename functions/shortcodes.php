@@ -105,10 +105,14 @@ function ceo_cast_page( $atts, $content = '' ) {
 		return $cast_output;
 	}
 	if (empty($character)) {
-		if ($limit) {
-			$args = 'orderby=count&order='.$order.'&hide_empty=1&number='.$limit;
-		} else $args = 'orderby=count&order='.$order.'&hide_empty=1';
-		$characters = get_terms( 'characters', $args );
+		$args = array(
+			'taxonomy' => 'characters',
+			'orderby' => 'count',
+			'order' => $order,
+			'hide_empty' => 1
+			);
+		if ($limit) $args['number'] = $limit;
+		$characters = get_terms( $args );
 		if (is_array($characters)) {
 			$cast_output .= '<table class="cast-wrapper">'."\r\n";
 			foreach ($characters as $character) {
@@ -207,12 +211,13 @@ function ceo_get_terms_orderby($orderby, $args) {
 function ceo_archive_list_all($order = 'ASC', $thumbnail = 0) {
 	$output = '';
 	$main_args = array(
+			'taxonomy' => 'chapters',
 			'hide_empty' => true,
 			'order' => $order,
 			'orderby' => 'menu_order',
 			'hierarchical' => 1
 			);
-	$all_chapters = get_terms('chapters', $main_args);
+	$all_chapters = get_terms($main_args);
 	if (is_null($all_chapters)) { echo 'There are no chapters available.'; return; }
 	$output = '';
 	foreach ($all_chapters as $chapter) {
@@ -254,13 +259,14 @@ function ceo_archive_list_series($thumbnail = 0) {
 	$output = '';
 	$archive_count = 0;
 	$args = array(
+			'taxonomy' => 'chapters',
 			'pad_counts' => 0,
 			'order' => 'ASC',
 			'hide_empty' => false,
 			'parent' => 0,
 			'orderby' => 'menu_order'
 			);
-	$parent_chapters = get_terms('chapters', $args);
+	$parent_chapters = get_terms($args);
 	if (is_array($parent_chapters)) {
 		foreach($parent_chapters as $parent_chapter) {
 			$output .= '<h2 class="comic-archive-series-title">'.wp_kses_post($parent_chapter->name).'</h2>';
@@ -306,12 +312,13 @@ function ceo_archive_list_by_chapter_thumbnails($order = 'ASC', $showtitle = fal
 	$output = '';
 	$archive_count = 0;
 	$args = array(
+			'taxonomy' => 'chapters',
 			'pad_counts' => 0,
 			'order' => $order,
 			'hide_empty' => 1,
 			'orderby' => 'menu_order'
 			);
-	$chapters = get_terms('chapters', $args);
+	$chapters = get_terms($args);
 	if (is_array($chapters) && !is_wp_error($chapters)) {
 		$output .= '<div class="comic-archive-list-4">';
 		foreach($chapters as $chapter) {

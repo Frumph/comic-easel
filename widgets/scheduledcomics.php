@@ -37,7 +37,7 @@ class ceo_scheduled_comics_widget extends WP_Widget {
 				);
 		$scheduled_posts = get_posts($args);
 		if (empty($scheduled_posts)) {
-			echo '<ul><li>'.__('None','comiceasel').'</li></ul>';
+			echo '<ul><li>'.esc_html__('None','comiceasel').'</li></ul>';
 		} else { ?>
 			<ul>
 			<?php foreach($scheduled_posts as $post) : ?>
@@ -51,15 +51,15 @@ class ceo_scheduled_comics_widget extends WP_Widget {
 	
 	function update($new_instance, $old_instance) {
 		$instance = $old_instance;
-		$instance['title'] = strip_tags($new_instance['title']);
+		$instance['title'] = wp_strip_all_tags($new_instance['title']);
 		return $instance;
 	}
 	
 	function form($instance) {
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
-		$title = strip_tags($instance['title']);
+		$title = wp_strip_all_tags($instance['title']);
 		?>
-		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','comiceasel'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
+		<p><label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php esc_html_e('Title:','comiceasel'); ?> <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>" name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
 		<?php
 	}
 }

@@ -128,7 +128,7 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 	<tr>';
 
 	if ( $previous ) {
-		$calendar_output .= "\n\t\t".'<td colspan="3" id="prev"><a href="' . get_month_link($previous->year, $previous->month) . $the_post_type.'" title="' . sprintf(__('View posts for %1$s %2$s','comiceasel'), $wp_locale->get_month($previous->month), date('Y', mktime(0, 0 , 0, $previous->month, 1, $previous->year))) . '">&laquo; ' . $wp_locale->get_month_abbrev($wp_locale->get_month($previous->month)) . '</a></td>';
+		$calendar_output .= "\n\t\t".'<td colspan="3" id="prev"><a href="' . get_month_link($previous->year, $previous->month) . $the_post_type.'" title="' . sprintf(/* translators: 1: month name, 2: four-digit year. */ __('View posts for %1$s %2$s','comiceasel'), $wp_locale->get_month($previous->month), date('Y', mktime(0, 0 , 0, $previous->month, 1, $previous->year))) . '">&laquo; ' . $wp_locale->get_month_abbrev($wp_locale->get_month($previous->month)) . '</a></td>';
 	} else {
 		$calendar_output .= "\n\t\t".'<td colspan="3" id="prev" class="pad">&nbsp;</td>';
 	}
@@ -136,7 +136,7 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 	$calendar_output .= "\n\t\t".'<td class="pad">&nbsp;</td>';
 
 	if ( $next ) {
-		$calendar_output .= "\n\t\t".'<td colspan="3" id="next"><a href="' . get_month_link($next->year, $next->month) . $the_post_type.'" title="' . esc_attr( sprintf(__('View posts for %1$s %2$s','comiceasel'), $wp_locale->get_month($next->month), date('Y', mktime(0, 0 , 0, $next->month, 1, $next->year))) ) . '">' . $wp_locale->get_month_abbrev($wp_locale->get_month($next->month)) . ' &raquo;</a></td>';
+		$calendar_output .= "\n\t\t".'<td colspan="3" id="next"><a href="' . get_month_link($next->year, $next->month) . $the_post_type.'" title="' . esc_attr( sprintf(/* translators: 1: month name, 2: four-digit year. */ __('View posts for %1$s %2$s','comiceasel'), $wp_locale->get_month($next->month), date('Y', mktime(0, 0 , 0, $next->month, 1, $next->year))) ) . '">' . $wp_locale->get_month_abbrev($wp_locale->get_month($next->month)) . ' &raquo;</a></td>';
 	} else {
 		$calendar_output .= "\n\t\t".'<td colspan="3" id="next" class="pad">&nbsp;</td>';
 	}
@@ -280,7 +280,7 @@ class ceo_calendar_widget extends WP_Widget {
 					<?php } ?>
 						<div class="wp-calendar-download-links">
 							<?php if (!empty($small) || !empty($medium) || !empty($large)) { ?>
-								<?php _e('DOWNLOAD','comiceasel'); ?>
+								<?php esc_html_e('DOWNLOAD','comiceasel'); ?>
 								<?php
 								  foreach (array(
 								    'small' => array(__('Download Small', 'comiceasel'), __('S', 'comiceasel')),
@@ -308,7 +308,7 @@ class ceo_calendar_widget extends WP_Widget {
 	function update($new_instance, $old_instance = array()) {
 		$instance = array();
 		foreach (array('thumbnail', 'small', 'medium', 'large', 'link') as $field) {
-			if (isset($new_instance[$field])) {	$instance[$field] = strip_tags($new_instance[$field]); }
+			if (isset($new_instance[$field])) {	$instance[$field] = wp_strip_all_tags($new_instance[$field]); }
 		}
 
 		return $instance;
@@ -317,10 +317,10 @@ class ceo_calendar_widget extends WP_Widget {
 	function form($instance) {
 		$instance = wp_parse_args( (array) $instance, array( 'thumbnail' => '', 'small' => '', 'medium' => '', 'large' => '', 'link' => '') );
 
-		$thumbnail = strip_tags($instance['thumbnail']);
-		$small = strip_tags($instance['small']);
-		$medium = strip_tags($instance['medium']);
-		$large = strip_tags($instance['large']);
+		$thumbnail = wp_strip_all_tags($instance['thumbnail']);
+		$small = wp_strip_all_tags($instance['small']);
+		$medium = wp_strip_all_tags($instance['medium']);
+		$large = wp_strip_all_tags($instance['large']);
 		$link = $instance['link'];
 
 		foreach (array(
@@ -333,10 +333,10 @@ class ceo_calendar_widget extends WP_Widget {
 			unset($after);
 			if (is_array($label)) { extract($label); }
 			?><p>
-				<label for="<?php echo $this->get_field_id($field); ?>"><?php echo esc_html($label) ;?>
+				<label for="<?php echo esc_attr($this->get_field_id($field)); ?>"><?php echo esc_html($label) ;?>
 				<input class="widefat"
-							 id="<?php echo $this->get_field_id($field); ?>"
-							 name="<?php echo $this->get_field_name($field); ?>"
+							 id="<?php echo esc_attr($this->get_field_id($field)); ?>"
+							 name="<?php echo esc_attr($this->get_field_name($field)); ?>"
 							 type="text"
 							 value="<?php echo esc_attr($instance[$field]); ?>" />
 				</label>
