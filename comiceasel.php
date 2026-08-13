@@ -6,6 +6,11 @@ Description: Comic Easel allows you to incorporate a WebComic using the WordPres
 Version: 1.17
 Author: Philip M. Hofer (Frumph)
 Author URI: http://frumph.net/
+Text Domain: comiceasel
+License: GPLv3 or later
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
+Requires at least: 4.8.2
+Requires PHP: 7.4
 
 Copyright 2012-2018 Philip M. Hofer (Frumph)  (email : philip@frumph.net)
 

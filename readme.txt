@@ -1,14 +1,15 @@
 === Comic Easel ===
 Author: Frumph
 Contributors: Frumph, Shadchamp
-Tags: comiceasel, easel, webcomic, comic, webcomic
+Tags: comiceasel, easel, webcomic, comic
 Requires at least: 4.8.2
+Requires PHP: 7.4
 Tested up to: 6.8.3
 Stable tag: 1.17
 Text Domain: comiceasel
 Donate link: http://frumph.net
 License: GPLv3 or later
-License URI: http://www.gnu.org/licenses/gpl-3.0.html
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Comic Easel allows you to post webcomics to your theme.
 
