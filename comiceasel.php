@@ -567,6 +567,13 @@ function ceo_register_widgets() {
 	register_widget('ceo_thumbnail_widget');
 }
 
+/**
+ * Keep this explicit call, which Plugin Check discourages. It names lang/, which the plugin
+ * headers do not, and on WordPress before 6.7 -- where nothing else asks for a translation file
+ * by name -- it is the only thing that gives ceo_legacy_textdomain_mofile() in
+ * functions/filters.php a chance to redirect the request to a translation a site compiled under
+ * the old text domain.
+ */
 function ceo_language_init() {
 	load_plugin_textdomain( 'comic-easel', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
 }

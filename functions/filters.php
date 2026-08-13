@@ -22,6 +22,7 @@ function ceo_init_filters() {
 
 add_filter('request', 'ceo_rss_request'); // Add comics to the main RSS
 add_filter('request', 'ceo_post_type_tags_fix');
+add_filter('load_textdomain_mofile', 'ceo_legacy_textdomain_mofile', 10, 2); // Keep translations named for the old text domain working
 // The legacy undefined third argument passed null. Preserve that exact registration key for
 // old integrations that remove these callbacks with null, without the undefined-variable warning.
 $ceo_legacy_rel_link_priority = null;
@@ -30,6 +31,36 @@ add_filter('next_post_rel_link', 'ceo_change_next_rel_link_two', $ceo_legacy_rel
 unset($ceo_legacy_rel_link_priority);
 if (ceo_pluginfo('remove_post_thumbnail')) 
 	add_filter('post_thumbnail_html','ceo_clear_post_thumbnail_on_comics');
+
+/**
+ * Fall back to a translation file named for the old text domain.
+ *
+ * The text domain was 'comiceasel' before it was aligned with the plugin slug. No official
+ * translation ever shipped under that name, but a site that compiled its own
+ * comiceasel-{locale}.mo was loading it, and the rename would drop that translation without a
+ * word. When nothing answers to the new name, look for the old one.
+ *
+ * Both places such a file can sit are checked, because the path WordPress asks about is not
+ * necessarily the directory the file is in. Since 6.7 the request arrives from the just-in-time
+ * loader, which -- having found no comic-easel-{locale} file anywhere -- names the directory
+ * registered for the domain, while a translation the site compiled itself belongs under
+ * wp-content, where it survives plugin updates.
+ */
+function ceo_legacy_textdomain_mofile($mofile, $domain) {
+	if ($domain === 'comic-easel' && !is_readable($mofile)) {
+		$legacy = str_replace('comic-easel-', 'comiceasel-', basename($mofile));
+		$candidates = array(
+			WP_LANG_DIR . '/plugins/' . $legacy, // A translation the site installed itself.
+			dirname($mofile) . '/' . $legacy, // One left in the directory WordPress asked about.
+		);
+		foreach ($candidates as $candidate) {
+			if (is_readable($candidate)) {
+				return $candidate;
+			}
+		}
+	}
+	return $mofile;
+}
 
 function ceo_allow_my_post_types($allowed_post_types) {
 	$allowed_post_types[] = 'comic';
