@@ -207,12 +207,13 @@ function ceo_get_adjacent_chapter($prev = false) {
 	
 	if (!$find_order) return false;
 	$args = array(
+			'taxonomy' => 'chapters',
 			'orderby' => 'menu_order',
 			'order' => 'DESC',
 			'hide_empty' => 1,
 			'menu_order' => $find_order
 			);
-	$all_chapters = get_terms( 'chapters', $args );
+	$all_chapters = get_terms( $args );
 	if (!is_null($all_chapters)) {
 		foreach($all_chapters as $chapter) {
 			if ((int)$chapter->menu_order == $find_order) return $chapter;
