@@ -6,6 +6,11 @@ Description: Comic Easel allows you to incorporate a WebComic using the WordPres
 Version: 1.17
 Author: Philip M. Hofer (Frumph)
 Author URI: http://frumph.net/
+Text Domain: comiceasel
+License: GPLv3 or later
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
+Requires at least: 4.8.2
+Requires PHP: 7.4
 
 Copyright 2012-2018 Philip M. Hofer (Frumph)  (email : philip@frumph.net)
 
@@ -539,21 +544,6 @@ function ceo_pluginfo($whichinfo = null) {
 	}
 	return $ceo_pluginfo;
 }
-
-/**
- * This functions is to display test information on the dashboard, instead of dumping it out to everyone.
- * This is so that a plugin doesn't generate errors on output of the var_dump() to the end user.
- */
-function ceo_test_information($vartodump) { ?>
-	<div class="error">
-		<h2><?php _e('Comic Easel - Test Information','comiceasel'); ?></h2>
-		<?php 
-			var_dump($vartodump);
-		?>
-	</div>
-<?php }
-
-// if (is_admin()) add_action( 'admin_notices', 'ceo_test_information' );
 
 // Load all the widgets
 

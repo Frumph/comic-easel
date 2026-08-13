@@ -34,12 +34,12 @@ if (is_active_widget(false, false, 'ceo_casthover_reference_widget', true)) {
 }
 
 function ceo_casthover_res_init_styles() {
-	wp_register_style('casthover-css', plugins_url('comic-easel/css/casthover.css'));
+	wp_register_style('casthover-css', ceo_pluginfo('plugin_url').'css/casthover.css', array(), '1.2');
 	wp_enqueue_style('casthover-css');
 }
 
 function ceo_casthover_res_init_scripts() {
-	wp_enqueue_script('casthover-js', plugins_url('comic-easel/js/casthoverfunc.js'), array('jquery'), '1.2', true);
+	wp_enqueue_script('casthover-js', ceo_pluginfo('plugin_url').'js/casthoverfunc.js', array('jquery'), '1.2', true);
 }
 
 function ceo_insert_character_hovercard($character) {

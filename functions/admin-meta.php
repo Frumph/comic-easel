@@ -431,20 +431,6 @@ function ceo_edit_buycomic_in_post($post) {
 	<?php 
 }
 
-function ceo_flash_upload_box($post) { ?>
-<label for="upload_flash">
-    <?php _e('Enter a URL or upload a flash comic.','comiceasel'); ?><br />
-    <input id="flash_file" class="flash_file" type="text" name="flash_file" value="<?php echo esc_attr(ceo_meta_for_editor(get_post_meta( $post->ID, 'flash_file', true ))); ?>" />
-    <input name="upload_flash_button" class="upload_flash_button" type="button" value="<?php _e('Upload Flash','comiceasel'); ?>" /><br />
-</label>
-<br />
-<?php _e('Set the dimensions of the flash .swf comic.','comiceasel'); ?><br />
-<label for="flash_height"><?php _e('Height:','comiceasel'); ?> <input id="flash_height" name="flash_height" type="text" value="<?php echo esc_attr(ceo_meta_for_editor(get_post_meta( $post->ID, 'flash_height', true ))); ?>" /></label>
-<label for="flash_width"><?php _e('Width:','comiceasel'); ?> <input id="flash_width" name="flash_width" type="text" value="<?php echo esc_attr(ceo_meta_for_editor(get_post_meta( $post->ID, 'flash_width', true ))); ?>" /></label><br />
-<br />
-<em><?php _e('You still need to have a featured image set, it will be used as a thumbnail.','comiceasel'); ?></em>
-<?php }
-
 function ceo_edit_taxonomy_archive_overwrite() {
 	global $post;
 	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
@@ -490,8 +476,6 @@ function ceo_add_comic_in_post() {
 		add_meta_box('ceo_html_above_comic', __('HTML (Above) Comic', 'comiceasel'), 'ceo_edit_html_above_comic', 'comic', 'normal', 'high');
 		add_meta_box('ceo_html_below_comic', __('HTML (Below) Comic', 'comiceasel'), 'ceo_edit_html_below_comic', 'comic', 'normal', 'high');
 	}
-	if (!defined('CEO_FEATURE_FLASH_UPLOAD'))
-		add_meta_box('ceo_flash_upload', __('Add Flash Comic', 'comiceasel'), 'ceo_flash_upload_box', 'comic', 'normal', 'high');
 	if (!defined('CEO_FEATURE_MEDIA_EMBED')) 
 		add_meta_box('ceo_media_embed_file', __('Media Url as Comic', 'comiceasel'), 'ceo_media_embed_box', 'comic', 'normal', 'low');
 	if (function_exists('comicpress_themeinfo'))
@@ -559,9 +543,6 @@ function ceo_handle_edit_save_comic($post_id, $post) {
 			'comic-gallery-jquery',
 			'buyprint-status',
 			'buyorig-status',
-			'flash_file',
-			'flash_height',
-			'flash_width',
 			'media_url',
 			'media_width',
 			'link-to',
