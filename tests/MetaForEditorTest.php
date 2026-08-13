@@ -120,6 +120,28 @@ class MetaForEditorTest extends CE_TestCase {
 		unset( $_POST );
 	}
 
+	/**
+	 * A meta row can exist while holding the empty string -- the Custom Fields panel, an
+	 * importer or wp-cli all leave one behind. get_post_meta() reports '' for that row and for
+	 * no row at all, so a save handler that branches on '' and reaches for a unique
+	 * add_post_meta() has its write refused and drops what the author typed.
+	 */
+	public function testSaveHandlerWritesOverAnExistingEmptyMetaRow() {
+		$post = $this->setGlobalPost( 17 );
+		$this->grantCurrentUserCap( 'edit_post' );
+		CE_Test_State::$valid_nonces['admin-meta.php'] = 'valid-nonce';
+		$this->setPostMeta( 17, 'transcript', '' );
+		$_POST = array(
+			'comic_nonce' => 'valid-nonce',
+			'transcript'  => 'the newly typed transcript',
+		);
+
+		ceo_handle_edit_save_comic( 17, $post );
+
+		$this->assertSame( 'the newly typed transcript', CE_Test_State::$post_meta['17:transcript'] );
+		unset( $_POST );
+	}
+
 	public function testSaveHandlerIgnoresArrayShapedMetaValues() {
 		$post = $this->setGlobalPost( 17 );
 		$this->grantCurrentUserCap( 'edit_post' );
