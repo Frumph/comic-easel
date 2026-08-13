@@ -102,8 +102,8 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 			LIMIT 1", $calendar_month_start, $calendar_month_start, $taxonomy));
 
 	/* translators: Calendar caption: 1: month name, 2: 4-digit year */
-	$calendar_caption = _x('%1$s %2$s', 'calendar caption', 'comiceasel');
-	$calendar_output = '<table id="wp-calendar" summary="' . esc_attr__('Calendar','comiceasel') . '">
+	$calendar_caption = _x('%1$s %2$s', 'calendar caption', 'comic-easel');
+	$calendar_output = '<table id="wp-calendar" summary="' . esc_attr__('Calendar','comic-easel') . '">
 	<caption>' . sprintf($calendar_caption, $wp_locale->get_month($thismonth), date('Y', $unixmonth)) . '</caption>
 	<thead>
 	<tr>';
@@ -128,7 +128,7 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 	<tr>';
 
 	if ( $previous ) {
-		$calendar_output .= "\n\t\t".'<td colspan="3" id="prev"><a href="' . get_month_link($previous->year, $previous->month) . $the_post_type.'" title="' . sprintf(/* translators: 1: month name, 2: four-digit year. */ __('View posts for %1$s %2$s','comiceasel'), $wp_locale->get_month($previous->month), date('Y', mktime(0, 0 , 0, $previous->month, 1, $previous->year))) . '">&laquo; ' . $wp_locale->get_month_abbrev($wp_locale->get_month($previous->month)) . '</a></td>';
+		$calendar_output .= "\n\t\t".'<td colspan="3" id="prev"><a href="' . get_month_link($previous->year, $previous->month) . $the_post_type.'" title="' . sprintf(/* translators: 1: month name, 2: four-digit year. */ __('View posts for %1$s %2$s','comic-easel'), $wp_locale->get_month($previous->month), date('Y', mktime(0, 0 , 0, $previous->month, 1, $previous->year))) . '">&laquo; ' . $wp_locale->get_month_abbrev($wp_locale->get_month($previous->month)) . '</a></td>';
 	} else {
 		$calendar_output .= "\n\t\t".'<td colspan="3" id="prev" class="pad">&nbsp;</td>';
 	}
@@ -136,7 +136,7 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 	$calendar_output .= "\n\t\t".'<td class="pad">&nbsp;</td>';
 
 	if ( $next ) {
-		$calendar_output .= "\n\t\t".'<td colspan="3" id="next"><a href="' . get_month_link($next->year, $next->month) . $the_post_type.'" title="' . esc_attr( sprintf(/* translators: 1: month name, 2: four-digit year. */ __('View posts for %1$s %2$s','comiceasel'), $wp_locale->get_month($next->month), date('Y', mktime(0, 0 , 0, $next->month, 1, $next->year))) ) . '">' . $wp_locale->get_month_abbrev($wp_locale->get_month($next->month)) . ' &raquo;</a></td>';
+		$calendar_output .= "\n\t\t".'<td colspan="3" id="next"><a href="' . get_month_link($next->year, $next->month) . $the_post_type.'" title="' . esc_attr( sprintf(/* translators: 1: month name, 2: four-digit year. */ __('View posts for %1$s %2$s','comic-easel'), $wp_locale->get_month($next->month), date('Y', mktime(0, 0 , 0, $next->month, 1, $next->year))) ) . '">' . $wp_locale->get_month_abbrev($wp_locale->get_month($next->month)) . ' &raquo;</a></td>';
 	} else {
 		$calendar_output .= "\n\t\t".'<td colspan="3" id="next" class="pad">&nbsp;</td>';
 	}
@@ -257,8 +257,8 @@ class ceo_calendar_widget extends WP_Widget {
 	function __construct() {
 		parent::__construct(
 			__CLASS__, // Base ID
-			__( 'Comic Easel - Calendar', 'comiceasel' ), // Name
-			array( 'classname' => __CLASS__, 'description' => __( 'Display a calendar showing this months posts. (this calendar does not drop lines if there is no title given.', 'comiceasel' ), ) // Args
+			__( 'Comic Easel - Calendar', 'comic-easel' ), // Name
+			array( 'classname' => __CLASS__, 'description' => __( 'Display a calendar showing this months posts. (this calendar does not drop lines if there is no title given.', 'comic-easel' ), ) // Args
 		);
 	}
 
@@ -280,12 +280,12 @@ class ceo_calendar_widget extends WP_Widget {
 					<?php } ?>
 						<div class="wp-calendar-download-links">
 							<?php if (!empty($small) || !empty($medium) || !empty($large)) { ?>
-								<?php esc_html_e('DOWNLOAD','comiceasel'); ?>
+								<?php esc_html_e('DOWNLOAD','comic-easel'); ?>
 								<?php
 								  foreach (array(
-								    'small' => array(__('Download Small', 'comiceasel'), __('S', 'comiceasel')),
-								    'medium' => array(__('Download Medium', 'comiceasel'), __('M', 'comiceasel')),
-								  	'large' => array(__('Download Large', 'comiceasel'), __('L', 'comiceasel'))
+								    'small' => array(__('Download Small', 'comic-easel'), __('S', 'comic-easel')),
+								    'medium' => array(__('Download Medium', 'comic-easel'), __('M', 'comic-easel')),
+								  	'large' => array(__('Download Large', 'comic-easel'), __('L', 'comic-easel'))
 								 	) as $field => $text) {
 								 		if (!empty(${$field})) {
 								 			?><a href="<?php echo esc_url(${$field}); ?>" title="<?php echo esc_attr($text[0]); ?>"><?php echo esc_html($text[1]); ?></a><?php
@@ -324,11 +324,11 @@ class ceo_calendar_widget extends WP_Widget {
 		$link = $instance['link'];
 
 		foreach (array(
-			'thumbnail' => __('Thumbnail URL (178px by 130px):','comiceasel'),
-			'link' => array('label' => __('Add link on thumbnails:','comiceasel'), 'after' => '<hr />'),
-			'small' => __('Wallpaper URL (Small):','comiceasel'),
-			'medium' => __('Wallpaper URL (Medium):','comiceasel'),
-			'large' => __('Wallpaper URL (Large):','comiceasel'),
+			'thumbnail' => __('Thumbnail URL (178px by 130px):','comic-easel'),
+			'link' => array('label' => __('Add link on thumbnails:','comic-easel'), 'after' => '<hr />'),
+			'small' => __('Wallpaper URL (Small):','comic-easel'),
+			'medium' => __('Wallpaper URL (Medium):','comic-easel'),
+			'large' => __('Wallpaper URL (Large):','comic-easel'),
 		) as $field => $label) {
 			unset($after);
 			if (is_array($label)) { extract($label); }

@@ -77,7 +77,7 @@ function ceo_chapters_edit_menu_orderby() {
 function ceo_chapters_quick_edit_menu_order ($column_name, $screen, $name = '') {
 	if ( did_action( 'quick_edit_custom_box' ) !== 1 ) return;
 	if (($column_name != 'menu_order') && ($name != 'chapters') && ($screen != 'edit-tags') && empty($name)) return;
-	$menu_order_field = '<fieldset><div class="inline-edit-col"><label><span class="title">' . __( 'Order' , 'comiceasel') . '</span><span class="input-text-wrap"><input class="ptitle" name="ceo_chapter_order" type="text" value="" /></span></label></div></fieldset>';
+	$menu_order_field = '<fieldset><div class="inline-edit-col"><label><span class="title">' . __( 'Order' , 'comic-easel') . '</span><span class="input-text-wrap"><input class="ptitle" name="ceo_chapter_order" type="text" value="" /></span></label></div></fieldset>';
 	$menu_order_field .= '<script type="text/javascript">
 	</script>';
 	echo $menu_order_field;
@@ -97,12 +97,12 @@ function ceo_chapters_columns($chapter_columns) {
 	wp_register_style('comiceasel-chapters-style', ceo_pluginfo('plugin_url').'css/chapters.css');
 	wp_enqueue_style('comiceasel-chapters-style');
 	$new_columns['cb'] = '<input type="checkbox" />';
-	$new_columns['id'] = __('ID', 'comiceasel');
-	$new_columns['name'] = __('Name', 'comiceasel');
-	$new_columns['slug'] = __('Slug', 'comiceasel');
-	$new_columns['description'] = __('Description', 'comiceasel');
-	$new_columns['posts'] = __('Comics', 'comiceasel');
-	$new_columns['menu_order'] = __('Order', 'comiceasel');
+	$new_columns['id'] = __('ID', 'comic-easel');
+	$new_columns['name'] = __('Name', 'comic-easel');
+	$new_columns['slug'] = __('Slug', 'comic-easel');
+	$new_columns['description'] = __('Description', 'comic-easel');
+	$new_columns['posts'] = __('Comics', 'comic-easel');
+	$new_columns['menu_order'] = __('Order', 'comic-easel');
 	return $new_columns;
 }
 
@@ -133,26 +133,26 @@ function ceo_chapters_add_column_value($empty, $custom_column, $term_id) {
 }
 
 function ceo_chapters_menu_order_add_form_field() {		
-	$form_field = '<div class="form-field"><label for="ceo_chapter_order">'.ucwords(ceo_pluginfo('chapter_type_slug_name')).' '.__('Order', 'comiceasel') . '</label><input name="ceo_chapter_order" id="ceo_chapter_order" type="text" value="0" size="10" /><p>' . __('This defines what order the taxonomy is in. 0 = do not order.', 'comiceasel') . '</p></div>';
+	$form_field = '<div class="form-field"><label for="ceo_chapter_order">'.ucwords(ceo_pluginfo('chapter_type_slug_name')).' '.__('Order', 'comic-easel') . '</label><input name="ceo_chapter_order" id="ceo_chapter_order" type="text" value="0" size="10" /><p>' . __('This defines what order the taxonomy is in. 0 = do not order.', 'comic-easel') . '</p></div>';
 	echo $form_field;
 }
 
 function ceo_chapters_menu_order_edit_form_field($term) {
-	$form_field = '<tr class="form-field"><th scope="row" valign="top"><label for="ceo_chapter_order">' .ucwords(ceo_pluginfo('chapter_type_slug_name')).' '.__('Order', 'comiceasel')  . '</label></th><td><input name="ceo_chapter_order" id="ceo_chapter_order" type="text" value="'.$term->menu_order.'" size="10" /><p class="description">' . __('This defines what order the taxonomy is in. 0 = do not order.', 'comiceasel') .'</p></td></tr>';
+	$form_field = '<tr class="form-field"><th scope="row" valign="top"><label for="ceo_chapter_order">' .ucwords(ceo_pluginfo('chapter_type_slug_name')).' '.__('Order', 'comic-easel')  . '</label></th><td><input name="ceo_chapter_order" id="ceo_chapter_order" type="text" value="'.$term->menu_order.'" size="10" /><p class="description">' . __('This defines what order the taxonomy is in. 0 = do not order.', 'comic-easel') .'</p></td></tr>';
 	echo $form_field;
 }
 
 function ceo_add_new_comic_columns($comic_columns) {
 	$new_columns['cb'] = '<input type="checkbox" />';
-	$new_columns['title'] = __('Comic Title', 'comiceasel');
+	$new_columns['title'] = __('Comic Title', 'comic-easel');
 	$new_columns['chapter'] = ucwords(ceo_pluginfo('chapter_type_slug_name'));
-	$new_columns['characters'] = __('Characters', 'comiceasel');
+	$new_columns['characters'] = __('Characters', 'comic-easel');
 	if (ceo_pluginfo('allow_comics_to_have_categories'))
-		$new_columns['categories'] = __('Category', 'comiceasel');
-	$new_columns['locations'] = __('Location', 'comiceasel');
-	$new_columns['tags'] = __('Tags', 'comiceasel');
-	$new_columns['date'] = __('Date', 'comiceasel');
-	$new_columns['comicimages'] = __('Thumbnail', 'comiceasel');	
+		$new_columns['categories'] = __('Category', 'comic-easel');
+	$new_columns['locations'] = __('Location', 'comic-easel');
+	$new_columns['tags'] = __('Tags', 'comic-easel');
+	$new_columns['date'] = __('Date', 'comic-easel');
+	$new_columns['comicimages'] = __('Thumbnail', 'comic-easel');	
 
 	return $new_columns;
 }
@@ -190,7 +190,7 @@ function ceo_manage_comic_columns($column_name, $id) {
 	case 'comicimages':
 			$post = get_post($id);
 			$comicthumb = ceo_display_comic_thumbnail('thumbnail', $post, array(120,0)); 
-			if (!$comicthumb) { echo esc_html__('No thumbnail Found.','comiceasel'); } else {
+			if (!$comicthumb) { echo esc_html__('No thumbnail Found.','comic-easel'); } else {
 				echo $comicthumb;
 			}
 		break;
@@ -212,7 +212,7 @@ function ceo_filter_restrict_manage_posts() {
 				$tax_obj = get_taxonomy( $tax_slug );
 				wp_dropdown_categories( array(
 					/* translators: %s: taxonomy label, e.g. "Chapters". */
-					'show_option_all' => sprintf(__('Show All %s', 'comiceasel'), $tax_obj->label),
+					'show_option_all' => sprintf(__('Show All %s', 'comic-easel'), $tax_obj->label),
 					'taxonomy' 	  => $tax_slug,
 					'name' 		  => $tax_obj->name,
 					'orderby' 	  => 'name',
@@ -245,17 +245,17 @@ function ceo_edit_comic_in_post($post) {  ?>
 <div class="admin-comicbox" style="margin:0; padding:0; overflow:hidden;">
 <?php 
 		$output = '<ul><ol>';
-		$output .= '<li>'.__('Add a title to the comic.&nbsp; Titles must be alpha-numerical, not just numbers.','comiceasel').'</li>';
-		$output .= '<li>'.__('Add some info to the blog section of the comic if you want to (not required).','comiceasel').'</li>';
-		$output .= '<li>'.__('Set the date/time you want it to be published, leave it as Publish Immediately if you want it to post right now.','comiceasel').'</li>';
-		$output .= '<li>'.__('Set the featured image as the comic.&nbsp;  You can find the link to press to do this in right column in this editor.&nbsp;  After it uploads, click the [use as featured image]','comiceasel').'<br />';
-		$output .= '<li>'.__('Set the comic into a chapter, all comics must be in a chapter.&nbsp;  If you do not have one, make one.','comiceasel').'</li>';
-		$output .= '<li>'.__('Tag characters in the comic and location the comic takes place (not required).','comiceasel').'</li>';
-		$output .= '<li>'.__('Click the [screen options] in the upper right corner of the editor and enable [x] Discussion if it is not (one time only).&nbsp;  So you can enable/disable commenting.','comiceasel').'</li>';
-		$output .= '<li>'.__('Publish.','comiceasel').'</li>';
+		$output .= '<li>'.__('Add a title to the comic.&nbsp; Titles must be alpha-numerical, not just numbers.','comic-easel').'</li>';
+		$output .= '<li>'.__('Add some info to the blog section of the comic if you want to (not required).','comic-easel').'</li>';
+		$output .= '<li>'.__('Set the date/time you want it to be published, leave it as Publish Immediately if you want it to post right now.','comic-easel').'</li>';
+		$output .= '<li>'.__('Set the featured image as the comic.&nbsp;  You can find the link to press to do this in right column in this editor.&nbsp;  After it uploads, click the [use as featured image]','comic-easel').'<br />';
+		$output .= '<li>'.__('Set the comic into a chapter, all comics must be in a chapter.&nbsp;  If you do not have one, make one.','comic-easel').'</li>';
+		$output .= '<li>'.__('Tag characters in the comic and location the comic takes place (not required).','comic-easel').'</li>';
+		$output .= '<li>'.__('Click the [screen options] in the upper right corner of the editor and enable [x] Discussion if it is not (one time only).&nbsp;  So you can enable/disable commenting.','comic-easel').'</li>';
+		$output .= '<li>'.__('Publish.','comic-easel').'</li>';
 		$output .= '</ol></ul>';
-		$output .= __('You can move the editor boxes around.&nbsp;  Drag them to where it would suit your individual taste in where you want them.','comiceasel').'<br /><br />';
-		$output .= __('Minimize these directions by clicking the title of the box.','comiceasel');
+		$output .= __('You can move the editor boxes around.&nbsp;  Drag them to where it would suit your individual taste in where you want them.','comic-easel').'<br /><br />';
+		$output .= __('Minimize these directions by clicking the title of the box.','comic-easel');
 		echo $output;
 ?>
 </div>
@@ -267,28 +267,28 @@ function ceo_edit_toggles_in_post($post) {
 ?>
 <table class="widefat">
 	<tr>
-		<th scope="row"><label for="comic-gallery"><?php esc_html_e('Multi-Comic Support?','comiceasel'); ?></label></th>
+		<th scope="row"><label for="comic-gallery"><?php esc_html_e('Multi-Comic Support?','comic-easel'); ?></label></th>
 		<td>
 			<input id="comic-gallery" name="comic-gallery" type="checkbox" value="1" <?php checked(1, get_post_meta( $post->ID, 'comic-gallery', true )); ?> />
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">
-			<label for="comic-gallery-full"><?php esc_html_e('Display the comics as full sized?','comiceasel'); ?></label>
-			<span style="font-size: 9px;"><?php esc_html_e('Not checking this will use the gallery thumbnail view, if multi-comic is enabled.','comiceasel'); ?></span>
+			<label for="comic-gallery-full"><?php esc_html_e('Display the comics as full sized?','comic-easel'); ?></label>
+			<span style="font-size: 9px;"><?php esc_html_e('Not checking this will use the gallery thumbnail view, if multi-comic is enabled.','comic-easel'); ?></span>
 		</th>
 		<td>
 			<input id="comic-gallery-full" name="comic-gallery-full" type="checkbox" value="1" <?php checked(1, get_post_meta( $post->ID, 'comic-gallery-full', true )); ?> />
 		</td>
 	</tr>
 	<tr>
-		<th scope="row"><label for="comic-gallery-jquery"><?php esc_html_e('Use the jQuery page flipper?','comiceasel'); ?></label></th>
+		<th scope="row"><label for="comic-gallery-jquery"><?php esc_html_e('Use the jQuery page flipper?','comic-easel'); ?></label></th>
 		<td>
 			<input id="comic-gallery-jquery" name="comic-gallery-jquery" type="checkbox" value="1" <?php checked(1, get_post_meta( $post->ID, 'comic-gallery-jquery', true )); ?> />
 		</td>
 	</tr>
 	<tr>
-		<th scope="row"><label for="comic-gallery-columns"><?php esc_html_e('If not full sized, how many gallery rows to use?','comiceasel'); ?></label></th>
+		<th scope="row"><label for="comic-gallery-columns"><?php esc_html_e('If not full sized, how many gallery rows to use?','comic-easel'); ?></label></th>
 		<td style="width: 30%">
 			<?php
 				$column_count = get_post_meta( $post->ID, 'comic-gallery-columns', true );
@@ -298,25 +298,25 @@ function ceo_edit_toggles_in_post($post) {
 		</td>
 	</tr>
 	<tr>
-		<th scope="row"><label for="comic-open-lightbox"><?php esc_html_e('Open comic up with Lightbox?','comiceasel'); ?></label></th>
+		<th scope="row"><label for="comic-open-lightbox"><?php esc_html_e('Open comic up with Lightbox?','comic-easel'); ?></label></th>
 		<td>
 			<input id="comic-open-lightbox" name="comic-open-lightbox" type="checkbox" value="1" <?php checked(1, get_post_meta( $post->ID, 'comic-open-lightbox', true )); ?> />
 		</td>
 	</tr>
 	<tr>
-		<th scope="row"><label for="comic-has-map"><?php esc_html_e('*Comic has Map?','comiceasel'); ?></label></th>
+		<th scope="row"><label for="comic-has-map"><?php esc_html_e('*Comic has Map?','comic-easel'); ?></label></th>
 		<td>
 			<input id="comic-has-map" name="comic-has-map" type="checkbox" value="1" <?php checked(1, get_post_meta( $post->ID, 'comic-has-map', true )); ?> />
 		</td>
 	</tr>
 	<tr>
-		<th scope="row"><label for="comic-content-warning"><?php esc_html_e('Enable Content Warning?','comiceasel'); ?></label></th>
+		<th scope="row"><label for="comic-content-warning"><?php esc_html_e('Enable Content Warning?','comic-easel'); ?></label></th>
 		<td>
 			<input id="comic-content-warning" name="comic-content-warning" type="checkbox" value="1" <?php checked(1, get_post_meta( $post->ID, 'comic-content-warning', true )); ?> />
 		</td>
 	</tr>	
 </table>
-<em><?php esc_html_e('*  usemap="#comicmap" will be added, add the map html to the below html box','comiceasel'); ?></em>
+<em><?php esc_html_e('*  usemap="#comicmap" will be added, add the map html to the below html box','comic-easel'); ?></em>
 <?php
 }
 
@@ -339,7 +339,7 @@ blip.tv, DailyMotion, FunnyOrDie.com, Hulu, Instagram, Qik, Photobucket, Rdio, R
 
 function ceo_edit_linkto_in_post($post) {
 	$linkto_url = get_post_meta($post->ID, 'link-to', true); 
-	esc_html_e('Add url here or leave empty to use next comic or default none', 'comiceasel');
+	esc_html_e('Add url here or leave empty to use next comic or default none', 'comic-easel');
 	?>
 	<br />
 	<input id="link-to" name="link-to" type="input" style="width: 80%" value="<?php echo esc_attr(ceo_meta_for_editor($linkto_url)); ?>" /><br />
@@ -349,12 +349,12 @@ function ceo_edit_linkto_in_post($post) {
 function ceo_edit_refer_only_in_post($post) {
 	$refer_only = get_post_meta($post->ID, 'refer-only', true); 
 	$refer_only_msg = get_post_meta($post->ID, 'refer-only-msg', true);
-	esc_html_e('Add url here of referring website to make it only visible when coming from that url.', 'comiceasel');
+	esc_html_e('Add url here of referring website to make it only visible when coming from that url.', 'comic-easel');
 	?>
 	<br />
 	<input id="refer-only" name="refer-only" type="input" style="width: 80%" value="<?php echo esc_attr(ceo_meta_for_editor($refer_only)); ?>" /><br />
 	<br />
-	<?php esc_html_e("Message to display to users who don't visit from the referring site.",'comiceasel'); ?><br />
+	<?php esc_html_e("Message to display to users who don't visit from the referring site.",'comic-easel'); ?><br />
 	<input id="refer-only-msg" name="refer-only-msg" type="input" style="width: 80%" value="<?php echo esc_attr(ceo_meta_for_editor($refer_only_msg)); ?>" /><br />
 	<?php
 }
@@ -365,7 +365,7 @@ function ceo_edit_hovertext_in_post($post) {
 	if (empty($hovertext)) $hovertext = get_post_meta($post->ID, 'hovertext', true);
 	if (!$hovertext) $hovertext = '';
 ?>
-	<?php esc_html_e('The text placed here will appear when you mouse over the comic.','comiceasel'); ?><br />
+	<?php esc_html_e('The text placed here will appear when you mouse over the comic.','comic-easel'); ?><br />
 	<textarea name="comic-hovertext" id="comic-hovertext" class="admin-comic-hovertext" style="width:100%"><?php echo esc_textarea(ceo_meta_for_editor($hovertext)); ?></textarea>
 <?php
 }
@@ -373,7 +373,7 @@ function ceo_edit_hovertext_in_post($post) {
 function ceo_edit_transcript_in_post($post) { 
 	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
 ?>
-	<?php esc_html_e('The text placed here will appear as the transcript.','comiceasel'); ?><br />
+	<?php esc_html_e('The text placed here will appear as the transcript.','comic-easel'); ?><br />
 	<textarea name="transcript" id="transcript" class="admin-transcript" style="width:100%; height: 100px;"><?php echo esc_textarea(ceo_meta_for_editor(get_post_meta($post->ID, 'transcript', true))); ?></textarea>
 <?php
 }
@@ -381,7 +381,7 @@ function ceo_edit_transcript_in_post($post) {
 function ceo_edit_html_above_comic($post) { 
 	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
 ?>
-	<?php esc_html_e('The html placed here will appear above the comic.','comiceasel'); ?><br />
+	<?php esc_html_e('The html placed here will appear above the comic.','comic-easel'); ?><br />
 	<textarea name="comic-html-above" id="comic-html-above" class="admin-comic-html-above" style="width:100%"><?php echo esc_textarea(ceo_meta_for_editor(get_post_meta( $post->ID, 'comic-html-above', true ))); ?></textarea>
 <?php
 }
@@ -389,7 +389,7 @@ function ceo_edit_html_above_comic($post) {
 function ceo_edit_html_below_comic($post) { 
 	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
 ?>
-	<?php esc_html_e('The html placed here will appear below the comic.','comiceasel'); ?><br />
+	<?php esc_html_e('The html placed here will appear below the comic.','comic-easel'); ?><br />
 	<textarea name="comic-html-below" id="comic-html-below" class="admin-comic-html-below" style="width:100%"><?php echo esc_textarea(ceo_meta_for_editor(get_post_meta( $post->ID, 'comic-html-below', true ))); ?></textarea>
 <?php
 }
@@ -397,11 +397,11 @@ function ceo_edit_html_below_comic($post) {
 function ceo_edit_buycomic_in_post($post) { 
 	wp_nonce_field( basename( __FILE__ ), 'comic_nonce' );
 	$currentbuyprintoption = get_post_meta( $post->ID, 'buyprint-status', true );
-	if (empty($currentbuyprintoption)) $currentbuyprintoption = __('Available','comiceasel');
+	if (empty($currentbuyprintoption)) $currentbuyprintoption = __('Available','comic-easel');
 	// backwards compatibility with comicpress
 	
 	$currentbuyorigoption = get_post_meta( $post->ID, 'buyorig-status', true );
-	if (empty($currentbuyorigoption)) $currentbuyorigoption = __('Available','comiceasel');
+	if (empty($currentbuyorigoption)) $currentbuyorigoption = __('Available','comic-easel');
 
 	$currentbuyprintamount = get_post_meta($post->ID , 'buy_print_amount', true);
 	if (empty($currentbuyprintamount)) $currentbuyprintamount = ceo_pluginfo('buy_comic_print_amount');
@@ -412,19 +412,19 @@ function ceo_edit_buycomic_in_post($post) {
 		<tr>
 		<?php if (ceo_pluginfo('buy_comic_sell_print')) { ?>
 			<td align="left" valign="top" width="50%">
-				<?php esc_html_e('Print Cost','comiceasel'); ?> <input name="buy_print_amount" id="buy_print_amount" type="text" size="5" value="<?php echo esc_attr(ceo_meta_for_editor($currentbuyprintamount)) ?>" />  <br />
-				<input name="buyprint-status" id="buyprint-available" type="radio" value="<?php esc_attr_e('Available','comiceasel'); ?>" <?php if (($currentbuyprintoption == __('Available','comiceasel')) || empty($currentbuyprintoption)) { echo " checked"; } ?> /> <label for="buyprint-available"><?php esc_html_e('Available','comiceasel'); ?></label><br />
-				<input name="buyprint-status" id="buyprint-sold" type="radio" value="<?php esc_attr_e('Sold','comiceasel'); ?>" <?php if ($currentbuyprintoption == __('Sold','comiceasel')) { echo " checked"; } ?> /> <label for="buyprint-sold">Sold</label><br />
-				<input name="buyprint-status" id="buyprint-outofstock" type="radio" value="<?php esc_attr_e('Out of Stock','comiceasel'); ?>" <?php if ($currentbuyprintoption == __('Out of Stock','comiceasel')) { echo " checked"; } ?> /> <label for="buyprint-outofstock"><?php esc_html_e('Out of Stock','comiceasel'); ?></label><br />
-				<input name="buyprint-status" id="buyprint-notavail" type="radio" value="<?php esc_attr_e('Not Available','comiceasel'); ?>" <?php if ($currentbuyprintoption == __('Not Available','comiceasel')) { echo " checked"; } ?> /> <label for="buyprint-notavail"><?php esc_html_e('Not Available','comiceasel'); ?></label><br />
+				<?php esc_html_e('Print Cost','comic-easel'); ?> <input name="buy_print_amount" id="buy_print_amount" type="text" size="5" value="<?php echo esc_attr(ceo_meta_for_editor($currentbuyprintamount)) ?>" />  <br />
+				<input name="buyprint-status" id="buyprint-available" type="radio" value="<?php esc_attr_e('Available','comic-easel'); ?>" <?php if (($currentbuyprintoption == __('Available','comic-easel')) || empty($currentbuyprintoption)) { echo " checked"; } ?> /> <label for="buyprint-available"><?php esc_html_e('Available','comic-easel'); ?></label><br />
+				<input name="buyprint-status" id="buyprint-sold" type="radio" value="<?php esc_attr_e('Sold','comic-easel'); ?>" <?php if ($currentbuyprintoption == __('Sold','comic-easel')) { echo " checked"; } ?> /> <label for="buyprint-sold">Sold</label><br />
+				<input name="buyprint-status" id="buyprint-outofstock" type="radio" value="<?php esc_attr_e('Out of Stock','comic-easel'); ?>" <?php if ($currentbuyprintoption == __('Out of Stock','comic-easel')) { echo " checked"; } ?> /> <label for="buyprint-outofstock"><?php esc_html_e('Out of Stock','comic-easel'); ?></label><br />
+				<input name="buyprint-status" id="buyprint-notavail" type="radio" value="<?php esc_attr_e('Not Available','comic-easel'); ?>" <?php if ($currentbuyprintoption == __('Not Available','comic-easel')) { echo " checked"; } ?> /> <label for="buyprint-notavail"><?php esc_html_e('Not Available','comic-easel'); ?></label><br />
 			</td>
 		<?php }
 			if (ceo_pluginfo('buy_comic_sell_original')) { ?>
 			<td align="left" valign="top">
-				<?php esc_html_e('Original Cost','comiceasel'); ?> <input name="buy_print_orig_amount" id="buy_print_orig_amount" size="5" type="text" value="<?php echo esc_attr(ceo_meta_for_editor($currentbuyorigamount)); ?>" /><br />
-				<input name="buyorig-status" id="buyorig-available" type="radio" value="<?php esc_attr_e('Available','comiceasel'); ?>" <?php if (($currentbuyorigoption == __('Available','comiceasel')) || empty($currentbuyorigoption)) { echo " checked"; } ?> /> <label for="buyorig-available"><?php esc_html_e('Available','comiceasel'); ?></label><br />
-				<input name="buyorig-status" id="buyorig-sold" type="radio" value="<?php esc_attr_e('Sold','comiceasel'); ?>" <?php if ($currentbuyorigoption == __('Sold','comiceasel')) { echo " checked"; } ?> /> <label for="buyorig-sold"><?php esc_html_e('Sold','comiceasel'); ?></label><br />
-				<input name="buyorig-status" id="buyorig-notavail" type="radio" value="<?php esc_attr_e('Not Available','comiceasel'); ?>" <?php if ($currentbuyorigoption == __('Not Available','comiceasel')) { echo " checked"; } ?> /> <label for="buyorig-notavail"><?php esc_html_e('Not Available','comiceasel'); ?></label><br />
+				<?php esc_html_e('Original Cost','comic-easel'); ?> <input name="buy_print_orig_amount" id="buy_print_orig_amount" size="5" type="text" value="<?php echo esc_attr(ceo_meta_for_editor($currentbuyorigamount)); ?>" /><br />
+				<input name="buyorig-status" id="buyorig-available" type="radio" value="<?php esc_attr_e('Available','comic-easel'); ?>" <?php if (($currentbuyorigoption == __('Available','comic-easel')) || empty($currentbuyorigoption)) { echo " checked"; } ?> /> <label for="buyorig-available"><?php esc_html_e('Available','comic-easel'); ?></label><br />
+				<input name="buyorig-status" id="buyorig-sold" type="radio" value="<?php esc_attr_e('Sold','comic-easel'); ?>" <?php if ($currentbuyorigoption == __('Sold','comic-easel')) { echo " checked"; } ?> /> <label for="buyorig-sold"><?php esc_html_e('Sold','comic-easel'); ?></label><br />
+				<input name="buyorig-status" id="buyorig-notavail" type="radio" value="<?php esc_attr_e('Not Available','comic-easel'); ?>" <?php if ($currentbuyorigoption == __('Not Available','comic-easel')) { echo " checked"; } ?> /> <label for="buyorig-notavail"><?php esc_html_e('Not Available','comic-easel'); ?></label><br />
 			</td>
 		<?php } ?>
 		</tr>
@@ -444,58 +444,58 @@ function ceo_edit_taxonomy_archive_overwrite() {
 	$terms = get_terms($taxonomies);
 	if (!is_wp_error($terms) && !empty($terms)) { ?>
 		<select name="location-overwrite" id="location-overwrite">
-			<option class="level-0" value="" <?php if ($current_selected == 'none' || empty($current_selected)) { ?>selected="selected"<?php } ?>><?php echo esc_html__('Do Not Use', 'comiceasel'); ?></option>
+			<option class="level-0" value="" <?php if ($current_selected == 'none' || empty($current_selected)) { ?>selected="selected"<?php } ?>><?php echo esc_html__('Do Not Use', 'comic-easel'); ?></option>
 	<?php
 		foreach ($terms as $term) { ?>
 			<option class="level-0" value="<?php echo esc_attr($term->slug); ?>" <?php if ($current_selected == $term->slug) { ?>selected="selected"<?php } ?>><?php echo esc_html($term->name); ?></option>
 	<?php } ?>
 		</select>
 <?php		
-	} else esc_html_e('There are no characters or locations yet.', 'comiceasel');
+	} else esc_html_e('There are no characters or locations yet.', 'comic-easel');
 }
 
 
 function ceo_add_comic_in_post() {
-	add_meta_box('ceo_comic_in_post', __('Comic Directions', 'comiceasel'), 'ceo_edit_comic_in_post', 'comic', 'side', 'high');
+	add_meta_box('ceo_comic_in_post', __('Comic Directions', 'comic-easel'), 'ceo_edit_comic_in_post', 'comic', 'side', 'high');
 	if ( current_theme_supports( 'post-thumbnails', 'comic' ) && post_type_supports('comic', 'thumbnail') ) {
 		remove_meta_box('postimagediv', 'comic', 'side');
-		add_meta_box('postimagediv', __('Set Comic/Featured Image', 'comiceasel'), 'post_thumbnail_meta_box', 'comic', 'side', 'high'); 
+		add_meta_box('postimagediv', __('Set Comic/Featured Image', 'comic-easel'), 'post_thumbnail_meta_box', 'comic', 'side', 'high'); 
 	}
 	if (!defined('CEO_FEATURE_LINKTO'))
-		add_meta_box('ceo_linkto_in_post', __('Links To', 'comiceasel'), 'ceo_edit_linkto_in_post', 'comic', 'normal', 'default');
+		add_meta_box('ceo_linkto_in_post', __('Links To', 'comic-easel'), 'ceo_edit_linkto_in_post', 'comic', 'normal', 'default');
 	if (!defined('CEO_DISABLE_REFER_ONLY'))
-		add_meta_box('ceo_refer_only_in_post', __('Only show this comic if it comes from referring URL?', 'comiceasel'), 'ceo_edit_refer_only_in_post', 'comic', 'normal', 'default');
+		add_meta_box('ceo_refer_only_in_post', __('Only show this comic if it comes from referring URL?', 'comic-easel'), 'ceo_edit_refer_only_in_post', 'comic', 'normal', 'default');
 	if (!defined('CEO_FEATURE_DISABLE_MISC'))
-		add_meta_box('ceo_toggle_in_post', __('Misc. Comic Functionality', 'comiceasel'), 'ceo_edit_toggles_in_post', 'comic', 'side', 'low');
+		add_meta_box('ceo_toggle_in_post', __('Misc. Comic Functionality', 'comic-easel'), 'ceo_edit_toggles_in_post', 'comic', 'side', 'low');
 	if (!defined('CEO_FEATURE_DISABLE_HOVERTEXT'))
-		add_meta_box('ceo_hovertext_in_post', __('Alt (Hover) Text', 'comiceasel'), 'ceo_edit_hovertext_in_post', 'comic', 'normal', 'high');
+		add_meta_box('ceo_hovertext_in_post', __('Alt (Hover) Text', 'comic-easel'), 'ceo_edit_hovertext_in_post', 'comic', 'normal', 'high');
 	if (!defined('CEO_FEATURE_DISABLE_TRANSCRIPT'))
-		add_meta_box('ceo_transcript_in_post', __('Transcript', 'comiceasel'), 'ceo_edit_transcript_in_post', 'comic', 'normal', 'high');
+		add_meta_box('ceo_transcript_in_post', __('Transcript', 'comic-easel'), 'ceo_edit_transcript_in_post', 'comic', 'normal', 'high');
 	if (!defined('CEO_FEATURE_BUY_COMIC'))
-		add_meta_box('ceo_buycomic_in_post', __('Buy Print/Original', 'comiceasel'), 'ceo_edit_buycomic_in_post', 'comic', 'side', 'low');
+		add_meta_box('ceo_buycomic_in_post', __('Buy Print/Original', 'comic-easel'), 'ceo_edit_buycomic_in_post', 'comic', 'side', 'low');
 	if (!defined('CEO_FEATURE_DISABLE_HTML')) {
-		add_meta_box('ceo_html_above_comic', __('HTML (Above) Comic', 'comiceasel'), 'ceo_edit_html_above_comic', 'comic', 'normal', 'high');
-		add_meta_box('ceo_html_below_comic', __('HTML (Below) Comic', 'comiceasel'), 'ceo_edit_html_below_comic', 'comic', 'normal', 'high');
+		add_meta_box('ceo_html_above_comic', __('HTML (Above) Comic', 'comic-easel'), 'ceo_edit_html_above_comic', 'comic', 'normal', 'high');
+		add_meta_box('ceo_html_below_comic', __('HTML (Below) Comic', 'comic-easel'), 'ceo_edit_html_below_comic', 'comic', 'normal', 'high');
 	}
 	if (!defined('CEO_FEATURE_MEDIA_EMBED')) 
-		add_meta_box('ceo_media_embed_file', __('Media Url as Comic', 'comiceasel'), 'ceo_media_embed_box', 'comic', 'normal', 'low');
+		add_meta_box('ceo_media_embed_file', __('Media Url as Comic', 'comic-easel'), 'ceo_media_embed_box', 'comic', 'normal', 'low');
 	if (function_exists('comicpress_themeinfo'))
-		add_meta_box('ceo_taxonomy_archive_overwrite', __('Use as an information page?', 'comiceasel'), 'ceo_edit_taxonomy_archive_overwrite', 'page', 'side', 'low');
+		add_meta_box('ceo_taxonomy_archive_overwrite', __('Use as an information page?', 'comic-easel'), 'ceo_edit_taxonomy_archive_overwrite', 'page', 'side', 'low');
 	$context_output = '<ul><ol>';
-	$context_output .= '<li>'.__('Add a title to the comic.&nbsp; Titles must be alpha-numerical, not just numbers.','comiceasel').'</li>';
-	$context_output .= '<li>'.__('Add some info to the blog section of the comic if you want to (not required).','comiceasel').'</li>';
-	$context_output .= '<li>'.__('Set the date/time you want it to be published, leave it as Publish Immediately if you want it to post right now.','comiceasel').'</li>';
-	$context_output .= '<li>'.__('Set the featured image as the comic.&nbsp;  You can find the link to press to do this in right column in this editor.&nbsp;  After it uploads, click the [use as featured image]','comiceasel').'<br />';
-	$context_output .= '<li>'.__('Set the comic into a chapter, all comics must be in a chapter.&nbsp;  If you do not have one, make one.','comiceasel').'</li>';
-	$context_output .= '<li>'.__('Tag characters in the comic and location the comic takes place (not required).','comiceasel').'</li>';
-	$context_output .= '<li>'.__('Click the [screen options] in the upper right corner of the editor and enable [x] Discussion if it is not (one time only).&nbsp;  So you can enable/disable commenting.','comiceasel').'</li>';
-	$context_output .= '<li>'.__('Publish.','comiceasel').'</li>';
+	$context_output .= '<li>'.__('Add a title to the comic.&nbsp; Titles must be alpha-numerical, not just numbers.','comic-easel').'</li>';
+	$context_output .= '<li>'.__('Add some info to the blog section of the comic if you want to (not required).','comic-easel').'</li>';
+	$context_output .= '<li>'.__('Set the date/time you want it to be published, leave it as Publish Immediately if you want it to post right now.','comic-easel').'</li>';
+	$context_output .= '<li>'.__('Set the featured image as the comic.&nbsp;  You can find the link to press to do this in right column in this editor.&nbsp;  After it uploads, click the [use as featured image]','comic-easel').'<br />';
+	$context_output .= '<li>'.__('Set the comic into a chapter, all comics must be in a chapter.&nbsp;  If you do not have one, make one.','comic-easel').'</li>';
+	$context_output .= '<li>'.__('Tag characters in the comic and location the comic takes place (not required).','comic-easel').'</li>';
+	$context_output .= '<li>'.__('Click the [screen options] in the upper right corner of the editor and enable [x] Discussion if it is not (one time only).&nbsp;  So you can enable/disable commenting.','comic-easel').'</li>';
+	$context_output .= '<li>'.__('Publish.','comic-easel').'</li>';
 	$context_output .= '</ol></ul>';
-	$context_output .= __('You can move the editor boxes around.&nbsp;  Drag them to where it would suit your individual taste in where you want them.','comiceasel').'<br /><br />';
-	$context_output .= __('Minimize these directions by clicking the title of the box.','comiceasel');
+	$context_output .= __('You can move the editor boxes around.&nbsp;  Drag them to where it would suit your individual taste in where you want them.','comic-easel').'<br /><br />';
+	$context_output .= __('Minimize these directions by clicking the title of the box.','comic-easel');
 	get_current_screen()->add_help_tab( array(
 				'id'      => 'my-help-id',
-				'title'   => __( 'Instructions','comiceasel' ),
+				'title'   => __( 'Instructions','comic-easel' ),
 				'content' => $context_output,
 			) );
 	add_action('admin_footer', 'ceo_change_chapter_to_radio');
@@ -507,8 +507,8 @@ function ceo_test_for_errors() {
 	global $post; 
 	if (is_numeric($post->post_name)) { ?>
 	<div class="error">
-		<h2><?php esc_html_e('Problem.','comiceasel'); ?></h2>
-		<?php echo esc_html__('The slug for this comic post "','comiceasel').esc_html($post->post_name).esc_html__('" is numerical.  It needs to have a letter or character added to it to not be recognized as a date.  P.S. Cannot use these characters: !&#@','comiceasel'); ?><br />
+		<h2><?php esc_html_e('Problem.','comic-easel'); ?></h2>
+		<?php echo esc_html__('The slug for this comic post "','comic-easel').esc_html($post->post_name).esc_html__('" is numerical.  It needs to have a letter or character added to it to not be recognized as a date.  P.S. Cannot use these characters: !&#@','comic-easel'); ?><br />
 	</div>
 <?php }
 }

@@ -45,9 +45,9 @@ class HarnessTest extends CE_TestCase {
 	}
 
 	public function testTranslationStubIsOverridable() {
-		$this->assertSame( 'Original', __( 'Original', 'comiceasel' ) );
+		$this->assertSame( 'Original', __( 'Original', 'comic-easel' ) );
 		CE_Test_State::$translations['Original'] = 'Origineel';
-		$this->assertSame( 'Origineel', __( 'Original', 'comiceasel' ) );
+		$this->assertSame( 'Origineel', __( 'Original', 'comic-easel' ) );
 	}
 
 	public function testEscUrlStubRejectsDisallowedSchemes() {

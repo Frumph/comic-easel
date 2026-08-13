@@ -6,7 +6,7 @@ Description: Comic Easel allows you to incorporate a WebComic using the WordPres
 Version: 1.17
 Author: Philip M. Hofer (Frumph)
 Author URI: http://frumph.net/
-Text Domain: comiceasel
+Text Domain: comic-easel
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 4.8.2
@@ -41,21 +41,21 @@ function ceo_initialize_post_types() {
 		if (class_exists('Jetpack_Comic')) $menu_position = 6; /* Allow Jetpack to have 5 */
 		
 		$labels = array(
-				'name' => __('Comics', 'comiceasel'),
-				'singular_name' => __('Comic', 'comiceasel'),
-				'add_new' => __('Add Comic', 'comiceasel'),
-				'add_new_item' => __('Add Comic', 'comiceasel'),
-				'edit_item' => __('Edit Comic','comiceasel'),
-				'edit' => __('Edit', 'comiceasel'),
-				'new_item' => __('New Comic', 'comiceasel'),
-				'all_items' => __('All Comics', 'comiceasel'),
-				'view_item' => __('View Comic', 'comiceasel'),
-				'search_items' => __('Search Comics', 'comiceasel'),
-				'not_found' =>  __('No comics found', 'comiceasel'),
-				'not_found_in_trash' => __('No comics found in Trash', 'comiceasel'), 
-				'view' =>  __('View Comic', 'comiceasel'),
+				'name' => __('Comics', 'comic-easel'),
+				'singular_name' => __('Comic', 'comic-easel'),
+				'add_new' => __('Add Comic', 'comic-easel'),
+				'add_new_item' => __('Add Comic', 'comic-easel'),
+				'edit_item' => __('Edit Comic','comic-easel'),
+				'edit' => __('Edit', 'comic-easel'),
+				'new_item' => __('New Comic', 'comic-easel'),
+				'all_items' => __('All Comics', 'comic-easel'),
+				'view_item' => __('View Comic', 'comic-easel'),
+				'search_items' => __('Search Comics', 'comic-easel'),
+				'not_found' =>  __('No comics found', 'comic-easel'),
+				'not_found_in_trash' => __('No comics found in Trash', 'comic-easel'), 
+				'view' =>  __('View Comic', 'comic-easel'),
 				'parent_item_colon' => '',
-				'menu_name' => __('Comics', 'comiceasel')
+				'menu_name' => __('Comics', 'comic-easel')
 				);
 
 		$comic_slug = ceo_pluginfo('custom_post_type_slug_name');
@@ -97,15 +97,15 @@ function ceo_initialize_post_types() {
 				'name' => $chapter_slug_plural,
 				'menu_name' => $chapter_slug_plural,
 				'singular_name' => $chapter_slug,
-				'search_items' =>  __( 'Search', 'comiceasel' ).' '.$chapter_slug_plural,
-				'popular_items' => __( 'Popular', 'comiceasel' ).' '.$chapter_slug_plural,
-				'all_items' => __( 'All', 'comiceasel' ).' '.$chapter_slug_plural,
-				'parent_item' => __( 'Parent', 'comiceasel' ).' '.$chapter_slug,
-				'parent_item_colon' => __( 'Parent', 'comiceasel' ).' '.$chapter_slug.':',
-				'edit_item' => __( 'Edit', 'comiceasel' ).' '.$chapter_slug_plural, 
-				'update_item' => __( 'Update', 'comiceasel' ).' '.$chapter_slug_plural,
-				'add_new_item' => __( 'Add New', 'comiceasel' ).' '.$chapter_slug,
-				'new_item_name' => __( 'New', 'comiceasel' ).' '.$chapter_slug.__('Name', 'comiceasel')
+				'search_items' =>  __( 'Search', 'comic-easel' ).' '.$chapter_slug_plural,
+				'popular_items' => __( 'Popular', 'comic-easel' ).' '.$chapter_slug_plural,
+				'all_items' => __( 'All', 'comic-easel' ).' '.$chapter_slug_plural,
+				'parent_item' => __( 'Parent', 'comic-easel' ).' '.$chapter_slug,
+				'parent_item_colon' => __( 'Parent', 'comic-easel' ).' '.$chapter_slug.':',
+				'edit_item' => __( 'Edit', 'comic-easel' ).' '.$chapter_slug_plural, 
+				'update_item' => __( 'Update', 'comic-easel' ).' '.$chapter_slug_plural,
+				'add_new_item' => __( 'Add New', 'comic-easel' ).' '.$chapter_slug,
+				'new_item_name' => __( 'New', 'comic-easel' ).' '.$chapter_slug.__('Name', 'comic-easel')
 				);
 
 		register_taxonomy('chapters', 'comic', array(
@@ -120,17 +120,17 @@ function ceo_initialize_post_types() {
 					));
 
 		$labels = array(
-				'name' => __('Characters', 'comiceasel' ),
-				'singular_name' => __( 'Character', 'comiceasel' ),
-				'search_items' =>  __( 'Search Characters', 'comiceasel' ),
-				'popular_items' => __( 'Popular Characters', 'comiceasel' ),
-				'all_items' => __( 'All Characters', 'comiceasel' ),
-				'parent_item' => __( 'Parent Character', 'comiceasel' ),
-				'parent_item_colon' => __( 'Parent Character:', 'comiceasel' ),
-				'edit_item' => __( 'Edit Character', 'comiceasel' ), 
-				'update_item' => __( 'Update Character', 'comiceasel' ),
-				'add_new_item' => __( 'Add New Character', 'comiceasel' ),
-				'new_item_name' => __( 'New Character Name', 'comiceasel' ),
+				'name' => __('Characters', 'comic-easel' ),
+				'singular_name' => __( 'Character', 'comic-easel' ),
+				'search_items' =>  __( 'Search Characters', 'comic-easel' ),
+				'popular_items' => __( 'Popular Characters', 'comic-easel' ),
+				'all_items' => __( 'All Characters', 'comic-easel' ),
+				'parent_item' => __( 'Parent Character', 'comic-easel' ),
+				'parent_item_colon' => __( 'Parent Character:', 'comic-easel' ),
+				'edit_item' => __( 'Edit Character', 'comic-easel' ), 
+				'update_item' => __( 'Update Character', 'comic-easel' ),
+				'add_new_item' => __( 'Add New Character', 'comic-easel' ),
+				'new_item_name' => __( 'New Character Name', 'comic-easel' ),
 				); 	
 
 		register_taxonomy('characters', 'comic', array(
@@ -144,17 +144,17 @@ function ceo_initialize_post_types() {
 					));
 					
 		$labels = array(
-				'name' => __( 'Locations', 'comiceasel'),
-				'singular_name' => __( 'Location', 'comiceasel' ),
-				'search_items' =>  __( 'Search Locations', 'comiceasel' ),
-				'popular_items' => __( 'Popular Locations', 'comiceasel' ),
-				'all_items' => __( 'All Locations', 'comiceasel' ),
-				'parent_item' => __( 'Parent Locations', 'comiceasel' ),
-				'parent_item_colon' => __( 'Parent Location:', 'comiceasel' ),
-				'edit_item' => __( 'Edit Location', 'comiceasel' ), 
-				'update_item' => __( 'Update Location', 'comiceasel' ),
-				'add_new_item' => __( 'Add New Location', 'comiceasel' ),
-				'new_item_name' => __( 'New Location Name', 'comiceasel' ),
+				'name' => __( 'Locations', 'comic-easel'),
+				'singular_name' => __( 'Location', 'comic-easel' ),
+				'search_items' =>  __( 'Search Locations', 'comic-easel' ),
+				'popular_items' => __( 'Popular Locations', 'comic-easel' ),
+				'all_items' => __( 'All Locations', 'comic-easel' ),
+				'parent_item' => __( 'Parent Locations', 'comic-easel' ),
+				'parent_item_colon' => __( 'Parent Location:', 'comic-easel' ),
+				'edit_item' => __( 'Edit Location', 'comic-easel' ), 
+				'update_item' => __( 'Update Location', 'comic-easel' ),
+				'add_new_item' => __( 'Add New Location', 'comic-easel' ),
+				'new_item_name' => __( 'New Location Name', 'comic-easel' ),
 				);
 
 		register_taxonomy('locations', 'comic', array(
@@ -249,15 +249,15 @@ function ceo_generate_date_archives($cpt, $wp_rewrite) {
 function ceo_register_sidebars() {
 	if (ceo_pluginfo('enable_comic_sidebar_locations')) {
 		foreach (array(
-					__('Over Comic', 'comiceasel'),
-					__('Left of Comic','comiceasel'),
-					__('Right of Comic', 'comiceasel'),
-					__('Under Comic', 'comiceasel')				
+					__('Over Comic', 'comic-easel'),
+					__('Left of Comic','comic-easel'),
+					__('Right of Comic', 'comic-easel'),
+					__('Under Comic', 'comic-easel')				
 					) as $sidebartitle) {
 			register_sidebar(array(
 						'name'=> $sidebartitle,
 						'id' => 'ceo-sidebar-'.sanitize_title($sidebartitle),
-						'description' => __('Comic Easel Sidebar Location', 'comiceasel'),
+						'description' => __('Comic Easel Sidebar Location', 'comic-easel'),
 						'before_widget' => "<div id=\"".'%1$s'."\" class=\"widget ".'%2$s'."\">\r\n<div class=\"widget-head\"></div>\r\n<div class=\"widget-content\">\r\n",
 						'after_widget'  => "</div>\r\n<div class=\"clear\"></div>\r\n<div class=\"widget-foot\"></div>\r\n</div>\r\n",
 						'before_title'  => "<h2 class=\"widgettitle\">",
@@ -398,9 +398,9 @@ function ceo_load_options($reset = false) {
 			'disable_mininav' => false,
 			'include_comics_in_blog_archive' => false,
 			'disable_related_comics' => true,
-			'custom_post_type_slug_name' => __('comic','comiceasel'),
-			'chapter_type_slug_name' => __('chapter', 'comiceasel'),
-			'chapter_type_name_plural' => __('chapters', 'comiceasel'),
+			'custom_post_type_slug_name' => __('comic','comic-easel'),
+			'chapter_type_slug_name' => __('chapter', 'comic-easel'),
+			'chapter_type_name_plural' => __('chapters', 'comic-easel'),
 			'display_first_comic_on_home_page' => false,
 			'disable_style_sheet' => false,
 			'enable_transcripts_in_comic_posts' => false,
@@ -414,7 +414,7 @@ function ceo_load_options($reset = false) {
 			'buy_comic_print_amount' => '25.00',
 			'buy_comic_sell_original' => true,
 			'buy_comic_orig_amount' => '65.00',
-			'buy_comic_text' => __('*Additional shipping charges will applied at time of purchase.','comiceasel'),
+			'buy_comic_text' => __('*Additional shipping charges will applied at time of purchase.','comic-easel'),
 			'enable_prevnext_chapter_traversing' => false,
 			'disable_cal_rewrite_rules' => false,
 			'chapter_on_home' => 0,
@@ -453,7 +453,7 @@ function ceo_pluginfo($whichinfo = null) {
 			$ceo_options['buy_comic_sell_original'] = true;
 			$ceo_options['buy_comic_sell_print'] = false;
 			$ceo_options['buy_comic_orig_amount'] = '65.00';
-			$ceo_options['buy_comic_text'] = __('*Additional shipping charges will applied at time of purchase.','comiceasel');
+			$ceo_options['buy_comic_text'] = __('*Additional shipping charges will applied at time of purchase.','comic-easel');
 		}
 		if (version_compare($ceo_options['db_version'], '1.3', '<')) {
 			$ceo_options['db_version'] = '1.3';
@@ -568,7 +568,7 @@ function ceo_register_widgets() {
 }
 
 function ceo_language_init() {
-	load_plugin_textdomain( 'comiceasel', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
+	load_plugin_textdomain( 'comic-easel', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
 }
 
 add_action('plugins_loaded', 'ceo_language_init');

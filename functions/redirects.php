@@ -143,8 +143,8 @@ function ceo_paypal_ipn_is_original($item_name) {
 function ceo_paypal_ipn_item_type($item_name) {
 	$item_name = strtolower((string)$item_name);
 	$labels = array(
-		'original' => array(strtolower(__('Original','comiceasel')), 'original'),
-		'print' => array(strtolower(__('Print','comiceasel')), 'print')
+		'original' => array(strtolower(__('Original','comic-easel')), 'original'),
+		'print' => array(strtolower(__('Print','comic-easel')), 'print')
 	);
 	foreach ($labels as $type => $type_labels) {
 		foreach (array_unique($type_labels) as $label) {
@@ -233,7 +233,7 @@ function ceo_paypal_ipn_validate_item($post_id, $item_name, $comiceasel_config) 
 
 	$status_key = ($item_type === 'original') ? 'buyorig-status' : 'buyprint-status';
 	$status = get_post_meta($post_id, $status_key, true);
-	if ($status !== '' && !in_array($status, array(__('Available','comiceasel'), 'Available'), true)) return false;
+	if ($status !== '' && !in_array($status, array(__('Available','comic-easel'), 'Available'), true)) return false;
 
 	$amount = ceo_paypal_ipn_expected_amount($post_id, $item_name);
 	if (!is_finite($amount) || $amount <= 0) return false;
@@ -354,16 +354,16 @@ function ceo_paypal_ipn() {
 	// mc_gross includes shipping, so a total above the server-derived item prices is valid.
 	$amount_ok = $cart_ok && ceo_paypal_ipn_amount_covers($payment_amount, $expected_total);
 
-	if (!$payee_ok) $email_message .= __('REJECTED: payment was not made to the configured PayPal address.','comiceasel')."\r\n\r\n";
-	if (!$cart_ok) $email_message .= __('REJECTED: the cart does not match an available Comic Easel product.','comiceasel')."\r\n\r\n";
-	if (!$amount_ok) $email_message .= sprintf(__('REJECTED: amount paid (%1$s) is below the asking price (%2$s).','comiceasel'), $payment_amount, $expected_total)."\r\n\r\n";
-	if (!$currency_ok) $email_message .= sprintf(__('REJECTED: payment currency (%1$s) is not the configured currency (%2$s).','comiceasel'), $payment_currency, $expected_currency)."\r\n\r\n";
+	if (!$payee_ok) $email_message .= __('REJECTED: payment was not made to the configured PayPal address.','comic-easel')."\r\n\r\n";
+	if (!$cart_ok) $email_message .= __('REJECTED: the cart does not match an available Comic Easel product.','comic-easel')."\r\n\r\n";
+	if (!$amount_ok) $email_message .= sprintf(__('REJECTED: amount paid (%1$s) is below the asking price (%2$s).','comic-easel'), $payment_amount, $expected_total)."\r\n\r\n";
+	if (!$currency_ok) $email_message .= sprintf(__('REJECTED: payment currency (%1$s) is not the configured currency (%2$s).','comic-easel'), $payment_currency, $expected_currency)."\r\n\r\n";
 
 	delete_option('ceo_paypal_receiver');
 	if ($payee_ok && $cart_ok && $amount_ok && $currency_ok) {
 		foreach ($validated_cart['items'] as $item) {
 			if ($item['type'] === 'original') {
-				update_post_meta($item['post_id'], 'buyorig-status', __('Sold','comiceasel'));
+				update_post_meta($item['post_id'], 'buyorig-status', __('Sold','comic-easel'));
 				$post_id = $item['post_id'];
 				$email_message .= 'Comic ID #'.$post_id." Set to SOLD\r\n\r\n";
 				// Flush the cache on the item in question.
@@ -377,36 +377,36 @@ function ceo_paypal_ipn() {
 		if (count($processed_txn) > 500) $processed_txn = array_slice($processed_txn, -500);
 		update_option('ceo_paypal_processed_txn', $processed_txn, false);
 	}
-	$email_message .= __('Transaction URL','comiceasel').': '.home_url()."\r\n";
-	$email_message .= __('Number Items','comiceasel').': '.$num_cart_items."\r\n";
+	$email_message .= __('Transaction URL','comic-easel').': '.home_url()."\r\n";
+	$email_message .= __('Number Items','comic-easel').': '.$num_cart_items."\r\n";
 	$count = 1;
 	foreach ($item_name as $item_sub_name) {
-		$email_message .= __('Item Name','comiceasel').' ['.$count.']: '.$item_sub_name."\r\n";
-		$email_message .= __('Item Number','comiceasel').' ['.$count.']: '.$item_number[$count]."\r\n";
+		$email_message .= __('Item Name','comic-easel').' ['.$count.']: '.$item_sub_name."\r\n";
+		$email_message .= __('Item Number','comic-easel').' ['.$count.']: '.$item_number[$count]."\r\n";
 		$count++;
 	}
-	$email_message .= __('Payment Status','comiceasel').': '.$payment_status."\r\n";
-	$email_message .= __('Payment Amount','comiceasel').': '.$payment_amount."\r\n";
-	$email_message .= __('Shipping','comiceasel').': '.$shipping."\r\n";
-	$email_message .= __('Payment Currency','comiceasel').': '.$payment_currency."\r\n";
-	$email_message .= __('TXN_ID','comiceasel').': '.$txn_id."\r\n";
-	$email_message .= __('Paypal Receiver','comiceasel').': '.$business."\r\n\r\n";
+	$email_message .= __('Payment Status','comic-easel').': '.$payment_status."\r\n";
+	$email_message .= __('Payment Amount','comic-easel').': '.$payment_amount."\r\n";
+	$email_message .= __('Shipping','comic-easel').': '.$shipping."\r\n";
+	$email_message .= __('Payment Currency','comic-easel').': '.$payment_currency."\r\n";
+	$email_message .= __('TXN_ID','comic-easel').': '.$txn_id."\r\n";
+	$email_message .= __('Paypal Receiver','comic-easel').': '.$business."\r\n\r\n";
 	
-	$email_message .= __('Payer Name','comiceasel').': '.$first_name.' '.$last_name."\r\n";
-	$email_message .= __('Payer Email','comiceasel').': '.$payer_email."\r\n\r\n";
+	$email_message .= __('Payer Name','comic-easel').': '.$first_name.' '.$last_name."\r\n";
+	$email_message .= __('Payer Email','comic-easel').': '.$payer_email."\r\n\r\n";
 	
-	$email_message .= __('to Name','comiceasel').': '.$address_name."\r\n";
-	$email_message .= __('Street','comiceasel').': '.$address_street."\r\n";
-	$email_message .= __('City','comiceasel').': '.$address_city."\r\n";
-	$email_message .= __('State','comiceasel').': '.$address_state."\r\n";
-	$email_message .= __('Zip','comiceasel').': '.$address_zip."\r\n";
-	$email_message .= __('Country','comiceasel').': '.$address_country."\r\n\r\n";
-	if (!empty($memo)) $email_message .= __('Memo','comiceasel').': '.$memo."\r\n";
+	$email_message .= __('to Name','comic-easel').': '.$address_name."\r\n";
+	$email_message .= __('Street','comic-easel').': '.$address_street."\r\n";
+	$email_message .= __('City','comic-easel').': '.$address_city."\r\n";
+	$email_message .= __('State','comic-easel').': '.$address_state."\r\n";
+	$email_message .= __('Zip','comic-easel').': '.$address_zip."\r\n";
+	$email_message .= __('Country','comic-easel').': '.$address_country."\r\n\r\n";
+	if (!empty($memo)) $email_message .= __('Memo','comic-easel').': '.$memo."\r\n";
 	/*		foreach ($_POST as $post_info) {
 				$email_message .= $post_info;
 			} */
 	update_option('ceo_paypal_receiver', $email_message);
 	if (isset($comiceasel_config['buy_comic_email']))
-		wp_mail($comiceasel_config['buy_comic_email'], __('Comic Easel: Notification of Transaction - Buy Comic','comiceasel'), $email_message);
+		wp_mail($comiceasel_config['buy_comic_email'], __('Comic Easel: Notification of Transaction - Buy Comic','comic-easel'), $email_message);
 	exit;
 }

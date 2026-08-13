@@ -17,8 +17,8 @@ class ceo_latest_comics_widget extends WP_Widget {
 	function __construct() {
 		parent::__construct(
 			__CLASS__, // Base ID
-			__( 'Comic Easel - Latest Comics', 'comiceasel' ), // Name
-			array( 'classname' => __CLASS__, 'description' => __( 'Display a list of the latest comics.', 'comiceasel' ), ) // Args
+			__( 'Comic Easel - Latest Comics', 'comic-easel' ), // Name
+			array( 'classname' => __CLASS__, 'description' => __( 'Display a list of the latest comics.', 'comic-easel' ), ) // Args
 		);
 	}
 	
@@ -27,7 +27,7 @@ class ceo_latest_comics_widget extends WP_Widget {
 		extract($args, EXTR_SKIP); 
 		echo $before_widget;
 		ceo_protect();
-		$title = empty($instance['title']) ? __('Latest Comics','comiceasel') : apply_filters('widget_title', $instance['title']); 
+		$title = empty($instance['title']) ? __('Latest Comics','comic-easel') : apply_filters('widget_title', $instance['title']); 
 		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
 		$args = array(
 				'showposts' => (int)$instance['count'],
@@ -57,8 +57,8 @@ class ceo_latest_comics_widget extends WP_Widget {
 		$count = (int)$instance['count'];
 		if (($count > 50) || ($count < 1)) $count = 5;
 		?>
-		<p><label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php esc_html_e('Title:','comiceasel'); ?> <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>" name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
-		<p><label for="<?php echo esc_attr($this->get_field_id('count')); ?>"><?php esc_html_e('Display Amount (1-50):','comiceasel'); ?> <input class="widefat" id="<?php echo esc_attr($this->get_field_id('count')); ?>" name="<?php echo esc_attr($this->get_field_name('count')); ?>" type="text" value="<?php echo esc_attr($count); ?>" /></label></p>
+		<p><label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php esc_html_e('Title:','comic-easel'); ?> <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>" name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
+		<p><label for="<?php echo esc_attr($this->get_field_id('count')); ?>"><?php esc_html_e('Display Amount (1-50):','comic-easel'); ?> <input class="widefat" id="<?php echo esc_attr($this->get_field_id('count')); ?>" name="<?php echo esc_attr($this->get_field_name('count')); ?>" type="text" value="<?php echo esc_attr($count); ?>" /></label></p>
 		<?php
 	}
 }

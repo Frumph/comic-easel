@@ -27,7 +27,7 @@ function ceo_cast_display($character, $stats, $image) {
 		$cast_output .= '</p>';
 		if ($stats) {
 			$cast_output .= '<p class="cast-character-stats">';
-			$cast_output .= '<i>'.__('Comics:','comiceasel').'</i> <strong>'.$character->count.'</strong><br />';
+			$cast_output .= '<i>'.__('Comics:','comic-easel').'</i> <strong>'.$character->count.'</strong><br />';
 			$args = array(
 					'nopaging' => true,
 					'numberposts' => 9999,
@@ -47,10 +47,10 @@ function ceo_cast_display($character, $stats, $image) {
 				$last_seen_title = $last_seen_object->post_title;
 				$last_seen_id = $last_seen_object->ID;
 				if ($first_seen_id == $last_seen_id) {
-					$cast_output .= '<i>'.__('Only Appearance:','comiceasel').'</i> <a href="'.esc_url(get_permalink($first_seen_id)).'">'.wp_kses_post($first_seen_title).'</a><br />';
+					$cast_output .= '<i>'.__('Only Appearance:','comic-easel').'</i> <a href="'.esc_url(get_permalink($first_seen_id)).'">'.wp_kses_post($first_seen_title).'</a><br />';
 				} else {
-					$cast_output .= '<i>'.__('Recent Appearance:','comiceasel').'</i> <a href="'.esc_url(get_permalink($last_seen_id)).'">'.wp_kses_post($last_seen_title).'</a><br />';
-					$cast_output .= '<i>'.__('First Appearance:','comiceasel').'</i> <a href="'.esc_url(get_permalink($first_seen_id)).'">'.wp_kses_post($first_seen_title).'</a><br />';
+					$cast_output .= '<i>'.__('Recent Appearance:','comic-easel').'</i> <a href="'.esc_url(get_permalink($last_seen_id)).'">'.wp_kses_post($last_seen_title).'</a><br />';
+					$cast_output .= '<i>'.__('First Appearance:','comic-easel').'</i> <a href="'.esc_url(get_permalink($first_seen_id)).'">'.wp_kses_post($first_seen_title).'</a><br />';
 				}
 			}
 			$qposts = null;
@@ -120,7 +120,7 @@ function ceo_cast_page( $atts, $content = '' ) {
 			}
 			$cast_output .= '</table>'."\r\n";
 		} else {
-			$cast_output = __('You do not have any characters yet.','comiceasel')."<br />\r\n";
+			$cast_output = __('You do not have any characters yet.','comic-easel')."<br />\r\n";
 		}
 	} else {
 		$single_character = get_term_by('slug', $character, 'characters');
@@ -129,7 +129,7 @@ function ceo_cast_page( $atts, $content = '' ) {
 			$cast_output .= ceo_cast_display($single_character, $stats, $image)."\r\n";
 			$cast_output .= '</table>'."\r\n";
 		} else 
-			$cast_output .= __('Unknown Character:', 'comiceasel').'&nbsp;'.esc_html($character)."<br />\r\n";
+			$cast_output .= __('Unknown Character:', 'comic-easel').'&nbsp;'.esc_html($character)."<br />\r\n";
 	}
 	return $cast_output;
 }
@@ -196,7 +196,7 @@ function ceo_archive_list_single($chapter = 0, $order = 'ASC', $thumbnail = 0) {
 	foreach ($qposts as $qpost) {
 		$archive_count++;
 		if ($css_alt) { $alternate = ' comic-list-alt'; $css_alt = false; } else { $alternate = ''; $css_alt=true; }		
-		$output .= '<div class="comic-list comic-list-'.$archive_count.$alternate.'"><span class="comic-archive-date">'.get_the_time('M d, Y', $qpost->ID).'</span><span class="comic-archive-title"><a href="'.esc_url(get_permalink($qpost->ID)).'" rel="bookmark" title="'.esc_attr(__('Permanent Link:','comiceasel').' '.$qpost->post_title).'">'.esc_html($qpost->post_title).'</a></span></div>';
+		$output .= '<div class="comic-list comic-list-'.$archive_count.$alternate.'"><span class="comic-archive-date">'.get_the_time('M d, Y', $qpost->ID).'</span><span class="comic-archive-title"><a href="'.esc_url(get_permalink($qpost->ID)).'" rel="bookmark" title="'.esc_attr(__('Permanent Link:','comic-easel').' '.$qpost->post_title).'">'.esc_html($qpost->post_title).'</a></span></div>';
 	}
 	$output .= '</div>';
 	$output .= '<div style="clear:both;"></div></div>';
@@ -245,7 +245,7 @@ function ceo_archive_list_all($order = 'ASC', $thumbnail = 0) {
 			foreach ($qposts as $qpost) {
 				$archive_count++;
 				if ($css_alt) { $alternate = ' comic-list-alt'; $css_alt = false; } else { $alternate = ''; $css_alt=true; }
-				$output .= '<div class="comic-list comic-list-'.$archive_count.$alternate.'"><span class="comic-archive-date">'.get_the_time('M d, Y', $qpost->ID).'</span><span class="comic-archive-title"><a href="'.esc_url(get_permalink($qpost->ID)).'" rel="bookmark" title="'.esc_attr(__('Permanent Link:','comiceasel').' '.$qpost->post_title).'">'.esc_html($qpost->post_title).'</a></span></div>'."\r\n";
+				$output .= '<div class="comic-list comic-list-'.$archive_count.$alternate.'"><span class="comic-archive-date">'.get_the_time('M d, Y', $qpost->ID).'</span><span class="comic-archive-title"><a href="'.esc_url(get_permalink($qpost->ID)).'" rel="bookmark" title="'.esc_attr(__('Permanent Link:','comic-easel').' '.$qpost->post_title).'">'.esc_html($qpost->post_title).'</a></span></div>'."\r\n";
 			}
 			$output .= '</div>'."\r\n";
 			$output .= '<div style="clear:both;"></div></div>'."\r\n";
@@ -297,7 +297,7 @@ function ceo_archive_list_series($thumbnail = 0) {
 					foreach ($qcposts as $qcpost) {
 						$archive_count++;
 						if ($css_alt) { $alternate = ' comic-list-alt'; $css_alt = false; } else { $alternate = ''; $css_alt=true; }		
-						$output .= '<div class="comic-list comic-list-'.$archive_count.$alternate.'"><span class="comic-archive-date">'.get_the_time('M d, Y', $qcpost->ID).'</span><span class="comic-archive-title"><a href="'.esc_url(get_permalink($qcpost->ID)).'" rel="bookmark" title="'.esc_attr(__('Permanent Link:','comiceasel').' '.$qcpost->post_title).'">'.esc_html($qcpost->post_title).'</a></span></div>';
+						$output .= '<div class="comic-list comic-list-'.$archive_count.$alternate.'"><span class="comic-archive-date">'.get_the_time('M d, Y', $qcpost->ID).'</span><span class="comic-archive-title"><a href="'.esc_url(get_permalink($qcpost->ID)).'" rel="bookmark" title="'.esc_attr(__('Permanent Link:','comic-easel').' '.$qcpost->post_title).'">'.esc_html($qcpost->post_title).'</a></span></div>';
 					}
 					$output .= '</div>';
 					$output .= '<div style="clear:both;"></div></div>';	
@@ -336,7 +336,7 @@ function ceo_archive_list_by_chapter_thumbnails($order = 'ASC', $showtitle = fal
 				$qcposts = reset($qcposts);
 				if (has_post_thumbnail($qcposts->ID)) {
 					$output .= '<div class="comic-archive-thumbnail"><a href="'.esc_url(get_permalink($qcposts)).'">'.get_the_post_thumbnail($qcposts->ID, 'thumbnail').'</a></div>';
-				} else $output .= __('No Thumbnail Found', 'comiceasel');
+				} else $output .= __('No Thumbnail Found', 'comic-easel');
 			}
 		}
 		$output .= '<div class="clear"></div></div>';
@@ -521,8 +521,8 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 	global $post;
 	extract(shortcode_atts( array(
 					'character' => '',
-					'thanks' => __('Thank you for the purchase!','comiceasel'),
-					'cancelled' => __('You have cancelled the transaction.','comiceasel')
+					'thanks' => __('Thank you for the purchase!','comic-easel'),
+					'cancelled' => __('You have cancelled the transaction.','comic-easel')
 					), $atts ) );
 	$buy_output = '';
 	$paypal_config = ceo_pluginfo();
@@ -554,10 +554,10 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 		if (empty($buy_print_amount)) $buy_print_amount = ceo_pluginfo('buy_comic_print_amount');
 		
 		$buyprint_status = get_post_meta($comicnum , 'buyprint-status', true);
-		if (empty($buyprint_status)) $buyprint_status = __('Available','comiceasel');
+		if (empty($buyprint_status)) $buyprint_status = __('Available','comic-easel');
 		
 		$buyorig_status = get_post_meta($comicnum , 'buyorig-status', true);
-		if (empty($buyorig_status)) $buyorig_status = __('Available','comiceasel');
+		if (empty($buyorig_status)) $buyorig_status = __('Available','comic-easel');
 		
 		ceo_protect();
 		$post = get_post($comicnum); // Get the post
@@ -565,13 +565,13 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 		// revisions and other post types, so require that this really is public
 		// comic content before disclosing anything about it.
 		if (!is_wp_error($post) && !empty($post) && $post->post_type === 'comic' && $post->post_status === 'publish' && !post_password_required($post)) {
-			$buy_output .= __('Comic ID','comiceasel').' #'.$comicnum."<br />\r\n";
-			$buy_output .= __('Title:','comiceasel').'&nbsp;'.ceo_title_for_html($post)."<br />\r\n";
+			$buy_output .= __('Comic ID','comic-easel').' #'.$comicnum."<br />\r\n";
+			$buy_output .= __('Title:','comic-easel').'&nbsp;'.ceo_title_for_html($post)."<br />\r\n";
 			if (ceo_pluginfo('buy_comic_sell_print')) {
-				$buy_output .= __('Print Status:','comiceasel').'&nbsp;'.esc_html($buyprint_status)."<br />\r\n";
+				$buy_output .= __('Print Status:','comic-easel').'&nbsp;'.esc_html($buyprint_status)."<br />\r\n";
 			}
 			if (ceo_pluginfo('buy_comic_sell_original')) {
-				$buy_output .= __('Original Status:','comiceasel').'&nbsp;'.esc_html($buyorig_status)."<br />\r\n";
+				$buy_output .= __('Original Status:','comic-easel').'&nbsp;'.esc_html($buyorig_status)."<br />\r\n";
 			}
 			$buy_output .= "<br />\r\n";
 			$buy_output .= '<table class="buytable" style="width:100%;">';
@@ -582,12 +582,12 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 				$buy_output .= '<div class="buycomic-us-form">';
 				$buy_output .= '<h4 class="buycomic-title">Print</h4>';
 				$buy_output .= esc_html($paypal_currency).' '.esc_html($buy_print_amount).'<br />';
-				if ($paypal_ready && $buyprint_status == __('Available','comiceasel')) {
+				if ($paypal_ready && $buyprint_status == __('Available','comic-easel')) {
 					$buy_output .= '<form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">';
 					$buy_output .= '<input type="hidden" name="add" value="1" />';
 					$buy_output .= '<input type="hidden" name="cmd" value="_cart" />';
 					$buy_output .= '<input type="hidden" name="notify_url" value="'.esc_url(home_url('/?ceopaypalipn')).'">';
-					$buy_output .= '<input type="hidden" name="item_name" value="'.esc_attr(__('Print','comiceasel').' - '.get_the_title($post->ID).' - '.$post->ID).'" />';
+					$buy_output .= '<input type="hidden" name="item_name" value="'.esc_attr(__('Print','comic-easel').' - '.get_the_title($post->ID).' - '.$post->ID).'" />';
 					// Say a thank you and that transaction went through with an action
 					$return_url = add_query_arg(array('action' => 'thankyou', 'id' => $comicnum), ceo_pluginfo('buy_comic_url'));
 					$buy_output .= '<input type="hidden" name="return" value="'.esc_url($return_url).'" />';
@@ -595,15 +595,15 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 					$buy_output .= '<input type="hidden" name="currency_code" value="'.esc_attr($paypal_currency).'" />';
 					$buy_output .= '<input type="hidden" name="item_number" value="'.esc_attr($comicnum).'" />';
 					$buy_output .= '<input type="hidden" name="business" value="'.esc_attr(ceo_pluginfo('buy_comic_email')).'" />';
-					$buy_output .= '<input type="image" src="'.esc_url(ceo_pluginfo('plugin_url').'images/buynow_paypal.png').'" name="submit32" alt="'.esc_attr(__('Make payments with PayPal - it is fast, free and secure!','comiceasel')).'" />';
+					$buy_output .= '<input type="image" src="'.esc_url(ceo_pluginfo('plugin_url').'images/buynow_paypal.png').'" name="submit32" alt="'.esc_attr(__('Make payments with PayPal - it is fast, free and secure!','comic-easel')).'" />';
 					$buy_output .= '</form>';
 				}
-				if ($buyprint_status == __('Sold','comiceasel')) {
-					$buy_output .= '<img src="'.esc_url(ceo_pluginfo('plugin_url').'images/sold.png').'" alt="'.esc_attr(__('Sold','comiceasel')).'" />';
-				} elseif ($buyprint_status == __('Out Of Stock','comiceasel')) {
-					$buy_output .= '<img src="'.esc_url(ceo_pluginfo('plugin_url').'images/outofstock.png').'" alt="'.esc_attr(__('Out Of Stock','comiceasel')).'" />';
-				} elseif ($buyprint_status == __('Not Available','comiceasel')) {
-					$buy_output .= '<img src="'.esc_url(ceo_pluginfo('plugin_url').'images/notavailable.png').'" alt="'.esc_attr(__('Not Available','comiceasel')).'" />';
+				if ($buyprint_status == __('Sold','comic-easel')) {
+					$buy_output .= '<img src="'.esc_url(ceo_pluginfo('plugin_url').'images/sold.png').'" alt="'.esc_attr(__('Sold','comic-easel')).'" />';
+				} elseif ($buyprint_status == __('Out Of Stock','comic-easel')) {
+					$buy_output .= '<img src="'.esc_url(ceo_pluginfo('plugin_url').'images/outofstock.png').'" alt="'.esc_attr(__('Out Of Stock','comic-easel')).'" />';
+				} elseif ($buyprint_status == __('Not Available','comic-easel')) {
+					$buy_output .= '<img src="'.esc_url(ceo_pluginfo('plugin_url').'images/notavailable.png').'" alt="'.esc_attr(__('Not Available','comic-easel')).'" />';
 				}
 				$buy_output .= '</div>';
 				$buy_output .= '</td>';
@@ -614,12 +614,12 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 				$buy_output .= '<div class="buycomic-us-form" style="width:100%;">';
 				$buy_output .= '<h4 class="buycomic-title">Original</h4>';
 				$buy_output .= esc_html($paypal_currency).' '.esc_html($buy_print_orig_amount).'<br />';
-				if ($paypal_ready && $buyorig_status == __('Available','comiceasel')) {
+				if ($paypal_ready && $buyorig_status == __('Available','comic-easel')) {
 					$buy_output .= '<form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">';
 					$buy_output .= '<input type="hidden" name="add" value="1" />';
 					$buy_output .= '<input type="hidden" name="cmd" value="_cart" />';
 					$buy_output .= '<input type="hidden" name="notify_url" value="'.esc_url(home_url('/?ceopaypalipn')).'">';
-					$buy_output .= '<input type="hidden" name="item_name" value="'.esc_attr(__('Original','comiceasel').' - '.get_the_title($post->ID).' - '.$post->ID).'" />';
+					$buy_output .= '<input type="hidden" name="item_name" value="'.esc_attr(__('Original','comic-easel').' - '.get_the_title($post->ID).' - '.$post->ID).'" />';
 					// Say a thank you and that transaction went through with an action
 					$return_url = add_query_arg(array('action' => 'thankyou', 'id' => $comicnum), ceo_pluginfo('buy_comic_url'));
 					$buy_output .= '<input type="hidden" name="return" value="'.esc_url($return_url).'" />';
@@ -627,15 +627,15 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 					$buy_output .= '<input type="hidden" name="currency_code" value="'.esc_attr($paypal_currency).'" />';
 					$buy_output .= '<input type="hidden" name="item_number" value="'.esc_attr($comicnum).'" />';
 					$buy_output .= '<input type="hidden" name="business" value="'.esc_attr(ceo_pluginfo('buy_comic_email')).'" />';
-					$buy_output .= '<input type="image" src="'.esc_url(ceo_pluginfo('plugin_url').'images/buynow_paypal.png').'" name="submit32" alt="'.esc_attr(__('Make payments with PayPal - it is fast, free and secure!','comiceasel')).'" />';
+					$buy_output .= '<input type="image" src="'.esc_url(ceo_pluginfo('plugin_url').'images/buynow_paypal.png').'" name="submit32" alt="'.esc_attr(__('Make payments with PayPal - it is fast, free and secure!','comic-easel')).'" />';
 					$buy_output .= '</form>';
 				}
-				if ($buyorig_status == __('Sold','comiceasel')) {
-					$buy_output .= '<img src="'.esc_url(ceo_pluginfo('plugin_url').'images/sold.png').'" alt="'.esc_attr(__('Sold','comiceasel')).'" />';
-				} elseif ($buyorig_status == __('Out Of Stock','comiceasel')) {
-					$buy_output .= '<img src="'.esc_url(ceo_pluginfo('plugin_url').'images/outofstock.png').'" alt="'.esc_attr(__('Out Of Stock','comiceasel')).'" />';
-				} elseif ($buyorig_status == __('Not Available','comiceasel')) {
-					$buy_output .= '<img src="'.esc_url(ceo_pluginfo('plugin_url').'images/notavailable.png').'" alt="'.esc_attr(__('Not Available','comiceasel')).'" />';
+				if ($buyorig_status == __('Sold','comic-easel')) {
+					$buy_output .= '<img src="'.esc_url(ceo_pluginfo('plugin_url').'images/sold.png').'" alt="'.esc_attr(__('Sold','comic-easel')).'" />';
+				} elseif ($buyorig_status == __('Out Of Stock','comic-easel')) {
+					$buy_output .= '<img src="'.esc_url(ceo_pluginfo('plugin_url').'images/outofstock.png').'" alt="'.esc_attr(__('Out Of Stock','comic-easel')).'" />';
+				} elseif ($buyorig_status == __('Not Available','comic-easel')) {
+					$buy_output .= '<img src="'.esc_url(ceo_pluginfo('plugin_url').'images/notavailable.png').'" alt="'.esc_attr(__('Not Available','comic-easel')).'" />';
 				}
 				$buy_output .= '</div>';
 				$buy_output .= '</td>';
@@ -648,7 +648,7 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 			/*			$last_info = get_option('ceo_paypal_receiver'); // Debug to see the last transaction, which is stored in this option
 						if (!empty($last_info)) $buy_output .= nl2br($last_info); */
 		} else {
-			$buy_output .= __('Invalid Comic ID.','comiceasel')."<br />\r\n";
+			$buy_output .= __('Invalid Comic ID.','comic-easel')."<br />\r\n";
 		}
 		ceo_unprotect();
 	}
@@ -702,7 +702,7 @@ function ceo_random_comic_shortcode($atts, $content = '') {
 			if ( has_post_thumbnail($post->ID) ) {
 				$output .= '<a href="'.esc_url($the_permalink).'" rel="bookmark" title="'.ceo_title_for_attribute($post->ID).'">'.get_the_post_thumbnail($post->ID, $size)."</a>\r\n";
 			} else {
-				$output .= __('No Thumbnail Found.','comiceasel');
+				$output .= __('No Thumbnail Found.','comic-easel');
 			}
 			$output .= "</div>\r\n";
 		endwhile;

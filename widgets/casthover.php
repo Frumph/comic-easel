@@ -54,7 +54,7 @@ function ceo_insert_character_hovercard($character) {
 
 function ceo_add_characters_hovercards($post_characters) {
 	global $post;
-	$mychars = '<div class="comic-characters">'.__('Characters', 'comiceasel').': ';
+	$mychars = '<div class="comic-characters">'.__('Characters', 'comic-easel').': ';
 	$terms = get_the_terms( $post->ID, 'characters' );
 	$return = '';
 	if ( !empty( $terms ) ) {
@@ -77,8 +77,8 @@ class ceo_casthover_reference_widget extends WP_Widget {
 	function __construct() {
 		parent::__construct(
 			__CLASS__, // Base ID
-			__( 'Comic Easel - Cast Hover', 'comiceasel' ), // Name
-			array( 'classname' => __CLASS__, 'description' => __( 'Creates a grid of avatars for characters in the current comic.', 'comiceasel' ), ) // Args
+			__( 'Comic Easel - Cast Hover', 'comic-easel' ), // Name
+			array( 'classname' => __CLASS__, 'description' => __( 'Creates a grid of avatars for characters in the current comic.', 'comic-easel' ), ) // Args
 		);
 	}
 	
@@ -127,6 +127,6 @@ class ceo_casthover_reference_widget extends WP_Widget {
 			$title = '';
 		} 
 		?>
-		<p><label for="<?php echo esc_attr($this->get_field_id( 'title' )); ?>"><?php esc_html_e( 'Title:', 'comiceasel' ); ?></label><input class="widefat" id="<?php echo esc_attr($this->get_field_id( 'title' )); ?>" name="<?php echo esc_attr($this->get_field_name( 'title' )); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" /></p>
+		<p><label for="<?php echo esc_attr($this->get_field_id( 'title' )); ?>"><?php esc_html_e( 'Title:', 'comic-easel' ); ?></label><input class="widefat" id="<?php echo esc_attr($this->get_field_id( 'title' )); ?>" name="<?php echo esc_attr($this->get_field_name( 'title' )); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" /></p>
 	<?php }
 }

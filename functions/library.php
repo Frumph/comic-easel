@@ -194,7 +194,7 @@ function ceo_escape_stored_text($value) {
 }
 
 function ceo_content_warning() {
-	return apply_filters('ceo-content-warning', __('Warning, Mature Content.','comiceasel'));
+	return apply_filters('ceo-content-warning', __('Warning, Mature Content.','comic-easel'));
 }
 
 function ceo_content_warning_in_head() {

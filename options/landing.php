@@ -12,55 +12,55 @@
 			<table class="widefat">
 				<thead>
 					<tr>
-						<th colspan="3"><?php esc_html_e('Landing Pages', 'comiceasel'); ?></th>
+						<th colspan="3"><?php esc_html_e('Landing Pages', 'comic-easel'); ?></th>
 					</tr>
 				</thead>
 				<tr class="alternate">
-					<th scope="row"><label for="enable_chapter_landing"><?php esc_html_e('Enable chapter landing pages? /chapter/slug-name','comiceasel'); ?></label></th>
+					<th scope="row"><label for="enable_chapter_landing"><?php esc_html_e('Enable chapter landing pages? /chapter/slug-name','comic-easel'); ?></label></th>
 					<td>
 						<input id="enable_chapter_landing" name="enable_chapter_landing" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_chapter_landing']); ?> />
 					</td>
 					<td>
-						<?php esc_html_e('When enabled it displays the comic on the archive page for the chapter.','comiceasel'); ?>
+						<?php esc_html_e('When enabled it displays the comic on the archive page for the chapter.','comic-easel'); ?>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><label for="enable_chapter_landing_first"><?php esc_html_e('Display first comic of the chapter on the landing page?','comiceasel'); ?></label></th>
+					<th scope="row"><label for="enable_chapter_landing_first"><?php esc_html_e('Display first comic of the chapter on the landing page?','comic-easel'); ?></label></th>
 					<td>
 						<input id="enable_chapter_landing_first" name="enable_chapter_landing_first" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_chapter_landing_first']); ?> />
 					</td>
 					<td>
-						<?php esc_html_e('Checking this will have the landing page/archive for the chapter display the first comic. (unchecked will be latest - default)','comiceasel'); ?>
+						<?php esc_html_e('Checking this will have the landing page/archive for the chapter display the first comic. (unchecked will be latest - default)','comic-easel'); ?>
 					</td>
 				</tr>
 				<tr class="alternate">
-					<th scope="row"><label for="enable_blog_on_chapter_landing"><?php esc_html_e('Enable the blog post for the comic show on the landing page?','comiceasel'); ?></label></th>
+					<th scope="row"><label for="enable_blog_on_chapter_landing"><?php esc_html_e('Enable the blog post for the comic show on the landing page?','comic-easel'); ?></label></th>
 					<td>
 						<input id="enable_blog_on_chapter_landing" name="enable_blog_on_chapter_landing" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_blog_on_chapter_landing']); ?> />
 					</td>
 					<td>
-						<?php esc_html_e('Checking this will make the blog post for the comic display on the landing page.','comiceasel'); ?>
+						<?php esc_html_e('Checking this will make the blog post for the comic display on the landing page.','comic-easel'); ?>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><label for="enable_comments_on_chapter_landing"><?php esc_html_e('Enable comments to appear on the landing page under the blog?','comiceasel'); ?></label></th>
+					<th scope="row"><label for="enable_comments_on_chapter_landing"><?php esc_html_e('Enable comments to appear on the landing page under the blog?','comic-easel'); ?></label></th>
 					<td>
 						<input id="enable_comments_on_chapter_landing" name="enable_comments_on_chapter_landing" type="checkbox" value="1" <?php checked(true, $ceo_options['enable_comments_on_chapter_landing']); ?> />
 					</td>
 					<td>
-						<?php esc_html_e('Checking this will make the comments appear under the blog post (if blog post is enabled to show) on the landing pages for chapters.','comiceasel'); ?>
+						<?php esc_html_e('Checking this will make the comments appear under the blog post (if blog post is enabled to show) on the landing pages for chapters.','comic-easel'); ?>
 					</td>
 				</tr>
 			</table>
 			<br />
-			<small><?php esc_html_e('*Options are specific to the ComicPress theme, this screen will only display if the theme is active.','comiceasel'); ?></small>
+			<small><?php esc_html_e('*Options are specific to the ComicPress theme, this screen will only display if the theme is active.','comic-easel'); ?></small>
 		</div>
 		<br />
 
 		<div class="ceo-options-save">
 			<div class="ceo-major-publishing-actions">
 				<div class="ceo-publishing-action">
-					<input name="ceo_save_config" type="submit" class="button-primary" value="<?php esc_attr_e('Save Settings','comiceasel'); ?>" />
+					<input name="ceo_save_config" type="submit" class="button-primary" value="<?php esc_attr_e('Save Settings','comic-easel'); ?>" />
 					<input type="hidden" name="action" value="ceo_save_landing" />
 				</div>
 				<div class="clear"></div>

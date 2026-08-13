@@ -37,10 +37,10 @@ function ceo_add_menu_pages() {
 	global $pagenow, $post_type;
 	
 	$menu_location = 'edit.php?post_type=comic';
-	$plugin_title = __('Comic Easel', 'comiceasel');
-	$config_title = __('Config', 'comiceasel');
-	$debug_title = __('Debug', 'comiceasel');
-	$import_title = __('Import', 'comiceasel');
+	$plugin_title = __('Comic Easel', 'comic-easel');
+	$config_title = __('Config', 'comic-easel');
+	$debug_title = __('Debug', 'comic-easel');
+	$import_title = __('Import', 'comic-easel');
 	
 	// the ceo_pluginfo used here actually initiates it.
 	if (!defined('CEO_FEATURE_DISABLE_IMPORT'))
