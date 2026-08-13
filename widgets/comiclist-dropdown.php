@@ -83,8 +83,8 @@ class ceo_comic_list_dropdown_widget extends WP_Widget {
 	
 	function update($new_instance, $old_instance) {
 		$instance = $old_instance;
-		$instance['title'] = strip_tags($new_instance['title']);
-		$instance['exclude'] = strip_tags($new_instance['exclude']);
+		$instance['title'] = wp_strip_all_tags($new_instance['title']);
+		$instance['exclude'] = wp_strip_all_tags($new_instance['exclude']);
 		return $instance;
 	}
 	
@@ -93,7 +93,7 @@ class ceo_comic_list_dropdown_widget extends WP_Widget {
 		$title = $instance['title'];
 		$exclude = $instance['exclude'];
 		?>
-		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','comiceasel'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
+		<p><label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php esc_html_e('Title:','comiceasel'); ?> <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>" name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
 		</p>
 		<?php
 	}

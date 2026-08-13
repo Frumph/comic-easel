@@ -280,7 +280,7 @@ class ceo_calendar_widget extends WP_Widget {
 					<?php } ?>
 						<div class="wp-calendar-download-links">
 							<?php if (!empty($small) || !empty($medium) || !empty($large)) { ?>
-								<?php _e('DOWNLOAD','comiceasel'); ?>
+								<?php esc_html_e('DOWNLOAD','comiceasel'); ?>
 								<?php
 								  foreach (array(
 								    'small' => array(__('Download Small', 'comiceasel'), __('S', 'comiceasel')),
@@ -308,7 +308,7 @@ class ceo_calendar_widget extends WP_Widget {
 	function update($new_instance, $old_instance = array()) {
 		$instance = array();
 		foreach (array('thumbnail', 'small', 'medium', 'large', 'link') as $field) {
-			if (isset($new_instance[$field])) {	$instance[$field] = strip_tags($new_instance[$field]); }
+			if (isset($new_instance[$field])) {	$instance[$field] = wp_strip_all_tags($new_instance[$field]); }
 		}
 
 		return $instance;
@@ -317,10 +317,10 @@ class ceo_calendar_widget extends WP_Widget {
 	function form($instance) {
 		$instance = wp_parse_args( (array) $instance, array( 'thumbnail' => '', 'small' => '', 'medium' => '', 'large' => '', 'link' => '') );
 
-		$thumbnail = strip_tags($instance['thumbnail']);
-		$small = strip_tags($instance['small']);
-		$medium = strip_tags($instance['medium']);
-		$large = strip_tags($instance['large']);
+		$thumbnail = wp_strip_all_tags($instance['thumbnail']);
+		$small = wp_strip_all_tags($instance['small']);
+		$medium = wp_strip_all_tags($instance['medium']);
+		$large = wp_strip_all_tags($instance['large']);
 		$link = $instance['link'];
 
 		foreach (array(
@@ -333,10 +333,10 @@ class ceo_calendar_widget extends WP_Widget {
 			unset($after);
 			if (is_array($label)) { extract($label); }
 			?><p>
-				<label for="<?php echo $this->get_field_id($field); ?>"><?php echo esc_html($label) ;?>
+				<label for="<?php echo esc_attr($this->get_field_id($field)); ?>"><?php echo esc_html($label) ;?>
 				<input class="widefat"
-							 id="<?php echo $this->get_field_id($field); ?>"
-							 name="<?php echo $this->get_field_name($field); ?>"
+							 id="<?php echo esc_attr($this->get_field_id($field)); ?>"
+							 name="<?php echo esc_attr($this->get_field_name($field)); ?>"
 							 type="text"
 							 value="<?php echo esc_attr($instance[$field]); ?>" />
 				</label>

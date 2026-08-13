@@ -124,9 +124,9 @@ class ceo_casthover_reference_widget extends WP_Widget {
 		if (isset($instance['title'])) {
 			$title = $instance['title'];
 		} else {
-			$title = __( '', 'comiceasel' );
+			$title = '';
 		} 
 		?>
-		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'comiceasel' ); ?></label><input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" /></p>
+		<p><label for="<?php echo esc_attr($this->get_field_id( 'title' )); ?>"><?php esc_html_e( 'Title:', 'comiceasel' ); ?></label><input class="widefat" id="<?php echo esc_attr($this->get_field_id( 'title' )); ?>" name="<?php echo esc_attr($this->get_field_name( 'title' )); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" /></p>
 	<?php }
 }
