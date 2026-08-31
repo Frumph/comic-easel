@@ -1,6 +1,6 @@
 === Comic Easel ===
 Author: Frumph
-Contributors: Frumph, Shadchamp
+Contributors: Frumph, Shadchamp, coraislovely
 Tags: comiceasel, easel, webcomic, comic
 Requires at least: 4.8.2
 Requires PHP: 7.4
