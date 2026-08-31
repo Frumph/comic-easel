@@ -571,9 +571,7 @@ function ceo_handle_edit_save_comic($post_id, $post) {
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Some fields intentionally contain HTML; the verified editor value is normalized and escaped for legacy storage.
 		$new_meta_value = ( isset( $_POST[$meta_key] ) ? esc_textarea( wp_unslash($_POST[$meta_key]) ) : '' );
 		$meta_value = get_post_meta( $post_id, $meta_key, true );
-		if ( $new_meta_value && '' == $meta_value )
-			add_post_meta( $post_id, $meta_key, $new_meta_value, true );
-		elseif ( $new_meta_value && $new_meta_value != $meta_value )
+		if ( $new_meta_value && $new_meta_value != $meta_value )
 			update_post_meta( $post_id, $meta_key, $new_meta_value );
 		elseif ( '' == $new_meta_value && $meta_value )
 			delete_post_meta( $post_id, $meta_key, $meta_value );

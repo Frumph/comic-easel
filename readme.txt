@@ -1,11 +1,11 @@
 === Comic Easel ===
 Author: Frumph
-Contributors: Frumph, Shadchamp
+Contributors: Frumph, Shadchamp, coraislovely
 Tags: comiceasel, easel, webcomic, comic
 Requires at least: 4.8.2
 Requires PHP: 7.4
-Tested up to: 6.8.3
-Stable tag: 1.17
+Tested up to: 7.0
+Stable tag: 1.18
 Text Domain: comic-easel
 Donate link: http://frumph.net
 License: GPLv3 or later
@@ -129,7 +129,22 @@ Go to your settings -> permalinks and just click save, the wp_rewrite will refre
 The comic navigation widget is only seen if you have the comic sidebar's enabled; even then it only works in the comic sidebars themself, nowhere else.
 
 
+== Screenshots ==
+
+1. The Comics admin list — chapters, characters, locations and tags for every comic at a glance.
+
+
 == Changelog ==
+
+= 1.18 =
+* Security hardening throughout: output escaping across admin screens, widgets and front-end templates; prepared or whitelisted SQL everywhere; CSRF fixes; tightened handling of request input
+* PayPal IPN handling rewritten: notifications are now verified with PayPal before processing, with payee, currency and amount checks and replay protection. Sellers must save their PayPal currency once on the Buy Comic settings tab after upgrading
+* Aligned the translation text domain with the plugin slug (comic-easel) so translate.wordpress.org language packs can load; site-local translations named for the old domain keep working
+* Removed the defunct Blind Ferret integration and the Flash comic display path (Flash has been unloadable in browsers since 2021; Flash comics fall back to their featured image, as they already did in practice)
+* Fixed the comic meta boxes silently discarding input when a previously saved value was empty
+* Cast-hover widget assets now load relative to the plugin folder
+* Completed plugin headers: License, Requires PHP 7.4, Requires at least, Text Domain, Domain Path
+* Tested up to WordPress 7.0 on PHP 8.5
 
 = 1.17 =
 * PHP 8.x compatibility: replaced deprecated ${var} string interpolation, fixed optional-before-required parameter declaration, converted PHP4-style constructor, pinned html_entity_decode() flags
@@ -532,6 +547,9 @@ Updated: 05/26/2012 5:25pm Pacific
 
 
 == Upgrade Notice ==
+= 1.18 =
+Security release; updating is recommended for all sites. PayPal sellers: re-save your currency on the Buy Comic settings tab after updating.
+
 = 1.0.16 =
 * You should go to settings -> permalinks and click save again.
 

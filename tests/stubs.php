@@ -226,6 +226,12 @@ if ( ! function_exists( 'update_post_meta' ) ) {
 
 if ( ! function_exists( 'add_post_meta' ) ) {
 	function add_post_meta( $post_id, $key, $value, $unique = false ) {
+		// WordPress refuses a unique add when any row already holds the key, including a row
+		// whose value is the empty string. Modelling the refusal is what lets a test tell an
+		// absent row apart from an empty one, since get_post_meta() reports '' for both.
+		if ( $unique && array_key_exists( $post_id . ':' . $key, CE_Test_State::$post_meta ) ) {
+			return false;
+		}
 		return update_post_meta( $post_id, $key, $value );
 	}
 }
