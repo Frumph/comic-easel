@@ -22,17 +22,28 @@ class ceo_thumbnail_widget extends WP_Widget {
 		);
 	}
 	
+	/**
+	 * Every setting the widget reads, with the value an unchecked box or untouched field has.
+	 *
+	 * widget() and update() apply these, not just form(). Saved settings are only rewritten
+	 * when the form is saved, so a widget saved before an option existed never gains its key;
+	 * and an unchecked checkbox is absent from the submitted form altogether.
+	 */
+	private static function defaults() {
+		return array( 'title' => '', 'thumbchapt' => '', 'first' => false, 'random' => false, 'thumbcount' => 1, 'linktitle' => false, 'centering' => false, 'showdate' => false, 'secondary' => false, 'same' => false, 'inhistory' => false, 'thumbnail_size' => 'thumbnail' );
+	}
+
 	function widget($args, $instance) {
-		global $post, $wp_query;		
+		global $post, $wp_query;
 		extract($args, EXTR_SKIP);
+		$instance = wp_parse_args( (array) $instance, self::defaults() );
 		ceo_protect();
 		$current_permalink = '';
 		if (!is_404() && !empty($post)) $current_permalink = get_permalink($post->ID);
 		$current_post_id = '';
 		$chaptinfo = '';
 		$dateset = '';
-		if (!isset($instance['showdate'])) $instance['showdate'] = false;
-		
+
 		if (!empty($post)) $current_post_id = $post->ID;
 		$comic_query = array(
 			'post_type' => 'comic',
@@ -45,7 +56,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 			'exclude' => (($instance['inhistory'] || $instance['random']) && $instance['same']) ? $current_post_id : ''
 		);
 		
-		$thumbnail_size = (isset($instance['thumbnail_size'])) ? $instance['thumbnail_size'] : 'thumbnail';
+		$thumbnail_size = $instance['thumbnail_size'];
 //		var_dump($comic_query);
 		
 		$thumbnail_query = new WP_Query($comic_query);
@@ -56,11 +67,10 @@ class ceo_thumbnail_widget extends WP_Widget {
 			if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };			
 			while ($thumbnail_query->have_posts()) : $thumbnail_query->the_post();
 				$the_permalink = get_permalink($post->ID);
-				if (!isset($instance['same'])) $instance['same'] = false;
 				if (!($instance['same'] && ($the_permalink == $current_permalink))) {
 					echo '<div class="comic-thumb-wrap comic-thumb-'.(int)$post->ID.'">';
 					if ($instance['centering']) echo "\r\n<center>\r\n";
-					if (isset($instance['secondary']) && $instance['secondary'] && class_exists('MultiPostThumbnails')) {
+					if ($instance['secondary'] && class_exists('MultiPostThumbnails')) {
 						$secondary_image = MultiPostThumbnails::get_the_post_thumbnail(get_post_type(), 'secondary-image', $post->ID,  'secondary-image');
 						if (!empty($secondary_image)) {
 							echo '<a href="'.esc_url($the_permalink).'" rel="bookmark" title="'.esc_attr(__('Permanent Link to','comic-easel').' '.get_the_title()).'">'.$secondary_image.'</a>'."\r\n";
@@ -90,6 +100,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 	}
 	
 	function update($new_instance, $old_instance) {
+		$new_instance = wp_parse_args( (array) $new_instance, self::defaults() );
 		$instance = $old_instance;
 		$instance['title'] = wp_strip_all_tags($new_instance['title']);
 		$instance['thumbnail_size'] = wp_strip_all_tags($new_instance['thumbnail_size']);
@@ -107,9 +118,9 @@ class ceo_thumbnail_widget extends WP_Widget {
 	}
 	
 	function form($instance) {
-		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'thumbchapt' => '', 'first' => false, 'random' => false, 'thumbcount' => 1, 'linktitle' => false, 'centering' => false, 'showdate' => false, 'secondary' => false, 'same' => false, 'inhistory' => false, 'thumbnail_size' => 'thumbnail' ) );
+		$instance = wp_parse_args( (array) $instance, self::defaults() );
 		$title = wp_strip_all_tags($instance['title']);
-		$thumbnail_size = (isset($instance['thumbnail_size'])) ? $instance['thumbnail_size'] : 'thumbnail';
+		$thumbnail_size = $instance['thumbnail_size'];
 		$thumbchapt = $instance['thumbchapt'];
 		$first = $instance['first'];
 		$random = $instance['random'];

@@ -620,6 +620,51 @@ if ( ! class_exists( 'WP_Widget' ) ) {
 	}
 }
 
+if ( ! function_exists( 'wp_parse_args' ) ) {
+	function wp_parse_args( $args, $defaults = array() ) {
+		if ( is_object( $args ) ) {
+			$parsed = get_object_vars( $args );
+		} elseif ( is_array( $args ) ) {
+			$parsed = $args;
+		} else {
+			parse_str( (string) $args, $parsed );
+		}
+		return is_array( $defaults ) ? array_merge( $defaults, $parsed ) : $parsed;
+	}
+}
+
+if ( ! class_exists( 'WP_Query' ) ) {
+	/**
+	 * Records the arguments it was built with and never finds a post, which is enough to
+	 * drive a widget's render method up to the point where it would start printing posts.
+	 */
+	class WP_Query {
+		/** @var mixed the arguments the most recent instance was built with */
+		public static $last_query = null;
+		public $query;
+		public function __construct( $query = '' ) {
+			$this->query      = $query;
+			self::$last_query = $query;
+		}
+		public function have_posts() {
+			return false;
+		}
+		public function the_post() {}
+	}
+}
+
+if ( ! function_exists( 'is_404' ) ) {
+	function is_404() {
+		return false;
+	}
+}
+
+if ( ! function_exists( 'get_the_date' ) ) {
+	function get_the_date( $format = '', $post = null ) {
+		return gmdate( '' === $format ? 'F j, Y' : $format );
+	}
+}
+
 /* -------------------------------------------------------------------------- *
  * $wpdb spy — records the SQL it is handed so tests can assert on the query text
  * without a database. This is what stands in for MySQL when checking that untrusted
