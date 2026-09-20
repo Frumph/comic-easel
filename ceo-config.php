@@ -223,7 +223,7 @@ if ( wp_verify_nonce($nonce, 'update-options') ) {
 
 	<div class="ceoadmin-footer">
 		<br />
-		<a href="https://github.com/Frumph/comic-easel"><?php esc_html_e('Comic Easel','comic-easel'); ?></a> <?php esc_html_e('created, developed and maintained by','comic-easel'); ?> <a href="http://frumph.net/">Philip M. Hofer</a> <small>(<a href="http://frumph.net/">Frumph</a>)</small><br />
+		<a href="https://github.com/Frumph/comic-easel"><?php esc_html_e('Comic Easel','comic-easel'); ?></a> <?php esc_html_e('created, developed and maintained by','comic-easel'); ?> <a href="https://github.com/Frumph">Philip M. Hofer</a> <small>(<a href="https://github.com/Frumph">Frumph</a>)</small><br />
 		<?php esc_html_e('If you like the Comic Easel plugin, please donate.  It will help in developing new features and versions.','comic-easel'); ?><br />
 		<table style="margin:0 auto;">
 			<tr>

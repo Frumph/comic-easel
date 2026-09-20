@@ -4,7 +4,7 @@ Widget Name: Scheduled Posts
 Widget URI: https://github.com/Frumph/comic-easel
 Description: Display a list of comic posts that are due to be scheduled.
 Author: Philip M. Hofer (Frumph)
-Author URI: http://frumph.net/
+Author URI: https://github.com/Frumph
 Version: 1.04
 */
 

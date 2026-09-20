@@ -3,7 +3,7 @@
 Widget Name: Thumbnail
 Description: Display a thumbnail of a comic, either newest or first or random
 Author: Philip M. Hofer (Frumph)
-Author URI: http://frumph.net/
+Author URI: https://github.com/Frumph
 Version: 1.3
 */
 

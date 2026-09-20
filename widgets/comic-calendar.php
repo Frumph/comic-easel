@@ -1,10 +1,10 @@
 <?php
 /*
 Widget Name: Comic Calendar
-Widget URI: http://frumph.net/
+Widget URI: https://github.com/Frumph
 Description: Display a calendar of this months posts of comics
 Author: Philip M. Hofer (Frumph)
-Author URI: http://frumph.net/
+Author URI: https://github.com/Frumph
 Version: 1.03
 */
 

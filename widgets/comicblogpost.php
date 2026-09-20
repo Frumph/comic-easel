@@ -4,7 +4,7 @@ Widget Name: Comic Blog Post Widget
 Widget URI: https://github.com/Frumph/comic-easel
 Description: Display's the comic's blog post.
 Author: Philip M. Hofer (Frumph)
-Author URI: http://frumph.net/
+Author URI: https://github.com/Frumph
 Version: 1.00
 */
 
