@@ -731,16 +731,6 @@ msgstr ""
 msgid "Original Cost"
 msgstr ""
 
-#: functions/admin-meta.php:405
-#@ comic-easel
-msgid "Height:"
-msgstr ""
-
-#: functions/admin-meta.php:406
-#@ comic-easel
-msgid "Width:"
-msgstr ""
-
 #: functions/admin-meta.php:438
 #@ comic-easel
 msgid "Set Comic/Featured Image"
