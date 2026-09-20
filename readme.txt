@@ -4,10 +4,10 @@ Contributors: Frumph, Shadchamp, coraislovely
 Tags: comiceasel, easel, webcomic, comic
 Requires at least: 4.8.2
 Requires PHP: 7.4
-Tested up to: 7.0
-Stable tag: 1.18
+Tested up to: 7.1
+Stable tag: 1.18.1
 Text Domain: comic-easel
-Donate link: http://frumph.net
+Donate link: https://www.paypal.com/donate/?hosted_button_id=GH46TR9QP8HSS
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -17,6 +17,8 @@ Comic Easel allows you to post webcomics to your theme.
 == Description ==
 
 Comic Easel project: [Comic Easel on GitHub](https://github.com/Frumph/comic-easel)
+
+Comic Easel was created and maintained by Philip M. Hofer (Frumph) from 2012 to 2018. Since 2026 it has been maintained by coraislovely with Philip's blessing, with a focus on security and compatibility for existing sites.
 
 Comic Easel allows you to incorporate a WebComic using the WordPress Media Library functionality with Navigation into almost any WordPress theme. With just a few modifications of adding *injection* action locations into a theme, you can have the theme of your choice display a comic.
 
@@ -135,6 +137,11 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 
 == Changelog ==
+
+= 1.18.1 =
+* Maintenance release: the plugin is now maintained by coraislovely with the original author's blessing; readme and credits updated, links to the former project site replaced
+* Removed two orphaned Flash-era strings from the translation template
+* Tested up to WordPress 7.1 on PHP 8.5
 
 = 1.18 =
 * Security hardening throughout: output escaping across admin screens, widgets and front-end templates; prepared or whitelisted SQL everywhere; CSRF fixes; tightened handling of request input

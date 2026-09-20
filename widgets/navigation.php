@@ -4,7 +4,7 @@ Widget Name: Graphical Navigation
 Widget URI: https://github.com/Frumph/comic-easel
 Description: You can place graphical navigation buttons on your comic.
 Author: Philip M. Hofer (Frumph) (mods by Chris Maverick)
-Author URI: http://frumph.net/
+Author URI: https://github.com/Frumph
 Version: 1.1m
 */
 
