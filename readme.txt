@@ -4,7 +4,7 @@ Contributors: Frumph, Shadchamp, coraislovely
 Tags: comiceasel, easel, webcomic, comic
 Requires at least: 4.8.2
 Requires PHP: 7.4
-Tested up to: 7.0
+Tested up to: 7.1
 Stable tag: 1.18.1
 Text Domain: comic-easel
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=46RNWXBE7467Q
@@ -141,6 +141,7 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 = 1.18.1 =
 * Maintenance release: the plugin is now maintained by coraislovely with the original author's blessing; readme and credits updated, links to the former project site replaced
 * Removed two orphaned Flash-era strings from the translation template
+* Tested up to WordPress 7.1 on PHP 8.5
 
 = 1.18 =
 * Security hardening throughout: output escaping across admin screens, widgets and front-end templates; prepared or whitelisted SQL everywhere; CSRF fixes; tightened handling of request input
