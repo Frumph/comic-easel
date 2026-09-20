@@ -228,7 +228,7 @@ if ( wp_verify_nonce($nonce, 'update-options') ) {
 		<table style="margin:0 auto;">
 			<tr>
 				<td style="width:200px;">
-					<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=46RNWXBE7467Q"><?php esc_html_e('Donate to Frumph (PayPal)','comic-easel'); ?></a>
+					<a href="https://www.paypal.com/donate/?hosted_button_id=GH46TR9QP8HSS"><?php esc_html_e('Donate to Frumph (PayPal)','comic-easel'); ?></a>
 				</td>
 				<td style="width:200px;">
 					<form method="post" id="myForm" name="template" enctype="multipart/form-data" action="">

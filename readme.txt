@@ -7,7 +7,7 @@ Requires PHP: 7.4
 Tested up to: 7.1
 Stable tag: 1.18.1
 Text Domain: comic-easel
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=46RNWXBE7467Q
+Donate link: https://www.paypal.com/donate/?hosted_button_id=GH46TR9QP8HSS
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
