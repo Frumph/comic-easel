@@ -77,8 +77,7 @@ function ceo_chapters_edit_menu_orderby() {
 function ceo_chapters_quick_edit_menu_order ($column_name, $screen, $name = '') {
 	if ( did_action( 'quick_edit_custom_box' ) !== 1 ) return;
 	if (($column_name != 'menu_order') && ($name != 'chapters') && ($screen != 'edit-tags') && empty($name)) return;
-	$menu_order_field = '<fieldset><div class="inline-edit-col"><label><span class="title">' . __( 'Order' , 'comic-easel') . '</span><span class="input-text-wrap"><input class="ptitle" name="ceo_chapter_order" type="text" value="" /></span></label></div></fieldset>';
-	echo $menu_order_field;
+	echo '<fieldset><div class="inline-edit-col"><label><span class="title">' . esc_html__( 'Order' , 'comic-easel') . '</span><span class="input-text-wrap"><input class="ptitle" name="ceo_chapter_order" type="text" value="" /></span></label></div></fieldset>';
 }
 
 function ceo_chapters_save_value($term_id, $tt_id) {
@@ -125,19 +124,17 @@ function ceo_chapters_add_column_value($empty, $custom_column, $term_id) {
 			}
 			// phpcs:enable WordPress.Security.NonceVerification.Missing
 			$term = get_term($term_id, $taxonomy);
-			echo $term->$custom_column;
+			echo esc_html($term->$custom_column);
 			break;
 	}
 }
 
 function ceo_chapters_menu_order_add_form_field() {		
-	$form_field = '<div class="form-field"><label for="ceo_chapter_order">'.ucwords(ceo_pluginfo('chapter_type_slug_name')).' '.__('Order', 'comic-easel') . '</label><input name="ceo_chapter_order" id="ceo_chapter_order" type="text" value="0" size="10" /><p>' . __('This defines what order the taxonomy is in. 0 = do not order.', 'comic-easel') . '</p></div>';
-	echo $form_field;
+	echo '<div class="form-field"><label for="ceo_chapter_order">'.esc_html(ucwords(ceo_pluginfo('chapter_type_slug_name'))).' '.esc_html__('Order', 'comic-easel') . '</label><input name="ceo_chapter_order" id="ceo_chapter_order" type="text" value="0" size="10" /><p>' . esc_html__('This defines what order the taxonomy is in. 0 = do not order.', 'comic-easel') . '</p></div>';
 }
 
 function ceo_chapters_menu_order_edit_form_field($term) {
-	$form_field = '<tr class="form-field"><th scope="row" valign="top"><label for="ceo_chapter_order">' .ucwords(ceo_pluginfo('chapter_type_slug_name')).' '.__('Order', 'comic-easel')  . '</label></th><td><input name="ceo_chapter_order" id="ceo_chapter_order" type="text" value="'.$term->menu_order.'" size="10" /><p class="description">' . __('This defines what order the taxonomy is in. 0 = do not order.', 'comic-easel') .'</p></td></tr>';
-	echo $form_field;
+	echo '<tr class="form-field"><th scope="row" valign="top"><label for="ceo_chapter_order">' .esc_html(ucwords(ceo_pluginfo('chapter_type_slug_name'))).' '.esc_html__('Order', 'comic-easel')  . '</label></th><td><input name="ceo_chapter_order" id="ceo_chapter_order" type="text" value="'.esc_attr($term->menu_order).'" size="10" /><p class="description">' . esc_html__('This defines what order the taxonomy is in. 0 = do not order.', 'comic-easel') .'</p></td></tr>';
 }
 
 function ceo_add_new_comic_columns($comic_columns) {
@@ -164,7 +161,7 @@ function ceo_manage_comic_columns($column_name, $id) {
 				foreach ($allterms as $term) {
 					$term_list_chapters[] = '<a href="'.esc_url(admin_url('edit.php?post_type=comic&chapters='.urlencode($term->name))).'">'.esc_html($term->name).'</a>';
 				}
-				echo join(', ', $term_list_chapters );
+				echo wp_kses_post(join(', ', $term_list_chapters ));
 			}
 	        break;
 	case 'characters':
@@ -173,7 +170,7 @@ function ceo_manage_comic_columns($column_name, $id) {
 				foreach ($allterms as $term) {
 					$term_list_characters[] = '<a href="'.esc_url(admin_url('edit.php?post_type=comic&characters='.urlencode($term->name))).'">'.esc_html($term->name).'</a>';
 				}
-				echo join(', ', $term_list_characters );
+				echo wp_kses_post(join(', ', $term_list_characters ));
 			}
 	        break;
 	case 'locations':
@@ -182,14 +179,14 @@ function ceo_manage_comic_columns($column_name, $id) {
 				foreach ($allterms as $term) {
 					$term_list_locations[] = '<a href="'.esc_url(admin_url('/wp-admin/edit.php?post_type=comic&locations='.urlencode($term->name))).'">'.esc_html($term->name).'</a>';
 				}
-				echo join(', ', $term_list_locations );
+				echo wp_kses_post(join(', ', $term_list_locations ));
 			}
 	        break;
 	case 'comicimages':
 			$post = get_post($id);
 			$comicthumb = ceo_display_comic_thumbnail('thumbnail', $post, array(120,0)); 
 			if (!$comicthumb) { echo esc_html__('No thumbnail Found.','comic-easel'); } else {
-				echo $comicthumb;
+				echo wp_kses($comicthumb, ceo_thumbnail_allowed_html());
 			}
 		break;
 	default:
@@ -243,18 +240,18 @@ function ceo_edit_comic_in_post($post) {  ?>
 <div class="admin-comicbox" style="margin:0; padding:0; overflow:hidden;">
 <?php 
 		$output = '<ul><ol>';
-		$output .= '<li>'.__('Add a title to the comic.&nbsp; Titles must be alpha-numerical, not just numbers.','comic-easel').'</li>';
-		$output .= '<li>'.__('Add some info to the blog section of the comic if you want to (not required).','comic-easel').'</li>';
-		$output .= '<li>'.__('Set the date/time you want it to be published, leave it as Publish Immediately if you want it to post right now.','comic-easel').'</li>';
-		$output .= '<li>'.__('Set the featured image as the comic.&nbsp;  You can find the link to press to do this in right column in this editor.&nbsp;  After it uploads, click the [use as featured image]','comic-easel').'<br />';
-		$output .= '<li>'.__('Set the comic into a chapter, all comics must be in a chapter.&nbsp;  If you do not have one, make one.','comic-easel').'</li>';
-		$output .= '<li>'.__('Tag characters in the comic and location the comic takes place (not required).','comic-easel').'</li>';
-		$output .= '<li>'.__('Click the [screen options] in the upper right corner of the editor and enable [x] Discussion if it is not (one time only).&nbsp;  So you can enable/disable commenting.','comic-easel').'</li>';
-		$output .= '<li>'.__('Publish.','comic-easel').'</li>';
+		$output .= '<li>'.esc_html__('Add a title to the comic.&nbsp; Titles must be alpha-numerical, not just numbers.','comic-easel').'</li>';
+		$output .= '<li>'.esc_html__('Add some info to the blog section of the comic if you want to (not required).','comic-easel').'</li>';
+		$output .= '<li>'.esc_html__('Set the date/time you want it to be published, leave it as Publish Immediately if you want it to post right now.','comic-easel').'</li>';
+		$output .= '<li>'.esc_html__('Set the featured image as the comic.&nbsp;  You can find the link to press to do this in right column in this editor.&nbsp;  After it uploads, click the [use as featured image]','comic-easel').'<br />';
+		$output .= '<li>'.esc_html__('Set the comic into a chapter, all comics must be in a chapter.&nbsp;  If you do not have one, make one.','comic-easel').'</li>';
+		$output .= '<li>'.esc_html__('Tag characters in the comic and location the comic takes place (not required).','comic-easel').'</li>';
+		$output .= '<li>'.esc_html__('Click the [screen options] in the upper right corner of the editor and enable [x] Discussion if it is not (one time only).&nbsp;  So you can enable/disable commenting.','comic-easel').'</li>';
+		$output .= '<li>'.esc_html__('Publish.','comic-easel').'</li>';
 		$output .= '</ol></ul>';
-		$output .= __('You can move the editor boxes around.&nbsp;  Drag them to where it would suit your individual taste in where you want them.','comic-easel').'<br /><br />';
-		$output .= __('Minimize these directions by clicking the title of the box.','comic-easel');
-		echo $output;
+		$output .= esc_html__('You can move the editor boxes around.&nbsp;  Drag them to where it would suit your individual taste in where you want them.','comic-easel').'<br /><br />';
+		$output .= esc_html__('Minimize these directions by clicking the title of the box.','comic-easel');
+		echo wp_kses_post($output);
 ?>
 </div>
 <?php
@@ -480,17 +477,17 @@ function ceo_add_comic_in_post() {
 	if (function_exists('comicpress_themeinfo'))
 		add_meta_box('ceo_taxonomy_archive_overwrite', __('Use as an information page?', 'comic-easel'), 'ceo_edit_taxonomy_archive_overwrite', 'page', 'side', 'low');
 	$context_output = '<ul><ol>';
-	$context_output .= '<li>'.__('Add a title to the comic.&nbsp; Titles must be alpha-numerical, not just numbers.','comic-easel').'</li>';
-	$context_output .= '<li>'.__('Add some info to the blog section of the comic if you want to (not required).','comic-easel').'</li>';
-	$context_output .= '<li>'.__('Set the date/time you want it to be published, leave it as Publish Immediately if you want it to post right now.','comic-easel').'</li>';
-	$context_output .= '<li>'.__('Set the featured image as the comic.&nbsp;  You can find the link to press to do this in right column in this editor.&nbsp;  After it uploads, click the [use as featured image]','comic-easel').'<br />';
-	$context_output .= '<li>'.__('Set the comic into a chapter, all comics must be in a chapter.&nbsp;  If you do not have one, make one.','comic-easel').'</li>';
-	$context_output .= '<li>'.__('Tag characters in the comic and location the comic takes place (not required).','comic-easel').'</li>';
-	$context_output .= '<li>'.__('Click the [screen options] in the upper right corner of the editor and enable [x] Discussion if it is not (one time only).&nbsp;  So you can enable/disable commenting.','comic-easel').'</li>';
-	$context_output .= '<li>'.__('Publish.','comic-easel').'</li>';
+	$context_output .= '<li>'.esc_html__('Add a title to the comic.&nbsp; Titles must be alpha-numerical, not just numbers.','comic-easel').'</li>';
+	$context_output .= '<li>'.esc_html__('Add some info to the blog section of the comic if you want to (not required).','comic-easel').'</li>';
+	$context_output .= '<li>'.esc_html__('Set the date/time you want it to be published, leave it as Publish Immediately if you want it to post right now.','comic-easel').'</li>';
+	$context_output .= '<li>'.esc_html__('Set the featured image as the comic.&nbsp;  You can find the link to press to do this in right column in this editor.&nbsp;  After it uploads, click the [use as featured image]','comic-easel').'<br />';
+	$context_output .= '<li>'.esc_html__('Set the comic into a chapter, all comics must be in a chapter.&nbsp;  If you do not have one, make one.','comic-easel').'</li>';
+	$context_output .= '<li>'.esc_html__('Tag characters in the comic and location the comic takes place (not required).','comic-easel').'</li>';
+	$context_output .= '<li>'.esc_html__('Click the [screen options] in the upper right corner of the editor and enable [x] Discussion if it is not (one time only).&nbsp;  So you can enable/disable commenting.','comic-easel').'</li>';
+	$context_output .= '<li>'.esc_html__('Publish.','comic-easel').'</li>';
 	$context_output .= '</ol></ul>';
-	$context_output .= __('You can move the editor boxes around.&nbsp;  Drag them to where it would suit your individual taste in where you want them.','comic-easel').'<br /><br />';
-	$context_output .= __('Minimize these directions by clicking the title of the box.','comic-easel');
+	$context_output .= esc_html__('You can move the editor boxes around.&nbsp;  Drag them to where it would suit your individual taste in where you want them.','comic-easel').'<br /><br />';
+	$context_output .= esc_html__('Minimize these directions by clicking the title of the box.','comic-easel');
 	get_current_screen()->add_help_tab( array(
 				'id'      => 'my-help-id',
 				'title'   => __( 'Instructions','comic-easel' ),

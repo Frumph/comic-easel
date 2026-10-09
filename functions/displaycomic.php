@@ -128,7 +128,7 @@ function ceo_display_comic_gallery($size = 'full') {
 function ceo_display_comic($size = 'full') {
 	global $post;
     if ( post_password_required() ) { 
-		return __('This comic is password protected.','comic-easel');
+		return esc_html__('This comic is password protected.','comic-easel');
     }
     $refer_only = get_post_meta( $post->ID, 'refer-only', 'true');
 

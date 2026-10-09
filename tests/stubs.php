@@ -50,6 +50,8 @@ class CE_Test_State {
 	public static $http_requests = array();
 	/** @var array recorded wp_kses_post() inputs */
 	public static $kses_calls = array();
+	/** @var array recorded wp_kses() calls, as array( input, allowlist ) */
+	public static $kses_allowlist_calls = array();
 	/** @var array recorded wp_mail() calls */
 	public static $mail_calls = array();
 	/** @var array recorded update_post_meta() calls */
@@ -76,6 +78,7 @@ class CE_Test_State {
 		self::$http_response = array();
 		self::$http_requests = array();
 		self::$kses_calls = array();
+		self::$kses_allowlist_calls = array();
 		self::$mail_calls = array();
 		self::$meta_writes = array();
 		self::$scripts = array();
@@ -187,6 +190,17 @@ define( 'CE_KSES_SENTINEL', 'KSES:' );
 if ( ! function_exists( 'wp_kses_post' ) ) {
 	function wp_kses_post( $data ) {
 		CE_Test_State::$kses_calls[] = $data;
+		return CE_KSES_SENTINEL . $data;
+	}
+}
+
+/**
+ * Same idea for wp_kses() with an explicit allowlist: records the input together with the
+ * allowlist it was held to, so a test can assert which tags would survive.
+ */
+if ( ! function_exists( 'wp_kses' ) ) {
+	function wp_kses( $data, $allowed_html, $allowed_protocols = array() ) {
+		CE_Test_State::$kses_allowlist_calls[] = array( $data, $allowed_html );
 		return CE_KSES_SENTINEL . $data;
 	}
 }

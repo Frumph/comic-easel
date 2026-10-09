@@ -18,6 +18,23 @@ function ceo_title_for_html($post = 0) {
 	return wp_kses_post(get_the_title($post));
 }
 
+/**
+ * KSES rules for printing ceo_display_comic_thumbnail().
+ *
+ * Post HTML, plus the <img> attributes WordPress itself writes on an attachment image.
+ * wp_kses_post() alone would strip srcset and sizes, and with them the responsive images.
+ */
+function ceo_thumbnail_allowed_html() {
+	$allowed = wp_kses_allowed_html('post');
+	$allowed['img'] = array_merge($allowed['img'], array(
+		'srcset' => true,
+		'sizes' => true,
+		'decoding' => true,
+		'fetchpriority' => true,
+	));
+	return $allowed;
+}
+
 /*
 *  Get a sidebar and create a generic dynamic sidebar for it, else find the sidebar-*.php in the theme/childtheme
 */

@@ -1,6 +1,6 @@
 <?php if (!defined('ABSPATH')) exit; ?>
 <div class="wrap">
-	<div id="ceoadmin-headericon" style="background: url('<?php echo ceo_pluginfo('plugin_url') ?>images/easel_small.png') no-repeat;"></div>
+	<div id="ceoadmin-headericon" style="background: url('<?php echo esc_url(ceo_pluginfo('plugin_url').'images/easel_small.png'); ?>') no-repeat;"></div>
 <p class="alignleft">
 	<h2><?php esc_html_e('Comic Easel - Config','comic-easel'); ?></h2>
 </p>

@@ -130,7 +130,7 @@ function ceo_import_by_namedate($import_directory, $import_date_format, $import_
 			if (empty($file_to_process['converted_title'])) $file_to_process['converted_title'] = $file_to_process['date'];
 			$result = ceo_import_add_comic_and_post($file_to_process['filename'], $file_to_process['date'], $file_to_process['converted_title'], $import_create_post, $import_chapter, $import_time, $import_directory);
 			$result = ($result) ? $result : __('System Process Error','comic-easel');
-			echo '<td>'.esc_html__('Date:','comic-easel').' <strong>'.esc_html($file_to_process['date']).'</strong></td><td> ---- </td><td>'.esc_html__('Title of Post:','comic-easel').' <strong>'.esc_html($file_to_process['converted_title']).'</strong></td><td> --- </td><td>'.esc_html__('Result:','comic-easel').' <strong>'.$result.'</strong></td>';
+			echo '<td>'.esc_html__('Date:','comic-easel').' <strong>'.esc_html($file_to_process['date']).'</strong></td><td> ---- </td><td>'.esc_html__('Title of Post:','comic-easel').' <strong>'.esc_html($file_to_process['converted_title']).'</strong></td><td> --- </td><td>'.esc_html__('Result:','comic-easel').' <strong>'.esc_html($result).'</strong></td>';
 			echo '</tr>';
 		}
 		echo '</table>';

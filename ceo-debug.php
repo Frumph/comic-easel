@@ -7,14 +7,14 @@ if (!defined('ABSPATH')) exit;
 function ceo_check_directory($dirpath) {
 	$output = '';
 	if (is_dir(ceo_pluginfo($dirpath))) {
-		$output = '<span style="color:green;">'.__('Directory Exists,','comic-easel').'</span>';
+		$output = '<span style="color:green;">'.esc_html__('Directory Exists,','comic-easel').'</span>';
 		if (is_writable(ceo_pluginfo($dirpath))) {
-			$output .= ' <span style="color:green;">'.__('and is writable.','comic-easel').'</span>';
+			$output .= ' <span style="color:green;">'.esc_html__('and is writable.','comic-easel').'</span>';
 		} else {
-			$output .= ' <span style="color:red;">'.__('and is not writable.','comic-easel').'</span>';
+			$output .= ' <span style="color:red;">'.esc_html__('and is not writable.','comic-easel').'</span>';
 		}			
 	} else {
-		$output = '<span style="color:red;">'.__('Directory does not exist,','comic-easel').'</span>';
+		$output = '<span style="color:red;">'.esc_html__('Directory does not exist,','comic-easel').'</span>';
 	}
 	return $output;
 }
@@ -30,7 +30,7 @@ function ceo_check_directory($dirpath) {
 </thead>
 <tr><td>error</td><td><?php echo esc_html(ceo_pluginfo('error')); ?></td></tr>
 <tr><td>base_url</td><td><?php echo esc_html(ceo_pluginfo('base_url')); ?></td></tr>
-<tr><td>base_path</td><td><?php echo esc_html(ceo_pluginfo('base_path')); ?><br /><?php echo ceo_check_directory('base_path'); ?></td></tr>
+<tr><td>base_path</td><td><?php echo esc_html(ceo_pluginfo('base_path')); ?><br /><?php echo wp_kses_post(ceo_check_directory('base_path')); ?></td></tr>
 <tr><td>theme_url</td><td><?php echo esc_html(ceo_pluginfo('theme_url')); ?></td></tr>
 <tr><td>theme_path</td><td><?php echo esc_html(ceo_pluginfo('theme_path')); ?></td></tr>
 <tr><td>style_url</td><td><?php echo esc_html(ceo_pluginfo('style_url')); ?></td></tr>
