@@ -11,7 +11,9 @@ function ceo_init_injections() {
 	add_action('comic-area', 'ceo_display_comic_area');
 	add_action('comic-post-info', 'ceo_display_comic_post_info');
 // 	add_action('comic-mini-navigation', 'ceo_inject_mini_navigation');
-	if (!ceo_pluginfo('disable_related_comics') && !defined('CEO_FEATURE_DISABLE_RELATED')) 
+	// The disable_related_comics setting is applied at init by ceo_drop_disabled_related_comics():
+	// reading settings this early would, on a fresh install, load translations before init.
+	if (!defined('CEO_FEATURE_DISABLE_RELATED'))
 		add_action('comic-post-extras', 'ceo_display_related_comics');
 	if (!defined('CEO_FEATURE_DISABLE_TRANSCRIPT')) 
 		add_action('comic-transcript', 'ceo_display_the_transcript_action');
@@ -25,6 +27,18 @@ function ceo_init_injections() {
 }
 
 add_action('comic-blog-area', 'ceo_display_comic_post_home');
+
+/*
+ * Registering the action first and taking it back off at init, rather than adding it at init
+ * only when enabled, keeps it on the hook from plugins_loaded as before, so a theme that removes
+ * it from functions.php or after_setup_theme still succeeds.
+ */
+add_action('init', 'ceo_drop_disabled_related_comics');
+
+function ceo_drop_disabled_related_comics() {
+	if (ceo_pluginfo('disable_related_comics'))
+		remove_action('comic-post-extras', 'ceo_display_related_comics');
+}
 
 function ceo_version_meta() {
 	// Both tags are filterable, so the filtered result is held to <meta> on the way out.

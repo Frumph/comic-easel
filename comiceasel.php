@@ -179,11 +179,15 @@ function ceo_initialize_post_types() {
 	}
 }
 
-if (ceo_pluginfo('enable_chapter_in_url')) {
-	add_filter( 'post_type_link', 'ceo_add_chapters_to_permalinks', 1, 2 );
-}
+/*
+ * The settings are read when the filter runs, not here: reading them while the plugin loads
+ * builds the defaults on a fresh install, and their translated strings would load the text
+ * domain before init, which WordPress 6.7 and later report as a notice.
+ */
+add_filter( 'post_type_link', 'ceo_add_chapters_to_permalinks', 1, 2 );
 
 function ceo_add_chapters_to_permalinks( $post_link, $id = 0 ){
+	if (!ceo_pluginfo('enable_chapter_in_url')) return $post_link;
     $post = get_post($id);
 	$chapter_slug = ucwords(ceo_pluginfo('chapter_type_slug_name'));
 	if (empty($chapter_slug) || is_array($chapter_slug)) $chapter_slug = 'chapter';
@@ -197,10 +201,12 @@ function ceo_add_chapters_to_permalinks( $post_link, $id = 0 ){
     return $post_link;
 }
 
-if (!defined('CEO_FEATURE_DISABLE_REWRITE_RULES') && !ceo_pluginfo('disable_cal_rewrite_rules'))
+// As above, the setting is read when the rules are generated rather than while the plugin loads.
+if (!defined('CEO_FEATURE_DISABLE_REWRITE_RULES'))
 	add_action('generate_rewrite_rules', 'ceo_datearchives_rewrite_rules');
 
 function ceo_datearchives_rewrite_rules($wp_rewrite) {
+	if (ceo_pluginfo('disable_cal_rewrite_rules')) return $wp_rewrite;
 	$rules = ceo_generate_date_archives('comic', $wp_rewrite);
 	$wp_rewrite->rules = $rules + $wp_rewrite->rules;
 	return $wp_rewrite;
@@ -549,7 +555,8 @@ function ceo_pluginfo($whichinfo = null) {
 
 // Load all the widgets
 
-foreach (glob(ceo_pluginfo('plugin_path')  . 'widgets/*.php') as $widgefile) {
+// The same directory ceo_pluginfo('plugin_path') names, without loading the settings this early.
+foreach (glob(plugin_dir_path(__FILE__) . 'widgets/*.php') as $widgefile) {
 	require_once($widgefile);
 }
 

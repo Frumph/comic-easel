@@ -29,8 +29,9 @@ $ceo_legacy_rel_link_priority = null;
 add_filter('previous_post_rel_link', 'ceo_change_prev_rel_link_two', $ceo_legacy_rel_link_priority, 1); // change the rel links for comic pages
 add_filter('next_post_rel_link', 'ceo_change_next_rel_link_two', $ceo_legacy_rel_link_priority, 1);
 unset($ceo_legacy_rel_link_priority);
-if (ceo_pluginfo('remove_post_thumbnail')) 
-	add_filter('post_thumbnail_html','ceo_clear_post_thumbnail_on_comics');
+// The setting is checked when the filter runs: reading settings while the plugin loads would,
+// on a fresh install, load translations before init (see comiceasel.php).
+add_filter('post_thumbnail_html','ceo_clear_post_thumbnail_on_comics');
 
 /**
  * Fall back to a translation file named for the old text domain.
@@ -188,5 +189,6 @@ function ceo_insert_comic_transcript_into_posts($content) {
 
 function ceo_clear_post_thumbnail_on_comics($content) {
 	global $post;
+	if (!ceo_pluginfo('remove_post_thumbnail')) return $content;
 	if (is_single() && $post->post_type == 'comic') return '';
 }
