@@ -25,6 +25,7 @@
 				</thead>
 				<tr>
 					<td>
+						<em><?php esc_html_e('Note from the original developer, Philip M. Hofer, in October 2014:','comic-easel'); ?></em><br />
 						<?php esc_html_e('This version of Comic Easel was sponsored by everyone in the WebComic community & my brother who helped me with my gofundme campaign. THANK YOU!  (And Brad Guigar from WebComics.COM)','comic-easel'); ?><br />
 					</td>
 				</tr>
