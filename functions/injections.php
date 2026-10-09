@@ -41,10 +41,9 @@ function ceo_drop_disabled_related_comics() {
 }
 
 function ceo_version_meta() {
-	// Both tags are filterable, so the filtered result is held to <meta> on the way out.
+	// The tag is filterable, so the filtered result is held to <meta> on the way out.
 	$allowed_meta = array('meta' => array('name' => true, 'content' => true, 'property' => true));
 	echo wp_kses(apply_filters('ceo_version_meta', '<meta name="Comic-Easel" content="'.esc_attr(ceo_pluginfo('version')).'" />'."\r\n"), $allowed_meta);
-	echo wp_kses(apply_filters('ceo_version_meta_referrer', '<meta name="Referrer" content="'.esc_attr(ceo_get_referer()).'" />'."\r\n"), $allowed_meta);
 }
 
 function ceo_display_edit_link() {

@@ -96,7 +96,7 @@ class OutputEscapingTest extends CE_TestCase {
 	}
 
 	/**
-	 * Both version meta tags are filterable. Whatever a filter returns is held to <meta>.
+	 * The version meta tag is filterable. Whatever a filter returns is held to <meta>.
 	 */
 	public function testVersionMetaIsHeldToMetaTags() {
 		self::loadPluginFile( 'functions/injections.php' );
@@ -106,10 +106,9 @@ class OutputEscapingTest extends CE_TestCase {
 		ceo_version_meta();
 		ob_end_clean();
 
-		$this->assertCount( 2, CE_Test_State::$kses_allowlist_calls );
+		$this->assertCount( 1, CE_Test_State::$kses_allowlist_calls );
 		list( $version_tag, $allowed ) = CE_Test_State::$kses_allowlist_calls[0];
 		$this->assertSame( '<meta name="Comic-Easel" content="1.0&quot;&gt;&lt;script&gt;" />' . "\r\n", $version_tag );
 		$this->assertSame( array( 'meta' ), array_keys( $allowed ) );
-		$this->assertSame( array( 'meta' ), array_keys( CE_Test_State::$kses_allowlist_calls[1][1] ) );
 	}
 }
