@@ -356,7 +356,9 @@ function ceo_paypal_ipn() {
 
 	if (!$payee_ok) $email_message .= __('REJECTED: payment was not made to the configured PayPal address.','comic-easel')."\r\n\r\n";
 	if (!$cart_ok) $email_message .= __('REJECTED: the cart does not match an available Comic Easel product.','comic-easel')."\r\n\r\n";
+	/* translators: 1: amount the buyer paid, 2: price the comic is listed at. */
 	if (!$amount_ok) $email_message .= sprintf(__('REJECTED: amount paid (%1$s) is below the asking price (%2$s).','comic-easel'), $payment_amount, $expected_total)."\r\n\r\n";
+	/* translators: 1: currency code of the payment, 2: currency code set on the Buy Comic tab. */
 	if (!$currency_ok) $email_message .= sprintf(__('REJECTED: payment currency (%1$s) is not the configured currency (%2$s).','comic-easel'), $payment_currency, $expected_currency)."\r\n\r\n";
 
 	delete_option('ceo_paypal_receiver');
