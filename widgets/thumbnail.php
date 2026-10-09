@@ -145,7 +145,7 @@ class ceo_thumbnail_widget extends WP_Widget {
 		<p><?php esc_html_e('Which Chapter?', 'comic-easel'); ?><br />	
 		<?php 
 		
-		$allterms = &get_terms('chapters');
+		$allterms = get_terms('chapters');
 		if (!empty($allterms)) {
 			$chaptselected = '';
 			if ($thumbchapt == '') $chaptselected = 'selected';

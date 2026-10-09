@@ -96,6 +96,19 @@ class ThumbnailWidgetTest extends CE_TestCase {
 		$this->assertFalse( $out['first'] );
 	}
 
+	public function testFormListsTheChapters() {
+		CE_Test_State::$terms['chapters'] = array(
+			$this->makeTerm( 3, 'book-one', 'Book One' ),
+			$this->makeTerm( 5, 'tom-jerry', "Tom & Jerry's" ),
+		);
+		$widget = new ceo_thumbnail_widget();
+		$out    = $this->capture( function () use ( $widget ) {
+			$widget->form( array( 'thumbchapt' => 'tom-jerry' ) );
+		} );
+
+		$this->assertStringContainsString( '<option name="" >All</option><option name="book-one" value="book-one" > Book One </option><option name="tom-jerry" value="tom-jerry" selected> Tom &amp; Jerry&#039;s </option>', $out );
+	}
+
 	public function testUpdateWritesEveryKeyOverAnOldInstance() {
 		// Re-saving is what repairs an instance from before an option existed.
 		$widget = new ceo_thumbnail_widget();
