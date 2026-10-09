@@ -28,14 +28,13 @@ class ArchiveDropdownWidgetTest extends CE_TestCase {
 	}
 
 	public function testRendersAnEmptyInstanceWithTheFormDefaults() {
-		// A Legacy Widget block that was never saved renders with no settings at all. The form
-		// shows such a widget with "Hide empty chapters" and the comic count both ticked, and it
-		// now renders that way too.
+		// A Legacy Widget block that was never saved renders with no settings at all. Empty
+		// chapters were already hidden by default; the comic count stays off, as it always rendered.
 		$this->setGlobalPost( 7 );
 		$out = $this->render( array() );
 
 		$this->assertStringContainsString( "<select  name='chapters' id='chapters' class='postform' onchange=", $out );
-		$this->assertStringContainsString( 'Book One&nbsp;&nbsp;(4)', $out, 'the count is on by default' );
+		$this->assertStringNotContainsString( '(4)', $out, 'the count is off by default' );
 	}
 
 	public function testRendersAnInstanceSavedBeforeTheCountAndArchiveOptionsExisted() {
@@ -43,7 +42,7 @@ class ArchiveDropdownWidgetTest extends CE_TestCase {
 		$this->setGlobalPost( 7 );
 		$out = $this->render( array( 'title' => 'Chapters', 'exclude' => '', 'unhide' => true ) );
 
-		$this->assertStringContainsString( 'Book One&nbsp;&nbsp;(4)', $out );
+		$this->assertStringNotContainsString( '(4)', $out, 'no count, as before the key existed' );
 		$this->assertStringContainsString( '<option class="level-0" value=""', $out, 'jumping to the first comic, of which the stub has none' );
 	}
 

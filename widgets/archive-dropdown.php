@@ -194,9 +194,10 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 	 * widget() applies these, not just form(). Saved settings are only rewritten when the form
 	 * is saved, so a widget saved before an option existed never gains its key: the comic count
 	 * and jump-to-archive options arrived in 2014, the list rendering in December 2015.
+	 * The count defaults off because that is how such widgets have always rendered.
 	 */
 	private static function defaults() {
-		return array( 'title' => '', 'exclude' => '', 'hide' => 1, 'showcount' => 1, 'jumptoarchive' => 0, 'render_as_list' => 0 );
+		return array( 'title' => '', 'exclude' => '', 'hide' => 1, 'showcount' => 0, 'jumptoarchive' => 0, 'render_as_list' => 0 );
 	}
 	
 	function widget($args, $instance) {
