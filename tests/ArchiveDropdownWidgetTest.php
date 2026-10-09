@@ -56,6 +56,62 @@ class ArchiveDropdownWidgetTest extends CE_TestCase {
 		$this->assertStringNotContainsString( 'current-cat', $out );
 	}
 
+	private function dropdownInstance() {
+		return array( 'title' => 'Chapters', 'exclude' => '', 'hide' => 1, 'showcount' => 1, 'jumptoarchive' => 1, 'render_as_list' => 0 );
+	}
+
+	public function testDropdownMarkupIsUnchangedByEscaping() {
+		$this->setGlobalPost( 7 );
+		$this->assertSameAsRecorded( 'archive-dropdown-select.html', $this->render( $this->dropdownInstance() ) );
+	}
+
+	public function testListMarkupIsUnchangedByEscaping() {
+		$this->setGlobalPost( 7 );
+		$instance = array_merge( $this->dropdownInstance(), array( 'render_as_list' => 1 ) );
+		$this->assertSameAsRecorded( 'archive-dropdown-list.html', $this->render( $instance ) );
+	}
+
+	public function testThemeWrappersAndTitleGoThroughKses() {
+		$this->setGlobalPost( 7 );
+		$this->render( $this->dropdownInstance() );
+
+		$args = self::widgetArgs();
+		$this->assertContains( $args['before_widget'], CE_Test_State::$kses_calls );
+		$this->assertContains( $args['before_title'] . 'Chapters' . $args['after_title'], CE_Test_State::$kses_calls );
+		$this->assertContains( $args['after_widget'], CE_Test_State::$kses_calls );
+	}
+
+	public function testDropdownIsFilteredByAnAllowlistThatKeepsTheMenuWorking() {
+		// wp_kses_post() would strip the <select>, its options and the onchange handler that
+		// makes choosing a chapter navigate, so the menu is filtered against its own allowlist.
+		$this->setGlobalPost( 7 );
+		$out = $this->render( $this->dropdownInstance() );
+
+		$this->assertCount( 1, CE_Test_State::$kses_allowlist_calls );
+		list( $markup, $allowed ) = CE_Test_State::$kses_allowlist_calls[0];
+		$this->assertStringContainsString( $markup, $out, 'the filtered markup is what was printed' );
+		$this->assertStringContainsString( 'onchange="document.location.href=this.options[this.selectedIndex].value;"', $markup );
+		$this->assertAllowedByKses( $markup, $allowed );
+	}
+
+	public function testListIsFilteredAsPostMarkup() {
+		// Chapter names in the list have already been through wp_kses_post(), so the list as a
+		// whole is post-style markup and gets the same treatment.
+		$this->setGlobalPost( 7 );
+		$out = $this->render( array_merge( $this->dropdownInstance(), array( 'render_as_list' => 1 ) ) );
+
+		$this->assertSame( array(), CE_Test_State::$kses_allowlist_calls );
+		$this->assertStringContainsString( CE_KSES_SENTINEL . '<ul class="chapter-select">', $out );
+	}
+
+	public function testSelectPromptIsEscaped() {
+		CE_Test_State::$translations['Select'] = 'Choisir <b>un</b>';
+		$this->setGlobalPost( 7 );
+		$out = $this->render( $this->dropdownInstance() );
+
+		$this->assertStringContainsString( "<option value='0' selected='selected'>Choisir &lt;b&gt;un&lt;/b&gt; Chapters</option>", $out );
+	}
+
 	public function testUpdateStoresUncheckedBoxesAsOff() {
 		// Browsers omit unchecked checkboxes from the form post, so only the text fields arrive.
 		// Off is what they mean here, even for the boxes a new widget starts with ticked.

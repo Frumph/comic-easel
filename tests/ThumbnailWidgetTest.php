@@ -1,5 +1,17 @@
 <?php
 
+if ( ! class_exists( 'MultiPostThumbnails' ) ) {
+	/**
+	 * The Multiple Post Thumbnails plugin, which the "secondary image" option draws on. Its
+	 * image tag is core's wp_get_attachment_image(), responsive attributes and all.
+	 */
+	class MultiPostThumbnails {
+		public static function get_the_post_thumbnail( $post_type, $thumb_id, $post_id = null, $size = null ) {
+			return '<img width="150" height="150" src="https://example.test/second-' . (int) $post_id . '-150x150.png" class="attachment-secondary-image size-secondary-image" alt="" decoding="async" loading="lazy" srcset="https://example.test/second-' . (int) $post_id . '-150x150.png 150w, https://example.test/second-' . (int) $post_id . '-300x300.png 300w" sizes="(max-width: 150px) 100vw, 150px" />';
+		}
+	}
+}
+
 /**
  * Thumbnail widget — widgets/thumbnail.php
  *
@@ -96,6 +108,52 @@ class ThumbnailWidgetTest extends CE_TestCase {
 		$this->assertFalse( $out['first'] );
 	}
 
+	/** A widget showing one titled, dated thumbnail; the date format is a fixed string. */
+	private function titledAndDated( array $overrides = array() ) {
+		CE_Test_State::$options['date_format'] = '\\T\\o\\d\\a\\y';
+		CE_Test_State::$found_posts           = array( $this->makePost( 31, 'Thumb <em>One</em>' ) );
+		return array_merge( $this->instanceSavedBeforeInHistoryExisted(), array( 'title' => 'Thumbs', 'linktitle' => true, 'showdate' => true, 'inhistory' => false ), $overrides );
+	}
+
+	private function render( $instance ) {
+		$widget = new ceo_thumbnail_widget();
+		return $this->capture( function () use ( $widget, $instance ) {
+			$widget->widget( self::widgetArgs(), $instance );
+		} );
+	}
+
+	public function testMarkupIsUnchangedByEscaping() {
+		$this->setGlobalPost( 7 );
+		$this->assertSameAsRecorded( 'thumbnail.html', $this->render( $this->titledAndDated() ) );
+	}
+
+	public function testSecondaryImageMarkupIsUnchangedByEscaping() {
+		$this->setGlobalPost( 7 );
+		$this->assertSameAsRecorded( 'thumbnail-secondary.html', $this->render( $this->titledAndDated( array( 'secondary' => true, 'centering' => true ) ) ) );
+	}
+
+	public function testWrappersTitleAndComicTitleGoThroughKses() {
+		$this->setGlobalPost( 7 );
+		$this->render( $this->titledAndDated() );
+
+		$args = self::widgetArgs();
+		$this->assertContains( $args['before_widget'], CE_Test_State::$kses_calls );
+		$this->assertContains( $args['before_title'] . 'Thumbs' . $args['after_title'], CE_Test_State::$kses_calls );
+		$this->assertContains( $args['after_widget'], CE_Test_State::$kses_calls );
+		$this->assertContains( CE_KSES_SENTINEL . 'Thumb <em>One</em>', CE_Test_State::$kses_calls );
+	}
+
+	public function testSecondaryImageKeepsItsResponsiveAttributes() {
+		// wp_kses_post() would drop srcset and sizes, which core's post allowlist leaves out.
+		$this->setGlobalPost( 7 );
+		$this->render( $this->titledAndDated( array( 'secondary' => true ) ) );
+
+		$this->assertCount( 1, CE_Test_State::$kses_allowlist_calls );
+		list( $markup, $allowed ) = CE_Test_State::$kses_allowlist_calls[0];
+		$this->assertStringContainsString( 'srcset=', $markup );
+		$this->assertAllowedByKses( $markup, $allowed );
+	}
+
 	public function testFormListsTheChapters() {
 		CE_Test_State::$terms['chapters'] = array(
 			$this->makeTerm( 3, 'book-one', 'Book One' ),
@@ -107,6 +165,9 @@ class ThumbnailWidgetTest extends CE_TestCase {
 		} );
 
 		$this->assertStringContainsString( '<option name="" >All</option><option name="book-one" value="book-one" > Book One </option><option name="tom-jerry" value="tom-jerry" selected> Tom &amp; Jerry&#039;s </option>', $out );
+		$this->assertCount( 1, CE_Test_State::$kses_allowlist_calls );
+		list( $markup, $allowed ) = CE_Test_State::$kses_allowlist_calls[0];
+		$this->assertAllowedByKses( $markup, $allowed );
 	}
 
 	public function testUpdateWritesEveryKeyOverAnOldInstance() {

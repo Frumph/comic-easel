@@ -19,7 +19,7 @@ function ceo_list_jump_to_comic($exclude = '', $return = false) {
 		$output = '<form method="get" class="comic-list-dropdown-form">';
 		$output .= '<select onchange="document.location.href=this.options[this.selectedIndex].value;">';
 		$level = 0;
-		$output .= '<option class="level-select" value="">'.__('Jump To','comic-easel').'</option>';
+		$output .= '<option class="level-select" value="">'.esc_html__('Jump To','comic-easel').'</option>';
 		$post_args = array( 
 			'showposts' => -1,
 			'post_type' => 'comic',
@@ -39,9 +39,26 @@ function ceo_list_jump_to_comic($exclude = '', $return = false) {
 		$output .= '</form>';
 		if ($return) {
 			return $output;
-		} else echo $output;
+		} else echo wp_kses($output, ceo_comic_list_dropdown_allowed_html());
 	}
 	ceo_unprotect();
+}
+
+/**
+ * The tags and attributes the comic dropdown prints, for wp_kses().
+ *
+ * wp_kses_post() would strip the form controls, and with them the onchange handler that
+ * makes picking a comic navigate, so the dropdown is filtered against exactly what it emits.
+ */
+function ceo_comic_list_dropdown_allowed_html() {
+	return array(
+		'form'     => array( 'method' => true, 'class' => true ),
+		'select'   => array( 'onchange' => true ),
+		'option'   => array( 'class' => true, 'value' => true ),
+		'noscript' => array(),
+		'div'      => array(),
+		'input'    => array( 'type' => true, 'value' => true ),
+	);
 }
 
 class ceo_comic_list_dropdown_widget extends WP_Widget {
@@ -72,9 +89,9 @@ class ceo_comic_list_dropdown_widget extends WP_Widget {
 
 		extract($args, EXTR_SKIP); 
 		$instance = wp_parse_args( (array) $instance, self::defaults() );
-		echo $before_widget;
+		echo wp_kses_post($before_widget);
 		$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']); 
-		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; }; 
+		if ( !empty( $title ) ) { echo wp_kses_post($before_title . $title . $after_title); }; 
 		if ((is_home() || is_front_page()) && !is_paged() && !ceo_pluginfo('disable_comic_on_home_page')) {
 			$chapter_on_home = '';
 			$chapter_on_home = get_term_by( 'id', ceo_pluginfo('chapter_on_home'), 'chapters');
@@ -89,7 +106,7 @@ class ceo_comic_list_dropdown_widget extends WP_Widget {
 		} elseif (!empty($post)) {
 			ceo_list_jump_to_comic($instance['exclude'], false);
 		}
-		echo $after_widget;
+		echo wp_kses_post($after_widget);
 	}
 	
 	function update($new_instance, $old_instance) {

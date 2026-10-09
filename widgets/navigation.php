@@ -97,11 +97,11 @@ class ceo_comic_navigation_widget extends WP_Widget {
 			<tr>
 			<td class="comic_navi_title" colspan="3">
 			<?php if ($instance['comicchapter']) { $post_category = get_the_term_list ($post->ID,'chapters', '', ', ', ''); ?>
-				<span class="navi-comicchapter"><?php echo $post_category ?></span>
+				<span class="navi-comicchapter"><?php echo wp_kses_post($post_category); ?></span>
 				<?php if ($instance['comictitle']) { echo '- '; }
 			}
 			if ($instance['comictitle']) { ?>
-				<span class="navi-comictitle"><a href="<?php echo esc_url(get_permalink($post->ID)); ?>" class="comic-nav-title">"<?php echo ceo_title_for_html($post->ID); ?>"</a></span>
+				<span class="navi-comictitle"><a href="<?php echo esc_url(get_permalink($post->ID)); ?>" class="comic-nav-title">"<?php echo wp_kses_post(ceo_title_for_html($post->ID)); ?>"</a></span>
 			<?php } ?>
 			</td>
 			</tr>

@@ -25,10 +25,10 @@ class ceo_scheduled_comics_widget extends WP_Widget {
 	
 	function widget($args, $instance) {
 		extract($args, EXTR_SKIP); 
-		echo $before_widget;
+		echo wp_kses_post($before_widget);
 		ceo_protect();
-		$title = empty($instance['title']) ? __('Scheduled Comics','comic-easel') : apply_filters('widget_title', $instance['title']); 
-		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; }; 
+		$title = empty($instance['title']) ? esc_html__('Scheduled Comics','comic-easel') : apply_filters('widget_title', $instance['title']);
+		if ( !empty( $title ) ) { echo wp_kses_post($before_title . $title . $after_title); }; 
 		$args = array(
 				'post_status' => 'future',
 				'showposts' => -1,
@@ -45,7 +45,7 @@ class ceo_scheduled_comics_widget extends WP_Widget {
 			<?php endforeach; ?>
 			</ul>
 		<?php } 
-		echo $after_widget;
+		echo wp_kses_post($after_widget);
 		ceo_unprotect();
 	}
 	

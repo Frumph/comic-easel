@@ -121,7 +121,8 @@ function ceo_comic_archive_jump_to_chapter($hide = true, $exclude = '', $showcou
 	} else {
 		$args = array(
 			'walker' => new ceo_walker_taxonomy_dropdown(),
-			'show_option_all'	=>	__('Select','comic-easel').' '.ucwords(ceo_pluginfo('chapter_type_slug_name')),
+			// wp_dropdown_categories() prints this label as given.
+			'show_option_all'	=>	esc_html__('Select','comic-easel').' '.esc_html(ucwords(ceo_pluginfo('chapter_type_slug_name'))),
 			'option_none_value'  => '-1',
 			'orderby'            => 'menu_order', 
 			'order'              => 'ASC',
@@ -148,8 +149,30 @@ function ceo_comic_archive_jump_to_chapter($hide = true, $exclude = '', $showcou
 	}
 	ceo_unprotect();
 	if ($echo) {
-		echo $output;
+		if ($render_as_list) {
+			echo wp_kses_post($output);
+		} else {
+			echo wp_kses($output, ceo_chapter_dropdown_allowed_html());
+		}
 	} else return $output;	
+}
+
+/**
+ * The tags and attributes the chapter dropdown prints, for wp_kses().
+ *
+ * wp_kses_post() would strip the form controls, and with them the onchange handler that
+ * makes picking a chapter navigate, so the dropdown is filtered against exactly what it
+ * emits: the <select> and <option> tags wp_dropdown_categories() and the walker above write,
+ * the handler added to the <select>, and the submit button for browsers without JavaScript.
+ */
+function ceo_chapter_dropdown_allowed_html() {
+	return array(
+		'form'     => array( 'id' => true, 'class' => true, 'method' => true ),
+		'select'   => array( 'name' => true, 'id' => true, 'class' => true, 'onchange' => true ),
+		'option'   => array( 'class' => true, 'value' => true, 'selected' => true ),
+		'noscript' => array(),
+		'input'    => array( 'type' => true, 'value' => true ),
+	);
 }
 
 class ceo_comic_archive_dropdown_widget extends WP_Widget {
@@ -180,11 +203,11 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 		global $post;
 		extract($args, EXTR_SKIP); 
 		$instance = wp_parse_args( (array) $instance, self::defaults() );
-		echo $before_widget;
+		echo wp_kses_post($before_widget);
 		$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']); 
-		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; }; 
+		if ( !empty( $title ) ) { echo wp_kses_post($before_title . $title . $after_title); }; 
 		ceo_comic_archive_jump_to_chapter($instance['hide'], $instance['exclude'], $instance['showcount'], $instance['jumptoarchive'], true, $instance['render_as_list']);
-		echo $after_widget;
+		echo wp_kses_post($after_widget);
 	}
 	
 	function update($new_instance, $old_instance) {

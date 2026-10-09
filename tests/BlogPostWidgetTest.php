@@ -29,6 +29,50 @@ class BlogPostWidgetTest extends CE_TestCase {
 		$this->assertSame( '<section id="ceo-widget-2" class="widget ceo-widget"><p>The blog post.</p></section>', self::withoutKsesSentinel( $out ) );
 	}
 
+	private function everythingOn() {
+		return array( 'title' => 'From the blog', 'onlyhome' => false, 'showtitle' => true, 'showdate' => true, 'showcommentlink' => true, 'hidecontent' => false );
+	}
+
+	private function comicPost() {
+		return $this->makePost( 7, 'The <em>Big</em> Day', array( 'post_content' => '<p>The blog post.</p>', 'comment_status' => 'open' ) );
+	}
+
+	public function testSingleComicMarkupIsUnchangedByEscaping() {
+		$GLOBALS['post'] = $this->comicPost();
+		$this->assertSameAsRecorded( 'blogpost-single.html', $this->render( $this->everythingOn() ) );
+	}
+
+	public function testHomePageMarkupIsUnchangedByEscaping() {
+		CE_Test_State::$is['home']   = true;
+		CE_Test_State::$found_posts = array( $this->comicPost() );
+		$GLOBALS['post']            = $this->makePost( 99, 'Not a comic', array( 'post_type' => 'page' ) );
+		$this->assertSameAsRecorded( 'blogpost-home.html', $this->render( $this->everythingOn() ) );
+	}
+
+	public function testWrappersHeadingAndTitleGoThroughKses() {
+		$GLOBALS['post'] = $this->comicPost();
+		$this->render( $this->everythingOn() );
+
+		$args = self::widgetArgs();
+		$this->assertContains( $args['before_widget'], CE_Test_State::$kses_calls );
+		$this->assertContains( 'From the blog', CE_Test_State::$kses_calls );
+		$this->assertContains( $args['after_widget'], CE_Test_State::$kses_calls );
+		// Once inside ceo_title_for_html(), once more where it is printed.
+		$this->assertContains( CE_KSES_SENTINEL . 'The <em>Big</em> Day', CE_Test_State::$kses_calls );
+	}
+
+	public function testCommentLinkLabelsAreEscaped() {
+		CE_Test_State::$translations['Comment']  = 'Commentaire <b>';
+		CE_Test_State::$translations['Comments'] = 'Commentaires <b>';
+		$GLOBALS['post'] = $this->comicPost();
+		$out = $this->render( $this->everythingOn() );
+
+		$this->assertStringContainsString(
+			'<span class="comment-balloon comment-balloon-empty">&nbsp;</span>Commentaire &lt;b&gt;|<span class="comment-balloon">1</span> Commentaire &lt;b&gt;|<span class="comment-balloon">%</span> Commentaires &lt;b&gt;',
+			$out
+		);
+	}
+
 	public function testUpdateStoresUncheckedBoxesAsFalse() {
 		$widget = new ceo_comic_blog_post_widget();
 		$out    = $widget->update( array( 'title' => 'Blog', 'showdate' => '1' ), array() );

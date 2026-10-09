@@ -32,6 +32,27 @@ class LatestComicsWidgetTest extends CE_TestCase {
 		$this->assertStringContainsString( '<h2 class="widget-title">Latest Comics</h2>', self::withoutKsesSentinel( $out ) );
 	}
 
+	public function testMarkupIsUnchangedByEscaping() {
+		$this->assertSameAsRecorded( 'latest-comics.html', $this->render( array( 'title' => '', 'count' => 2 ) ) );
+	}
+
+	public function testWrappersTitleAndComicTitlesGoThroughKses() {
+		$this->render( array( 'title' => '', 'count' => 2 ) );
+
+		$args = self::widgetArgs();
+		$this->assertContains( $args['before_widget'], CE_Test_State::$kses_calls );
+		$this->assertContains( $args['before_title'] . 'Latest Comics' . $args['after_title'], CE_Test_State::$kses_calls );
+		$this->assertContains( $args['after_widget'], CE_Test_State::$kses_calls );
+		$this->assertContains( CE_KSES_SENTINEL . 'Fish &amp; <em>Chips</em>', CE_Test_State::$kses_calls );
+	}
+
+	public function testDefaultTitleIsEscaped() {
+		CE_Test_State::$translations['Latest Comics'] = 'Derniers <b>';
+		$out = $this->render( array( 'title' => '', 'count' => 2 ) );
+
+		$this->assertStringContainsString( '<h2 class="widget-title">Derniers &lt;b&gt;</h2>', $out );
+	}
+
 	public function testUpdateWithNoFieldsSubmitted() {
 		$widget = new ceo_latest_comics_widget();
 		$out    = $widget->update( array(), array() );

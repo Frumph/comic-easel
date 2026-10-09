@@ -32,6 +32,49 @@ class ComicListDropdownWidgetTest extends CE_TestCase {
 		$this->assertStringNotContainsString( 'widget-title', $out );
 	}
 
+	public function testMarkupIsUnchangedByEscaping() {
+		$this->setGlobalPost( 21 );
+		$this->assertSameAsRecorded( 'comiclist-dropdown.html', $this->render( array( 'title' => 'Jump', 'exclude' => '' ) ) );
+	}
+
+	public function testThemeWrappersAndTitleGoThroughKses() {
+		$this->setGlobalPost( 21 );
+		$this->render( array( 'title' => 'Jump', 'exclude' => '' ) );
+
+		$args = self::widgetArgs();
+		$this->assertContains( $args['before_widget'], CE_Test_State::$kses_calls );
+		$this->assertContains( $args['before_title'] . 'Jump' . $args['after_title'], CE_Test_State::$kses_calls );
+		$this->assertContains( $args['after_widget'], CE_Test_State::$kses_calls );
+	}
+
+	public function testMenuIsFilteredByAnAllowlistThatKeepsItWorking() {
+		$this->setGlobalPost( 21 );
+		$out = $this->render( array( 'title' => '', 'exclude' => '' ) );
+
+		$this->assertCount( 1, CE_Test_State::$kses_allowlist_calls );
+		list( $markup, $allowed ) = CE_Test_State::$kses_allowlist_calls[0];
+		$this->assertStringContainsString( $markup, $out );
+		$this->assertStringContainsString( '<select onchange="document.location.href=this.options[this.selectedIndex].value;">', $markup );
+		$this->assertAllowedByKses( $markup, $allowed );
+	}
+
+	public function testReturnedMenuIsUnfiltered() {
+		// Returning callers print it themselves, and escape it there.
+		$this->setGlobalPost( 21 );
+		$menu = ceo_list_jump_to_comic( '', true );
+
+		$this->assertStringStartsWith( '<form method="get" class="comic-list-dropdown-form">', $menu );
+		$this->assertSame( array(), CE_Test_State::$kses_allowlist_calls );
+	}
+
+	public function testJumpToPromptIsEscaped() {
+		CE_Test_State::$translations['Jump To'] = 'Aller à <b>';
+		$this->setGlobalPost( 21 );
+		$out = $this->render( array( 'title' => '', 'exclude' => '' ) );
+
+		$this->assertStringContainsString( '<option class="level-select" value="">Aller à &lt;b&gt;</option>', $out );
+	}
+
 	public function testUpdateWithNoFieldsSubmitted() {
 		$widget = new ceo_comic_list_dropdown_widget();
 		$out    = $widget->update( array(), array() );

@@ -38,10 +38,10 @@ class ceo_latest_comics_widget extends WP_Widget {
 		global $post;
 		extract($args, EXTR_SKIP); 
 		$instance = wp_parse_args( (array) $instance, self::defaults() );
-		echo $before_widget;
+		echo wp_kses_post($before_widget);
 		ceo_protect();
-		$title = empty($instance['title']) ? __('Latest Comics','comic-easel') : apply_filters('widget_title', $instance['title']); 
-		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
+		$title = empty($instance['title']) ? esc_html__('Latest Comics','comic-easel') : apply_filters('widget_title', $instance['title']);
+		if ( !empty( $title ) ) { echo wp_kses_post($before_title . $title . $after_title); };
 		$args = array(
 				'showposts' => (int)$instance['count'],
 				'post_type' => 'comic'
@@ -49,11 +49,11 @@ class ceo_latest_comics_widget extends WP_Widget {
 		$latestcomics = get_posts($args); ?>
 		<ul>
 		<?php foreach($latestcomics as $post) : ?>
-			<li><a href="<?php echo esc_url(get_permalink($post->ID)); ?>"><?php echo ceo_title_for_html($post->ID); ?></a></li>
+			<li><a href="<?php echo esc_url(get_permalink($post->ID)); ?>"><?php echo wp_kses_post(ceo_title_for_html($post->ID)); ?></a></li>
 		<?php endforeach; ?>
 		</ul>
 		<?php
-		echo $after_widget;
+		echo wp_kses_post($after_widget);
 		ceo_unprotect();
 	}
 	
