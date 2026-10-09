@@ -197,10 +197,15 @@ function ceo_content_warning() {
 	return apply_filters('ceo-content-warning', __('Warning, Mature Content.','comic-easel'));
 }
 
+/*
+ * Hand the content warning text to js/content-warning.js, which reads it from the global
+ * contentwarningtext. The name is historical: this used to print its own <script> into
+ * wp_head. It now rides on the script handle as an inline 'before' block, so the variable is
+ * defined immediately ahead of the one script that reads it, wherever that script is printed.
+ *
+ * content-warning.js drops the text into innerHTML, so it is HTML-escaped first (as esc_js()
+ * did before) and then JSON-encoded to make it a safe JavaScript string literal.
+ */
 function ceo_content_warning_in_head() {
-?>
-<script>
-	var contentwarningtext = "<?php echo esc_js(ceo_content_warning()); ?>";
-</script>
-<?php
+	wp_add_inline_script('ceo_comic_content_warning', 'var contentwarningtext = ' . wp_json_encode(esc_html(ceo_content_warning())) . ';', 'before');
 }

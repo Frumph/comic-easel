@@ -167,7 +167,6 @@ if ( wp_verify_nonce($nonce, 'update-options') ) {
 		
 		if ($tab) { ?>
 			<div id="message" class="updated"><p><strong><?php esc_html_e('Comic Easel Settings SAVED!','comic-easel'); ?></strong></p></div>
-			<script>function hidemessage() { document.getElementById('message').style.display = 'none'; }</script>
 		<?php }
 	} 
 	$ceo_options = get_option('comiceasel-config');
@@ -192,33 +191,11 @@ if ( wp_verify_nonce($nonce, 'update-options') ) {
 		  ?>
 		</div>
 
-		<div id="comiceasel-options-pages">
+		<?php // js/config-tabs.js opens the data-tab page and hides the others; see ceo_config_enqueue_scripts(). ?>
+		<div id="comiceasel-options-pages" data-tab="<?php echo esc_attr($tab); ?>">
 		  <?php	foreach (glob(ceo_pluginfo('plugin_path') . 'options/*.php') as $file) { include($file); } ?>
 		</div>
 	</div>
-	<script type="text/javascript">
-		(function($) {
-			var showPage = function(which) {
-				$('#comiceasel-options-pages > div').each(function(i) {
-					$(this)[(this.id == 'comiceasel-' + which) ? 'show' : 'hide']();
-				});
-			};
-
-			$('.comiceasel-tab').click(function() {
-				$('#message').animate({height:"0", opacity:0, margin: 0}, 100, 'swing', function() { $(this).remove() });
-
-				showPage(this.id.replace('comiceasel-tab-', ''));
-				var myThis = this;
-				$('.comiceasel-tab').each(function() {
-					var isSame = (this == myThis);
-					$(this).toggleClass('on', isSame).toggleClass('off', !isSame);
-				});
-				return false;
-			});
-
-			showPage('<?php echo esc_js($tab); ?>');
-		}(jQuery));
-	</script>
 </div>
 
 	<div class="ceoadmin-footer">

@@ -605,8 +605,8 @@ function ceo_run_scripts() {
 	if (!empty($post)) {
 		$comic_content_warning = get_post_meta( $post->ID, 'comic-content-warning', true );
 		if ($comic_content_warning) {
-			add_action('wp_head', 'ceo_content_warning_in_head');
 			wp_enqueue_script('ceo_comic_content_warning', ceo_pluginfo('plugin_url').'js/content-warning.js', null, null, true);
+			ceo_content_warning_in_head();
 		}
 	}
 	if (!ceo_pluginfo('disable_keynav')) {

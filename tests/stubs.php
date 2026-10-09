@@ -54,6 +54,12 @@ class CE_Test_State {
 	public static $mail_calls = array();
 	/** @var array recorded update_post_meta() calls */
 	public static $meta_writes = array();
+	/** @var array<string,array> handle => arguments of the wp_enqueue_script() call */
+	public static $scripts = array();
+	/** @var array<string,array> handle => arguments of the wp_enqueue_style() call */
+	public static $styles = array();
+	/** @var array recorded wp_add_inline_script() calls */
+	public static $inline_scripts = array();
 
 	public static function reset() {
 		self::$options = array( 'blog_charset' => 'UTF-8' );
@@ -72,6 +78,9 @@ class CE_Test_State {
 		self::$kses_calls = array();
 		self::$mail_calls = array();
 		self::$meta_writes = array();
+		self::$scripts = array();
+		self::$styles = array();
+		self::$inline_scripts = array();
 	}
 }
 
@@ -428,6 +437,36 @@ if ( ! function_exists( 'remove_filter' ) ) {
 if ( ! function_exists( 'do_action' ) ) {
 	function do_action( ...$args ) {
 		return true;
+	}
+}
+
+/* -------------------------------------------------------------------------- *
+ * Script and style queues — recorders, so a test can assert what was enqueued and what
+ * was attached to it without a WP_Scripts instance.
+ * -------------------------------------------------------------------------- */
+
+if ( ! function_exists( 'wp_enqueue_script' ) ) {
+	function wp_enqueue_script( $handle, $src = '', $deps = array(), $ver = false, $args = array() ) {
+		CE_Test_State::$scripts[ $handle ] = compact( 'src', 'deps', 'ver', 'args' );
+	}
+}
+
+if ( ! function_exists( 'wp_enqueue_style' ) ) {
+	function wp_enqueue_style( $handle, $src = '', $deps = array(), $ver = false, $media = 'all' ) {
+		CE_Test_State::$styles[ $handle ] = compact( 'src', 'deps', 'ver', 'media' );
+	}
+}
+
+if ( ! function_exists( 'wp_add_inline_script' ) ) {
+	function wp_add_inline_script( $handle, $data, $position = 'after' ) {
+		CE_Test_State::$inline_scripts[] = compact( 'handle', 'data', 'position' );
+		return true;
+	}
+}
+
+if ( ! function_exists( 'wp_json_encode' ) ) {
+	function wp_json_encode( $data, $options = 0, $depth = 512 ) {
+		return json_encode( $data, $options, $depth );
 	}
 }
 

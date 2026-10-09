@@ -378,23 +378,12 @@ function ceo_the_transcript($displaymode = 'raw') {
 				return nl2br($transcript);
 				break;
 			case "styled":
-				$output = "<script type='text/javascript'>\r\n";
-				$output .= "<!--\r\n";
-				$output .= "function toggle_expander(id) {\r\n";
-				$output .= "	var e = document.getElementById(id);\r\n";
-				$output .= "	if(e.style.height == 'auto')\r\n";
-				$output .= "		e.style.height = '1px';\r\n";
-				$output .= "	else\r\n";
-				$output .= "		e.style.height = 'auto';\r\n";
-				$output .= "}\r\n";
-				$output .= "//-->\r\n";
-				$output .= "</script>\r\n";
-				$output .= "<div class=\"transcript-border\"><div id=\"transcript\"><a href=\"javascript:toggle_expander('transcript-content');\" class=\"transcript-title\">&darr; Transcript</a><div id=\"transcript-content\">".nl2br($transcript)."<br /><br /></div></div></div>\r\n";
-				$output .= "<script type='text/javascript'>\r\n";
-				$output .= "<!--\r\n";
-				$output .= "	document.getElementById('transcript-content').style.height = '1px';\r\n";
-				$output .= "//-->\r\n";
-				$output .= "</script>\r\n";
+				// js/transcript.js collapses the transcript and makes the title toggle it.
+				// Enqueued from here so it loads only on pages that show one; WordPress
+				// prints a script enqueued this late in the footer. Without JavaScript the
+				// transcript simply stays open.
+				wp_enqueue_script('ceo-transcript', ceo_pluginfo('plugin_url').'js/transcript.js', array(), ceo_pluginfo('version'), true);
+				$output = "<div class=\"transcript-border\"><div id=\"transcript\"><a href=\"#transcript-content\" class=\"transcript-title\" aria-controls=\"transcript-content\">&darr; Transcript</a><div id=\"transcript-content\">".nl2br($transcript)."<br /><br /></div></div></div>\r\n";
 				return $output;
 				break;
 		}
