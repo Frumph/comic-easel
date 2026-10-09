@@ -56,4 +56,72 @@ if ( ! function_exists( 'ceo_get_first_comic' ) ) {
 	}
 }
 
+/**
+ * The permalink helpers the navigation widget links with, each returning whatever a test
+ * put in CE_Test_State::$nav_links under its name, or false (no such comic) by default.
+ */
+function ce_test_nav_link( $name ) {
+	return array_key_exists( $name, CE_Test_State::$nav_links ) ? CE_Test_State::$nav_links[ $name ] : false;
+}
+
+if ( ! function_exists( 'ceo_get_first_comic_permalink' ) ) {
+	function ceo_get_first_comic_permalink() {
+		return ce_test_nav_link( __FUNCTION__ );
+	}
+}
+
+if ( ! function_exists( 'ceo_get_last_comic_permalink' ) ) {
+	function ceo_get_last_comic_permalink() {
+		return ce_test_nav_link( __FUNCTION__ );
+	}
+}
+
+if ( ! function_exists( 'ceo_get_previous_comic_permalink' ) ) {
+	function ceo_get_previous_comic_permalink() {
+		return ce_test_nav_link( __FUNCTION__ );
+	}
+}
+
+if ( ! function_exists( 'ceo_get_next_comic_permalink' ) ) {
+	function ceo_get_next_comic_permalink() {
+		return ce_test_nav_link( __FUNCTION__ );
+	}
+}
+
+if ( ! function_exists( 'ceo_get_first_comic_in_chapter_permalink' ) ) {
+	function ceo_get_first_comic_in_chapter_permalink() {
+		return ce_test_nav_link( __FUNCTION__ );
+	}
+}
+
+if ( ! function_exists( 'ceo_get_last_comic_in_chapter_permalink' ) ) {
+	function ceo_get_last_comic_in_chapter_permalink() {
+		return ce_test_nav_link( __FUNCTION__ );
+	}
+}
+
+if ( ! function_exists( 'ceo_get_previous_comic_in_chapter_permalink' ) ) {
+	function ceo_get_previous_comic_in_chapter_permalink() {
+		return ce_test_nav_link( __FUNCTION__ );
+	}
+}
+
+if ( ! function_exists( 'ceo_get_next_comic_in_chapter_permalink' ) ) {
+	function ceo_get_next_comic_in_chapter_permalink() {
+		return ce_test_nav_link( __FUNCTION__ );
+	}
+}
+
+if ( ! function_exists( 'ceo_get_previous_chapter' ) ) {
+	function ceo_get_previous_chapter() {
+		return ce_test_nav_link( __FUNCTION__ );
+	}
+}
+
+if ( ! function_exists( 'ceo_get_next_chapter' ) ) {
+	function ceo_get_next_chapter() {
+		return ce_test_nav_link( __FUNCTION__ );
+	}
+}
+
 require_once __DIR__ . '/CE_TestCase.php';

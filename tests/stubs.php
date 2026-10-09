@@ -62,6 +62,12 @@ class CE_Test_State {
 	public static $styles = array();
 	/** @var array recorded wp_add_inline_script() calls */
 	public static $inline_scripts = array();
+	/** @var array<int,object> posts that get_posts() and every WP_Query return, in order */
+	public static $found_posts = array();
+	/** @var array<string,bool> conditional tag without its is_ prefix => result, e.g. 'home' */
+	public static $is = array();
+	/** @var array<string,mixed> plugin navigation helper name => the permalink it returns */
+	public static $nav_links = array();
 
 	public static function reset() {
 		self::$options = array( 'blog_charset' => 'UTF-8' );
@@ -84,6 +90,9 @@ class CE_Test_State {
 		self::$scripts = array();
 		self::$styles = array();
 		self::$inline_scripts = array();
+		self::$found_posts = array();
+		self::$is = array();
+		self::$nav_links = array();
 	}
 }
 
@@ -202,6 +211,24 @@ if ( ! function_exists( 'wp_kses' ) ) {
 	function wp_kses( $data, $allowed_html, $allowed_protocols = array() ) {
 		CE_Test_State::$kses_allowlist_calls[] = array( $data, $allowed_html );
 		return CE_KSES_SENTINEL . $data;
+	}
+}
+
+/**
+ * A representative slice of core's 'post' context, global attributes included. Enough for
+ * code that extends the post allowlist rather than replacing it.
+ */
+if ( ! function_exists( 'wp_kses_allowed_html' ) ) {
+	function wp_kses_allowed_html( $context = '' ) {
+		$global = array( 'class' => true, 'id' => true, 'style' => true, 'title' => true, 'role' => true );
+		return array(
+			'a'      => array_merge( $global, array( 'href' => true, 'rel' => true, 'target' => true ) ),
+			'div'    => $global,
+			'span'   => $global,
+			'em'     => $global,
+			'strong' => $global,
+			'img'    => array_merge( $global, array( 'alt' => true, 'height' => true, 'loading' => true, 'src' => true, 'width' => true ) ),
+		);
 	}
 }
 
@@ -503,7 +530,9 @@ if ( ! function_exists( 'shortcode_atts' ) ) {
 
 if ( ! function_exists( 'get_posts' ) ) {
 	function get_posts( $args = array() ) {
-		return array();
+		// As in core, a WP_Query does the work, so WP_Query::$last_query records the arguments.
+		$query = new WP_Query();
+		return $query->query( $args );
 	}
 }
 
@@ -688,21 +717,29 @@ if ( ! function_exists( 'wp_parse_args' ) ) {
 
 if ( ! class_exists( 'WP_Query' ) ) {
 	/**
-	 * Records the arguments it was built with and never finds a post, which is enough to
-	 * drive a widget's render method up to the point where it would start printing posts.
+	 * Records the arguments it was built with and loops over CE_Test_State::$found_posts,
+	 * which is empty unless a test fills it, so by default it finds nothing. the_post() sets
+	 * the global $post as the real loop does.
 	 */
 	class WP_Query {
 		/** @var mixed the arguments the most recent instance was built with */
 		public static $last_query = null;
 		public $query;
+		private $current = 0;
 		public function __construct( $query = '' ) {
 			$this->query      = $query;
 			self::$last_query = $query;
 		}
-		public function have_posts() {
-			return false;
+		public function query( $query ) {
+			$this->__construct( $query );
+			return CE_Test_State::$found_posts;
 		}
-		public function the_post() {}
+		public function have_posts() {
+			return $this->current < count( CE_Test_State::$found_posts );
+		}
+		public function the_post() {
+			$GLOBALS['post'] = CE_Test_State::$found_posts[ $this->current++ ];
+		}
 	}
 }
 
@@ -715,6 +752,235 @@ if ( ! function_exists( 'is_404' ) ) {
 if ( ! function_exists( 'get_the_date' ) ) {
 	function get_the_date( $format = '', $post = null ) {
 		return gmdate( '' === $format ? 'F j, Y' : $format );
+	}
+}
+
+/*
+ * Conditional tags, driven by CE_Test_State::$is so a test can put a widget on the front page
+ * or a single comic. is_404(), is_archive() and is_search() above predate this and stay false.
+ */
+if ( ! function_exists( 'is_home' ) ) {
+	function is_home() {
+		return ! empty( CE_Test_State::$is['home'] );
+	}
+}
+
+if ( ! function_exists( 'is_front_page' ) ) {
+	function is_front_page() {
+		return ! empty( CE_Test_State::$is['front_page'] );
+	}
+}
+
+if ( ! function_exists( 'is_paged' ) ) {
+	function is_paged() {
+		return ! empty( CE_Test_State::$is['paged'] );
+	}
+}
+
+if ( ! function_exists( 'is_single' ) ) {
+	function is_single() {
+		return ! empty( CE_Test_State::$is['single'] );
+	}
+}
+
+if ( ! function_exists( 'is_singular' ) ) {
+	function is_singular() {
+		return ! empty( CE_Test_State::$is['singular'] );
+	}
+}
+
+if ( ! function_exists( 'is_page' ) ) {
+	function is_page() {
+		return ! empty( CE_Test_State::$is['page'] );
+	}
+}
+
+if ( ! function_exists( 'is_active_widget' ) ) {
+	function is_active_widget( ...$args ) {
+		return false;
+	}
+}
+
+if ( ! function_exists( 'setup_postdata' ) ) {
+	function setup_postdata( $post ) {
+		return true;
+	}
+}
+
+if ( ! function_exists( 'the_content' ) ) {
+	function the_content() {
+		echo isset( $GLOBALS['post']->post_content ) ? $GLOBALS['post']->post_content : '';
+	}
+}
+
+if ( ! function_exists( 'the_permalink' ) ) {
+	function the_permalink() {
+		echo esc_url( get_permalink( $GLOBALS['post'] ) );
+	}
+}
+
+if ( ! function_exists( 'get_post_type' ) ) {
+	function get_post_type( $post = null ) {
+		return isset( $GLOBALS['post']->post_type ) ? $GLOBALS['post']->post_type : false;
+	}
+}
+
+/** Prints its three labels the way core does: as given, without escaping them. */
+if ( ! function_exists( 'comments_popup_link' ) ) {
+	function comments_popup_link( $zero = false, $one = false, $more = false ) {
+		echo '<a href="' . esc_url( get_permalink( $GLOBALS['post'] ) ) . '#respond">' . $zero . '|' . $one . '|' . $more . '</a>';
+	}
+}
+
+if ( ! function_exists( 'get_comments_number' ) ) {
+	function get_comments_number( $post = 0 ) {
+		return 3;
+	}
+}
+
+if ( ! function_exists( 'has_post_thumbnail' ) ) {
+	function has_post_thumbnail( $post = null ) {
+		return true;
+	}
+}
+
+if ( ! function_exists( 'get_the_post_thumbnail' ) ) {
+	function get_the_post_thumbnail( $post = null, $size = 'post-thumbnail' ) {
+		$post_id = is_object( $post ) ? $post->ID : (int) $post;
+		return '<img src="https://example.test/thumb-' . $post_id . '.png" class="attachment-' . $size . ' size-' . $size . ' wp-post-image" alt="" />';
+	}
+}
+
+if ( ! function_exists( 'get_post_thumbnail_id' ) ) {
+	function get_post_thumbnail_id( $post = null ) {
+		return 11;
+	}
+}
+
+if ( ! function_exists( 'wp_get_attachment_image_src' ) ) {
+	function wp_get_attachment_image_src( $attachment_id, $size = 'thumbnail', $icon = false ) {
+		return array( 'https://example.test/full-' . (int) $attachment_id . '.png', 900, 600, false );
+	}
+}
+
+if ( ! function_exists( 'get_intermediate_image_sizes' ) ) {
+	function get_intermediate_image_sizes() {
+		return array( 'thumbnail', 'medium', 'large' );
+	}
+}
+
+/** The [cast-page] shortcode is what the cast hovercards expand; a marker is enough here. */
+if ( ! function_exists( 'do_shortcode' ) ) {
+	function do_shortcode( $content ) {
+		return '<p class="cast-description">' . $content . '</p>';
+	}
+}
+
+/* Terms come from CE_Test_State::$terms, keyed by taxonomy, as for wp_get_post_terms(). */
+if ( ! function_exists( 'get_the_terms' ) ) {
+	function get_the_terms( $post, $taxonomy ) {
+		return empty( CE_Test_State::$terms[ $taxonomy ] ) ? false : CE_Test_State::$terms[ $taxonomy ];
+	}
+}
+
+if ( ! function_exists( 'wp_get_object_terms' ) ) {
+	function wp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
+		return array_key_exists( $taxonomies, CE_Test_State::$terms ) ? CE_Test_State::$terms[ $taxonomies ] : array();
+	}
+}
+
+if ( ! function_exists( 'get_terms' ) ) {
+	function get_terms( $args = array(), $deprecated = '' ) {
+		$taxonomy = is_array( $args ) ? $args['taxonomy'] : $args;
+		return array_key_exists( $taxonomy, CE_Test_State::$terms ) ? CE_Test_State::$terms[ $taxonomy ] : array();
+	}
+}
+
+/** Same markup as core: an escaped link per term, the term name as stored. */
+if ( ! function_exists( 'get_the_term_list' ) ) {
+	function get_the_term_list( $post_id, $taxonomy, $before = '', $sep = '', $after = '' ) {
+		$terms = get_the_terms( $post_id, $taxonomy );
+		if ( ! $terms ) {
+			return false;
+		}
+		$links = array();
+		foreach ( $terms as $term ) {
+			$links[] = '<a href="' . esc_url( get_term_link( $term->slug, $taxonomy ) ) . '" rel="tag">' . $term->name . '</a>';
+		}
+		return $before . implode( $sep, $links ) . $after;
+	}
+}
+
+if ( ! function_exists( 'selected' ) ) {
+	function selected( $selected, $current = true, $display = true ) {
+		$result = (string) $selected === (string) $current ? " selected='selected'" : '';
+		if ( $display ) {
+			echo $result;
+		}
+		return $result;
+	}
+}
+
+if ( ! function_exists( 'checked' ) ) {
+	function checked( $checked, $current = true, $display = true ) {
+		$result = (string) $checked === (string) $current ? " checked='checked'" : '';
+		if ( $display ) {
+			echo $result;
+		}
+		return $result;
+	}
+}
+
+/*
+ * Category walkers and the two category template tags the chapter widget drives them with.
+ * The template tags reproduce core's wrapper markup byte for byte (wp-includes/
+ * category-template.php), including the quoting and spacing of the <select> tag, and walk a
+ * flat list of CE_Test_State::$terms['chapters'] through the walker they are given.
+ */
+if ( ! class_exists( 'Walker_Category' ) ) {
+	class Walker_Category {
+		public function start_el( &$output, $data_object, $depth = 0, $args = array(), $current_object_id = 0 ) {}
+		public function end_el( &$output, $data_object, $depth = 0, $args = array() ) {
+			$output .= "</li>\n";
+		}
+	}
+}
+
+if ( ! class_exists( 'Walker_CategoryDropdown' ) ) {
+	class Walker_CategoryDropdown {
+		public function start_el( &$output, $data_object, $depth = 0, $args = array(), $current_object_id = 0 ) {}
+	}
+}
+
+if ( ! function_exists( 'wp_list_categories' ) ) {
+	function wp_list_categories( $args = array() ) {
+		$args   = wp_parse_args( $args, array( 'show_count' => 0, 'selected' => 0 ) );
+		$output = '';
+		foreach ( get_terms( $args['taxonomy'] ) as $term ) {
+			$args['walker']->start_el( $output, $term, 0, $args );
+			$args['walker']->end_el( $output, $term, 0, $args );
+		}
+		return $output;
+	}
+}
+
+if ( ! function_exists( 'wp_dropdown_categories' ) ) {
+	function wp_dropdown_categories( $args = array() ) {
+		$args  = wp_parse_args( $args, array( 'show_option_all' => '', 'show_count' => 0, 'selected' => 0, 'hide_if_empty' => false ) );
+		$terms = get_terms( $args['taxonomy'] );
+		if ( empty( $terms ) && $args['hide_if_empty'] ) {
+			return '';
+		}
+		$name   = esc_attr( $args['name'] );
+		$output = "<select  name='$name' id='$name' class='postform'>\n";
+		if ( $args['show_option_all'] ) {
+			$selected = ( '0' === (string) $args['selected'] ) ? " selected='selected'" : '';
+			$output  .= "\t<option value='0'$selected>{$args['show_option_all']}</option>\n";
+		}
+		foreach ( $terms as $term ) {
+			$args['walker']->start_el( $output, $term, 0, $args );
+		}
+		return $output . "</select>\n";
 	}
 }
 
