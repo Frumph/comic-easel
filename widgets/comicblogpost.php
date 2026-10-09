@@ -74,7 +74,7 @@ class ceo_comic_blog_post_widget extends WP_Widget {
 					echo wp_kses_post($after_widget);
 				}
 			}
-		} elseif ($post->post_type == 'comic') {
+		} elseif (!empty($post) && $post->post_type == 'comic') {
 			setup_postdata($post);
 			if ( !( $instance['hidecontent'] && empty($post->post_content) ) && ($post->post_type == 'comic') ) {
 				echo wp_kses_post($before_widget);
