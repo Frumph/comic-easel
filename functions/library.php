@@ -57,12 +57,12 @@ function ceo_get_sidebar($location = '') {
  * @param object $use_this_post If provided, after saving the current post, set up this post for template tag use.
  */
 function ceo_protect($use_this_post = null) {
-	global $post, $wp_query, $__post, $__wp_query;
+	global $post, $wp_query, $ceo_saved_post, $ceo_saved_wp_query;
 	if (!empty($post)) {
-		$__post = $post;
+		$ceo_saved_post = $post;
 	}
 	if (!empty($wp_query)) {
-		$__wp_query = $wp_query;
+		$ceo_saved_wp_query = $wp_query;
 	}
 	if (!is_null($use_this_post)) {
 		$post = $use_this_post;
@@ -74,8 +74,8 @@ function ceo_protect($use_this_post = null) {
  * Temporarily restore the global $post variable and set it up for use.
  */
 function ceo_restore() {
-	global $post, $__post;
-	$post = $__post;
+	global $post, $ceo_saved_post;
+	$post = $ceo_saved_post;
 	setup_postdata($post);
 }
 
@@ -83,15 +83,15 @@ function ceo_restore() {
  * Restore global $post and $wp_query.
  */
 function ceo_unprotect() {
-	global $post, $wp_query, $__post, $__wp_query;
-	if (!empty($__post)) {
-		$post = $__post;
+	global $post, $wp_query, $ceo_saved_post, $ceo_saved_wp_query;
+	if (!empty($ceo_saved_post)) {
+		$post = $ceo_saved_post;
 	}
-	if (!empty($__wp_query)) {
-		$wp_query = $__wp_query;
+	if (!empty($ceo_saved_wp_query)) {
+		$wp_query = $ceo_saved_wp_query;
 	}
 	
-	$__post = $__wp_query = null;
+	$ceo_saved_post = $ceo_saved_wp_query = null;
 }
 
 function ceo_in_comic_category() {

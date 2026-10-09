@@ -175,8 +175,8 @@ function ceo_get_adjacent_comic($previous = true, $in_same_chapter = false, $tax
 	$sort  = apply_filters( "get_{$adjacent}_{$taxonomy}_sort", $sort );
 
 	$query = "SELECT p.* FROM $wpdb->posts AS p $join $where $sort";
-	$query_key = "adjacent_{$taxonomy}_{$post->ID}_{$previous}_{$in_same_chapter}"; // . md5($query);
-	$result = wp_cache_get($query_key, 'counts');
+	$query_key = "ceo_adjacent_{$taxonomy}_{$post->ID}_{$previous}_{$in_same_chapter}"; // . md5($query);
+	$result = wp_cache_get($query_key, 'comic-easel');
 	if ( false !== $result )
 		return $result;
 
@@ -186,7 +186,7 @@ function ceo_get_adjacent_comic($previous = true, $in_same_chapter = false, $tax
 	$result = $wpdb->get_row($query);
 	if ( null === $result )
 		$result = '';
-	wp_cache_set($query_key, $result, 'counts');
+	wp_cache_set($query_key, $result, 'comic-easel');
 	return $result;
 }
 

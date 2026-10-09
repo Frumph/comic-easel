@@ -163,7 +163,7 @@ function ceo_chapters_find_menu_orderby($args) {
 
 // Fix for checking all posts whether or not custom post type or not for last modified.
 function ceo_lastpostmodified() {
-	$lastpostmodified = wp_cache_get( "lastpostmodified:custom:server", 'timeinfo' );
+	$lastpostmodified = wp_cache_get( 'ceo_lastpostmodified', 'comic-easel' );
 	if ( $lastpostmodified ) return $lastpostmodified;
 	global $wpdb;
 	$add_seconds_server = (int) date('Z');
@@ -173,7 +173,7 @@ function ceo_lastpostmodified() {
 			$add_seconds_server
 		)
 	);
-	wp_cache_set( "lastpostmodified:custom:server", $lastpostmodified, 'timeinfo', 3600 );
+	wp_cache_set( 'ceo_lastpostmodified', $lastpostmodified, 'comic-easel', 3600 );
 	return $lastpostmodified;
 }
 
