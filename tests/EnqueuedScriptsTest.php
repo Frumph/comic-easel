@@ -82,10 +82,10 @@ class EnqueuedScriptsTest extends CE_TestCase {
 	}
 
 	/**
-	 * content-warning.js assigns the text to innerHTML, so it has to arrive HTML-escaped, and
-	 * it has to be a string literal nothing can break out of.
+	 * content-warning.js shows the text with textContent, so it arrives as plain text, in a
+	 * string literal nothing can break out of.
 	 */
-	public function testContentWarningTextIsEscapedForInnerHtmlAndForJavaScript() {
+	public function testContentWarningTextIsPlainTextInASafeLiteral() {
 		CE_Test_State::$filters['ceo-content-warning'] = 'Rated "M" <img src=x onerror=alert(1)></script>';
 		ceo_content_warning_in_head();
 		$data = CE_Test_State::$inline_scripts[0]['data'];
@@ -94,7 +94,7 @@ class EnqueuedScriptsTest extends CE_TestCase {
 		$this->assertStringNotContainsString( '</script', $data );
 		$this->assertSame( 1, preg_match( '/^var contentwarningtext = (".*");$/', $data, $m ) );
 		$this->assertSame(
-			'Rated &quot;M&quot; &lt;img src=x onerror=alert(1)&gt;&lt;/script&gt;',
+			'Rated "M" <img src=x onerror=alert(1)></script>',
 			json_decode( $m[1] )
 		);
 	}
