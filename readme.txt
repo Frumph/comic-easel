@@ -5,7 +5,7 @@ Tags: comiceasel, easel, webcomic, comic
 Requires at least: 5.3
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 1.18.1
+Stable tag: 1.19
 Text Domain: comic-easel
 Donate link: https://www.paypal.com/donate/?hosted_button_id=GH46TR9QP8HSS
 License: GPLv3 or later
@@ -147,6 +147,16 @@ PayPal is provided by PayPal, Inc.: [User Agreement](https://www.paypal.com/us/l
 
 
 == Changelog ==
+
+= 1.19 =
+* Requires WordPress 5.3 or later, the first version to support PHP 7.4, which Comic Easel already required
+* Scripts are now loaded through WordPress's script functions instead of being printed inline: the transcript toggle, the config screen's tabs and the chapter picker each have their own file. Several transcripts on one page now open and close independently
+* Output escaping completed across widgets, shortcodes and admin screens
+* Widgets no longer log PHP warnings for settings added after they were first saved
+* Fixed a "translation loading was triggered too early" notice on a new install's first page load
+* Documented the PayPal connections used by the optional Buy Comic feature (see External services)
+* Support now points to the WordPress.org forum and GitHub issues
+* Removed leftover IE 7 styles and links to stylesheets WordPress no longer ships
 
 = 1.18.1 =
 * Maintenance release: the plugin is now maintained by coraislovely with the original author's blessing; readme and credits updated, links to the former project site replaced
@@ -564,6 +574,9 @@ Updated: 05/26/2012 5:25pm Pacific
 
 
 == Upgrade Notice ==
+= 1.19 =
+Requires WordPress 5.3 or later. Completes the WordPress.org review fixes; no settings changes needed.
+
 = 1.18 =
 Security release; updating is recommended for all sites. PayPal sellers: re-save your currency on the Buy Comic settings tab after updating.
 
