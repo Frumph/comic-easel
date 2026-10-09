@@ -2,7 +2,7 @@
 Author: Frumph
 Contributors: Frumph, Shadchamp, coraislovely
 Tags: comiceasel, easel, webcomic, comic
-Requires at least: 4.8.2
+Requires at least: 5.3
 Requires PHP: 7.4
 Tested up to: 7.1
 Stable tag: 1.18.1
