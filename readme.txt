@@ -157,6 +157,8 @@ PayPal is provided by PayPal, Inc.: [User Agreement](https://www.paypal.com/us/l
 * Documented the PayPal connections used by the optional Buy Comic feature (see External services)
 * Support now points to the WordPress.org forum and GitHub issues
 * Removed leftover IE 7 styles and links to stylesheets WordPress no longer ships
+* Rewrote the content warning script under the plugin's GPL licence; revealed comics now follow their link normally
+* Removed the Referrer meta tag, which made browsers log an error on every page
 
 = 1.18.1 =
 * Maintenance release: the plugin is now maintained by coraislovely with the original author's blessing; readme and credits updated, links to the former project site replaced
