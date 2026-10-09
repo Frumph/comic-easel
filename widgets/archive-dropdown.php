@@ -96,7 +96,8 @@ function ceo_comic_archive_jump_to_chapter($hide = true, $exclude = '', $showcou
 	$output = '';
 	if ($render_as_list) {
 		global $post;
-		$the_terms = get_the_terms( $post->ID, 'chapters');
+		// No post on a 404 or an empty search, so nothing to mark as the current chapter.
+		$the_terms = (!empty($post)) ? get_the_terms( $post->ID, 'chapters') : false;
 		// echo "<pre>the terms ";print_r($the_terms); echo "</pre>";
 		$args = array(
 			'walker'			 => new ceo_walker_taxonomy_list(),
@@ -164,19 +165,32 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 		);
 	}
 	
+	/**
+	 * Every setting the widget reads, with the value a newly added widget starts with.
+	 *
+	 * widget() applies these, not just form(). Saved settings are only rewritten when the form
+	 * is saved, so a widget saved before an option existed never gains its key: the comic count
+	 * and jump-to-archive options arrived in 2014, the list rendering in December 2015.
+	 */
+	private static function defaults() {
+		return array( 'title' => '', 'exclude' => '', 'hide' => 1, 'showcount' => 1, 'jumptoarchive' => 0, 'render_as_list' => 0 );
+	}
+	
 	function widget($args, $instance) {
 		global $post;
 		extract($args, EXTR_SKIP); 
+		$instance = wp_parse_args( (array) $instance, self::defaults() );
 		echo $before_widget;
 		$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']); 
 		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; }; 
-		if (!isset($instance['hide'])) $instance['hide'] = 1;
-		if (!isset($instance['render_as_list'])) $instance['render_as_list'] = false;
 		ceo_comic_archive_jump_to_chapter($instance['hide'], $instance['exclude'], $instance['showcount'], $instance['jumptoarchive'], true, $instance['render_as_list']);
 		echo $after_widget;
 	}
 	
 	function update($new_instance, $old_instance) {
+		// An unchecked box is absent from the submitted form altogether, so here a missing
+		// checkbox means off rather than the default a new widget starts with.
+		$new_instance = wp_parse_args( (array) $new_instance, array( 'title' => '', 'exclude' => '', 'hide' => 0, 'showcount' => 0, 'jumptoarchive' => 0, 'render_as_list' => 0 ) );
 		$instance = $old_instance;
 		$instance['title'] = wp_strip_all_tags($new_instance['title']);
 		$instance['exclude'] = wp_strip_all_tags($new_instance['exclude']);
@@ -188,7 +202,7 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 	}
 	
 	function form($instance) {
-		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'exclude' => '', 'hide' => 1, 'showcount' => 1, 'jumptoarchive' => 0, 'render_as_list' => 0) );
+		$instance = wp_parse_args( (array) $instance, self::defaults() );
 		$title = $instance['title'];
 		$exclude = $instance['exclude'];
 		$hide = ($instance['hide']) ? 1:0;

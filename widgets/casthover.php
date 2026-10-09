@@ -85,6 +85,9 @@ class ceo_casthover_reference_widget extends WP_Widget {
 	function widget($args, $instance) {
 		global $post;
 		extract($args, EXTR_SKIP);
+		// A widget that has never been saved (a Legacy Widget block left untouched) has no
+		// settings at all, so not even a title.
+		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
 		ceo_protect();
 		if ((is_single() && ($post->post_type == 'comic')) || is_home() || is_front_page()) {
 			if ( ((is_home() || is_front_page()) && (is_paged() || ceo_pluginfo('disable_comic_on_home_page') || is_page())) ) return;

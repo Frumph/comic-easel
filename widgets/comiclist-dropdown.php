@@ -57,10 +57,21 @@ class ceo_comic_list_dropdown_widget extends WP_Widget {
 		);
 	}
 	
+	/**
+	 * Every setting the widget reads, with the value a newly added widget starts with.
+	 *
+	 * widget() and update() apply these, not just form(): a widget that has never been saved
+	 * (a Legacy Widget block left untouched) has no settings at all.
+	 */
+	private static function defaults() {
+		return array( 'title' => '', 'exclude' => '' );
+	}
+	
 	function widget($args, $instance) {
 		global $post;
 
 		extract($args, EXTR_SKIP); 
+		$instance = wp_parse_args( (array) $instance, self::defaults() );
 		echo $before_widget;
 		$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']); 
 		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; }; 
@@ -82,6 +93,7 @@ class ceo_comic_list_dropdown_widget extends WP_Widget {
 	}
 	
 	function update($new_instance, $old_instance) {
+		$new_instance = wp_parse_args( (array) $new_instance, self::defaults() );
 		$instance = $old_instance;
 		$instance['title'] = wp_strip_all_tags($new_instance['title']);
 		$instance['exclude'] = wp_strip_all_tags($new_instance['exclude']);
@@ -89,7 +101,7 @@ class ceo_comic_list_dropdown_widget extends WP_Widget {
 	}
 	
 	function form($instance) {
-		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'exclude' => '', 'unhide' => 1, 'showcount' => 1) );
+		$instance = wp_parse_args( (array) $instance, self::defaults() );
 		$title = $instance['title'];
 		$exclude = $instance['exclude'];
 		?>

@@ -50,6 +50,7 @@ class ceo_scheduled_comics_widget extends WP_Widget {
 	}
 	
 	function update($new_instance, $old_instance) {
+		$new_instance = wp_parse_args( (array) $new_instance, array( 'title' => '' ) );
 		$instance = $old_instance;
 		$instance['title'] = wp_strip_all_tags($new_instance['title']);
 		return $instance;

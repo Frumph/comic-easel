@@ -36,8 +36,19 @@ class ceo_comic_blog_post_widget extends WP_Widget {
 		);
 	}
 	
+	/**
+	 * Every setting the widget reads, with the value an unchecked box or untouched field has.
+	 *
+	 * widget() and update() apply these, not just form(). A widget that has never been saved
+	 * has no settings at all, and an unchecked checkbox is absent from the submitted form.
+	 */
+	private static function defaults() {
+		return array( 'title' => '', 'onlyhome' => false, 'showtitle' => false, 'showdate' => false, 'showcommentlink' => false, 'hidecontent' => false );
+	}
+	
 	function widget($args, $instance) {
 		global $post, $wp_query;
+		$instance = wp_parse_args( (array) $instance, self::defaults() );
 		if (!is_home() && $instance['onlyhome']) return;
 		if (is_page() || is_archive() || is_search() || is_404())  return;
 		extract($args, EXTR_SKIP);
@@ -77,6 +88,7 @@ class ceo_comic_blog_post_widget extends WP_Widget {
 	}
 	
 	function update($new_instance, $old_instance) {
+		$new_instance = wp_parse_args( (array) $new_instance, self::defaults() );
 		$instance = $old_instance;
 		$instance['title'] = wp_strip_all_tags($new_instance['title']);
 		$instance['onlyhome'] = (bool)( $new_instance['onlyhome'] == 1 ? true : false );
@@ -88,7 +100,7 @@ class ceo_comic_blog_post_widget extends WP_Widget {
 	}
 	
 	function form($instance) {
-		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'onlyhome' => false, 'showtitle' => false, 'showdate' => false, 'showcommentlink' => false, 'hidecontent' => false  ) );
+		$instance = wp_parse_args( (array) $instance, self::defaults() );
 		$title = wp_strip_all_tags($instance['title']);
 		$onlyhome = $instance['onlyhome'];
 		$showtitle = $instance['showtitle'];
