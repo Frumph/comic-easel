@@ -74,7 +74,7 @@ function ceo_random_comic() {
 			$qposts = reset($qposts);
 			wp_redirect( get_permalink( $qposts->ID ) );
 		} else {
-			wp_redirect( bloginfo('url') );
+			wp_redirect( home_url() );
 		}
 	} else {
 		$args = array( 
