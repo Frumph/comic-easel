@@ -27,10 +27,13 @@ if ($action == 'comiceasel_reset') {
 $ceo_options = get_option('comiceasel-config');
 $nonce = isset($_POST['_wpnonce']) && is_scalar($_POST['_wpnonce']) ? sanitize_text_field(wp_unslash($_POST['_wpnonce'])) : '';
 if ( wp_verify_nonce($nonce, 'ceo-update-options') ) {
-		// Historically the nonce and action came from POST while option values came from
-		// $_REQUEST. Keep that integration behavior after the POST nonce has been verified;
-		// each individual value is still checked, unslashed, and sanitized below.
-		$ceo_request = $_REQUEST;
+		// WordPress only shows this page to users with the capability it is registered with,
+		// edit_theme_options; check it again where the settings are written, as the reset does.
+		if (!current_user_can('edit_theme_options'))
+			wp_die(esc_html__('You do not have permission to change these settings.','comic-easel'));
+		// The forms post their settings with the nonce and action, so read them from $_POST
+		// alone; each value is still checked, unslashed and sanitized below.
+		$ceo_request = $_POST;
 		if ($action == 'ceo_save_general') {
 
 			foreach (array(

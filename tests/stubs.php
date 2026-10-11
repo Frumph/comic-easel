@@ -177,6 +177,33 @@ if ( ! function_exists( 'sanitize_text_field' ) ) {
 	}
 }
 
+/**
+ * Core's algorithm without its filters: keep the characters an address may contain and drop
+ * anything that cannot be one. The IPN tests depend on it returning '' for a non-address.
+ */
+if ( ! function_exists( 'sanitize_email' ) ) {
+	function sanitize_email( $email ) {
+		$email = (string) $email;
+		if ( strlen( $email ) < 6 || false === strpos( $email, '@', 1 ) ) {
+			return '';
+		}
+		list( $local, $domain ) = explode( '@', $email, 2 );
+		$local = preg_replace( '/[^a-zA-Z0-9!#$%&\'*+\/=?^_`{|}~\.-]/', '', $local );
+		$domain = trim( preg_replace( '/\.{2,}/', '', $domain ), " \t\n\r\0\x0B." );
+		if ( '' === $local || '' === $domain ) {
+			return '';
+		}
+		$subs = array();
+		foreach ( explode( '.', $domain ) as $sub ) {
+			$sub = preg_replace( '/[^a-z0-9-]+/i', '', trim( $sub, " \t\n\r\0\x0B-" ) );
+			if ( '' !== $sub ) {
+				$subs[] = $sub;
+			}
+		}
+		return count( $subs ) < 2 ? '' : $local . '@' . implode( '.', $subs );
+	}
+}
+
 if ( ! function_exists( 'sanitize_html_class' ) ) {
 	function sanitize_html_class( $class, $fallback = '' ) {
 		$sanitized = preg_replace( '/[^A-Za-z0-9_-]/', '', (string) $class );
@@ -224,6 +251,16 @@ if ( ! function_exists( 'wp_kses' ) ) {
  * A representative slice of core's 'post' context, global attributes included. Enough for
  * code that extends the post allowlist rather than replacing it.
  */
+/**
+ * Core's is addslashes( wp_kses( stripslashes( $data ), 'strip' ) ): every tag removed, and the
+ * result slashed again, which the Config page stores as it is.
+ */
+if ( ! function_exists( 'wp_filter_nohtml_kses' ) ) {
+	function wp_filter_nohtml_kses( $data ) {
+		return addslashes( strip_tags( stripslashes( (string) $data ) ) );
+	}
+}
+
 if ( ! function_exists( 'wp_kses_allowed_html' ) ) {
 	function wp_kses_allowed_html( $context = '' ) {
 		$global = array( 'class' => true, 'id' => true, 'style' => true, 'title' => true, 'role' => true );
@@ -450,6 +487,29 @@ if ( ! function_exists( 'wp_mail' ) ) {
 	function wp_mail( $to, $subject, $message, $headers = '', $attachments = array() ) {
 		CE_Test_State::$mail_calls[] = compact( 'to', 'subject', 'message' );
 		return true;
+	}
+}
+
+/* -------------------------------------------------------------------------- *
+ * Admin pages. wp_die() never returns in WordPress; here it throws, so a test (or
+ * tests/isolated-runner.php) can see that a page stopped, and with what message.
+ * -------------------------------------------------------------------------- */
+
+class CE_Test_Die extends Exception {}
+
+if ( ! function_exists( 'wp_die' ) ) {
+	function wp_die( $message = '', $title = '', $args = array() ) {
+		throw new CE_Test_Die( (string) $message );
+	}
+}
+
+if ( ! function_exists( 'wp_nonce_field' ) ) {
+	function wp_nonce_field( $action = -1, $name = '_wpnonce', $referer = true, $display = true ) {
+		$field = '<input type="hidden" id="' . esc_attr( $name ) . '" name="' . esc_attr( $name ) . '" value="nonce:' . esc_attr( $action ) . '" />';
+		if ( $display ) {
+			echo $field;
+		}
+		return $field;
 	}
 }
 

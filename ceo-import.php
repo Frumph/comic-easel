@@ -14,6 +14,10 @@ $import_request_is_valid = false;
 if (isset($_POST['_wpnonce']) && is_scalar($_POST['_wpnonce'])) {
 	$import_nonce = sanitize_text_field(wp_unslash($_POST['_wpnonce']));
 	if (wp_verify_nonce($import_nonce, 'comiceasel-import')) {
+		// An import creates comic posts, so check the capability the Import page is registered
+		// with, edit_theme_options, here as well as where WordPress shows the page.
+		if (!current_user_can('edit_theme_options'))
+			wp_die(esc_html__('You do not have permission to import comics.','comic-easel'));
 		$import_request_is_valid = true;
 		$import_time = isset($_POST['import-time']) && is_scalar($_POST['import-time']) ? sanitize_text_field(wp_unslash($_POST['import-time'])) : $import_time;
 		$import_type = isset($_POST['import-type']) && is_scalar($_POST['import-type']) ? sanitize_key(wp_unslash($_POST['import-type'])) : $import_type;

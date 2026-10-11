@@ -28,6 +28,33 @@ abstract class CE_TestCase extends TestCase {
 	}
 
 	/**
+	 * Run a plugin page or handler in a child PHP process through tests/isolated-runner.php,
+	 * for code that declares functions when it is included or ends in exit(). Returns the
+	 * runner's report: output, options, post meta, meta writes, mail, and whether the code
+	 * exited or stopped in wp_die(). Anything the child prints to stderr -- a warning, a
+	 * notice, a fatal -- fails the test, as it would in this process.
+	 */
+	protected function runIsolated( array $spec ) {
+		$process = proc_open(
+			array( PHP_BINARY, '-d', 'error_reporting=-1', '-d', 'display_errors=stderr', CE_PLUGIN_DIR . '/tests/isolated-runner.php' ),
+			array( 0 => array( 'pipe', 'r' ), 1 => array( 'pipe', 'w' ), 2 => array( 'pipe', 'w' ) ),
+			$pipes
+		);
+		fwrite( $pipes[0], json_encode( $spec ) );
+		fclose( $pipes[0] );
+		$stdout = stream_get_contents( $pipes[1] );
+		$stderr = stream_get_contents( $pipes[2] );
+		fclose( $pipes[1] );
+		fclose( $pipes[2] );
+		proc_close( $process );
+
+		$this->assertSame( '', $stderr, 'the isolated run reported errors' );
+		$report = json_decode( $stdout, true );
+		$this->assertIsArray( $report, 'the isolated run printed no report: ' . $stdout );
+		return $report;
+	}
+
+	/**
 	 * Install a fresh $wpdb spy as the global and return it.
 	 */
 	protected function useWpdbSpy() {
