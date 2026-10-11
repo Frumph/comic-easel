@@ -171,7 +171,9 @@ if ( ! function_exists( 'esc_url_raw' ) ) {
 
 if ( ! function_exists( 'sanitize_text_field' ) ) {
 	function sanitize_text_field( $str ) {
-		$str = strip_tags( (string) $str );
+		// Like core, drop <script> and <style> elements whole, not just their tags.
+		$str = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', (string) $str );
+		$str = strip_tags( $str );
 		$str = preg_replace( '/[\r\n\t ]+/', ' ', $str );
 		return trim( str_replace( "\0", '', $str ) );
 	}

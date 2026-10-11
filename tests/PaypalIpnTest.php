@@ -6,9 +6,10 @@ use PHPUnit\Framework\Attributes\DataProvider;
  * The PayPal IPN validation helpers — functions/redirects.php
  *
  * These decide whether an unauthenticated POST to /?ceopaypalipn is allowed to mark artwork
- * as sold. ceo_paypal_ipn() itself cannot be unit-tested — every path out of it ends in
- * exit(), which is a language construct and cannot be stubbed — which is exactly why the
- * decisions were extracted into these four functions.
+ * as sold. ceo_paypal_ipn() itself cannot run in this process — every path out of it ends in
+ * exit(), which is a language construct and cannot be stubbed — which is why the decisions
+ * were extracted into these functions. The handler's own steps (the replay ledger, what the
+ * owner's email shows, what it stores) are covered end to end in a child process at the end.
  */
 class PaypalIpnTest extends CE_TestCase {
 
@@ -318,5 +319,129 @@ class PaypalIpnTest extends CE_TestCase {
 		$this->assertFalse( ceo_paypal_ipn_amount_covers( '89.99', $cart['total'] ) );
 		$this->assertTrue( ceo_paypal_ipn_amount_covers( '95.00', $cart['total'] ) );
 		$this->assertFalse( ceo_paypal_ipn_amount_covers( '95 dollars', $cart['total'] ) );
+	}
+
+	/* ---------------------------------------------------------------- *
+	 * ceo_paypal_ipn(), end to end in a child process
+	 * ---------------------------------------------------------------- */
+
+	/** A verified, completed sale of comic 7's original at its asking price. */
+	private function completedSale( array $fields = array() ) {
+		return array_merge(
+			array(
+				'txn_id'          => '61E67681CH3238416',
+				'payment_status'  => 'Completed',
+				'mc_gross'        => '65.00',
+				'mc_currency'     => 'USD',
+				'receiver_email'  => 'merchant@example.com',
+				'business'        => 'merchant@example.com',
+				'num_cart_items'  => '1',
+				'item_name1'      => 'Original - My Comic - 7',
+				'item_number1'    => '7',
+				'first_name'      => 'Ann',
+				'last_name'       => "O'Neil",
+				'payer_email'     => 'buyer@example.net',
+				'address_name'    => "Ann O'Neil",
+				'address_street'  => '1 Main St',
+				'address_city'    => 'Springfield',
+				'address_state'   => 'IL',
+				'address_zip'     => '62701',
+				'address_country' => 'United States',
+			),
+			$fields
+		);
+	}
+
+	private function runIpn( array $post, array $options = array() ) {
+		return $this->runIsolated(
+			array(
+				'state' => array(
+					'options'       => array_merge( array( 'blog_charset' => 'UTF-8', 'comiceasel-config' => $this->validStoreConfig() ), $options ),
+					'http_response' => array( 'body' => 'VERIFIED', 'response' => array( 'code' => 200 ) ),
+					'posts'         => array( 7 => array( 'ID' => 7, 'post_type' => 'comic', 'post_status' => 'publish', 'post_password' => '' ) ),
+					'post_meta'     => array( '7:buy_print_orig_amount' => '65.00' ),
+					'pluginfo'      => array( 'version' => '1.19' ),
+				),
+				'post'  => $post,
+				'load'  => array( 'functions/redirects.php' ),
+				'call'  => 'ceo_paypal_ipn',
+			)
+		);
+	}
+
+	public function testAVerifiedSaleIsRecordedOnceAndReported() {
+		$report = $this->runIpn( $this->completedSale() );
+
+		$this->assertTrue( $report['exited'] );
+		$this->assertSame( 'Sold', $report['post_meta']['7:buyorig-status'] );
+		$this->assertSame( array( '61E67681CH3238416|Completed' ), $report['options']['ceo_paypal_processed_txn'] );
+		$this->assertCount( 1, $report['mail_calls'] );
+		$this->assertSame( 'merchant@example.com', $report['mail_calls'][0]['to'] );
+		$message = $report['mail_calls'][0]['message'];
+		$this->assertStringContainsString( "TXN_ID: 61E67681CH3238416\r\n", $message );
+		$this->assertStringContainsString( "Payer Name: Ann O'Neil\r\n", $message );
+		$this->assertStringContainsString( "Payer Email: buyer@example.net\r\n", $message );
+		$this->assertStringContainsString( "Item Name [1]: Original - My Comic - 7\r\n", $message );
+		$this->assertStringContainsString( "Payment Amount: 65.00\r\n", $message );
+		$this->assertStringNotContainsString( 'REJECTED', $message );
+	}
+
+	/**
+	 * The buyer details are only reported, never stored: the option that used to keep the
+	 * latest email is cleared, not rewritten.
+	 */
+	public function testBuyerDetailsAreNotKeptInAnOption() {
+		$report = $this->runIpn( $this->completedSale(), array( 'ceo_paypal_receiver' => "Payer Name: Old Buyer\r\n" ) );
+
+		$this->assertCount( 1, $report['mail_calls'] );
+		$this->assertArrayNotHasKey( 'ceo_paypal_receiver', $report['options'] );
+	}
+
+	/**
+	 * Transaction IDs already in the ledger were stored as PayPal sent them; sanitizing the
+	 * incoming ID must not stop it matching them.
+	 */
+	public function testAnAlreadyProcessedTransactionIsIgnored() {
+		$report = $this->runIpn( $this->completedSale(), array( 'ceo_paypal_processed_txn' => array( '61E67681CH3238416|Completed' ) ) );
+
+		$this->assertTrue( $report['exited'] );
+		$this->assertSame( array(), $report['meta_writes'] );
+		$this->assertSame( array(), $report['mail_calls'] );
+	}
+
+	public function testBuyerSuppliedTextIsSanitizedInTheOwnersEmail() {
+		$report = $this->runIpn(
+			$this->completedSale(
+				array(
+					'first_name'     => 'Ann<img src=x onerror=alert(1)>',
+					'last_name'      => '<b>Smith</b>',
+					'payer_email'    => 'Buyer <buyer@example.net>',
+					'address_street' => "1 Main St\r\nBcc: victim@example.org",
+					'memo'           => '<script>alert(1)</script>Thanks!',
+					'item_name1'     => 'Original - My <i>Comic</i> - 7',
+				)
+			)
+		);
+
+		$this->assertCount( 1, $report['mail_calls'] );
+		$message = $report['mail_calls'][0]['message'];
+		$this->assertStringNotContainsString( '<', $message );
+		$this->assertStringContainsString( "Payer Name: Ann Smith\r\n", $message );
+		$this->assertStringContainsString( "Payer Email: Buyerbuyer@example.net\r\n", $message );
+		$this->assertStringContainsString( "Street: 1 Main St Bcc: victim@example.org\r\n", $message );
+		$this->assertStringContainsString( "Memo: Thanks!\r\n", $message );
+		$this->assertStringContainsString( "Item Name [1]: Original - My Comic - 7\r\n", $message );
+		// Validation saw the item name as PayPal sent it, and still sold the original.
+		$this->assertSame( 'Sold', $report['post_meta']['7:buyorig-status'] );
+	}
+
+	public function testAMismatchedPaymentIsReportedButNotRecorded() {
+		$report = $this->runIpn( $this->completedSale( array( 'mc_gross' => '6.50<b>', 'mc_currency' => 'eur<i>' ) ) );
+
+		$this->assertArrayNotHasKey( '7:buyorig-status', $report['post_meta'] );
+		$this->assertArrayNotHasKey( 'ceo_paypal_processed_txn', $report['options'] );
+		$message = $report['mail_calls'][0]['message'];
+		$this->assertStringContainsString( 'REJECTED: amount paid (6.50) is below the asking price (65).', $message );
+		$this->assertStringContainsString( 'REJECTED: payment currency (eur) is not the configured currency (USD).', $message );
 	}
 }

@@ -522,6 +522,14 @@ function ceo_pluginfo($whichinfo = null) {
 			$ceo_options['buy_comic_currency'] = preg_match('/^[A-Z]{3}$/', $currency) ? $currency : '';
 			update_option('comiceasel-config', $ceo_options);
 		}
+		if (version_compare($ceo_options['db_version'], '1.9.10', '<')) {
+			$ceo_options['db_version'] = '1.9.10';
+			// Before 1.19 the latest PayPal notification's email, with the buyer's name, email and
+			// address, was also kept in this option, which nothing reads. Clear it once, for sites
+			// that will not get another notification to clear it.
+			delete_option('ceo_paypal_receiver');
+			update_option('comiceasel-config', $ceo_options);
+		}
 		$ceo_coreinfo = wp_upload_dir();
 		$ceo_addinfo = array(
 				// if wp_upload_dir reports an error, capture it

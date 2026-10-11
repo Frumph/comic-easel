@@ -634,8 +634,6 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 			$buy_output .= '<div class="buy-thumbnail">';
 			$buy_output .= ceo_display_comic_thumbnail('large', $post);
 			$buy_output .= "</div>\r\n";
-			/*			$last_info = get_option('ceo_paypal_receiver'); // Debug to see the last transaction, which is stored in this option
-						if (!empty($last_info)) $buy_output .= nl2br($last_info); */
 		} else {
 			$buy_output .= esc_html__('Invalid Comic ID.','comic-easel')."<br />\r\n";
 		}
