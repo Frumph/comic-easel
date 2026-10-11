@@ -156,7 +156,8 @@ A comic that uses the "Media Url as Comic" field is shown through WordPress's bu
 * Output escaping completed across widgets, shortcodes and admin screens
 * Widgets no longer log PHP warnings for settings added after they were first saved
 * Fixed a "translation loading was triggered too early" notice on a new install's first page load
-* Documented the PayPal connections used by the optional Buy Comic feature (see External services)
+* Documented the external connections: PayPal for the optional Buy Comic feature, and the media provider of a comic shown from a media URL (see External services)
+* No longer keeps a copy of the latest PayPal payment notification email, with the buyer's name, email and address, in the site's options; the copy earlier versions left is deleted on update
 * Support now points to the WordPress.org forum and GitHub issues
 * Removed leftover IE 7 styles and links to stylesheets WordPress no longer ships
 * Rewrote the content warning script under the plugin's GPL licence; revealed comics now follow their link normally
