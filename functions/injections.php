@@ -202,7 +202,8 @@ if (!function_exists('ceo_display_comic_wrapper')) {
 					<?php ceo_get_sidebar('left-of-comic'); ?>
 					<div id="comic">
 						<?php
-						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Comic markup (above/below HTML, oEmbed iframes) is filtered by ceo_comic_html_for_output() under the same unfiltered_html rule as post content; wp_kses_post() here would break comics trusted authors embed.
+						// The comic's media markup: images, gallery_shortcode() galleries, wp_oembed_get() embeds (Twitter, Instagram and others need their scripts), the above/below HTML fields, and the ceo_comics_display_comic, ceo_display_featured_image_comic, ceo_display_comic_gallery and ceo_refer_only_msg filters.
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The HTML fields go through ceo_comic_html_for_output() under the unfiltered_html rule post content follows; kses here would break existing comics.
 						echo ceo_display_comic();
 						?>
 					</div>

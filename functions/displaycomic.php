@@ -164,7 +164,7 @@ function ceo_display_comic($size = 'full') {
 	if ($output) { 
 		return apply_filters('ceo_comics_display_comic', $output);
 	} else
-		return apply_filters('ceo_comics_display_comic', __('<!-- No HTML, Gallery or Featured Image Found. //-->', 'comic-easel'));
+		return apply_filters('ceo_comics_display_comic', '<!-- No HTML, Gallery or Featured Image Found. //-->');
 }
 
 add_filter('ceo_comics_display_comic', 'ceo_filter_comic_output',10,1);

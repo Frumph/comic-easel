@@ -1903,11 +1903,6 @@ msgstr ""
 msgid "Use as an information page?"
 msgstr ""
 
-#: functions/displaycomic.php:193
-#@ comic-easel
-msgid "<!-- No HTML, Gallery or Featured Image Found. //-->"
-msgstr ""
-
 #: functions/injections.php:137
 #, php-format
 #@ comic-easel
