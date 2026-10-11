@@ -34,7 +34,8 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 	if ( get_option('permalink_structure') ) { $the_post_type = '?post_type='.$taxonomy_query_value; } else { $the_post_type = '&post_type='.$taxonomy_query_value; }
 	
 	$cache = array();
-	$key = md5( $m . $monthnum . $year );
+	// Keyed by post type too, so a calendar of one post type never shows another's cached copy.
+	$key = md5( $m . $monthnum . $year . '|' . $taxonomy );
 	// Cached under the plugin's own key and group, not in core's 'calendar' group beside its get_calendar entry.
 	if ( $cache = wp_cache_get( 'ceo_comic_calendar', 'comic-easel' ) ) {
 		if ( is_array($cache) && isset( $cache[ $key ] ) ) {

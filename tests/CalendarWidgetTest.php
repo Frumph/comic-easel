@@ -107,6 +107,27 @@ class CalendarWidgetTest extends CE_TestCase {
 		$this->assertStringContainsString( '<a href="https://example.test/2020/1/15/&#038;post_type=comic">15</a>', $calendar );
 	}
 
+	/**
+	 * The cached calendars were keyed by month alone, so a calendar of another post type for
+	 * the same month was handed the first one's copy, links and all.
+	 */
+	public function testEachPostTypeHasItsOwnCachedCalendar() {
+		$comics = ceo_get_calendar( true, false, 'comic' );
+		$posts  = ceo_get_calendar( true, false, 'post' );
+
+		$this->assertStringContainsString( '?post_type=comic', $comics );
+		$this->assertStringContainsString( '?post_type=post', $posts );
+		$this->assertStringNotContainsString( 'post_type=comic', $posts );
+	}
+
+	public function testTheCalendarIsStillCached() {
+		$first   = ceo_get_calendar( true, false, 'comic' );
+		$queries = count( $GLOBALS['wpdb']->queries );
+
+		$this->assertSame( $first, ceo_get_calendar( true, false, 'comic' ) );
+		$this->assertCount( $queries, $GLOBALS['wpdb']->queries, 'the second calendar came from the cache' );
+	}
+
 	public function testFormMarkupIsUnchangedByEscaping() {
 		$widget = new ceo_calendar_widget();
 		$out    = $this->capture( function () use ( $widget ) {

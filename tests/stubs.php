@@ -72,6 +72,8 @@ class CE_Test_State {
 	public static $is = array();
 	/** @var array<string,mixed> plugin navigation helper name => the permalink it returns */
 	public static $nav_links = array();
+	/** @var array<string,mixed> "group:key" => value held by the wp_cache_*() stubs */
+	public static $cache = array();
 
 	public static function reset() {
 		self::$options = array( 'blog_charset' => 'UTF-8' );
@@ -99,6 +101,7 @@ class CE_Test_State {
 		self::$found_posts = array();
 		self::$is = array();
 		self::$nav_links = array();
+		self::$cache = array();
 	}
 }
 
@@ -724,20 +727,23 @@ if ( ! function_exists( 'get_post_time' ) ) {
 	}
 }
 
+/* A non-persistent object cache, as core's own: it lasts for one test, like one request. */
 if ( ! function_exists( 'wp_cache_get' ) ) {
 	function wp_cache_get( $key, $group = '' ) {
-		return false;
+		return array_key_exists( $group . ':' . $key, CE_Test_State::$cache ) ? CE_Test_State::$cache[ $group . ':' . $key ] : false;
 	}
 }
 
 if ( ! function_exists( 'wp_cache_set' ) ) {
 	function wp_cache_set( $key, $data, $group = '', $expire = 0 ) {
+		CE_Test_State::$cache[ $group . ':' . $key ] = $data;
 		return true;
 	}
 }
 
 if ( ! function_exists( 'wp_cache_delete' ) ) {
 	function wp_cache_delete( $key, $group = '' ) {
+		unset( CE_Test_State::$cache[ $group . ':' . $key ] );
 		return true;
 	}
 }
