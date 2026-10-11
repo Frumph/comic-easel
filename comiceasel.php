@@ -316,14 +316,6 @@ function ceo_chapters_add_menu_order_column() {
 	}
 }
 
-// currently not hooked in
-function ceo_chapters_deactivate() {
-	global $wpdb;
-	$sql = "ALTER TABLE `{$wpdb->terms}` DROP COLUMN `menu_order`;";
-	// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- The table identifier comes from WordPress's wpdb object; this query has no variable values.
-	$result = $wpdb->query($sql);	
-}
-
 /**
  * If WPMS loop through and do add column to each blog, otherwise just add it to the non-wpms install
  */
