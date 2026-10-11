@@ -429,6 +429,13 @@ if ( ! function_exists( 'home_url' ) ) {
 	}
 }
 
+/** As core: the path is appended to the wp-admin/ URL with its leading slashes trimmed. */
+if ( ! function_exists( 'admin_url' ) ) {
+	function admin_url( $path = '', $scheme = 'admin' ) {
+		return 'https://example.test/wp-admin/' . ltrim( (string) $path, '/' );
+	}
+}
+
 if ( ! function_exists( 'add_query_arg' ) ) {
 	function add_query_arg( ...$args ) {
 		if ( is_array( $args[0] ) ) {

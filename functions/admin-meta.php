@@ -188,7 +188,7 @@ function ceo_manage_comic_columns($column_name, $id) {
 			$allterms = get_the_terms( $id, 'locations');
 			if (!empty($allterms) && !isset($allterms->errors)) {
 				foreach ($allterms as $term) {
-					$term_list_locations[] = '<a href="'.esc_url(admin_url('/wp-admin/edit.php?post_type=comic&locations='.urlencode($term->name))).'">'.esc_html($term->name).'</a>';
+					$term_list_locations[] = '<a href="'.esc_url(admin_url('edit.php?post_type=comic&locations='.urlencode($term->name))).'">'.esc_html($term->name).'</a>';
 				}
 				echo wp_kses_post(join(', ', $term_list_locations ));
 			}
