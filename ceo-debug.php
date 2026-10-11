@@ -8,7 +8,7 @@ function ceo_check_directory($dirpath) {
 	$output = '';
 	if (is_dir(ceo_pluginfo($dirpath))) {
 		$output = '<span style="color:green;">'.esc_html__('Directory Exists,','comic-easel').'</span>';
-		if (is_writable(ceo_pluginfo($dirpath))) {
+		if (wp_is_writable(ceo_pluginfo($dirpath))) {
 			$output .= ' <span style="color:green;">'.esc_html__('and is writable.','comic-easel').'</span>';
 		} else {
 			$output .= ' <span style="color:red;">'.esc_html__('and is not writable.','comic-easel').'</span>';
