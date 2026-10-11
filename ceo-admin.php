@@ -82,15 +82,15 @@ function ceo_admin_print_styles() {
 // the "forms" if there are any call the same page back up. - phil
 
 function ceo_manager_config() {
-	require_once('ceo-config.php');
+	require_once __DIR__ . '/ceo-config.php';
 }
 
 function ceo_debug() {
-	require_once('ceo-debug.php');
+	require_once __DIR__ . '/ceo-debug.php';
 }
 
 function ceo_import() {
-	require_once('ceo-import.php');
+	require_once __DIR__ . '/ceo-import.php';
 }
 
 function ceo_enqueue_admin_cpt_style( $cpt, $handle, $src = false, $deps = array(), $ver = false, $media = 'all' ) {

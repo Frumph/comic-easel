@@ -295,8 +295,8 @@ function ceo_revert_filename($filename) {
 // THIS STUFF ONLY RUNS IN THE WP-ADMIN
 if (is_admin()) {
 	// only load the plugin code of we're in the administration part of WordPress.
-	@require('ceo-admin.php');
-	@require('functions/admin-meta.php');
+	require __DIR__ . '/ceo-admin.php';
+	require __DIR__ . '/functions/admin-meta.php';
 } else {
 	// Last, so the stylesheets still follow the theme's and other plugins' in the head, where
 	// enqueueing them from wp_print_styles used to put them.
@@ -343,25 +343,25 @@ function ceo_activation() {
 }
 
 // This file contains functions that is used elsewhere in the plugin 
-@require('functions/library.php');
+require __DIR__ . '/functions/library.php';
 
 // Filters that change the behavior of WordPress
-@require('functions/filters.php');
+require __DIR__ . '/functions/filters.php';
 
 // This file handles navigation of the comic
-@require('functions/navigation.php');
+require __DIR__ . '/functions/navigation.php';
 
 // This file handles reading the comic from the filesystem and displaying it
-@require('functions/displaycomic.php');
+require __DIR__ . '/functions/displaycomic.php';
 
 // This file contains the functions that are injected into the theme
-@require('functions/injections.php');
+require __DIR__ . '/functions/injections.php';
 
 // This file contains all the shortcodes for archives and cast pages
-@require('functions/shortcodes.php');
+require __DIR__ . '/functions/shortcodes.php';
 
 // Redirects /?latest /?random etc.
-@require('functions/redirects.php');
+require __DIR__ . '/functions/redirects.php';
 
 /**
  * These set of functions are for the configuration ceo_pluginfo() information
