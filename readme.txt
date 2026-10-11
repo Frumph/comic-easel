@@ -1,6 +1,6 @@
 === Comic Easel ===
 Author: Frumph
-Contributors: Frumph, Shadchamp, coraislovely
+Contributors: Frumph, coraislovely
 Tags: comiceasel, easel, webcomic, comic
 Requires at least: 5.3
 Requires PHP: 7.4
@@ -182,7 +182,7 @@ PayPal is provided by PayPal, Inc.: [User Agreement](https://www.paypal.com/us/l
 * Fixed Version header in comiceasel.php, which still reported 1.15 in the 1.16 release
 
 = 1.16 =
-* Patched CVE-2024-31092
+* Patched CVE-2024-31092 (thanks to BillyOutlast)
 
 = 1.15 =
 * keynav update - to preserve browser forward/back functions / jn-squire
