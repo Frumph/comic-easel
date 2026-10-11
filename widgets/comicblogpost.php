@@ -69,6 +69,7 @@ class ceo_comic_blog_post_widget extends WP_Widget {
 					$temp_query = $wp_query->is_single;
 					$wp_query->is_single = true;
 					$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']);
+					if (!empty($title)) { echo "<div class=\"comic-post-widget-header\">".wp_kses_post($title)."</div>\r\n"; }
 					ceo_display_comic_small_blog_post($instance);
 					$wp_query->is_single = $temp_query;
 					echo wp_kses_post($after_widget);

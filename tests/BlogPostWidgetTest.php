@@ -42,11 +42,32 @@ class BlogPostWidgetTest extends CE_TestCase {
 		$this->assertSameAsRecorded( 'blogpost-single.html', $this->render( $this->everythingOn() ) );
 	}
 
-	public function testHomePageMarkupIsUnchangedByEscaping() {
+	private function onTheHomePage() {
 		CE_Test_State::$is['home']   = true;
 		CE_Test_State::$found_posts = array( $this->comicPost() );
 		$GLOBALS['post']            = $this->makePost( 99, 'Not a comic', array( 'post_type' => 'page' ) );
-		$this->assertSameAsRecorded( 'blogpost-home.html', $this->render( $this->everythingOn() ) );
+	}
+
+	public function testHomePageMarkupIsUnchangedByEscaping() {
+		// Recorded when the home page left the heading out, so rendered here without one; the
+		// heading has its own test below.
+		$this->onTheHomePage();
+		$this->assertSameAsRecorded( 'blogpost-home.html', $this->render( array_merge( $this->everythingOn(), array( 'title' => '' ) ) ) );
+	}
+
+	/**
+	 * The heading was worked out on the home page but never printed there.
+	 */
+	public function testHomePageShowsTheHeadingAsASingleComicDoes() {
+		$heading = '<section id="ceo-widget-2" class="widget ceo-widget"><div class="comic-post-widget-header">From the blog</div>' . "\r\n" . '<h3 class="comic-post-widget-title">';
+
+		$this->onTheHomePage();
+		$this->assertStringStartsWith( $heading, self::withoutKsesSentinel( $this->render( $this->everythingOn() ) ) );
+		$this->assertContains( 'From the blog', CE_Test_State::$kses_calls );
+
+		CE_Test_State::$is = array();
+		$GLOBALS['post'] = $this->comicPost();
+		$this->assertStringStartsWith( $heading, self::withoutKsesSentinel( $this->render( $this->everythingOn() ) ) );
 	}
 
 	public function testWrappersHeadingAndTitleGoThroughKses() {
