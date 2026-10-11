@@ -163,6 +163,11 @@ A comic that uses the "Media Url as Comic" field is shown through WordPress's bu
 * Rewrote the content warning script under the plugin's GPL licence; revealed comics now follow their link normally
 * Removed the Referrer meta tag, which made browsers log an error on every page
 * Multi-image comics now show their image buttons when keyboard navigation is turned off and the theme does not load jQuery
+* Saving the General settings tab no longer erases a custom comic URL slug set on the Archive tab
+* With "Remove featured image" on, featured images are now removed only on single comics, no longer from every post and page on the site
+* Renaming a chapter with quick edit no longer resets its order to 0
+* The [comic-archive-dropdown] chapter menu now appears where the shortcode is placed, not above the content
+* The Comic Easel - Blog Post widget now shows its heading on the home page too
 
 = 1.18.1 =
 * Maintenance release: the plugin is now maintained by coraislovely with the original author's blessing; readme and credits updated, links to the former project site replaced
