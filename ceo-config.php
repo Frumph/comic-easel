@@ -36,12 +36,12 @@ if ( wp_verify_nonce($nonce, 'ceo-update-options') ) {
 		$ceo_request = $_POST;
 		if ($action == 'ceo_save_general') {
 
+			// Only fields on the General tab's form: a key missing from the post is blanked below.
 			foreach (array(
 				'thumbnail_size_for_rss',
 				'thumbnail_size_for_direct_rss',
 				'thumbnail_size_for_archive',
 				'thumbnail_size_for_facebook',
-				'custom_post_type_slug_name',
 				'chapter_on_home',
 				'remove_post_thumbnail'
 					) as $key) {
