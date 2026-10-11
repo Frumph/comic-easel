@@ -624,6 +624,24 @@ if ( ! function_exists( 'get_post' ) ) {
 	}
 }
 
+/**
+ * Every taxonomy gets core's default capabilities, which is what the plugin registers its own
+ * with (it passes none).
+ */
+if ( ! function_exists( 'get_taxonomy' ) ) {
+	function get_taxonomy( $taxonomy ) {
+		return (object) array(
+			'name' => $taxonomy,
+			'cap'  => (object) array(
+				'manage_terms' => 'manage_categories',
+				'edit_terms'   => 'manage_categories',
+				'delete_terms' => 'manage_categories',
+				'assign_terms' => 'edit_posts',
+			),
+		);
+	}
+}
+
 if ( ! function_exists( 'get_post_type_object' ) ) {
 	function get_post_type_object( $post_type ) {
 		return (object) array(
@@ -1083,6 +1101,8 @@ class CE_WPDB_Spy {
 	public $queries = array();
 	/** @var mixed value the next get_col()/get_results()/get_var()/get_row() returns */
 	public $result = array();
+	/** @var array[] every update() call, as array( table, data, where ) */
+	public $updates = array();
 
 	public function prepare( $query, ...$args ) {
 		// Close enough to $wpdb::prepare for assertion purposes: %d becomes an integer,
@@ -1141,6 +1161,7 @@ class CE_WPDB_Spy {
 	}
 
 	public function update( $table, $data, $where, ...$rest ) {
+		$this->updates[] = array( $table, $data, $where );
 		return 1;
 	}
 

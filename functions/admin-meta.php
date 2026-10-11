@@ -41,7 +41,7 @@ function ceo_admin_init() {
 	add_action('edited_chapters', 'ceo_chapters_save_value', 10, 2);
 	add_action('quick_edit_custom_box', 'ceo_chapters_quick_edit_menu_order', 10, 3);
 	
-	add_action('create_term', 'ceo_chapters_add_edit_menu_order');
+	add_action('create_chapters', 'ceo_chapters_add_edit_menu_order');
 //	add_filter('get_terms_args', 'ceo_chapters_find_menu_orderby');
 
 
@@ -51,7 +51,12 @@ function ceo_admin_init() {
 
 function ceo_chapters_add_edit_menu_order($term_id) {
 		global $wpdb;
-		// WordPress verifies the term-edit nonce before firing create_term.
+		// The order is written straight to the terms table, so only for someone who may edit
+		// chapters. WordPress checks that on its own screens, but a chapter can be created
+		// from anywhere.
+		$chapters = get_taxonomy('chapters');
+		if (!$chapters || !current_user_can($chapters->cap->edit_terms)) return;
+		// WordPress verifies the term-edit nonce before firing create_chapters.
 		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		if (isset($_POST['ceo_chapter_order']) && is_scalar($_POST['ceo_chapter_order'])) {
 			$wpdb->update($wpdb->terms, array('menu_order' => intval(wp_unslash($_POST['ceo_chapter_order']))), array('term_id' => $term_id));
@@ -84,6 +89,9 @@ function ceo_chapters_quick_edit_menu_order ($column_name, $screen, $name = '') 
 function ceo_chapters_save_value($term_id, $tt_id) {
 	if (!$term_id) return;
 	global $wpdb;
+	// As when a chapter is created, above.
+	$chapters = get_taxonomy('chapters');
+	if (!$chapters || !current_user_can($chapters->cap->edit_terms)) return;
 	// WordPress verifies the term-edit nonce before firing edited_chapters.
 	// phpcs:disable WordPress.Security.NonceVerification.Missing
 	if (isset($_POST['ceo_chapter_order']) && is_scalar($_POST['ceo_chapter_order']))
