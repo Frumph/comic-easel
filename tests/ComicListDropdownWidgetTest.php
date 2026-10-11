@@ -80,6 +80,15 @@ class ComicListDropdownWidgetTest extends CE_TestCase {
 		$this->assertSame( array(), CE_Test_State::$kses_allowlist_calls );
 	}
 
+	/** Returning the menu releases what ceo_protect() saved, as printing it does. */
+	public function testReturningTheMenuReleasesTheSavedPost() {
+		$post = $this->setGlobalPost( 21 );
+		ceo_list_jump_to_comic( '', true );
+
+		$this->assertSame( $post, $GLOBALS['post'] );
+		$this->assertNull( $GLOBALS['ceo_saved_post'] );
+	}
+
 	public function testJumpToPromptIsEscaped() {
 		CE_Test_State::$translations['Jump To'] = 'Aller à <b>';
 		$this->setGlobalPost( 21 );

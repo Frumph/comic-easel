@@ -40,6 +40,7 @@ function ceo_list_jump_to_comic($exclude = '', $return = false) {
 		$output .= '</noscript>';
 		$output .= '</form>';
 		if ($return) {
+			ceo_unprotect();
 			return $output;
 		} else echo wp_kses($output, ceo_comic_list_dropdown_allowed_html());
 	}

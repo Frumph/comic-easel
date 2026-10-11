@@ -91,7 +91,10 @@ class ceo_casthover_reference_widget extends WP_Widget {
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
 		ceo_protect();
 		if ((is_single() && ($post->post_type == 'comic')) || is_home() || is_front_page()) {
-			if ( ((is_home() || is_front_page()) && (is_paged() || ceo_pluginfo('disable_comic_on_home_page') || is_page())) ) return;
+			if ( ((is_home() || is_front_page()) && (is_paged() || ceo_pluginfo('disable_comic_on_home_page') || is_page())) ) {
+				ceo_unprotect();
+				return;
+			}
 			// This section allows the plugin to work in any sidebar even on home, except (paged) files
 			if ((is_home() || is_front_page()) && !is_paged() && !ceo_pluginfo('disable_comic_on_home_page')) {
 				$order = (ceo_pluginfo('display_first_comic_on_home_page')) ?  'asc' : 'desc';
@@ -102,6 +105,11 @@ class ceo_casthover_reference_widget extends WP_Widget {
 						'post_type' => 'comic'
 						);
 				$posts = get_posts($args);
+				// No comic published yet, so no cast to show.
+				if (empty($posts)) {
+					ceo_unprotect();
+					return;
+				}
 				$post = reset($posts);
 			}
 
@@ -122,8 +130,8 @@ class ceo_casthover_reference_widget extends WP_Widget {
 				?></div><?php 
 				echo wp_kses_post($after_widget);
 			}
-			ceo_unprotect();
 		}
+		ceo_unprotect();
 	}
 	
 	function form($instance) {
