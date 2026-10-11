@@ -35,7 +35,8 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 	
 	$cache = array();
 	$key = md5( $m . $monthnum . $year );
-	if ( $cache = wp_cache_get( 'get_comic_calendar', 'calendar' ) ) {
+	// Cached under the plugin's own key and group, not in core's 'calendar' group beside its get_calendar entry.
+	if ( $cache = wp_cache_get( 'ceo_comic_calendar', 'comic-easel' ) ) {
 		if ( is_array($cache) && isset( $cache[ $key ] ) ) {
 			if ( $echo ) {
 				echo wp_kses_post( apply_filters( 'get_comic_calendar',  $cache[$key] ) );
@@ -54,7 +55,7 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 		$gotsome = $wpdb->get_var($wpdb->prepare("SELECT 1 as test FROM $wpdb->posts WHERE post_type = %s AND post_status = 'publish' LIMIT 1", $taxonomy));
 		if ( !$gotsome ) {
 			$cache[ $key ] = '';
-			wp_cache_set( 'get_comic_calendar', $cache, 'calendar' );
+			wp_cache_set( 'ceo_comic_calendar', $cache, 'comic-easel' );
 			return;
 		}
 	}
@@ -228,7 +229,7 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 
 	$cache[ $key ] = $calendar_output;
 
-	wp_cache_set( 'get_comic_calendar', $cache, 'calendar' );
+	wp_cache_set( 'ceo_comic_calendar', $cache, 'comic-easel' );
 
 	// The calendar is table markup with links, all of which wp_kses_post() keeps.
 	if ( $echo )
@@ -246,7 +247,7 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
  * @since 2.1.0
  */
 function ceo_delete_get_calendar_cache() {
-	wp_cache_delete( 'get_comic_calendar', 'calendar' );
+	wp_cache_delete( 'ceo_comic_calendar', 'comic-easel' );
 }
 add_action( 'save_post', 'ceo_delete_get_calendar_cache' );
 add_action( 'delete_post', 'ceo_delete_get_calendar_cache' );
