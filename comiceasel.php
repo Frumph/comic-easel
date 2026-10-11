@@ -591,17 +591,18 @@ add_action('plugins_loaded', 'ceo_language_init');
 
 function ceo_run_css() {
 	if (!ceo_pluginfo('disable_style_sheet')) {
-		wp_register_style('comiceasel-style', ceo_pluginfo('plugin_url').'css/comiceasel.css');
+		wp_register_style('comiceasel-style', ceo_pluginfo('plugin_url').'css/comiceasel.css', array(), ceo_pluginfo('version'));
 		wp_enqueue_style('comiceasel-style');
 		if (is_active_widget(false, false, 'ceo_comic_navigation_widget', true)) {
+			// A navstyle.css shipped by the theme changes with the theme, so it carries the theme's version.
 			if (is_child_theme() && file_exists(get_stylesheet_directory() . '/images/nav/' . ceo_pluginfo('graphic_navigation_directory') . '/navstyle.css')) {
-				wp_register_style('comiceasel-navstyle',get_stylesheet_directory_uri() . '/images/nav/' . ceo_pluginfo('graphic_navigation_directory') . '/navstyle.css');
+				wp_register_style('comiceasel-navstyle',get_stylesheet_directory_uri() . '/images/nav/' . ceo_pluginfo('graphic_navigation_directory') . '/navstyle.css', array(), wp_get_theme()->get('Version'));
 			} elseif (file_exists(get_template_directory() . '/images/nav/' . ceo_pluginfo('graphic_navigation_directory'). '/navstyle.css')) {
-				wp_register_style('comiceasel-navstyle',get_template_directory_uri() . '/images/nav/' . ceo_pluginfo('graphic_navigation_directory') . '/navstyle.css');
+				wp_register_style('comiceasel-navstyle',get_template_directory_uri() . '/images/nav/' . ceo_pluginfo('graphic_navigation_directory') . '/navstyle.css', array(), wp_get_theme(get_template())->get('Version'));
 			} elseif (file_exists(ceo_pluginfo('plugin_path') . 'images/nav/' . ceo_pluginfo('graphic_navigation_directory') . '/navstyle.css')) {
-				wp_register_style('comiceasel-navstyle', ceo_pluginfo('plugin_url').'images/nav/'. ceo_pluginfo('graphic_navigation_directory'). '/navstyle.css');
+				wp_register_style('comiceasel-navstyle', ceo_pluginfo('plugin_url').'images/nav/'. ceo_pluginfo('graphic_navigation_directory'). '/navstyle.css', array(), ceo_pluginfo('version'));
 			} else 
-				wp_register_style('comiceasel-navstyle', ceo_pluginfo('plugin_url').'css/navstyle.css');
+				wp_register_style('comiceasel-navstyle', ceo_pluginfo('plugin_url').'css/navstyle.css', array(), ceo_pluginfo('version'));
 			wp_enqueue_style('comiceasel-navstyle');
 		}
 	}

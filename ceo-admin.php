@@ -54,7 +54,7 @@ function ceo_add_menu_pages() {
 	}
 	if (!defined('CEO_FEATURE_DISABLE_DEBUG'))
 		$debug_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $debug_title, $debug_title, 'edit_theme_options', 'comiceasel-debug', 'ceo_debug');	
-	ceo_enqueue_admin_cpt_style('comic', 'comic-admin-editor-style', ceo_pluginfo('plugin_url').'css/admin-editor.css');
+	ceo_enqueue_admin_cpt_style('comic', 'comic-admin-editor-style', ceo_pluginfo('plugin_url').'css/admin-editor.css', array(), ceo_pluginfo('version'));
 	// Add contextual help
 }
 

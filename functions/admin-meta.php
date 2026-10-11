@@ -91,7 +91,7 @@ function ceo_chapters_save_value($term_id, $tt_id) {
 }
 
 function ceo_chapters_columns($chapter_columns) {
-	wp_register_style('comiceasel-chapters-style', ceo_pluginfo('plugin_url').'css/chapters.css');
+	wp_register_style('comiceasel-chapters-style', ceo_pluginfo('plugin_url').'css/chapters.css', array(), ceo_pluginfo('version'));
 	wp_enqueue_style('comiceasel-chapters-style');
 	$new_columns['cb'] = '<input type="checkbox" />';
 	$new_columns['id'] = __('ID', 'comic-easel');
