@@ -6,31 +6,19 @@ add_action('admin_menu', 'ceo_add_menu_pages');
 add_action('admin_enqueue_scripts', 'ceo_comic_editor_scripts', 10, 1 );
 
 function ceo_comic_editor_scripts( $hook ) {
-	global $pagenow, $post;
-	if (!empty($pagenow)) {
-/*
-		if ( $pagenow == 'post-new.php' || $pagenow == 'post.php' ) {
-			if ('comic' === $post->post_type) {
-
-				wp_enqueue_media();
-			}
-		}
-		if ($pagenow == 'edit.php') {
-			if ('comic' == $post->post_type) {
-				add_action('admin_footer', 'ceo_change_chapter_to_radio');
-			}
-		}
-		if ($pagenow == 'edit-tags.php') {
-			wp_enqueue_script('ceo-inline-edit', ceo_pluginfo('plugin_url').'js/custom_inline_edit_tax.dev.js');
-		}
-*/
-	}
+	// The Comics list's column widths. Same screens as when this was enqueued from admin_menu:
+	// the Comics list, the comic editor and the plugin's own pages under Comics.
+	ceo_enqueue_admin_cpt_style('comic', 'ceo-admin-editor-style', ceo_pluginfo('plugin_url').'css/admin-editor.css', array(), ceo_pluginfo('version'));
+	// On every post editor screen, as before: the meta box setup that used to queue it runs
+	// for every post type.
+	if ('post.php' === $hook || 'post-new.php' === $hook)
+		ceo_change_chapter_to_radio();
 }
 
 /*
  * A comic belongs to exactly one chapter, so the chapter checklist on the post editor is
- * turned into radio buttons. This used to echo its script from admin_footer; the script is
- * now a file loaded in the footer, which still runs once the checklist is in the page.
+ * turned into radio buttons. The script is a file loaded in the footer, so it runs once the
+ * checklist is in the page.
  */
 function ceo_change_chapter_to_radio(){
 	wp_enqueue_script('ceo-chapter-radio', ceo_pluginfo('plugin_url').'js/chapter-radio.js', array('jquery'), ceo_pluginfo('version'), true);
@@ -54,7 +42,6 @@ function ceo_add_menu_pages() {
 	}
 	if (!defined('CEO_FEATURE_DISABLE_DEBUG'))
 		$debug_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $debug_title, $debug_title, 'edit_theme_options', 'comiceasel-debug', 'ceo_debug');	
-	ceo_enqueue_admin_cpt_style('comic', 'comic-admin-editor-style', ceo_pluginfo('plugin_url').'css/admin-editor.css', array(), ceo_pluginfo('version'));
 	// Add contextual help
 }
 

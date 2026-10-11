@@ -32,6 +32,7 @@ function ceo_admin_init() {
 	add_action('save_post', 'ceo_handle_edit_save_comic', 10, 2 );
 	
 	add_filter("manage_edit-chapters_columns", 'ceo_chapters_columns');
+	add_action('admin_enqueue_scripts', 'ceo_chapters_enqueue_style');
 	add_filter('manage_edit-chapters_sortable_columns', 'ceo_chapters_sortable_columns' );
 	add_filter('manage_chapters_custom_column', 'ceo_chapters_add_column_value', 10, 3);
 	add_action('chapters_add_form_fields', 'ceo_chapters_menu_order_add_form_field');
@@ -90,9 +91,17 @@ function ceo_chapters_save_value($term_id, $tt_id) {
 	// phpcs:enable WordPress.Security.NonceVerification.Missing
 }
 
+/*
+ * The chapter list's ID column width. The chapter list and a single chapter's edit page share
+ * the screen ID edit-chapters, the two screens whose column filter used to enqueue it.
+ */
+function ceo_chapters_enqueue_style() {
+	$screen = get_current_screen();
+	if ($screen && 'edit-chapters' === $screen->id)
+		wp_enqueue_style('comiceasel-chapters-style', ceo_pluginfo('plugin_url').'css/chapters.css', array(), ceo_pluginfo('version'));
+}
+
 function ceo_chapters_columns($chapter_columns) {
-	wp_register_style('comiceasel-chapters-style', ceo_pluginfo('plugin_url').'css/chapters.css', array(), ceo_pluginfo('version'));
-	wp_enqueue_style('comiceasel-chapters-style');
 	$new_columns['cb'] = '<input type="checkbox" />';
 	$new_columns['id'] = __('ID', 'comic-easel');
 	$new_columns['name'] = __('Name', 'comic-easel');
@@ -493,7 +502,6 @@ function ceo_add_comic_in_post() {
 				'title'   => __( 'Instructions','comic-easel' ),
 				'content' => $context_output,
 			) );
-	add_action('admin_footer', 'ceo_change_chapter_to_radio');
 	if (!defined('CEO_FEATURE_DISABLE_TEST_FOR_ERRORS') && !defined('CEO_FEATURE_DISABLE_REWRITE_RULES') && !ceo_pluginfo('disable_cal_rewrite_rules'))
 		add_action('admin_notices', 'ceo_test_for_errors');
 }

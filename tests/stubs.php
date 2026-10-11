@@ -60,6 +60,10 @@ class CE_Test_State {
 	public static $scripts = array();
 	/** @var array<string,array> handle => arguments of the wp_enqueue_style() call */
 	public static $styles = array();
+	/** @var array<string,array> handle => arguments of the wp_register_style() call */
+	public static $registered_styles = array();
+	/** @var object|null what get_current_screen() returns */
+	public static $screen = null;
 	/** @var array recorded wp_add_inline_script() calls */
 	public static $inline_scripts = array();
 	/** @var array<int,object> posts that get_posts() and every WP_Query return, in order */
@@ -89,6 +93,8 @@ class CE_Test_State {
 		self::$meta_writes = array();
 		self::$scripts = array();
 		self::$styles = array();
+		self::$registered_styles = array();
+		self::$screen = null;
 		self::$inline_scripts = array();
 		self::$found_posts = array();
 		self::$is = array();
@@ -495,6 +501,19 @@ if ( ! function_exists( 'wp_enqueue_script' ) ) {
 if ( ! function_exists( 'wp_enqueue_style' ) ) {
 	function wp_enqueue_style( $handle, $src = '', $deps = array(), $ver = false, $media = 'all' ) {
 		CE_Test_State::$styles[ $handle ] = compact( 'src', 'deps', 'ver', 'media' );
+	}
+}
+
+if ( ! function_exists( 'wp_register_style' ) ) {
+	function wp_register_style( $handle, $src, $deps = array(), $ver = false, $media = 'all' ) {
+		CE_Test_State::$registered_styles[ $handle ] = compact( 'src', 'deps', 'ver', 'media' );
+		return true;
+	}
+}
+
+if ( ! function_exists( 'get_current_screen' ) ) {
+	function get_current_screen() {
+		return CE_Test_State::$screen;
 	}
 }
 

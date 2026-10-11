@@ -30,16 +30,17 @@ if (!defined('ABSPATH')) exit;
 if (is_active_widget(false, false, 'ceo_casthover_reference_widget', true)) {
 	add_filter('ceo_display_comic_characters', 'ceo_add_characters_hovercards');
 	add_action('wp_enqueue_scripts', 'ceo_casthover_res_init_scripts');
-	add_action('wp_print_styles', 'ceo_casthover_res_init_styles');
+	// Last, after comiceasel.css, as when it was enqueued from wp_print_styles.
+	add_action('wp_enqueue_scripts', 'ceo_casthover_res_init_styles', PHP_INT_MAX);
 }
 
 function ceo_casthover_res_init_styles() {
-	wp_register_style('casthover-css', ceo_pluginfo('plugin_url').'css/casthover.css', array(), ceo_pluginfo('version'));
-	wp_enqueue_style('casthover-css');
+	wp_register_style('ceo-casthover-css', ceo_pluginfo('plugin_url').'css/casthover.css', array(), ceo_pluginfo('version'));
+	wp_enqueue_style('ceo-casthover-css');
 }
 
 function ceo_casthover_res_init_scripts() {
-	wp_enqueue_script('casthover-js', ceo_pluginfo('plugin_url').'js/casthoverfunc.js', array('jquery'), ceo_pluginfo('version'), true);
+	wp_enqueue_script('ceo-casthover-js', ceo_pluginfo('plugin_url').'js/casthoverfunc.js', array('jquery'), ceo_pluginfo('version'), true);
 }
 
 function ceo_insert_character_hovercard($character) {

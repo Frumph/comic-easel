@@ -298,7 +298,9 @@ if (is_admin()) {
 	@require('ceo-admin.php');
 	@require('functions/admin-meta.php');
 } else {
-	add_action('wp_print_styles', 'ceo_run_css', 1);
+	// Last, so the stylesheets still follow the theme's and other plugins' in the head, where
+	// enqueueing them from wp_print_styles used to put them.
+	add_action('wp_enqueue_scripts', 'ceo_run_css', PHP_INT_MAX);
 	add_action('wp_enqueue_scripts', 'ceo_run_scripts', 1);
 }
 
