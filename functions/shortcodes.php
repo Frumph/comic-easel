@@ -422,13 +422,14 @@ function ceo_archive_list_by_year($thumbnail = false, $order = 'ASC', $chapter =
 	// $order and $chapter arrive from shortcode attributes, so they are untrusted.
 	$chapter = (int)$chapter;
 	$order = (strtoupper($order) == 'DESC') ? 'DESC' : 'ASC';
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended -- The year links below set archive_year; it only picks which year's comics to list.
 	if (isset($_GET['archive_year']) && is_scalar($_GET['archive_year'])) {
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Archive selection is a read-only public query argument.
 		$archive_year = intval(wp_unslash($_GET['archive_year']));
 	} else { 
 		$latest_comic = ceo_get_last_comic(false);
 		$archive_year = get_post_time('Y', false, $latest_comic, true);
 	}
+	// phpcs:enable WordPress.Security.NonceVerification.Recommended
 	if (empty($archive_year)) $archive_year = date('Y'); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date -- Kept as date() so it follows PHP's timezone exactly as before.
 	$output = '<h3 class="year-title">'.$archive_year.'</h3>';
 	$output .= '<br />';
@@ -517,10 +518,11 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 	$paypal_config = ceo_pluginfo();
 	$paypal_currency = ceo_paypal_currency($paypal_config);
 	$paypal_ready = (ceo_paypal_merchant($paypal_config) !== '' && $paypal_currency !== '');
-	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- BuyComic return URLs are read-only display routes and historically contain this argument.
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended -- The id and action arguments come from the Buy links and PayPal's return URL, which carry no nonce; they only choose what this page displays.
 	if (isset($_REQUEST['id']) && is_scalar($_REQUEST['id'])) $comicnum = intval(wp_unslash($_REQUEST['id']));
 	if (isset($_REQUEST['action']) && is_scalar($_REQUEST['action'])) {
 		$action = sanitize_key(wp_unslash($_REQUEST['action']));
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 		switch ($action) {
 			case 'thankyou':
 				$buy_output .= '<div class="buycomic-thankyou">';

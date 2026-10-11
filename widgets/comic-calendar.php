@@ -60,8 +60,10 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 		}
 	}
 
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended -- The week archive argument, read as core's get_calendar() reads it, only picks the month shown.
 	if ( isset($_GET['w']) && is_scalar($_GET['w']) )
 		$w = ''.intval(wp_unslash($_GET['w']));
+	// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 	// week_begins = 0 stands for Sunday
 	$week_begins = intval(get_option('start_of_week'));

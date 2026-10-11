@@ -131,16 +131,9 @@ function ceo_chapters_add_column_value($empty, $custom_column, $term_id) {
 			echo esc_html($term_id);
 			break;
 		case 'menu_order':
-			$taxonomy = 'chapters';
-			// This read-only list-table callback does not perform an action.
-			// phpcs:disable WordPress.Security.NonceVerification.Missing
-			if (isset($_POST['taxonomy']) && is_scalar($_POST['taxonomy'])) {
-				$taxonomy = sanitize_key(wp_unslash($_POST['taxonomy']));
-			} elseif (isset($_GET['taxonomy']) && is_scalar($_GET['taxonomy'])) {
-				$taxonomy = sanitize_key(wp_unslash($_GET['taxonomy']));
-			}
-			// phpcs:enable WordPress.Security.NonceVerification.Missing
-			$term = get_term($term_id, $taxonomy);
+			// This is the chapters list's own column hook (manage_chapters_custom_column), so
+			// the term is always a chapter, whatever the request's taxonomy argument says.
+			$term = get_term($term_id, 'chapters');
 			echo esc_html($term->$custom_column);
 			break;
 	}

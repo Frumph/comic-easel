@@ -1,6 +1,7 @@
 <?php
 if (!defined('ABSPATH')) exit;
 
+// phpcs:disable WordPress.Security.NonceVerification.Recommended -- These public URLs only pick a handler: /?latest and /?random are links anyone may follow, and PayPal's notification to /?ceopaypalipn is verified with PayPal by the handler.
 if ( isset( $_GET['latest'] ) )
 	add_action( 'template_redirect', 'ceo_latest_comic_jump' );
 
@@ -9,13 +10,15 @@ if ( isset( $_GET['random'] ) )
 
 if (isset($_GET['ceopaypalipn'])) 
 	add_action('template_redirect', 'ceo_paypal_ipn');
+// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 //to use simply create a URL link to "/?latest"
 function ceo_latest_comic_jump() {
 	$chapter = 0; $respond = ''; 
-	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public read-only navigation URLs historically accept this query argument.
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Public read-only navigation URLs historically accept these query arguments.
 	if (isset($_GET['latest']) && is_scalar($_GET['latest'])) $chapter = sanitize_text_field(wp_unslash($_GET['latest']));
 	if (isset($_GET['comment'])) $respond = '#respond';
+	// phpcs:enable WordPress.Security.NonceVerification.Recommended
 	if (!empty($chapter)) {
 		if (!is_numeric($chapter)) { //if the argument after latest is not a number, we assume it is the slugname
 			$this_chapter = get_term_by('slug', $chapter, 'chapters'); //added: get chapter by slug
