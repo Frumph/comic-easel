@@ -22,16 +22,18 @@ function ceo_latest_comic_jump() {
 		} else {
 			$this_chapter = get_term_by('term_id', $chapter, 'chapters'); //get chapter by id
 		}
+		// An unknown chapter leaves 'chapters' empty, which get_posts() ignores, so the link
+		// still goes to the latest comic of all, as it always did, just without a PHP warning.
 		$args = array( 
 				'numberposts' => 1, 
 				'post_type' => 'comic', 
 				'orderby' => 'post_date', 
 				'order' => 'DESC', 
 				'post_status' => 'publish', 
-				'chapters' => $this_chapter->slug
+				'chapters' => ($this_chapter ? $this_chapter->slug : '')
 				);					
 		$qposts = get_posts( $args );
-		if (is_array($qposts)) {
+		if (!empty($qposts)) {
 			$qposts = reset($qposts);
 			wp_redirect( get_permalink( $qposts->ID ).$respond );
 		} else {
@@ -46,7 +48,7 @@ function ceo_latest_comic_jump() {
 				'post_status' => 'publish'
 				);
 		$qposts = get_posts( $args );
-		if (is_array($qposts)) {
+		if (!empty($qposts)) {
 			$qposts = reset($qposts);
 			wp_redirect( get_permalink( $qposts->ID ).$respond );
 		} else {
@@ -67,10 +69,10 @@ function ceo_random_comic() {
 				'post_type' => 'comic', 
 				'orderby' => 'rand',  
 				'post_status' => 'publish', 
-				'chapters' => $this_chapter->slug
+				'chapters' => ($this_chapter ? $this_chapter->slug : '')
 				);					
 		$qposts = get_posts( $args );
-		if (is_array($qposts)) {
+		if (!empty($qposts)) {
 			$qposts = reset($qposts);
 			wp_redirect( get_permalink( $qposts->ID ) );
 		} else {
@@ -85,9 +87,11 @@ function ceo_random_comic() {
 				);	
 	}
 	$qposts = get_posts( $args );
-	if (is_array($qposts)) {
+	if (!empty($qposts)) {
 		$qposts = reset($qposts);
 		wp_redirect( get_permalink( $qposts->ID ) );
+	} else {
+		wp_redirect( home_url() );
 	}
 	exit;
 }
