@@ -226,3 +226,13 @@ function ceo_content_warning() {
 function ceo_content_warning_in_head() {
 	wp_add_inline_script('ceo_comic_content_warning', 'var contentwarningtext = ' . wp_json_encode(ceo_content_warning(), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) . ';', 'before');
 }
+
+/*
+ * The chapter and comic dropdowns go to the page picked from them. They used to do it with an
+ * onchange attribute on the <select>; js/jump-menu.js now does it for any select with the
+ * class ceo-jump-menu. Each dropdown asks for it as it is built, and the script is loaded in
+ * the footer, so it reaches only pages that show one.
+ */
+function ceo_enqueue_jump_menu() {
+	wp_enqueue_script('ceo-jump-menu', ceo_pluginfo('plugin_url') . 'js/jump-menu.js', array(), ceo_pluginfo('version'), true);
+}

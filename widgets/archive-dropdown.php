@@ -137,11 +137,12 @@ function ceo_comic_archive_jump_to_chapter($hide = true, $exclude = '', $showcou
 			'value_field'	     => 'slug',	
 			'jumptoarchive'	 	 => $jumptoarchive,
 			'render_as_list'	 => $render_as_list,
+			// js/jump-menu.js goes to the chosen chapter when a select with this class changes.
+			'class'              => 'postform ceo-jump-menu',
 		);
+		ceo_enqueue_jump_menu();
 		$output .= '<form id="chapter-select" class="chapter-select" method="get">'."\r\n";
-		$select  = wp_dropdown_categories( $args );
-		$replace = '<select$1 onchange="document.location.href=this.options[this.selectedIndex].value;">';
-		$output  .= preg_replace( '#<select([^>]*)>#', $replace, $select ); 
+		$output .= wp_dropdown_categories( $args );
 		$output .= "\t<noscript>\r\n";
 		$output .= "\t\t<input type=\"submit\" value=\"View\" />\r\n";
 		$output .= "\t</noscript>\r\n";
@@ -160,15 +161,14 @@ function ceo_comic_archive_jump_to_chapter($hide = true, $exclude = '', $showcou
 /**
  * The tags and attributes the chapter dropdown prints, for wp_kses().
  *
- * wp_kses_post() would strip the form controls, and with them the onchange handler that
- * makes picking a chapter navigate, so the dropdown is filtered against exactly what it
- * emits: the <select> and <option> tags wp_dropdown_categories() and the walker above write,
- * the handler added to the <select>, and the submit button for browsers without JavaScript.
+ * wp_kses_post() would strip the form controls, so the dropdown is filtered against exactly
+ * what it emits: the <select> and <option> tags wp_dropdown_categories() and the walker above
+ * write, and the submit button for browsers without JavaScript.
  */
 function ceo_chapter_dropdown_allowed_html() {
 	return array(
 		'form'     => array( 'id' => true, 'class' => true, 'method' => true ),
-		'select'   => array( 'name' => true, 'id' => true, 'class' => true, 'onchange' => true ),
+		'select'   => array( 'name' => true, 'id' => true, 'class' => true ),
 		'option'   => array( 'class' => true, 'value' => true, 'selected' => true ),
 		'noscript' => array(),
 		'input'    => array( 'type' => true, 'value' => true ),

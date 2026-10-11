@@ -99,6 +99,14 @@ class EnqueuedScriptsTest extends CE_TestCase {
 		);
 	}
 
+	/* ---------------------------------------------------------------- jump menus */
+
+	public function testJumpMenuScriptIsEnqueuedInTheFooter() {
+		ceo_enqueue_jump_menu();
+		$this->assertEnqueuedInFooter( 'ceo-jump-menu', 'js/jump-menu.js' );
+		$this->assertSame( '9.9', CE_Test_State::$scripts['ceo-jump-menu']['ver'] );
+	}
+
 	/* ------------------------------------------------------------------- admin */
 
 	public function testChapterRadioScriptIsEnqueuedRatherThanPrinted() {
@@ -124,7 +132,8 @@ class EnqueuedScriptsTest extends CE_TestCase {
 
 	/**
 	 * Every PHP file outside vendor/ and tests/, tokenised, so comments that merely mention a
-	 * <script> tag do not count -- only template HTML and string literals that could print one.
+	 * <script> tag do not count -- only template HTML and string literals that could print one,
+	 * or an inline event handler attribute such as onchange=.
 	 */
 	public function testNoPluginSourcePrintsInlineScriptOrStyle() {
 		$offenders = array();
@@ -138,7 +147,7 @@ class EnqueuedScriptsTest extends CE_TestCase {
 				if ( ! is_array( $token ) || ! in_array( $token[0], array( T_INLINE_HTML, T_CONSTANT_ENCAPSED_STRING, T_ENCAPSED_AND_WHITESPACE ), true ) ) {
 					continue;
 				}
-				if ( preg_match( '#<script|<style|javascript:#i', $token[1] ) ) {
+				if ( preg_match( '#<script|<style|javascript:|\son[a-z]+\s*=#i', $token[1] ) ) {
 					$offenders[] = $relative . ':' . $token[2];
 				}
 			}

@@ -33,7 +33,7 @@ class ArchiveDropdownWidgetTest extends CE_TestCase {
 		$this->setGlobalPost( 7 );
 		$out = $this->render( array() );
 
-		$this->assertStringContainsString( "<select  name='chapters' id='chapters' class='postform' onchange=", $out );
+		$this->assertStringContainsString( "<select  name='chapters' id='chapters' class='postform ceo-jump-menu'>", $out );
 		$this->assertStringNotContainsString( '(4)', $out, 'the count is off by default' );
 	}
 
@@ -81,16 +81,36 @@ class ArchiveDropdownWidgetTest extends CE_TestCase {
 	}
 
 	public function testDropdownIsFilteredByAnAllowlistThatKeepsTheMenuWorking() {
-		// wp_kses_post() would strip the <select>, its options and the onchange handler that
-		// makes choosing a chapter navigate, so the menu is filtered against its own allowlist.
+		// wp_kses_post() would strip the <select> and its options, so the menu is filtered
+		// against its own allowlist, which keeps the class js/jump-menu.js navigates by.
 		$this->setGlobalPost( 7 );
 		$out = $this->render( $this->dropdownInstance() );
 
 		$this->assertCount( 1, CE_Test_State::$kses_allowlist_calls );
 		list( $markup, $allowed ) = CE_Test_State::$kses_allowlist_calls[0];
 		$this->assertStringContainsString( $markup, $out, 'the filtered markup is what was printed' );
-		$this->assertStringContainsString( 'onchange="document.location.href=this.options[this.selectedIndex].value;"', $markup );
+		$this->assertStringContainsString( "class='postform ceo-jump-menu'", $markup );
 		$this->assertAllowedByKses( $markup, $allowed );
+	}
+
+	public function testDropdownNavigatesThroughTheEnqueuedScriptNotAnInlineHandler() {
+		CE_Test_State::$pluginfo['plugin_url'] = 'https://example.test/wp-content/plugins/comic-easel/';
+		CE_Test_State::$pluginfo['version']    = '1.19';
+		$this->setGlobalPost( 7 );
+		$out = $this->render( $this->dropdownInstance() );
+
+		$this->assertDoesNotMatchRegularExpression( '#\son[a-z]+=#i', $out );
+		$this->assertSame(
+			array( 'src' => 'https://example.test/wp-content/plugins/comic-easel/js/jump-menu.js', 'deps' => array(), 'ver' => '1.19', 'args' => true ),
+			CE_Test_State::$scripts['ceo-jump-menu']
+		);
+	}
+
+	public function testListRenderingLoadsNoJumpMenuScript() {
+		$this->setGlobalPost( 7 );
+		$this->render( array_merge( $this->dropdownInstance(), array( 'render_as_list' => 1 ) ) );
+
+		$this->assertArrayNotHasKey( 'ceo-jump-menu', CE_Test_State::$scripts );
 	}
 
 	public function testListIsFilteredAsPostMarkup() {

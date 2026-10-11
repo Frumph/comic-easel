@@ -972,7 +972,8 @@ if ( ! function_exists( 'wp_dropdown_categories' ) ) {
 			return '';
 		}
 		$name   = esc_attr( $args['name'] );
-		$output = "<select  name='$name' id='$name' class='postform'>\n";
+		$class  = esc_attr( isset( $args['class'] ) ? $args['class'] : 'postform' );
+		$output = "<select  name='$name' id='$name' class='$class'>\n";
 		if ( $args['show_option_all'] ) {
 			$selected = ( '0' === (string) $args['selected'] ) ? " selected='selected'" : '';
 			$output  .= "\t<option value='0'$selected>{$args['show_option_all']}</option>\n";

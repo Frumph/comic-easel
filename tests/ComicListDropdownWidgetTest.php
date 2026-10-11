@@ -54,8 +54,21 @@ class ComicListDropdownWidgetTest extends CE_TestCase {
 		$this->assertCount( 1, CE_Test_State::$kses_allowlist_calls );
 		list( $markup, $allowed ) = CE_Test_State::$kses_allowlist_calls[0];
 		$this->assertStringContainsString( $markup, $out );
-		$this->assertStringContainsString( '<select onchange="document.location.href=this.options[this.selectedIndex].value;">', $markup );
+		$this->assertStringContainsString( '<select class="ceo-jump-menu">', $markup );
 		$this->assertAllowedByKses( $markup, $allowed );
+	}
+
+	public function testMenuNavigatesThroughTheEnqueuedScriptNotAnInlineHandler() {
+		CE_Test_State::$pluginfo['plugin_url'] = 'https://example.test/wp-content/plugins/comic-easel/';
+		CE_Test_State::$pluginfo['version']    = '1.19';
+		$this->setGlobalPost( 21 );
+		$out = $this->render( array( 'title' => '', 'exclude' => '' ) );
+
+		$this->assertDoesNotMatchRegularExpression( '#\son[a-z]+=#i', $out );
+		$this->assertSame(
+			array( 'src' => 'https://example.test/wp-content/plugins/comic-easel/js/jump-menu.js', 'deps' => array(), 'ver' => '1.19', 'args' => true ),
+			CE_Test_State::$scripts['ceo-jump-menu']
+		);
 	}
 
 	public function testReturnedMenuIsUnfiltered() {

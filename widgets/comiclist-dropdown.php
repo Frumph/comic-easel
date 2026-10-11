@@ -17,7 +17,9 @@ function ceo_list_jump_to_comic($exclude = '', $return = false) {
 	if (!empty($terms)){
 		$term = reset($terms); // only one chapter
 		$output = '<form method="get" class="comic-list-dropdown-form">';
-		$output .= '<select onchange="document.location.href=this.options[this.selectedIndex].value;">';
+		// js/jump-menu.js goes to the chosen comic when a select with this class changes.
+		ceo_enqueue_jump_menu();
+		$output .= '<select class="ceo-jump-menu">';
 		$level = 0;
 		$output .= '<option class="level-select" value="">'.esc_html__('Jump To','comic-easel').'</option>';
 		$post_args = array( 
@@ -47,13 +49,13 @@ function ceo_list_jump_to_comic($exclude = '', $return = false) {
 /**
  * The tags and attributes the comic dropdown prints, for wp_kses().
  *
- * wp_kses_post() would strip the form controls, and with them the onchange handler that
- * makes picking a comic navigate, so the dropdown is filtered against exactly what it emits.
+ * wp_kses_post() would strip the form controls, so the dropdown is filtered against exactly
+ * what it emits.
  */
 function ceo_comic_list_dropdown_allowed_html() {
 	return array(
 		'form'     => array( 'method' => true, 'class' => true ),
-		'select'   => array( 'onchange' => true ),
+		'select'   => array( 'class' => true ),
 		'option'   => array( 'class' => true, 'value' => true ),
 		'noscript' => array(),
 		'div'      => array(),
