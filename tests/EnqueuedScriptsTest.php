@@ -78,7 +78,7 @@ class EnqueuedScriptsTest extends CE_TestCase {
 		$inline = CE_Test_State::$inline_scripts[0];
 		$this->assertSame( 'ceo_comic_content_warning', $inline['handle'] );
 		$this->assertSame( 'before', $inline['position'], 'content-warning.js reads the variable as soon as it runs' );
-		$this->assertSame( 'var contentwarningtext = "Warning, Mature Content.";', $inline['data'] );
+		$this->assertSame( 'var ceo_content_warning_text = "Warning, Mature Content.";', $inline['data'] );
 	}
 
 	/**
@@ -92,7 +92,7 @@ class EnqueuedScriptsTest extends CE_TestCase {
 
 		$this->assertStringNotContainsString( '<', $data );
 		$this->assertStringNotContainsString( '</script', $data );
-		$this->assertSame( 1, preg_match( '/^var contentwarningtext = (".*");$/', $data, $m ) );
+		$this->assertSame( 1, preg_match( '/^var ceo_content_warning_text = (".*");$/', $data, $m ) );
 		$this->assertSame(
 			'Rated "M" <img src=x onerror=alert(1)></script>',
 			json_decode( $m[1] )

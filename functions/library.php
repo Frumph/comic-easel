@@ -216,15 +216,16 @@ function ceo_content_warning() {
 
 /*
  * Hand the content warning text to js/content-warning.js, which reads it from the global
- * contentwarningtext. The name is historical: this used to print its own <script> into
- * wp_head. It now rides on the script handle as an inline 'before' block, so the variable is
- * defined immediately ahead of the one script that reads it, wherever that script is printed.
+ * ceo_content_warning_text. The function's name is historical: this used to print its own
+ * <script> into wp_head. It now rides on the script handle as an inline 'before' block, so the
+ * variable is defined immediately ahead of the one script that reads it, wherever that script
+ * is printed.
  *
  * content-warning.js shows the text with textContent, so it goes over as plain text. The
  * JSON_HEX_ flags encode < > & ' so nothing in it can close or confuse the script element.
  */
 function ceo_content_warning_in_head() {
-	wp_add_inline_script('ceo_comic_content_warning', 'var contentwarningtext = ' . wp_json_encode(ceo_content_warning(), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) . ';', 'before');
+	wp_add_inline_script('ceo_comic_content_warning', 'var ceo_content_warning_text = ' . wp_json_encode(ceo_content_warning(), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) . ';', 'before');
 }
 
 /*

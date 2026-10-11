@@ -5,10 +5,10 @@
  * The first click on the comic or the warning reveals it; after that the comic behaves as it
  * normally does, so a comic that links to the next page follows that link.
  *
- * The warning text arrives in the global contentwarningtext, set just before this script.
+ * The warning text arrives in the global ceo_content_warning_text, set just before this script.
  */
 (function () {
-	if (typeof contentwarningtext === 'undefined' || contentwarningtext === '') return;
+	if (typeof ceo_content_warning_text === 'undefined' || ceo_content_warning_text === '') return;
 
 	// Comic Easel marks the comic image #g-comic. Easel-style themes print their own markup, so
 	// fall back to the first image inside #comic.
@@ -24,7 +24,7 @@
 	var warning = document.createElement('div');
 	warning.id = 'contentwarningimg';
 	var text = document.createElement('p');
-	text.textContent = contentwarningtext;
+	text.textContent = ceo_content_warning_text;
 	warning.appendChild(text);
 
 	comic.style.filter = 'blur(20px)';
