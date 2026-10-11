@@ -97,6 +97,16 @@ class ComicListDropdownWidgetTest extends CE_TestCase {
 		$this->assertStringContainsString( '<option class="level-select" value="">Aller à &lt;b&gt;</option>', $out );
 	}
 
+	public function testFormClosesOnlyTheParagraphItOpens() {
+		$widget = new ceo_comic_list_dropdown_widget();
+		$form   = $this->capture( function () use ( $widget ) {
+			$widget->form( array( 'title' => 'Jump' ) );
+		} );
+
+		$this->assertSame( 1, substr_count( $form, '<p>' ) );
+		$this->assertSame( 1, substr_count( $form, '</p>' ) );
+	}
+
 	public function testUpdateWithNoFieldsSubmitted() {
 		$widget = new ceo_comic_list_dropdown_widget();
 		$out    = $widget->update( array(), array() );
