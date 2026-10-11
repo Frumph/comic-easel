@@ -1,7 +1,7 @@
 <?php if (!defined('ABSPATH')) exit; ?>
 <div id="comiceasel-navigation">
 	<form method="post" id="myForm-navigation" enctype="multipart/form-data">
-	<?php wp_nonce_field('update-options') ?>
+	<?php wp_nonce_field('ceo-update-options') ?>
 		<?php 
 			if (!isset($ceo_options['default_nav_bar_chapter_goes_to_archive'])) $ceo_options['default_nav_bar_chapter_goes_to_archive'] = false;
 			if (!isset($ceo_options['enable_comic_nav'])) $ceo_options['enable_comic_nav'] = false;

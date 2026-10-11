@@ -15,7 +15,7 @@ $action = isset($_POST['action']) && is_scalar($_POST['action']) ? sanitize_key(
 if ($action == 'comiceasel_reset') {
 	if (!current_user_can('edit_theme_options'))
 		wp_die(esc_html__('You do not have permission to reset these settings.','comic-easel'));
-	check_admin_referer('update-options');
+	check_admin_referer('ceo-update-options');
 	delete_option('comiceasel-config');
 	global $ceo_pluginfo;
 	$ceo_pluginfo = array();
@@ -26,7 +26,7 @@ if ($action == 'comiceasel_reset') {
 }
 $ceo_options = get_option('comiceasel-config');
 $nonce = isset($_POST['_wpnonce']) && is_scalar($_POST['_wpnonce']) ? sanitize_text_field(wp_unslash($_POST['_wpnonce'])) : '';
-if ( wp_verify_nonce($nonce, 'update-options') ) {
+if ( wp_verify_nonce($nonce, 'ceo-update-options') ) {
 		// Historically the nonce and action came from POST while option values came from
 		// $_REQUEST. Keep that integration behavior after the POST nonce has been verified;
 		// each individual value is still checked, unslashed, and sanitized below.
@@ -209,7 +209,7 @@ if ( wp_verify_nonce($nonce, 'update-options') ) {
 				</td>
 				<td style="width:200px;">
 					<form method="post" id="myForm" name="template" enctype="multipart/form-data" action="">
-						<?php wp_nonce_field('update-options') ?>
+						<?php wp_nonce_field('ceo-update-options') ?>
 						<input name="easel_reset" type="submit" class="button" value="Reset All Settings" />
 						<input type="hidden" name="action" value="comiceasel_reset" />
 					</form>

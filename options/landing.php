@@ -1,7 +1,7 @@
 <?php if (!defined('ABSPATH')) exit; ?>
 <div id="comiceasel-landing">
 	<form method="post" id="myForm-general" enctype="multipart/form-data">
-	<?php wp_nonce_field('update-options') ?>
+	<?php wp_nonce_field('ceo-update-options') ?>
 		<?php 
 			if (!isset($ceo_options['enable_chapter_landing'])) $ceo_options['enable_chapter_landing'] = false;
 			if (!isset($ceo_options['enable_chapter_landing_first'])) $ceo_options['enable_chapter_landing_first'] = false;

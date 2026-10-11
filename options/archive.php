@@ -2,7 +2,7 @@
 <div id="comiceasel-archive">
 
 	<form method="post" id="myForm-archive" enctype="multipart/form-data">
-	<?php wp_nonce_field('update-options') ?>
+	<?php wp_nonce_field('ceo-update-options') ?>
 
 		<div class="comiceasel-options">
 			<div style='color: #b00;font-size: 16px;text-align:center;background-color: #efefef;padding: 5px;border: solid 2px #000;font-weight: 700;'><?php esc_html_e('IMPORTANT - If you change any of the settings on this page from the default, go to settings -> permalink and click SAVE so that the permalink structure can be recognized by WordPress','comic-easel'); ?></div>
