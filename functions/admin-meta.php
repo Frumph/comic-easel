@@ -499,7 +499,7 @@ function ceo_add_comic_in_post() {
 	$context_output .= esc_html__('You can move the editor boxes around.&nbsp;  Drag them to where it would suit your individual taste in where you want them.','comic-easel').'<br /><br />';
 	$context_output .= esc_html__('Minimize these directions by clicking the title of the box.','comic-easel');
 	get_current_screen()->add_help_tab( array(
-				'id'      => 'my-help-id',
+				'id'      => 'ceo-comic-help',
 				'title'   => __( 'Instructions','comic-easel' ),
 				'content' => $context_output,
 			) );

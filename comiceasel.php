@@ -558,9 +558,12 @@ function ceo_pluginfo($whichinfo = null) {
 // Load all the widgets
 
 // The same directory ceo_pluginfo('plugin_path') names, without loading the settings this early.
-foreach (glob(plugin_dir_path(__FILE__) . 'widgets/*.php') as $widgefile) {
-	require_once($widgefile);
+// The widget files load in the global scope, as they always have, so the loop variable carries
+// the plugin's prefix and is dropped afterwards.
+foreach (glob(plugin_dir_path(__FILE__) . 'widgets/*.php') as $ceo_widget_file) {
+	require_once($ceo_widget_file);
 }
+unset($ceo_widget_file);
 
 // for older PHP versions cannot use function inside of add_action
 
