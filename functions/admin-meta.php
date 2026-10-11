@@ -216,8 +216,9 @@ function ceo_filter_restrict_manage_posts() {
 			foreach ( $filters as $tax_slug ) {
 				$tax_obj = get_taxonomy( $tax_slug );
 				wp_dropdown_categories( array(
+					// wp_dropdown_categories() prints this label as it is given.
 					/* translators: %s: taxonomy label, e.g. "Chapters". */
-					'show_option_all' => sprintf(__('Show All %s', 'comic-easel'), $tax_obj->label),
+					'show_option_all' => esc_html(sprintf(__('Show All %s', 'comic-easel'), $tax_obj->label)),
 					'taxonomy' 	  => $tax_slug,
 					'name' 		  => $tax_obj->name,
 					'orderby' 	  => 'name',
