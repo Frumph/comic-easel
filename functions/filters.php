@@ -191,4 +191,6 @@ function ceo_clear_post_thumbnail_on_comics($content) {
 	global $post;
 	if (!ceo_pluginfo('remove_post_thumbnail')) return $content;
 	if (is_single() && $post->post_type == 'comic') return '';
+	// Every other featured image is left as it is.
+	return $content;
 }
