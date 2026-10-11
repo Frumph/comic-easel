@@ -849,6 +849,13 @@ if ( ! class_exists( 'WP_Query' ) ) {
 	}
 }
 
+/** A desktop browser: the comic nav bar drops some links on phones. */
+if ( ! function_exists( 'wp_is_mobile' ) ) {
+	function wp_is_mobile() {
+		return false;
+	}
+}
+
 if ( ! function_exists( 'is_404' ) ) {
 	function is_404() {
 		return false;

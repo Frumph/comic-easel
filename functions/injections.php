@@ -159,7 +159,7 @@ if (ceo_pluginfo('enable_comment_nav') && !wp_is_mobile()) {
 			if (!empty($chapter) && !is_wp_error($chapter)) $stay = '&stay='.reset($chapter)->term_id;
 		}
 ?>
-			<td class="comic-nav"><a href="<?php bloginfo('url') ?>?random&nocache=1<?php echo esc_attr($stay); ?>" class="comic-nav-random" title="Random Comic"><?php esc_html_e('Random','comic-easel'); ?></a></td>
+			<td class="comic-nav"><a href="<?php echo esc_url(home_url('/?random&nocache=1'.$stay)); ?>" class="comic-nav-random" title="Random Comic"><?php esc_html_e('Random','comic-easel'); ?></a></td>
 <?php } ?>
 	<td class="comic-nav"><?php if ($next_comic) { ?><a href="<?php echo esc_url($next_comic); ?>" class="comic-nav-base comic-nav-next<?php if (!$next_comic) { ?> comic-nav-inactive<?php } ?>"><?php echo esc_html($next_text); ?></a><?php } else { echo '<span class="comic-nav-base comic-nav-next comic-nav-void ">'.esc_html($next_text).'</span>'; } ?></td>
 	<td class="comic-nav"><?php if ( get_permalink() != $last_comic ) { ?><a href="<?php echo esc_url($last_comic); ?>" class="comic-nav-base comic-nav-last<?php if ( get_permalink() == $last_comic ) { ?> comic-nav-inactive<?php } ?>"><?php echo esc_html($last_text); ?></a><?php } else { echo '<span class="comic-nav-base comic-nav-last comic-nav-void">'.esc_html($last_text).'</span>'; } ?></td>
