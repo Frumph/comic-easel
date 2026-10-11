@@ -571,7 +571,7 @@ function ceo_handle_edit_save_comic($post_id, $post) {
 			
 	foreach ($meta_array as $meta_key) {
 		if (isset($_POST[$meta_key]) && !is_scalar($_POST[$meta_key])) continue;
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Some fields intentionally contain HTML; the verified editor value is normalized and escaped for legacy storage.
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Every field is stored entity-escaped by esc_textarea(), the legacy format existing data is in and the renderers expect; comic-html-above/below hold HTML that ceo_comic_html_for_output() filters when displayed.
 		$new_meta_value = ( isset( $_POST[$meta_key] ) ? esc_textarea( wp_unslash($_POST[$meta_key]) ) : '' );
 		$meta_value = get_post_meta( $post_id, $meta_key, true );
 		if ( $new_meta_value && $new_meta_value != $meta_value )
