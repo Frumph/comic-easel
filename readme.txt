@@ -150,7 +150,7 @@ PayPal is provided by PayPal, Inc.: [User Agreement](https://www.paypal.com/us/l
 
 = 1.19 =
 * Requires WordPress 5.3 or later, the first version to support PHP 7.4, which Comic Easel already required
-* Scripts are now loaded through WordPress's script functions instead of being printed inline: the transcript toggle, the config screen's tabs and the chapter picker each have their own file. Several transcripts on one page now open and close independently
+* Scripts are now loaded through WordPress's script functions instead of being printed inline: the transcript toggle, the config screen's tabs, the chapter picker and the chapter and comic dropdown menus each have their own file. Several transcripts on one page now open and close independently
 * Output escaping completed across widgets, shortcodes and admin screens
 * Widgets no longer log PHP warnings for settings added after they were first saved
 * Fixed a "translation loading was triggered too early" notice on a new install's first page load
@@ -159,6 +159,7 @@ PayPal is provided by PayPal, Inc.: [User Agreement](https://www.paypal.com/us/l
 * Removed leftover IE 7 styles and links to stylesheets WordPress no longer ships
 * Rewrote the content warning script under the plugin's GPL licence; revealed comics now follow their link normally
 * Removed the Referrer meta tag, which made browsers log an error on every page
+* Multi-image comics now show their image buttons when keyboard navigation is turned off and the theme does not load jQuery
 
 = 1.18.1 =
 * Maintenance release: the plugin is now maintained by coraislovely with the original author's blessing; readme and credits updated, links to the former project site replaced
