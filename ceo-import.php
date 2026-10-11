@@ -47,7 +47,7 @@ function ceo_breakdown_comic_filename($filename, $import_date_format, $import_fi
 			
 			if (strtotime($date) === false) { return false; }
 			$converted_title = ucwords(trim(preg_replace('/[\-\_]/', ' ', $title)));
-			$date = date($import_date_format, strtotime($date));
+			$date = date($import_date_format, strtotime($date)); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date -- Kept as date() so it follows PHP's timezone exactly as before.
 			
 			if (is_numeric($converted_title)) {	$converted_title = "Title: {$converted_title}"; }
 			return compact('filename', 'date', 'title', 'converted_title');
@@ -60,7 +60,7 @@ function ceo_import_add_comic_and_post($comic_to_add, $date_to_add, $title_to_ad
 	global $wpdb;
 	// (TODO) check to see if the post already exists THEN do wp_insert_post below // $import_create_post
 	// get the $timestamp set correctly
-	$post_date = date('Y-m-d H:i:s', strtotime($date_to_add .= " " . $import_time));
+	$post_date = date('Y-m-d H:i:s', strtotime($date_to_add .= " " . $import_time)); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date -- Kept as date() so it follows PHP's timezone exactly as before.
 	$post_args = array(
 			'post_name'		=> sanitize_title($title_to_add),
 			'post_title'	=> $title_to_add,
@@ -80,7 +80,7 @@ function ceo_import_add_comic_and_post($comic_to_add, $date_to_add, $title_to_ad
 		$comic = $comic->request( $file_url );
 		if (!is_wp_error($comic)) {
 			$comic_date = isset($comic['headers']['last-modified']) ? $comic['headers']['last-modified'] : $comic['headers']['date'];
-			$attachment = wp_upload_bits( $comic_to_add, null, $comic['body'], date("Y-m", strtotime( $comic_date ) ) );
+			$attachment = wp_upload_bits( $comic_to_add, null, $comic['body'], date("Y-m", strtotime( $comic_date ) ) ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date -- Kept as date() so it follows PHP's timezone exactly as before.
 			if (!is_wp_error($attachment)) {
 				$filetype = wp_check_filetype( basename( $attachment['file'] ), null );
 				$postinfo_args = array(

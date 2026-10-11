@@ -429,7 +429,7 @@ function ceo_archive_list_by_year($thumbnail = false, $order = 'ASC', $chapter =
 		$latest_comic = ceo_get_last_comic(false);
 		$archive_year = get_post_time('Y', false, $latest_comic, true);
 	}
-	if (empty($archive_year)) $archive_year = date('Y');
+	if (empty($archive_year)) $archive_year = date('Y'); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date -- Kept as date() so it follows PHP's timezone exactly as before.
 	$output = '<h3 class="year-title">'.$archive_year.'</h3>';
 	$output .= '<br />';
 	$output .= '<div class="archive-yearlist">| ';

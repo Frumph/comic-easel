@@ -22,6 +22,8 @@ if (!defined('ABSPATH')) exit;
  * @param bool $echo Optional, default is true. Set to false for return.
  */
 function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
+	// date() is paired with mktime() below, so both follow PHP's timezone together, as they always have.
+	// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date
 	global $wpdb, $m, $monthnum, $year, $wp_locale, $posts;
 
 	if (empty($taxonomy)) $taxonomy = 'post';
@@ -234,6 +236,7 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 	else
 		return apply_filters( 'get_comic_calendar',  $calendar_output );
 
+	// phpcs:enable WordPress.DateTime.RestrictedFunctions.date_date
 }
 
 /**

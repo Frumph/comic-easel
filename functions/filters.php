@@ -167,7 +167,7 @@ function ceo_lastpostmodified() {
 	$lastpostmodified = wp_cache_get( 'ceo_lastpostmodified', 'comic-easel' );
 	if ( $lastpostmodified ) return $lastpostmodified;
 	global $wpdb;
-	$add_seconds_server = (int) date('Z');
+	$add_seconds_server = (int) date('Z'); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date -- Kept as date() so it follows PHP's timezone exactly as before.
 	$lastpostmodified = $wpdb->get_var(
 		$wpdb->prepare(
 			"SELECT DATE_ADD(post_modified_gmt, INTERVAL %d SECOND) FROM $wpdb->posts WHERE post_status = 'publish' ORDER BY post_modified_gmt DESC LIMIT 1",
