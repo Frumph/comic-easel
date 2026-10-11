@@ -3,7 +3,8 @@
 /**
  * The Comics list's Chapter, Characters and Location columns — functions/admin-meta.php
  *
- * Each term in those columns links to the Comics list filtered by that term.
+ * Each term in those columns links to the Comics list filtered by that term. The filter takes the
+ * term's slug; its name only matched when the two happened to be the same.
  */
 class ComicListColumnsTest extends CE_TestCase {
 
@@ -20,8 +21,8 @@ class ComicListColumnsTest extends CE_TestCase {
 	}
 
 	public function testTermsLinkToTheFilteredComicsList() {
-		$this->assertSame( CE_KSES_SENTINEL . '<a href="https://example.test/wp-admin/edit.php?post_type=comic&#038;chapters=The+Old+Mill">The Old Mill</a>', $this->column( 'chapter', 'chapters' ) );
-		$this->assertSame( CE_KSES_SENTINEL . '<a href="https://example.test/wp-admin/edit.php?post_type=comic&#038;characters=The+Old+Mill">The Old Mill</a>', $this->column( 'characters', 'characters' ) );
+		$this->assertSame( CE_KSES_SENTINEL . '<a href="https://example.test/wp-admin/edit.php?post_type=comic&#038;chapters=the-old-mill">The Old Mill</a>', $this->column( 'chapter', 'chapters' ) );
+		$this->assertSame( CE_KSES_SENTINEL . '<a href="https://example.test/wp-admin/edit.php?post_type=comic&#038;characters=the-old-mill">The Old Mill</a>', $this->column( 'characters', 'characters' ) );
 	}
 
 	/**
@@ -29,6 +30,6 @@ class ComicListColumnsTest extends CE_TestCase {
 	 * which led to a missing page.
 	 */
 	public function testLocationsLinkToTheFilteredComicsList() {
-		$this->assertSame( CE_KSES_SENTINEL . '<a href="https://example.test/wp-admin/edit.php?post_type=comic&#038;locations=The+Old+Mill">The Old Mill</a>', $this->column( 'locations', 'locations' ) );
+		$this->assertSame( CE_KSES_SENTINEL . '<a href="https://example.test/wp-admin/edit.php?post_type=comic&#038;locations=the-old-mill">The Old Mill</a>', $this->column( 'locations', 'locations' ) );
 	}
 }

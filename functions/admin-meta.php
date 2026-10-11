@@ -170,7 +170,7 @@ function ceo_manage_comic_columns($column_name, $id) {
 			$allterms = get_the_terms( $id, 'chapters');
 			if (!empty($allterms) && !isset($allterms->errors)) {
 				foreach ($allterms as $term) {
-					$term_list_chapters[] = '<a href="'.esc_url(admin_url('edit.php?post_type=comic&chapters='.urlencode($term->name))).'">'.esc_html($term->name).'</a>';
+					$term_list_chapters[] = '<a href="'.esc_url(admin_url('edit.php?post_type=comic&chapters='.urlencode($term->slug))).'">'.esc_html($term->name).'</a>';
 				}
 				echo wp_kses_post(join(', ', $term_list_chapters ));
 			}
@@ -179,7 +179,7 @@ function ceo_manage_comic_columns($column_name, $id) {
 			$allterms = get_the_terms( $id, 'characters');
 			if (!empty($allterms) && !isset($allterms->errors)) {
 				foreach ($allterms as $term) {
-					$term_list_characters[] = '<a href="'.esc_url(admin_url('edit.php?post_type=comic&characters='.urlencode($term->name))).'">'.esc_html($term->name).'</a>';
+					$term_list_characters[] = '<a href="'.esc_url(admin_url('edit.php?post_type=comic&characters='.urlencode($term->slug))).'">'.esc_html($term->name).'</a>';
 				}
 				echo wp_kses_post(join(', ', $term_list_characters ));
 			}
@@ -188,7 +188,7 @@ function ceo_manage_comic_columns($column_name, $id) {
 			$allterms = get_the_terms( $id, 'locations');
 			if (!empty($allterms) && !isset($allterms->errors)) {
 				foreach ($allterms as $term) {
-					$term_list_locations[] = '<a href="'.esc_url(admin_url('edit.php?post_type=comic&locations='.urlencode($term->name))).'">'.esc_html($term->name).'</a>';
+					$term_list_locations[] = '<a href="'.esc_url(admin_url('edit.php?post_type=comic&locations='.urlencode($term->slug))).'">'.esc_html($term->name).'</a>';
 				}
 				echo wp_kses_post(join(', ', $term_list_locations ));
 			}
