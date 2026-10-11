@@ -71,4 +71,44 @@ class OutputEscapingTest extends CE_TestCase {
 		$this->assertStringContainsString( CE_KSES_SENTINEL . $message, $output );
 		$this->assertContains( $message, CE_Test_State::$kses_calls );
 	}
+
+	/**
+	 * The related-comics list is assembled from escaped pieces and then filtered again as it
+	 * is echoed, so the escaping is visible at the sink.
+	 */
+	public function testRelatedComicsAreFilteredAsTheyAreEchoed() {
+		self::loadPluginFile( 'functions/injections.php' );
+		$this->setGlobalPost( 42 );
+		$term          = new stdClass();
+		$term->term_id = 9;
+		CE_Test_State::$terms['characters'] = array( $term );
+		$related             = new stdClass();
+		$related->ID         = 7;
+		$related->post_title = 'A " B';
+		$this->useWpdbSpy()->result = array( $related );
+
+		ob_start();
+		ceo_display_related_comics();
+		$output = ob_get_clean();
+
+		$this->assertStringStartsWith( CE_KSES_SENTINEL . '<div class="related-comics">', $output );
+		$this->assertStringContainsString( 'title="A &quot; B"', $output );
+	}
+
+	/**
+	 * The version meta tag is filterable. Whatever a filter returns is held to <meta>.
+	 */
+	public function testVersionMetaIsHeldToMetaTags() {
+		self::loadPluginFile( 'functions/injections.php' );
+		CE_Test_State::$pluginfo['version'] = '1.0"><script>';
+
+		ob_start();
+		ceo_version_meta();
+		ob_end_clean();
+
+		$this->assertCount( 1, CE_Test_State::$kses_allowlist_calls );
+		list( $version_tag, $allowed ) = CE_Test_State::$kses_allowlist_calls[0];
+		$this->assertSame( '<meta name="Comic-Easel" content="1.0&quot;&gt;&lt;script&gt;" />' . "\r\n", $version_tag );
+		$this->assertSame( array( 'meta' ), array_keys( $allowed ) );
+	}
 }

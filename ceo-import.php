@@ -14,6 +14,10 @@ $import_request_is_valid = false;
 if (isset($_POST['_wpnonce']) && is_scalar($_POST['_wpnonce'])) {
 	$import_nonce = sanitize_text_field(wp_unslash($_POST['_wpnonce']));
 	if (wp_verify_nonce($import_nonce, 'comiceasel-import')) {
+		// An import creates comic posts, so check the capability the Import page is registered
+		// with, edit_theme_options, here as well as where WordPress shows the page.
+		if (!current_user_can('edit_theme_options'))
+			wp_die(esc_html__('You do not have permission to import comics.','comic-easel'));
 		$import_request_is_valid = true;
 		$import_time = isset($_POST['import-time']) && is_scalar($_POST['import-time']) ? sanitize_text_field(wp_unslash($_POST['import-time'])) : $import_time;
 		$import_type = isset($_POST['import-type']) && is_scalar($_POST['import-type']) ? sanitize_key(wp_unslash($_POST['import-type'])) : $import_type;
@@ -47,7 +51,7 @@ function ceo_breakdown_comic_filename($filename, $import_date_format, $import_fi
 			
 			if (strtotime($date) === false) { return false; }
 			$converted_title = ucwords(trim(preg_replace('/[\-\_]/', ' ', $title)));
-			$date = date($import_date_format, strtotime($date));
+			$date = date($import_date_format, strtotime($date)); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date -- Kept as date() so it follows PHP's timezone exactly as before.
 			
 			if (is_numeric($converted_title)) {	$converted_title = "Title: {$converted_title}"; }
 			return compact('filename', 'date', 'title', 'converted_title');
@@ -60,7 +64,7 @@ function ceo_import_add_comic_and_post($comic_to_add, $date_to_add, $title_to_ad
 	global $wpdb;
 	// (TODO) check to see if the post already exists THEN do wp_insert_post below // $import_create_post
 	// get the $timestamp set correctly
-	$post_date = date('Y-m-d H:i:s', strtotime($date_to_add .= " " . $import_time));
+	$post_date = date('Y-m-d H:i:s', strtotime($date_to_add .= " " . $import_time)); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date -- Kept as date() so it follows PHP's timezone exactly as before.
 	$post_args = array(
 			'post_name'		=> sanitize_title($title_to_add),
 			'post_title'	=> $title_to_add,
@@ -80,7 +84,7 @@ function ceo_import_add_comic_and_post($comic_to_add, $date_to_add, $title_to_ad
 		$comic = $comic->request( $file_url );
 		if (!is_wp_error($comic)) {
 			$comic_date = isset($comic['headers']['last-modified']) ? $comic['headers']['last-modified'] : $comic['headers']['date'];
-			$attachment = wp_upload_bits( $comic_to_add, null, $comic['body'], date("Y-m", strtotime( $comic_date ) ) );
+			$attachment = wp_upload_bits( $comic_to_add, null, $comic['body'], date("Y-m", strtotime( $comic_date ) ) ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date -- Kept as date() so it follows PHP's timezone exactly as before.
 			if (!is_wp_error($attachment)) {
 				$filetype = wp_check_filetype( basename( $attachment['file'] ), null );
 				$postinfo_args = array(
@@ -130,7 +134,7 @@ function ceo_import_by_namedate($import_directory, $import_date_format, $import_
 			if (empty($file_to_process['converted_title'])) $file_to_process['converted_title'] = $file_to_process['date'];
 			$result = ceo_import_add_comic_and_post($file_to_process['filename'], $file_to_process['date'], $file_to_process['converted_title'], $import_create_post, $import_chapter, $import_time, $import_directory);
 			$result = ($result) ? $result : __('System Process Error','comic-easel');
-			echo '<td>'.esc_html__('Date:','comic-easel').' <strong>'.esc_html($file_to_process['date']).'</strong></td><td> ---- </td><td>'.esc_html__('Title of Post:','comic-easel').' <strong>'.esc_html($file_to_process['converted_title']).'</strong></td><td> --- </td><td>'.esc_html__('Result:','comic-easel').' <strong>'.$result.'</strong></td>';
+			echo '<td>'.esc_html__('Date:','comic-easel').' <strong>'.esc_html($file_to_process['date']).'</strong></td><td> ---- </td><td>'.esc_html__('Title of Post:','comic-easel').' <strong>'.esc_html($file_to_process['converted_title']).'</strong></td><td> --- </td><td>'.esc_html__('Result:','comic-easel').' <strong>'.esc_html($result).'</strong></td>';
 			echo '</tr>';
 		}
 		echo '</table>';

@@ -3,14 +3,14 @@
 Plugin Name: Comic Easel
 Plugin URI: https://github.com/Frumph/comic-easel
 Description: Comic Easel allows you to incorporate a WebComic using the WordPress Media Library functionality with Navigation into almost all WordPress themes. With just a few modifications of adding injection do_action locations into a theme, you can have the theme of your choice display and manage a webcomic.
-Version: 1.18.1
+Version: 1.19
 Author: Philip M. Hofer (Frumph)
 Author URI: https://github.com/Frumph
 Text Domain: comic-easel
 Domain Path: /lang
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Requires at least: 4.8.2
+Requires at least: 5.3
 Requires PHP: 7.4
 
 Copyright 2012-2018 Philip M. Hofer (Frumph)
@@ -179,11 +179,15 @@ function ceo_initialize_post_types() {
 	}
 }
 
-if (ceo_pluginfo('enable_chapter_in_url')) {
-	add_filter( 'post_type_link', 'ceo_add_chapters_to_permalinks', 1, 2 );
-}
+/*
+ * The settings are read when the filter runs, not here: reading them while the plugin loads
+ * builds the defaults on a fresh install, and their translated strings would load the text
+ * domain before init, which WordPress 6.7 and later report as a notice.
+ */
+add_filter( 'post_type_link', 'ceo_add_chapters_to_permalinks', 1, 2 );
 
 function ceo_add_chapters_to_permalinks( $post_link, $id = 0 ){
+	if (!ceo_pluginfo('enable_chapter_in_url')) return $post_link;
     $post = get_post($id);
 	$chapter_slug = ucwords(ceo_pluginfo('chapter_type_slug_name'));
 	if (empty($chapter_slug) || is_array($chapter_slug)) $chapter_slug = 'chapter';
@@ -197,10 +201,12 @@ function ceo_add_chapters_to_permalinks( $post_link, $id = 0 ){
     return $post_link;
 }
 
-if (!defined('CEO_FEATURE_DISABLE_REWRITE_RULES') && !ceo_pluginfo('disable_cal_rewrite_rules'))
+// As above, the setting is read when the rules are generated rather than while the plugin loads.
+if (!defined('CEO_FEATURE_DISABLE_REWRITE_RULES'))
 	add_action('generate_rewrite_rules', 'ceo_datearchives_rewrite_rules');
 
 function ceo_datearchives_rewrite_rules($wp_rewrite) {
+	if (ceo_pluginfo('disable_cal_rewrite_rules')) return $wp_rewrite;
 	$rules = ceo_generate_date_archives('comic', $wp_rewrite);
 	$wp_rewrite->rules = $rules + $wp_rewrite->rules;
 	return $wp_rewrite;
@@ -289,10 +295,12 @@ function ceo_revert_filename($filename) {
 // THIS STUFF ONLY RUNS IN THE WP-ADMIN
 if (is_admin()) {
 	// only load the plugin code of we're in the administration part of WordPress.
-	@require('ceo-admin.php');
-	@require('functions/admin-meta.php');
+	require __DIR__ . '/ceo-admin.php';
+	require __DIR__ . '/functions/admin-meta.php';
 } else {
-	add_action('wp_print_styles', 'ceo_run_css', 1);
+	// Last, so the stylesheets still follow the theme's and other plugins' in the head, where
+	// enqueueing them from wp_print_styles used to put them.
+	add_action('wp_enqueue_scripts', 'ceo_run_css', PHP_INT_MAX);
 	add_action('wp_enqueue_scripts', 'ceo_run_scripts', 1);
 }
 
@@ -306,14 +314,6 @@ function ceo_chapters_add_menu_order_column() {
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- The table identifier comes from WordPress's wpdb object; this query has no variable values.
 		$wpdb->query($sql);
 	}
-}
-
-// currently not hooked in
-function ceo_chapters_deactivate() {
-	global $wpdb;
-	$sql = "ALTER TABLE `{$wpdb->terms}` DROP COLUMN `menu_order`;";
-	// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- The table identifier comes from WordPress's wpdb object; this query has no variable values.
-	$result = $wpdb->query($sql);	
 }
 
 /**
@@ -343,25 +343,25 @@ function ceo_activation() {
 }
 
 // This file contains functions that is used elsewhere in the plugin 
-@require('functions/library.php');
+require __DIR__ . '/functions/library.php';
 
 // Filters that change the behavior of WordPress
-@require('functions/filters.php');
+require __DIR__ . '/functions/filters.php';
 
 // This file handles navigation of the comic
-@require('functions/navigation.php');
+require __DIR__ . '/functions/navigation.php';
 
 // This file handles reading the comic from the filesystem and displaying it
-@require('functions/displaycomic.php');
+require __DIR__ . '/functions/displaycomic.php';
 
 // This file contains the functions that are injected into the theme
-@require('functions/injections.php');
+require __DIR__ . '/functions/injections.php';
 
 // This file contains all the shortcodes for archives and cast pages
-@require('functions/shortcodes.php');
+require __DIR__ . '/functions/shortcodes.php';
 
 // Redirects /?latest /?random etc.
-@require('functions/redirects.php');
+require __DIR__ . '/functions/redirects.php';
 
 /**
  * These set of functions are for the configuration ceo_pluginfo() information
@@ -514,6 +514,14 @@ function ceo_pluginfo($whichinfo = null) {
 			$ceo_options['buy_comic_currency'] = preg_match('/^[A-Z]{3}$/', $currency) ? $currency : '';
 			update_option('comiceasel-config', $ceo_options);
 		}
+		if (version_compare($ceo_options['db_version'], '1.9.10', '<')) {
+			$ceo_options['db_version'] = '1.9.10';
+			// Before 1.19 the latest PayPal notification's email, with the buyer's name, email and
+			// address, was also kept in this option, which nothing reads. Clear it once, for sites
+			// that will not get another notification to clear it.
+			delete_option('ceo_paypal_receiver');
+			update_option('comiceasel-config', $ceo_options);
+		}
 		$ceo_coreinfo = wp_upload_dir();
 		$ceo_addinfo = array(
 				// if wp_upload_dir reports an error, capture it
@@ -530,7 +538,7 @@ function ceo_pluginfo($whichinfo = null) {
 				// comic-easel plugin directory/url
 				'plugin_url' => plugin_dir_url(__FILE__),
 				'plugin_path' => plugin_dir_path(__FILE__),
-				'version' => '1.18.1'
+				'version' => '1.19'
 		);
 		// Combine em.
 		$ceo_pluginfo = array_merge($ceo_pluginfo, $ceo_addinfo);
@@ -549,9 +557,13 @@ function ceo_pluginfo($whichinfo = null) {
 
 // Load all the widgets
 
-foreach (glob(ceo_pluginfo('plugin_path')  . 'widgets/*.php') as $widgefile) {
-	require_once($widgefile);
+// The same directory ceo_pluginfo('plugin_path') names, without loading the settings this early.
+// The widget files load in the global scope, as they always have, so the loop variable carries
+// the plugin's prefix and is dropped afterwards.
+foreach (glob(plugin_dir_path(__FILE__) . 'widgets/*.php') as $ceo_widget_file) {
+	require_once($ceo_widget_file);
 }
+unset($ceo_widget_file);
 
 // for older PHP versions cannot use function inside of add_action
 
@@ -584,17 +596,18 @@ add_action('plugins_loaded', 'ceo_language_init');
 
 function ceo_run_css() {
 	if (!ceo_pluginfo('disable_style_sheet')) {
-		wp_register_style('comiceasel-style', ceo_pluginfo('plugin_url').'css/comiceasel.css');
+		wp_register_style('comiceasel-style', ceo_pluginfo('plugin_url').'css/comiceasel.css', array(), ceo_pluginfo('version'));
 		wp_enqueue_style('comiceasel-style');
 		if (is_active_widget(false, false, 'ceo_comic_navigation_widget', true)) {
+			// A navstyle.css shipped by the theme changes with the theme, so it carries the theme's version.
 			if (is_child_theme() && file_exists(get_stylesheet_directory() . '/images/nav/' . ceo_pluginfo('graphic_navigation_directory') . '/navstyle.css')) {
-				wp_register_style('comiceasel-navstyle',get_stylesheet_directory_uri() . '/images/nav/' . ceo_pluginfo('graphic_navigation_directory') . '/navstyle.css');
+				wp_register_style('comiceasel-navstyle',get_stylesheet_directory_uri() . '/images/nav/' . ceo_pluginfo('graphic_navigation_directory') . '/navstyle.css', array(), wp_get_theme()->get('Version'));
 			} elseif (file_exists(get_template_directory() . '/images/nav/' . ceo_pluginfo('graphic_navigation_directory'). '/navstyle.css')) {
-				wp_register_style('comiceasel-navstyle',get_template_directory_uri() . '/images/nav/' . ceo_pluginfo('graphic_navigation_directory') . '/navstyle.css');
+				wp_register_style('comiceasel-navstyle',get_template_directory_uri() . '/images/nav/' . ceo_pluginfo('graphic_navigation_directory') . '/navstyle.css', array(), wp_get_theme(get_template())->get('Version'));
 			} elseif (file_exists(ceo_pluginfo('plugin_path') . 'images/nav/' . ceo_pluginfo('graphic_navigation_directory') . '/navstyle.css')) {
-				wp_register_style('comiceasel-navstyle', ceo_pluginfo('plugin_url').'images/nav/'. ceo_pluginfo('graphic_navigation_directory'). '/navstyle.css');
+				wp_register_style('comiceasel-navstyle', ceo_pluginfo('plugin_url').'images/nav/'. ceo_pluginfo('graphic_navigation_directory'). '/navstyle.css', array(), ceo_pluginfo('version'));
 			} else 
-				wp_register_style('comiceasel-navstyle', ceo_pluginfo('plugin_url').'css/navstyle.css');
+				wp_register_style('comiceasel-navstyle', ceo_pluginfo('plugin_url').'css/navstyle.css', array(), ceo_pluginfo('version'));
 			wp_enqueue_style('comiceasel-navstyle');
 		}
 	}
@@ -605,11 +618,11 @@ function ceo_run_scripts() {
 	if (!empty($post)) {
 		$comic_content_warning = get_post_meta( $post->ID, 'comic-content-warning', true );
 		if ($comic_content_warning) {
-			add_action('wp_head', 'ceo_content_warning_in_head');
-			wp_enqueue_script('ceo_comic_content_warning', ceo_pluginfo('plugin_url').'js/content-warning.js', null, null, true);
+			wp_enqueue_script('ceo_comic_content_warning', ceo_pluginfo('plugin_url').'js/content-warning.js', array(), ceo_pluginfo('version'), true);
+			ceo_content_warning_in_head();
 		}
 	}
 	if (!ceo_pluginfo('disable_keynav')) {
-		wp_enqueue_script('ceo_keynav', ceo_pluginfo('plugin_url').'js/keynav.js', array('jquery'), null, true);
+		wp_enqueue_script('ceo_keynav', ceo_pluginfo('plugin_url').'js/keynav.js', array('jquery'), ceo_pluginfo('version'), true);
 	}
 }

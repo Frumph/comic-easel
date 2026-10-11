@@ -1,6 +1,7 @@
 <?php
 if (!defined('ABSPATH')) exit;
 
+// phpcs:disable WordPress.Security.NonceVerification.Recommended -- These public URLs only pick a handler: /?latest and /?random are links anyone may follow, and PayPal's notification to /?ceopaypalipn is verified with PayPal by the handler.
 if ( isset( $_GET['latest'] ) )
 	add_action( 'template_redirect', 'ceo_latest_comic_jump' );
 
@@ -9,29 +10,33 @@ if ( isset( $_GET['random'] ) )
 
 if (isset($_GET['ceopaypalipn'])) 
 	add_action('template_redirect', 'ceo_paypal_ipn');
+// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 //to use simply create a URL link to "/?latest"
 function ceo_latest_comic_jump() {
 	$chapter = 0; $respond = ''; 
-	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public read-only navigation URLs historically accept this query argument.
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Public read-only navigation URLs historically accept these query arguments.
 	if (isset($_GET['latest']) && is_scalar($_GET['latest'])) $chapter = sanitize_text_field(wp_unslash($_GET['latest']));
 	if (isset($_GET['comment'])) $respond = '#respond';
+	// phpcs:enable WordPress.Security.NonceVerification.Recommended
 	if (!empty($chapter)) {
 		if (!is_numeric($chapter)) { //if the argument after latest is not a number, we assume it is the slugname
 			$this_chapter = get_term_by('slug', $chapter, 'chapters'); //added: get chapter by slug
 		} else {
 			$this_chapter = get_term_by('term_id', $chapter, 'chapters'); //get chapter by id
 		}
+		// An unknown chapter leaves 'chapters' empty, which get_posts() ignores, so the link
+		// still goes to the latest comic of all, as it always did, just without a PHP warning.
 		$args = array( 
 				'numberposts' => 1, 
 				'post_type' => 'comic', 
 				'orderby' => 'post_date', 
 				'order' => 'DESC', 
 				'post_status' => 'publish', 
-				'chapters' => $this_chapter->slug
+				'chapters' => ($this_chapter ? $this_chapter->slug : '')
 				);					
 		$qposts = get_posts( $args );
-		if (is_array($qposts)) {
+		if (!empty($qposts)) {
 			$qposts = reset($qposts);
 			wp_redirect( get_permalink( $qposts->ID ).$respond );
 		} else {
@@ -46,7 +51,7 @@ function ceo_latest_comic_jump() {
 				'post_status' => 'publish'
 				);
 		$qposts = get_posts( $args );
-		if (is_array($qposts)) {
+		if (!empty($qposts)) {
 			$qposts = reset($qposts);
 			wp_redirect( get_permalink( $qposts->ID ).$respond );
 		} else {
@@ -67,14 +72,14 @@ function ceo_random_comic() {
 				'post_type' => 'comic', 
 				'orderby' => 'rand',  
 				'post_status' => 'publish', 
-				'chapters' => $this_chapter->slug
+				'chapters' => ($this_chapter ? $this_chapter->slug : '')
 				);					
 		$qposts = get_posts( $args );
-		if (is_array($qposts)) {
+		if (!empty($qposts)) {
 			$qposts = reset($qposts);
 			wp_redirect( get_permalink( $qposts->ID ) );
 		} else {
-			wp_redirect( bloginfo('url') );
+			wp_redirect( home_url() );
 		}
 	} else {
 		$args = array( 
@@ -85,9 +90,11 @@ function ceo_random_comic() {
 				);	
 	}
 	$qposts = get_posts( $args );
-	if (is_array($qposts)) {
+	if (!empty($qposts)) {
 		$qposts = reset($qposts);
 		wp_redirect( get_permalink( $qposts->ID ) );
+	} else {
+		wp_redirect( home_url() );
 	}
 	exit;
 }
@@ -310,19 +317,23 @@ function ceo_paypal_ipn() {
 	$payment_status = isset($ipn['payment_status']) ? $ipn['payment_status'] : '';
 	$payment_amount = isset($ipn['mc_gross']) ? $ipn['mc_gross'] : '';
 	$payment_currency = isset($ipn['mc_currency']) ? $ipn['mc_currency'] : '';
-	$txn_id = isset($ipn['txn_id']) ? $ipn['txn_id'] : '';
-	$shipping = isset($ipn['shipping']) ? $ipn['shipping'] : '';
-	$business = isset($ipn['business']) ? $ipn['business'] : '';
-	$payer_email = isset($ipn['payer_email']) ? $ipn['payer_email'] : '';
-	$first_name = isset($ipn['first_name']) ? $ipn['first_name'] : '';
-	$last_name = isset($ipn['last_name']) ? $ipn['last_name'] : '';
-	$address_name = isset($ipn['address_name']) ? $ipn['address_name'] : '';
-	$address_street = isset($ipn['address_street']) ? $ipn['address_street'] : '';
-	$address_city = isset($ipn['address_city']) ? $ipn['address_city'] : '';
-	$address_state = isset($ipn['address_state']) ? $ipn['address_state'] : '';
-	$address_zip = isset($ipn['address_zip']) ? $ipn['address_zip'] : '';
-	$address_country = isset($ipn['address_country']) ? $ipn['address_country'] : '';
-	$memo = isset($ipn['memo']) ? $ipn['memo'] : '';
+	// PayPal's transaction IDs are letters and digits, which sanitizing leaves as they are, so
+	// the replay ledger below still matches every genuine ID, including those already in it.
+	$txn_id = isset($ipn['txn_id']) ? sanitize_text_field($ipn['txn_id']) : '';
+	// These are only reported to the site owner by email. PayPal verified the notification,
+	// but the names, address and memo are still the buyer's own text.
+	$shipping = isset($ipn['shipping']) ? sanitize_text_field($ipn['shipping']) : '';
+	$business = isset($ipn['business']) ? sanitize_text_field($ipn['business']) : '';
+	$payer_email = isset($ipn['payer_email']) ? sanitize_email($ipn['payer_email']) : '';
+	$first_name = isset($ipn['first_name']) ? sanitize_text_field($ipn['first_name']) : '';
+	$last_name = isset($ipn['last_name']) ? sanitize_text_field($ipn['last_name']) : '';
+	$address_name = isset($ipn['address_name']) ? sanitize_text_field($ipn['address_name']) : '';
+	$address_street = isset($ipn['address_street']) ? sanitize_text_field($ipn['address_street']) : '';
+	$address_city = isset($ipn['address_city']) ? sanitize_text_field($ipn['address_city']) : '';
+	$address_state = isset($ipn['address_state']) ? sanitize_text_field($ipn['address_state']) : '';
+	$address_zip = isset($ipn['address_zip']) ? sanitize_text_field($ipn['address_zip']) : '';
+	$address_country = isset($ipn['address_country']) ? sanitize_text_field($ipn['address_country']) : '';
+	$memo = isset($ipn['memo']) ? sanitize_text_field($ipn['memo']) : '';
 	if ($payment_status !== 'Completed' || trim((string)$txn_id) === '') exit;
 
 	// PayPal retries notifications until the endpoint acknowledges them, and a
@@ -354,11 +365,20 @@ function ceo_paypal_ipn() {
 	// mc_gross includes shipping, so a total above the server-derived item prices is valid.
 	$amount_ok = $cart_ok && ceo_paypal_ipn_amount_covers($payment_amount, $expected_total);
 
+	// The checks above used the amount, currency and cart lines exactly as PayPal sent them;
+	// the email shows sanitized copies.
+	$shown_amount = sanitize_text_field($payment_amount);
+	$shown_currency = sanitize_text_field($payment_currency);
+
 	if (!$payee_ok) $email_message .= __('REJECTED: payment was not made to the configured PayPal address.','comic-easel')."\r\n\r\n";
 	if (!$cart_ok) $email_message .= __('REJECTED: the cart does not match an available Comic Easel product.','comic-easel')."\r\n\r\n";
-	if (!$amount_ok) $email_message .= sprintf(__('REJECTED: amount paid (%1$s) is below the asking price (%2$s).','comic-easel'), $payment_amount, $expected_total)."\r\n\r\n";
-	if (!$currency_ok) $email_message .= sprintf(__('REJECTED: payment currency (%1$s) is not the configured currency (%2$s).','comic-easel'), $payment_currency, $expected_currency)."\r\n\r\n";
+	/* translators: 1: amount the buyer paid, 2: price the comic is listed at. */
+	if (!$amount_ok) $email_message .= sprintf(__('REJECTED: amount paid (%1$s) is below the asking price (%2$s).','comic-easel'), $shown_amount, $expected_total)."\r\n\r\n";
+	/* translators: 1: currency code of the payment, 2: currency code set on the Buy Comic tab. */
+	if (!$currency_ok) $email_message .= sprintf(__('REJECTED: payment currency (%1$s) is not the configured currency (%2$s).','comic-easel'), $shown_currency, $expected_currency)."\r\n\r\n";
 
+	// Before 1.19 the last notification email, buyer details included, was also kept in this
+	// option. Nothing reads it, and the plugin no longer writes it.
 	delete_option('ceo_paypal_receiver');
 	if ($payee_ok && $cart_ok && $amount_ok && $currency_ok) {
 		foreach ($validated_cart['items'] as $item) {
@@ -381,14 +401,14 @@ function ceo_paypal_ipn() {
 	$email_message .= __('Number Items','comic-easel').': '.$num_cart_items."\r\n";
 	$count = 1;
 	foreach ($item_name as $item_sub_name) {
-		$email_message .= __('Item Name','comic-easel').' ['.$count.']: '.$item_sub_name."\r\n";
-		$email_message .= __('Item Number','comic-easel').' ['.$count.']: '.$item_number[$count]."\r\n";
+		$email_message .= __('Item Name','comic-easel').' ['.$count.']: '.sanitize_text_field($item_sub_name)."\r\n";
+		$email_message .= __('Item Number','comic-easel').' ['.$count.']: '.sanitize_text_field($item_number[$count])."\r\n";
 		$count++;
 	}
 	$email_message .= __('Payment Status','comic-easel').': '.$payment_status."\r\n";
-	$email_message .= __('Payment Amount','comic-easel').': '.$payment_amount."\r\n";
+	$email_message .= __('Payment Amount','comic-easel').': '.$shown_amount."\r\n";
 	$email_message .= __('Shipping','comic-easel').': '.$shipping."\r\n";
-	$email_message .= __('Payment Currency','comic-easel').': '.$payment_currency."\r\n";
+	$email_message .= __('Payment Currency','comic-easel').': '.$shown_currency."\r\n";
 	$email_message .= __('TXN_ID','comic-easel').': '.$txn_id."\r\n";
 	$email_message .= __('Paypal Receiver','comic-easel').': '.$business."\r\n\r\n";
 	
@@ -402,10 +422,6 @@ function ceo_paypal_ipn() {
 	$email_message .= __('Zip','comic-easel').': '.$address_zip."\r\n";
 	$email_message .= __('Country','comic-easel').': '.$address_country."\r\n\r\n";
 	if (!empty($memo)) $email_message .= __('Memo','comic-easel').': '.$memo."\r\n";
-	/*		foreach ($_POST as $post_info) {
-				$email_message .= $post_info;
-			} */
-	update_option('ceo_paypal_receiver', $email_message);
 	if (isset($comiceasel_config['buy_comic_email']))
 		wp_mail($comiceasel_config['buy_comic_email'], __('Comic Easel: Notification of Transaction - Buy Comic','comic-easel'), $email_message);
 	exit;

@@ -29,8 +29,9 @@ $ceo_legacy_rel_link_priority = null;
 add_filter('previous_post_rel_link', 'ceo_change_prev_rel_link_two', $ceo_legacy_rel_link_priority, 1); // change the rel links for comic pages
 add_filter('next_post_rel_link', 'ceo_change_next_rel_link_two', $ceo_legacy_rel_link_priority, 1);
 unset($ceo_legacy_rel_link_priority);
-if (ceo_pluginfo('remove_post_thumbnail')) 
-	add_filter('post_thumbnail_html','ceo_clear_post_thumbnail_on_comics');
+// The setting is checked when the filter runs: reading settings while the plugin loads would,
+// on a fresh install, load translations before init (see comiceasel.php).
+add_filter('post_thumbnail_html','ceo_clear_post_thumbnail_on_comics');
 
 /**
  * Fall back to a translation file named for the old text domain.
@@ -163,17 +164,17 @@ function ceo_chapters_find_menu_orderby($args) {
 
 // Fix for checking all posts whether or not custom post type or not for last modified.
 function ceo_lastpostmodified() {
-	$lastpostmodified = wp_cache_get( "lastpostmodified:custom:server", 'timeinfo' );
+	$lastpostmodified = wp_cache_get( 'ceo_lastpostmodified', 'comic-easel' );
 	if ( $lastpostmodified ) return $lastpostmodified;
 	global $wpdb;
-	$add_seconds_server = (int) date('Z');
+	$add_seconds_server = (int) date('Z'); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date -- Kept as date() so it follows PHP's timezone exactly as before.
 	$lastpostmodified = $wpdb->get_var(
 		$wpdb->prepare(
 			"SELECT DATE_ADD(post_modified_gmt, INTERVAL %d SECOND) FROM $wpdb->posts WHERE post_status = 'publish' ORDER BY post_modified_gmt DESC LIMIT 1",
 			$add_seconds_server
 		)
 	);
-	wp_cache_set( "lastpostmodified:custom:server", $lastpostmodified, 'timeinfo', 3600 );
+	wp_cache_set( 'ceo_lastpostmodified', $lastpostmodified, 'comic-easel', 3600 );
 	return $lastpostmodified;
 }
 
@@ -188,5 +189,8 @@ function ceo_insert_comic_transcript_into_posts($content) {
 
 function ceo_clear_post_thumbnail_on_comics($content) {
 	global $post;
+	if (!ceo_pluginfo('remove_post_thumbnail')) return $content;
 	if (is_single() && $post->post_type == 'comic') return '';
+	// Every other featured image is left as it is.
+	return $content;
 }

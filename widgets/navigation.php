@@ -23,9 +23,59 @@ class ceo_comic_navigation_widget extends WP_Widget {
 		);
 	}
 	
+	/**
+	 * Every setting the widget reads, with the value a newly added widget starts with.
+	 *
+	 * The navigation renders with these, not just form(). Saved settings are only rewritten
+	 * when the form is saved, so a widget saved before an option existed never gains its key
+	 * (the buy-comic link arrived in 1.5, August 2013), and a widget that has never been saved
+	 * has no settings at all. Every checkbox defaults off, which is what a missing key read as;
+	 * each label only shows when its checkbox is on, and the two have always been saved
+	 * together. lastgohome has never had a form field; it came over with the ComicPress
+	 * navigation this widget started from, so only a hand-edited instance can turn it on.
+	 */
+	private static function defaults() {
+		return array(
+					'previous_chap' => false,
+					'next_chap' => false,
+					'first_in' => false,
+					'last_in' => false,
+					'previous_in' => false,
+					'next_in' => false,
+					'first' => false,
+					'last' => false,
+					'previous' => false,
+					'next' => false,
+					'random' => false,
+					'archives' => false,
+					'comments' => false,
+					'comictitle' => false,      
+					'comicchapter' => false,
+					'imageurl' => false,
+					'buycomic' => false,
+					'lastgohome' => false,
+					'archive_path' => '',
+					'previous_chap_title' => __('<[ Prev Chapter', 'comic-easel'),
+					'next_chap_title' => __('Next Chapter ]>', 'comic-easel'),
+					'first_in_title' => __('<<[ First', 'comic-easel'),
+					'last_in_title' => __('Last ]>>', 'comic-easel'),
+					'previous_in_title' => __('<[ Prev', 'comic-easel'),
+					'next_in_title' => __('Next ]>', 'comic-easel'),
+					'first_title' => __('<< First', 'comic-easel'),
+					'last_title' => __('Last >>', 'comic-easel'),
+					'previous_title' => __('< Prev', 'comic-easel'),
+					'next_title' => __('Next >', 'comic-easel'),
+					'random_title' => __('Random', 'comic-easel'),
+					'archives_title' => __('Archives', 'comic-easel'),
+					'comments_title' => __('Comments', 'comic-easel'),
+					'buycomic_title' => __('Buy!', 'comic-easel')
+					);
+	}
+	
 	function display_comic_nav_wrapper($args, $instance) {
 		global $post;
 		extract($args, EXTR_SKIP);
+		$instance = wp_parse_args( (array) $instance, self::defaults() );
 		if (empty($post) || ($post->post_type != 'comic')) return;
 		$prev_in_comic = $next_in_comic = $first_in_comic = $last_in_comic = $prev_comic = $next_comic = $first_comic = $last_comic = $previous_chap = $next_chap = false;
 		if ($instance['previous_in']) $prev_in_comic = ceo_get_previous_comic_in_chapter_permalink();
@@ -43,16 +93,15 @@ class ceo_comic_navigation_widget extends WP_Widget {
 		?>
 		<div class="comic_navi_wrapper">
 		<table class="comic_navi">
-		<?php if (!isset($instance['comicchapter'])) $instance['comicchapter'] = false; ?>
 		<?php if (($instance['comicchapter']) || ($instance['comictitle'])) { ?>
 			<tr>
 			<td class="comic_navi_title" colspan="3">
 			<?php if ($instance['comicchapter']) { $post_category = get_the_term_list ($post->ID,'chapters', '', ', ', ''); ?>
-				<span class="navi-comicchapter"><?php echo $post_category ?></span>
+				<span class="navi-comicchapter"><?php echo wp_kses_post($post_category); ?></span>
 				<?php if ($instance['comictitle']) { echo '- '; }
 			}
 			if ($instance['comictitle']) { ?>
-				<span class="navi-comictitle"><a href="<?php echo esc_url(get_permalink($post->ID)); ?>" class="comic-nav-title">"<?php echo ceo_title_for_html($post->ID); ?>"</a></span>
+				<span class="navi-comictitle"><a href="<?php echo esc_url(get_permalink($post->ID)); ?>" class="comic-nav-title">"<?php echo wp_kses_post(ceo_title_for_html($post->ID)); ?>"</a></span>
 			<?php } ?>
 			</td>
 			</tr>
@@ -112,7 +161,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 			?>
 			<a href="<?php echo esc_url(home_url()); ?>/?random&amp;nocache=1<?php echo esc_attr($stay); ?>" class="navi navi-random" title="<?php echo esc_attr($instance['random_title']); ?>"><?php echo esc_html($instance['random_title']); ?></a>
 		<?php }
-		if (ceo_pluginfo('enable_buy_comic') && isset($instance['buycomic']) && $instance['buycomic']) {
+		if (ceo_pluginfo('enable_buy_comic') && $instance['buycomic']) {
 			if (strpos(ceo_pluginfo('buy_comic_url'), '?') !== false) {
 				$bpsep = '&';
 			} else {
@@ -159,7 +208,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 		}
 		if ($instance['last']) {
 			if (!empty($last_comic) && ($last_comic !== $this_permalink)) {
-				if (isset($instance['lastgohome']) && $instance['lastgohome']) { ?>
+				if ($instance['lastgohome']) { ?>
 					<a href="/" class="navi navi-last" title="<?php echo esc_attr($instance['last_title']); ?>"><?php echo esc_html($instance['last_title']); ?></a>
 				<?php } else { ?>
 					<a href="<?php echo esc_url($last_comic); ?>" class="navi navi-last" title="<?php echo esc_attr($instance['last_title']); ?>"><?php echo esc_html($instance['last_title']); ?></a>                  
@@ -263,40 +312,7 @@ class ceo_comic_navigation_widget extends WP_Widget {
 	}
 	
 	function form($instance) {
-		$instance = wp_parse_args( (array)$instance, array(
-					'previous_chap' => false,
-					'next_chap' => false,
-					'first_in' => false,
-					'last_in' => false,
-					'previous_in' => false,
-					'next_in' => false,
-					'first' => false,
-					'last' => false,
-					'previous' => false,
-					'next' => false,
-					'random' => false,
-					'archives' => false,
-					'comments' => false,
-					'comictitle' => false,      
-					'comicchapter' => false,
-					'imageurl' => false,
-					'buycomic' => false,
-					'archive_path' => '',
-					'previous_chap_title' => __('<[ Prev Chapter', 'comic-easel'),
-					'next_chap_title' => __('Next Chapter ]>', 'comic-easel'),
-					'first_in_title' => __('<<[ First', 'comic-easel'),
-					'last_in_title' => __('Last ]>>', 'comic-easel'),
-					'previous_in_title' => __('<[ Prev', 'comic-easel'),
-					'next_in_title' => __('Next ]>', 'comic-easel'),
-					'first_title' => __('<< First', 'comic-easel'),
-					'last_title' => __('Last >>', 'comic-easel'),
-					'previous_title' => __('< Prev', 'comic-easel'),
-					'next_title' => __('Next >', 'comic-easel'),
-					'random_title' => __('Random', 'comic-easel'),
-					'archives_title' => __('Archives', 'comic-easel'),
-					'comments_title' => __('Comments', 'comic-easel'),
-					'buycomic_title' => __('Buy!', 'comic-easel')
-					));
+		$instance = wp_parse_args( (array)$instance, self::defaults() );
 		?>
 		<input id="<?php echo esc_attr($this->get_field_id('first')); ?>" name="<?php echo esc_attr($this->get_field_name('first')); ?>" type="checkbox" value="1" <?php checked(true, $instance['first']); ?> /> <label for="<?php echo esc_attr($this->get_field_id('first')); ?>"><strong><?php esc_html_e('First','comic-easel'); ?></strong></label><br />
 		<input id="<?php echo esc_attr($this->get_field_id('first_title')); ?>" name="<?php echo esc_attr($this->get_field_name('first_title')); ?>" type="text" value="<?php echo esc_attr($instance['first_title']); ?>" /><br /> 

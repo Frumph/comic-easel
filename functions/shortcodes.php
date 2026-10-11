@@ -27,7 +27,7 @@ function ceo_cast_display($character, $stats, $image) {
 		$cast_output .= '</p>';
 		if ($stats) {
 			$cast_output .= '<p class="cast-character-stats">';
-			$cast_output .= '<i>'.__('Comics:','comic-easel').'</i> <strong>'.$character->count.'</strong><br />';
+			$cast_output .= '<i>'.esc_html__('Comics:','comic-easel').'</i> <strong>'.$character->count.'</strong><br />';
 			$args = array(
 					'nopaging' => true,
 					'numberposts' => 9999,
@@ -47,10 +47,10 @@ function ceo_cast_display($character, $stats, $image) {
 				$last_seen_title = $last_seen_object->post_title;
 				$last_seen_id = $last_seen_object->ID;
 				if ($first_seen_id == $last_seen_id) {
-					$cast_output .= '<i>'.__('Only Appearance:','comic-easel').'</i> <a href="'.esc_url(get_permalink($first_seen_id)).'">'.wp_kses_post($first_seen_title).'</a><br />';
+					$cast_output .= '<i>'.esc_html__('Only Appearance:','comic-easel').'</i> <a href="'.esc_url(get_permalink($first_seen_id)).'">'.wp_kses_post($first_seen_title).'</a><br />';
 				} else {
-					$cast_output .= '<i>'.__('Recent Appearance:','comic-easel').'</i> <a href="'.esc_url(get_permalink($last_seen_id)).'">'.wp_kses_post($last_seen_title).'</a><br />';
-					$cast_output .= '<i>'.__('First Appearance:','comic-easel').'</i> <a href="'.esc_url(get_permalink($first_seen_id)).'">'.wp_kses_post($first_seen_title).'</a><br />';
+					$cast_output .= '<i>'.esc_html__('Recent Appearance:','comic-easel').'</i> <a href="'.esc_url(get_permalink($last_seen_id)).'">'.wp_kses_post($last_seen_title).'</a><br />';
+					$cast_output .= '<i>'.esc_html__('First Appearance:','comic-easel').'</i> <a href="'.esc_url(get_permalink($first_seen_id)).'">'.wp_kses_post($first_seen_title).'</a><br />';
 				}
 			}
 			$qposts = null;
@@ -120,7 +120,7 @@ function ceo_cast_page( $atts, $content = '' ) {
 			}
 			$cast_output .= '</table>'."\r\n";
 		} else {
-			$cast_output = __('You do not have any characters yet.','comic-easel')."<br />\r\n";
+			$cast_output = esc_html__('You do not have any characters yet.','comic-easel')."<br />\r\n";
 		}
 	} else {
 		$single_character = get_term_by('slug', $character, 'characters');
@@ -129,7 +129,7 @@ function ceo_cast_page( $atts, $content = '' ) {
 			$cast_output .= ceo_cast_display($single_character, $stats, $image)."\r\n";
 			$cast_output .= '</table>'."\r\n";
 		} else 
-			$cast_output .= __('Unknown Character:', 'comic-easel').'&nbsp;'.esc_html($character)."<br />\r\n";
+			$cast_output .= esc_html__('Unknown Character:', 'comic-easel').'&nbsp;'.esc_html($character)."<br />\r\n";
 	}
 	return $cast_output;
 }
@@ -196,7 +196,7 @@ function ceo_archive_list_single($chapter = 0, $order = 'ASC', $thumbnail = 0) {
 	foreach ($qposts as $qpost) {
 		$archive_count++;
 		if ($css_alt) { $alternate = ' comic-list-alt'; $css_alt = false; } else { $alternate = ''; $css_alt=true; }		
-		$output .= '<div class="comic-list comic-list-'.$archive_count.$alternate.'"><span class="comic-archive-date">'.get_the_time('M d, Y', $qpost->ID).'</span><span class="comic-archive-title"><a href="'.esc_url(get_permalink($qpost->ID)).'" rel="bookmark" title="'.esc_attr(__('Permanent Link:','comic-easel').' '.$qpost->post_title).'">'.esc_html($qpost->post_title).'</a></span></div>';
+		$output .= '<div class="comic-list comic-list-'.$archive_count.$alternate.'"><span class="comic-archive-date">'.esc_html(get_the_time('M d, Y', $qpost->ID)).'</span><span class="comic-archive-title"><a href="'.esc_url(get_permalink($qpost->ID)).'" rel="bookmark" title="'.esc_attr(__('Permanent Link:','comic-easel').' '.$qpost->post_title).'">'.esc_html($qpost->post_title).'</a></span></div>';
 	}
 	$output .= '</div>';
 	$output .= '<div style="clear:both;"></div></div>';
@@ -245,7 +245,7 @@ function ceo_archive_list_all($order = 'ASC', $thumbnail = 0) {
 			foreach ($qposts as $qpost) {
 				$archive_count++;
 				if ($css_alt) { $alternate = ' comic-list-alt'; $css_alt = false; } else { $alternate = ''; $css_alt=true; }
-				$output .= '<div class="comic-list comic-list-'.$archive_count.$alternate.'"><span class="comic-archive-date">'.get_the_time('M d, Y', $qpost->ID).'</span><span class="comic-archive-title"><a href="'.esc_url(get_permalink($qpost->ID)).'" rel="bookmark" title="'.esc_attr(__('Permanent Link:','comic-easel').' '.$qpost->post_title).'">'.esc_html($qpost->post_title).'</a></span></div>'."\r\n";
+				$output .= '<div class="comic-list comic-list-'.$archive_count.$alternate.'"><span class="comic-archive-date">'.esc_html(get_the_time('M d, Y', $qpost->ID)).'</span><span class="comic-archive-title"><a href="'.esc_url(get_permalink($qpost->ID)).'" rel="bookmark" title="'.esc_attr(__('Permanent Link:','comic-easel').' '.$qpost->post_title).'">'.esc_html($qpost->post_title).'</a></span></div>'."\r\n";
 			}
 			$output .= '</div>'."\r\n";
 			$output .= '<div style="clear:both;"></div></div>'."\r\n";
@@ -297,7 +297,7 @@ function ceo_archive_list_series($thumbnail = 0) {
 					foreach ($qcposts as $qcpost) {
 						$archive_count++;
 						if ($css_alt) { $alternate = ' comic-list-alt'; $css_alt = false; } else { $alternate = ''; $css_alt=true; }		
-						$output .= '<div class="comic-list comic-list-'.$archive_count.$alternate.'"><span class="comic-archive-date">'.get_the_time('M d, Y', $qcpost->ID).'</span><span class="comic-archive-title"><a href="'.esc_url(get_permalink($qcpost->ID)).'" rel="bookmark" title="'.esc_attr(__('Permanent Link:','comic-easel').' '.$qcpost->post_title).'">'.esc_html($qcpost->post_title).'</a></span></div>';
+						$output .= '<div class="comic-list comic-list-'.$archive_count.$alternate.'"><span class="comic-archive-date">'.esc_html(get_the_time('M d, Y', $qcpost->ID)).'</span><span class="comic-archive-title"><a href="'.esc_url(get_permalink($qcpost->ID)).'" rel="bookmark" title="'.esc_attr(__('Permanent Link:','comic-easel').' '.$qcpost->post_title).'">'.esc_html($qcpost->post_title).'</a></span></div>';
 					}
 					$output .= '</div>';
 					$output .= '<div style="clear:both;"></div></div>';	
@@ -336,7 +336,7 @@ function ceo_archive_list_by_chapter_thumbnails($order = 'ASC', $showtitle = fal
 				$qcposts = reset($qcposts);
 				if (has_post_thumbnail($qcposts->ID)) {
 					$output .= '<div class="comic-archive-thumbnail"><a href="'.esc_url(get_permalink($qcposts)).'">'.get_the_post_thumbnail($qcposts->ID, 'thumbnail').'</a></div>';
-				} else $output .= __('No Thumbnail Found', 'comic-easel');
+				} else $output .= esc_html__('No Thumbnail Found', 'comic-easel');
 			}
 		}
 		$output .= '<div class="clear"></div></div>';
@@ -378,23 +378,12 @@ function ceo_the_transcript($displaymode = 'raw') {
 				return nl2br($transcript);
 				break;
 			case "styled":
-				$output = "<script type='text/javascript'>\r\n";
-				$output .= "<!--\r\n";
-				$output .= "function toggle_expander(id) {\r\n";
-				$output .= "	var e = document.getElementById(id);\r\n";
-				$output .= "	if(e.style.height == 'auto')\r\n";
-				$output .= "		e.style.height = '1px';\r\n";
-				$output .= "	else\r\n";
-				$output .= "		e.style.height = 'auto';\r\n";
-				$output .= "}\r\n";
-				$output .= "//-->\r\n";
-				$output .= "</script>\r\n";
-				$output .= "<div class=\"transcript-border\"><div id=\"transcript\"><a href=\"javascript:toggle_expander('transcript-content');\" class=\"transcript-title\">&darr; Transcript</a><div id=\"transcript-content\">".nl2br($transcript)."<br /><br /></div></div></div>\r\n";
-				$output .= "<script type='text/javascript'>\r\n";
-				$output .= "<!--\r\n";
-				$output .= "	document.getElementById('transcript-content').style.height = '1px';\r\n";
-				$output .= "//-->\r\n";
-				$output .= "</script>\r\n";
+				// js/transcript.js collapses the transcript and makes the title toggle it.
+				// Enqueued from here so it loads only on pages that show one; WordPress
+				// prints a script enqueued this late in the footer. Without JavaScript the
+				// transcript simply stays open.
+				wp_enqueue_script('ceo-transcript', ceo_pluginfo('plugin_url').'js/transcript.js', array(), ceo_pluginfo('version'), true);
+				$output = "<div class=\"transcript-border\"><div id=\"transcript\"><a href=\"#transcript-content\" class=\"transcript-title\" aria-controls=\"transcript-content\">&darr; Transcript</a><div id=\"transcript-content\">".nl2br($transcript)."<br /><br /></div></div></div>\r\n";
 				return $output;
 				break;
 		}
@@ -433,15 +422,16 @@ function ceo_archive_list_by_year($thumbnail = false, $order = 'ASC', $chapter =
 	// $order and $chapter arrive from shortcode attributes, so they are untrusted.
 	$chapter = (int)$chapter;
 	$order = (strtoupper($order) == 'DESC') ? 'DESC' : 'ASC';
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended -- The year links below set archive_year; it only picks which year's comics to list.
 	if (isset($_GET['archive_year']) && is_scalar($_GET['archive_year'])) {
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Archive selection is a read-only public query argument.
 		$archive_year = intval(wp_unslash($_GET['archive_year']));
 	} else { 
 		$latest_comic = ceo_get_last_comic(false);
 		$archive_year = get_post_time('Y', false, $latest_comic, true);
 	}
-	if (empty($archive_year)) $archive_year = date('Y');
-	$output = '<h3 class="year-title">'.$archive_year.'</h3>';
+	// phpcs:enable WordPress.Security.NonceVerification.Recommended
+	if (empty($archive_year)) $archive_year = date('Y'); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date -- Kept as date() so it follows PHP's timezone exactly as before.
+	$output = '<h3 class="year-title">'.esc_html($archive_year).'</h3>';
 	$output .= '<br />';
 	$output .= '<div class="archive-yearlist">| ';
 	
@@ -472,7 +462,7 @@ function ceo_archive_list_by_year($thumbnail = false, $order = 'ASC', $chapter =
 	}
 	$theposts = get_posts($comic_args);
 	foreach ($theposts as $post) {
-		$output .= '<tr><td class="archive-date">'.get_the_time('M j', $post).'</td><td class="archive-title"><a href="'.esc_url(get_permalink($post->ID)).'" rel="bookmark" title="'.ceo_title_for_attribute($post->ID).'">'.ceo_title_for_html($post->ID).'</a></td></tr>';
+		$output .= '<tr><td class="archive-date">'.esc_html(get_the_time('M j', $post)).'</td><td class="archive-title"><a href="'.esc_url(get_permalink($post->ID)).'" rel="bookmark" title="'.ceo_title_for_attribute($post->ID).'">'.ceo_title_for_html($post->ID).'</a></td></tr>';
 	}
 	$output .= '</table>';
 	return $output;
@@ -510,7 +500,7 @@ function ceo_archive_list_by_all_years($thumbnail = false, $order = 'ASC', $chap
 		$output .= '<h3 class="year-title">'.esc_html($year).'</h3>';
 		$output .= '<table class="month-table">';			
 		foreach ($theposts as $post) {
-			$output .= '<tr><td class="archive-date">'.get_the_time('M j', $post->ID).'</td><td class="archive-title"><a href="'.esc_url(get_permalink($post->ID)).'" rel="bookmark" title="'.ceo_title_for_attribute($post->ID).'">'.ceo_title_for_html($post->ID).'</a></td></tr>';
+			$output .= '<tr><td class="archive-date">'.esc_html(get_the_time('M j', $post->ID)).'</td><td class="archive-title"><a href="'.esc_url(get_permalink($post->ID)).'" rel="bookmark" title="'.ceo_title_for_attribute($post->ID).'">'.ceo_title_for_html($post->ID).'</a></td></tr>';
 		}
 		$output .= '</table>';
 	}
@@ -528,10 +518,11 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 	$paypal_config = ceo_pluginfo();
 	$paypal_currency = ceo_paypal_currency($paypal_config);
 	$paypal_ready = (ceo_paypal_merchant($paypal_config) !== '' && $paypal_currency !== '');
-	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- BuyComic return URLs are read-only display routes and historically contain this argument.
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended -- The id and action arguments come from the Buy links and PayPal's return URL, which carry no nonce; they only choose what this page displays.
 	if (isset($_REQUEST['id']) && is_scalar($_REQUEST['id'])) $comicnum = intval(wp_unslash($_REQUEST['id']));
 	if (isset($_REQUEST['action']) && is_scalar($_REQUEST['action'])) {
 		$action = sanitize_key(wp_unslash($_REQUEST['action']));
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 		switch ($action) {
 			case 'thankyou':
 				$buy_output .= '<div class="buycomic-thankyou">';
@@ -565,13 +556,13 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 		// revisions and other post types, so require that this really is public
 		// comic content before disclosing anything about it.
 		if (!is_wp_error($post) && !empty($post) && $post->post_type === 'comic' && $post->post_status === 'publish' && !post_password_required($post)) {
-			$buy_output .= __('Comic ID','comic-easel').' #'.$comicnum."<br />\r\n";
-			$buy_output .= __('Title:','comic-easel').'&nbsp;'.ceo_title_for_html($post)."<br />\r\n";
+			$buy_output .= esc_html__('Comic ID','comic-easel').' #'.$comicnum."<br />\r\n";
+			$buy_output .= esc_html__('Title:','comic-easel').'&nbsp;'.ceo_title_for_html($post)."<br />\r\n";
 			if (ceo_pluginfo('buy_comic_sell_print')) {
-				$buy_output .= __('Print Status:','comic-easel').'&nbsp;'.esc_html($buyprint_status)."<br />\r\n";
+				$buy_output .= esc_html__('Print Status:','comic-easel').'&nbsp;'.esc_html($buyprint_status)."<br />\r\n";
 			}
 			if (ceo_pluginfo('buy_comic_sell_original')) {
-				$buy_output .= __('Original Status:','comic-easel').'&nbsp;'.esc_html($buyorig_status)."<br />\r\n";
+				$buy_output .= esc_html__('Original Status:','comic-easel').'&nbsp;'.esc_html($buyorig_status)."<br />\r\n";
 			}
 			$buy_output .= "<br />\r\n";
 			$buy_output .= '<table class="buytable" style="width:100%;">';
@@ -645,10 +636,8 @@ function ceo_display_buycomic( $atts, $content = '' ) {
 			$buy_output .= '<div class="buy-thumbnail">';
 			$buy_output .= ceo_display_comic_thumbnail('large', $post);
 			$buy_output .= "</div>\r\n";
-			/*			$last_info = get_option('ceo_paypal_receiver'); // Debug to see the last transaction, which is stored in this option
-						if (!empty($last_info)) $buy_output .= nl2br($last_info); */
 		} else {
-			$buy_output .= __('Invalid Comic ID.','comic-easel')."<br />\r\n";
+			$buy_output .= esc_html__('Invalid Comic ID.','comic-easel')."<br />\r\n";
 		}
 		ceo_unprotect();
 	}
@@ -662,9 +651,9 @@ function ceo_comic_archive_dropdown($atts, $content='') {
 					'exclude' => '',
 					'showcount' => false,
 					'jumptoarchive' => false,
-					'return' => true
+					'return' => true // Accepted for existing shortcodes, but a shortcode always returns its output.
 					), $atts ) );
-	return ceo_comic_archive_jump_to_chapter($unhide, $exclude, $showcount, $jumptoarchive, $return);
+	return ceo_comic_archive_jump_to_chapter($unhide, $exclude, $showcount, $jumptoarchive, false);
 }
 
 function ceo_random_comic_shortcode($atts, $content = '') {
@@ -702,7 +691,7 @@ function ceo_random_comic_shortcode($atts, $content = '') {
 			if ( has_post_thumbnail($post->ID) ) {
 				$output .= '<a href="'.esc_url($the_permalink).'" rel="bookmark" title="'.ceo_title_for_attribute($post->ID).'">'.get_the_post_thumbnail($post->ID, $size)."</a>\r\n";
 			} else {
-				$output .= __('No Thumbnail Found.','comic-easel');
+				$output .= esc_html__('No Thumbnail Found.','comic-easel');
 			}
 			$output .= "</div>\r\n";
 		endwhile;

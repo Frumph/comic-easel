@@ -86,7 +86,7 @@ function ceo_display_comic_gallery($size = 'full') {
 						'order'           => 'ASC'
 						))) {
 			$count = 0;
-			if ($comic_galleries_jquery) wp_enqueue_script('multicomic', ceo_pluginfo('plugin_url') . 'js/multicomic.js', null, null, true);
+			if ($comic_galleries_jquery) wp_enqueue_script('ceo-multicomic', ceo_pluginfo('plugin_url') . 'js/multicomic.js', array('jquery'), ceo_pluginfo('version'), true);
 			foreach($images as $image) {
 				if ($comic_galleries_jquery) $output .= '<div id="comic-'.$count.'" class="comicpane">';
 				$thumbnail   = wp_get_attachment_image_src($image->ID, 'full');
@@ -128,7 +128,7 @@ function ceo_display_comic_gallery($size = 'full') {
 function ceo_display_comic($size = 'full') {
 	global $post;
     if ( post_password_required() ) { 
-		return __('This comic is password protected.','comic-easel');
+		return esc_html__('This comic is password protected.','comic-easel');
     }
     $refer_only = get_post_meta( $post->ID, 'refer-only', 'true');
 
@@ -164,7 +164,7 @@ function ceo_display_comic($size = 'full') {
 	if ($output) { 
 		return apply_filters('ceo_comics_display_comic', $output);
 	} else
-		return apply_filters('ceo_comics_display_comic', __('<!-- No HTML, Gallery or Featured Image Found. //-->', 'comic-easel'));
+		return apply_filters('ceo_comics_display_comic', '<!-- No HTML, Gallery or Featured Image Found. //-->');
 }
 
 add_filter('ceo_comics_display_comic', 'ceo_filter_comic_output',10,1);

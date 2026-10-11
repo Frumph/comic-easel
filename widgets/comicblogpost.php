@@ -12,12 +12,12 @@ if (!defined('ABSPATH')) exit;
 
 function ceo_display_comic_small_blog_post($instance) {
 	global $post;
-	if ($instance['showtitle']) { echo '<h3 class="comic-post-widget-title">'.ceo_title_for_html($post->ID)."</h3>\r\n"; }
+	if ($instance['showtitle']) { echo '<h3 class="comic-post-widget-title">'.wp_kses_post(ceo_title_for_html($post->ID))."</h3>\r\n"; }
 	if ($instance['showdate']) { echo "<div class=\"comic-post-widget-date\">".esc_html(get_the_time(get_option('date_format')))."</div>\r\n"; }
 	the_content();
 	if ($instance['showcommentlink'] && ($post->comment_status == 'open') && !is_singular()) { ?>
 		<div class="comment-link">
-		<?php comments_popup_link('<span class="comment-balloon comment-balloon-empty">&nbsp;</span>'.__('Comment','comic-easel'), '<span class="comment-balloon">1</span> '.__('Comment','comic-easel'), '<span class="comment-balloon">%</span> '.__('Comments','comic-easel')); ?>
+		<?php comments_popup_link('<span class="comment-balloon comment-balloon-empty">&nbsp;</span>'.esc_html__('Comment','comic-easel'), '<span class="comment-balloon">1</span> '.esc_html__('Comment','comic-easel'), '<span class="comment-balloon">%</span> '.esc_html__('Comments','comic-easel')); ?>
 		</div>
 		<?php
 	}
@@ -36,8 +36,19 @@ class ceo_comic_blog_post_widget extends WP_Widget {
 		);
 	}
 	
+	/**
+	 * Every setting the widget reads, with the value an unchecked box or untouched field has.
+	 *
+	 * widget() and update() apply these, not just form(). A widget that has never been saved
+	 * has no settings at all, and an unchecked checkbox is absent from the submitted form.
+	 */
+	private static function defaults() {
+		return array( 'title' => '', 'onlyhome' => false, 'showtitle' => false, 'showdate' => false, 'showcommentlink' => false, 'hidecontent' => false );
+	}
+	
 	function widget($args, $instance) {
 		global $post, $wp_query;
+		$instance = wp_parse_args( (array) $instance, self::defaults() );
 		if (!is_home() && $instance['onlyhome']) return;
 		if (is_page() || is_archive() || is_search() || is_404())  return;
 		extract($args, EXTR_SKIP);
@@ -54,29 +65,31 @@ class ceo_comic_blog_post_widget extends WP_Widget {
 			foreach ($posts as $post) {
 				setup_postdata($post);
 				if (!($instance['hidecontent'] && empty($post->post_content))) {
-					echo $before_widget;
+					echo wp_kses_post($before_widget);
 					$temp_query = $wp_query->is_single;
 					$wp_query->is_single = true;
 					$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']);
+					if (!empty($title)) { echo "<div class=\"comic-post-widget-header\">".wp_kses_post($title)."</div>\r\n"; }
 					ceo_display_comic_small_blog_post($instance);
 					$wp_query->is_single = $temp_query;
-					echo $after_widget;
+					echo wp_kses_post($after_widget);
 				}
 			}
-		} elseif ($post->post_type == 'comic') {
+		} elseif (!empty($post) && $post->post_type == 'comic') {
 			setup_postdata($post);
 			if ( !( $instance['hidecontent'] && empty($post->post_content) ) && ($post->post_type == 'comic') ) {
-				echo $before_widget;
+				echo wp_kses_post($before_widget);
 				$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']);
-				if (!empty($title)) { echo "<div class=\"comic-post-widget-header\">".$title."</div>\r\n"; }
+				if (!empty($title)) { echo "<div class=\"comic-post-widget-header\">".wp_kses_post($title)."</div>\r\n"; }
 				ceo_display_comic_small_blog_post($instance);
-				echo $after_widget;
+				echo wp_kses_post($after_widget);
 			}
 		}
 		ceo_unprotect();
 	}
 	
 	function update($new_instance, $old_instance) {
+		$new_instance = wp_parse_args( (array) $new_instance, self::defaults() );
 		$instance = $old_instance;
 		$instance['title'] = wp_strip_all_tags($new_instance['title']);
 		$instance['onlyhome'] = (bool)( $new_instance['onlyhome'] == 1 ? true : false );
@@ -88,7 +101,7 @@ class ceo_comic_blog_post_widget extends WP_Widget {
 	}
 	
 	function form($instance) {
-		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'onlyhome' => false, 'showtitle' => false, 'showdate' => false, 'showcommentlink' => false, 'hidecontent' => false  ) );
+		$instance = wp_parse_args( (array) $instance, self::defaults() );
 		$title = wp_strip_all_tags($instance['title']);
 		$onlyhome = $instance['onlyhome'];
 		$showtitle = $instance['showtitle'];

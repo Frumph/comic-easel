@@ -1,11 +1,11 @@
 === Comic Easel ===
 Author: Frumph
-Contributors: Frumph, Shadchamp, coraislovely
+Contributors: Frumph, coraislovely
 Tags: comiceasel, easel, webcomic, comic
-Requires at least: 4.8.2
+Requires at least: 5.3
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 1.18.1
+Stable tag: 1.19
 Text Domain: comic-easel
 Donate link: https://www.paypal.com/donate/?hosted_button_id=GH46TR9QP8HSS
 License: GPLv3 or later
@@ -131,12 +131,43 @@ Go to your settings -> permalinks and just click save, the wp_rewrite will refre
 The comic navigation widget is only seen if you have the comic sidebar's enabled; even then it only works in the comic sidebars themself, nowhere else.
 
 
+== External services ==
+
+Comic Easel itself connects to one external service, PayPal, and only for the optional Buy Comic feature. Nothing is sent until a site owner sets up Buy Comic: a PayPal email address and currency entered under Comic Easel > Config > Buy Comic, with prints or originals offered for sale. Sites that do not sell comics make no connections to PayPal.
+
+* **Buy buttons.** The `[buycomic]` shortcode, placed on the page your "Buy!" links point to, shows "Buy Now" buttons that send the visitor to PayPal (www.paypal.com) to pay. When the visitor clicks a button, their browser sends PayPal the comic's title and ID, the price and currency, the seller's PayPal email address, a return address on your site, and the address PayPal should notify when the payment completes. The visitor's own payment details are entered on PayPal, never on your site.
+* **Payment verification (PayPal IPN).** After a sale, PayPal sends a payment notification to your site. Before acting on it, Comic Easel sends that notification back to PayPal (ipnpb.paypal.com) unchanged, to confirm it really came from PayPal. That includes the transaction details PayPal provided, such as the buyer's name, email and shipping address, the item and the amount. The request also identifies your site's address and the Comic Easel version. This happens once for each notification PayPal sends.
+
+PayPal is provided by PayPal, Inc.: [User Agreement](https://www.paypal.com/us/legalhub/paypal/useragreement-full), [Privacy Statement](https://www.paypal.com/us/legalhub/paypal/privacy-full).
+
+A comic that uses the "Media Url as Comic" field is shown through WordPress's built-in oEmbed support, the same way a media link in a post is embedded: each time the comic is displayed, WordPress asks that media provider (YouTube, Vimeo and the like) for the embed code, and visitors' browsers load the player from the provider, under the provider's own terms and privacy policy.
+
+
 == Screenshots ==
 
 1. The Comics admin list — chapters, characters, locations and tags for every comic at a glance.
 
 
 == Changelog ==
+
+= 1.19 =
+* Requires WordPress 5.3 or later, the first version to support PHP 7.4, which Comic Easel already required
+* Scripts are now loaded through WordPress's script functions instead of being printed inline: the transcript toggle, the config screen's tabs, the chapter picker and the chapter and comic dropdown menus each have their own file. Several transcripts on one page now open and close independently
+* Output escaping completed across widgets, shortcodes and admin screens
+* Widgets no longer log PHP warnings for settings added after they were first saved
+* Fixed a "translation loading was triggered too early" notice on a new install's first page load
+* Documented the external connections: PayPal for the optional Buy Comic feature, and the media provider of a comic shown from a media URL (see External services)
+* No longer keeps a copy of the latest PayPal payment notification email, with the buyer's name, email and address, in the site's options; the copy earlier versions left is deleted on update
+* Support now points to the WordPress.org forum and GitHub issues
+* Removed leftover IE 7 styles and links to stylesheets WordPress no longer ships
+* Rewrote the content warning script under the plugin's GPL licence; revealed comics now follow their link normally
+* Removed the Referrer meta tag, which made browsers log an error on every page
+* Multi-image comics now show their image buttons when keyboard navigation is turned off and the theme does not load jQuery
+* Saving the General settings tab no longer erases a custom comic URL slug set on the Archive tab
+* With "Remove featured image" on, featured images are now removed only on single comics, no longer from every post and page on the site
+* Renaming a chapter with quick edit no longer resets its order to 0
+* The [comic-archive-dropdown] chapter menu now appears where the shortcode is placed, not above the content
+* The Comic Easel - Blog Post widget now shows its heading on the home page too
 
 = 1.18.1 =
 * Maintenance release: the plugin is now maintained by coraislovely with the original author's blessing; readme and credits updated, links to the former project site replaced
@@ -159,7 +190,7 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 * Fixed Version header in comiceasel.php, which still reported 1.15 in the 1.16 release
 
 = 1.16 =
-* Patched CVE-2024-31092
+* Patched CVE-2024-31092 (thanks to BillyOutlast)
 
 = 1.15 =
 * keynav update - to preserve browser forward/back functions / jn-squire
@@ -554,6 +585,9 @@ Updated: 05/26/2012 5:25pm Pacific
 
 
 == Upgrade Notice ==
+= 1.19 =
+Requires WordPress 5.3 or later. Completes the WordPress.org review fixes; no settings changes needed.
+
 = 1.18 =
 Security release; updating is recommended for all sites. PayPal sellers: re-save your currency on the Buy Comic settings tab after updating.
 

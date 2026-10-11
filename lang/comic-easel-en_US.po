@@ -1903,11 +1903,6 @@ msgstr ""
 msgid "Use as an information page?"
 msgstr ""
 
-#: functions/displaycomic.php:193
-#@ comic-easel
-msgid "<!-- No HTML, Gallery or Featured Image Found. //-->"
-msgstr ""
-
 #: functions/injections.php:137
 #, php-format
 #@ comic-easel
@@ -2048,44 +2043,9 @@ msgstr ""
 msgid "GitHub Issues:"
 msgstr ""
 
-#: options/main.php:14
-#@ comic-easel
-msgid "(best chances to reach me at the top going down to the least chance)"
-msgstr ""
-
-#: options/main.php:17
-#@ comic-easel
-msgid "Via Facebook:"
-msgstr ""
-
-#: options/main.php:18
-#@ comic-easel
-msgid "WebComics.COM Forums:"
-msgstr ""
-
-#: options/main.php:18
-#@ comic-easel
-msgid "(Subscription only)"
-msgstr ""
-
 #: options/main.php:19
 #@ comic-easel
 msgid "WordPress.ORG Forums:"
-msgstr ""
-
-#: options/main.php:19
-#@ comic-easel
-msgid "(rarely go here)"
-msgstr ""
-
-#: options/main.php:20
-#@ comic-easel
-msgid "On Twitter:"
-msgstr ""
-
-#: options/main.php:20
-#@ comic-easel
-msgid "(Twitter and I are not friends atm)"
 msgstr ""
 
 #: options/navigation.php:53
@@ -2287,11 +2247,6 @@ msgstr ""
 #: options/general.php:187
 #@ comic-easel
 msgid "The thumbnail for the direct comic and chapter RSS /comic/feed/ and /chapter/chapter-slug/feed/"
-msgstr ""
-
-#: options/main.php:13
-#@ comic-easel
-msgid "You can contact me for technical support at any of the following locations:"
 msgstr ""
 
 #: widgets/comicblogpost.php:18

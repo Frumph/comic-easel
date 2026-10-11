@@ -30,16 +30,17 @@ if (!defined('ABSPATH')) exit;
 if (is_active_widget(false, false, 'ceo_casthover_reference_widget', true)) {
 	add_filter('ceo_display_comic_characters', 'ceo_add_characters_hovercards');
 	add_action('wp_enqueue_scripts', 'ceo_casthover_res_init_scripts');
-	add_action('wp_print_styles', 'ceo_casthover_res_init_styles');
+	// Last, after comiceasel.css, as when it was enqueued from wp_print_styles.
+	add_action('wp_enqueue_scripts', 'ceo_casthover_res_init_styles', PHP_INT_MAX);
 }
 
 function ceo_casthover_res_init_styles() {
-	wp_register_style('casthover-css', ceo_pluginfo('plugin_url').'css/casthover.css', array(), '1.2');
-	wp_enqueue_style('casthover-css');
+	wp_register_style('ceo-casthover-css', ceo_pluginfo('plugin_url').'css/casthover.css', array(), ceo_pluginfo('version'));
+	wp_enqueue_style('ceo-casthover-css');
 }
 
 function ceo_casthover_res_init_scripts() {
-	wp_enqueue_script('casthover-js', ceo_pluginfo('plugin_url').'js/casthoverfunc.js', array('jquery'), '1.2', true);
+	wp_enqueue_script('ceo-casthover-js', ceo_pluginfo('plugin_url').'js/casthoverfunc.js', array('jquery'), ceo_pluginfo('version'), true);
 }
 
 function ceo_insert_character_hovercard($character) {
@@ -54,7 +55,7 @@ function ceo_insert_character_hovercard($character) {
 
 function ceo_add_characters_hovercards($post_characters) {
 	global $post;
-	$mychars = '<div class="comic-characters">'.__('Characters', 'comic-easel').': ';
+	$mychars = '<div class="comic-characters">'.esc_html__('Characters', 'comic-easel').': ';
 	$terms = get_the_terms( $post->ID, 'characters' );
 	$return = '';
 	if ( !empty( $terms ) ) {
@@ -85,9 +86,15 @@ class ceo_casthover_reference_widget extends WP_Widget {
 	function widget($args, $instance) {
 		global $post;
 		extract($args, EXTR_SKIP);
+		// A widget that has never been saved (a Legacy Widget block left untouched) has no
+		// settings at all, so not even a title.
+		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
 		ceo_protect();
 		if ((is_single() && ($post->post_type == 'comic')) || is_home() || is_front_page()) {
-			if ( ((is_home() || is_front_page()) && (is_paged() || ceo_pluginfo('disable_comic_on_home_page') || is_page())) ) return;
+			if ( ((is_home() || is_front_page()) && (is_paged() || ceo_pluginfo('disable_comic_on_home_page') || is_page())) ) {
+				ceo_unprotect();
+				return;
+			}
 			// This section allows the plugin to work in any sidebar even on home, except (paged) files
 			if ((is_home() || is_front_page()) && !is_paged() && !ceo_pluginfo('disable_comic_on_home_page')) {
 				$order = (ceo_pluginfo('display_first_comic_on_home_page')) ?  'asc' : 'desc';
@@ -98,26 +105,33 @@ class ceo_casthover_reference_widget extends WP_Widget {
 						'post_type' => 'comic'
 						);
 				$posts = get_posts($args);
+				// No comic published yet, so no cast to show.
+				if (empty($posts)) {
+					ceo_unprotect();
+					return;
+				}
 				$post = reset($posts);
 			}
 
 			$post_characters = get_the_terms( $post->ID, 'characters');
 			if (!empty($post_characters)) {
-				echo $before_widget;
+				echo wp_kses_post($before_widget);
 				$title = apply_filters( 'widget_title', $instance['title'] );
 				if ($title) {
-					echo $before_title . $title . $after_title;
+					echo wp_kses_post($before_title . $title . $after_title);
 				}				
 				?><div class="castrefwidget-wrapper"><?php 
+				$out = array();
 				foreach ( $post_characters as $mychar ) {
 					$out[] = '<span class="castrefwidget-line casthover-hovercard-hook"><a href="'.esc_url(get_term_link($mychar->slug, 'characters')).'"><div class="'.esc_attr('castrefwidget-block character-'.$mychar->slug).'"></div></a>'.ceo_insert_character_hovercard($mychar->slug).'</span>';
 				}
-				echo join('',$out);
+				// Each hovercard carries the [cast-page] shortcode's markup for that character.
+				echo wp_kses_post(join('',$out));
 				?></div><?php 
-				echo $after_widget;
+				echo wp_kses_post($after_widget);
 			}
-			ceo_unprotect();
 		}
+		ceo_unprotect();
 	}
 	
 	function form($instance) {

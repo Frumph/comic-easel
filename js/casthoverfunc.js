@@ -2,8 +2,8 @@ jQuery(document).ready(function($){
     
     $(".casthover-hovercard-hook").hover(
   function() {
-	    $pposl = $(this).offset().left;
-	    $ppost = $(this).offset().top;
+	    var $pposl = $(this).offset().left;
+	    var $ppost = $(this).offset().top;
 	    $pposl = $pposl - 50;
 	    $(this).find('div.casthover-hovercard').hide().css('visibility','visible').fadeIn('fast');
 	    $(this).find('div.casthover-hovercard').css('left',$pposl);

@@ -1,6 +1,6 @@
 <?php if (!defined('ABSPATH')) exit; ?>
 <div class="wrap">
-	<div id="ceoadmin-headericon" style="background: url('<?php echo ceo_pluginfo('plugin_url') ?>images/easel_small.png') no-repeat;"></div>
+	<div id="ceoadmin-headericon" style="background: url('<?php echo esc_url(ceo_pluginfo('plugin_url').'images/easel_small.png'); ?>') no-repeat;"></div>
 <p class="alignleft">
 	<h2><?php esc_html_e('Comic Easel - Config','comic-easel'); ?></h2>
 </p>
@@ -15,7 +15,7 @@ $action = isset($_POST['action']) && is_scalar($_POST['action']) ? sanitize_key(
 if ($action == 'comiceasel_reset') {
 	if (!current_user_can('edit_theme_options'))
 		wp_die(esc_html__('You do not have permission to reset these settings.','comic-easel'));
-	check_admin_referer('update-options');
+	check_admin_referer('ceo-update-options');
 	delete_option('comiceasel-config');
 	global $ceo_pluginfo;
 	$ceo_pluginfo = array();
@@ -26,19 +26,22 @@ if ($action == 'comiceasel_reset') {
 }
 $ceo_options = get_option('comiceasel-config');
 $nonce = isset($_POST['_wpnonce']) && is_scalar($_POST['_wpnonce']) ? sanitize_text_field(wp_unslash($_POST['_wpnonce'])) : '';
-if ( wp_verify_nonce($nonce, 'update-options') ) {
-		// Historically the nonce and action came from POST while option values came from
-		// $_REQUEST. Keep that integration behavior after the POST nonce has been verified;
-		// each individual value is still checked, unslashed, and sanitized below.
-		$ceo_request = $_REQUEST;
+if ( wp_verify_nonce($nonce, 'ceo-update-options') ) {
+		// WordPress only shows this page to users with the capability it is registered with,
+		// edit_theme_options; check it again where the settings are written, as the reset does.
+		if (!current_user_can('edit_theme_options'))
+			wp_die(esc_html__('You do not have permission to change these settings.','comic-easel'));
+		// The forms post their settings with the nonce and action, so read them from $_POST
+		// alone; each value is still checked, unslashed and sanitized below.
+		$ceo_request = $_POST;
 		if ($action == 'ceo_save_general') {
 
+			// Only fields on the General tab's form: a key missing from the post is blanked below.
 			foreach (array(
 				'thumbnail_size_for_rss',
 				'thumbnail_size_for_direct_rss',
 				'thumbnail_size_for_archive',
 				'thumbnail_size_for_facebook',
-				'custom_post_type_slug_name',
 				'chapter_on_home',
 				'remove_post_thumbnail'
 					) as $key) {
@@ -167,7 +170,6 @@ if ( wp_verify_nonce($nonce, 'update-options') ) {
 		
 		if ($tab) { ?>
 			<div id="message" class="updated"><p><strong><?php esc_html_e('Comic Easel Settings SAVED!','comic-easel'); ?></strong></p></div>
-			<script>function hidemessage() { document.getElementById('message').style.display = 'none'; }</script>
 		<?php }
 	} 
 	$ceo_options = get_option('comiceasel-config');
@@ -192,38 +194,16 @@ if ( wp_verify_nonce($nonce, 'update-options') ) {
 		  ?>
 		</div>
 
-		<div id="comiceasel-options-pages">
+		<?php // js/config-tabs.js opens the data-tab page and hides the others; see ceo_config_enqueue_scripts(). ?>
+		<div id="comiceasel-options-pages" data-tab="<?php echo esc_attr($tab); ?>">
 		  <?php	foreach (glob(ceo_pluginfo('plugin_path') . 'options/*.php') as $file) { include($file); } ?>
 		</div>
 	</div>
-	<script type="text/javascript">
-		(function($) {
-			var showPage = function(which) {
-				$('#comiceasel-options-pages > div').each(function(i) {
-					$(this)[(this.id == 'comiceasel-' + which) ? 'show' : 'hide']();
-				});
-			};
-
-			$('.comiceasel-tab').click(function() {
-				$('#message').animate({height:"0", opacity:0, margin: 0}, 100, 'swing', function() { $(this).remove() });
-
-				showPage(this.id.replace('comiceasel-tab-', ''));
-				var myThis = this;
-				$('.comiceasel-tab').each(function() {
-					var isSame = (this == myThis);
-					$(this).toggleClass('on', isSame).toggleClass('off', !isSame);
-				});
-				return false;
-			});
-
-			showPage('<?php echo esc_js($tab); ?>');
-		}(jQuery));
-	</script>
 </div>
 
 	<div class="ceoadmin-footer">
 		<br />
-		<a href="https://github.com/Frumph/comic-easel"><?php esc_html_e('Comic Easel','comic-easel'); ?></a> <?php esc_html_e('created, developed and maintained by','comic-easel'); ?> <a href="https://github.com/Frumph">Philip M. Hofer</a> <small>(<a href="https://github.com/Frumph">Frumph</a>)</small><br />
+		<a href="https://github.com/Frumph/comic-easel"><?php esc_html_e('Comic Easel','comic-easel'); ?></a> <?php esc_html_e('created by','comic-easel'); ?> <a href="https://github.com/Frumph">Philip M. Hofer</a> <small>(<a href="https://github.com/Frumph">Frumph</a>)</small>, <?php esc_html_e('maintained by','comic-easel'); ?> <a href="https://github.com/coraislovely-code">Cora</a> <small>(<a href="https://github.com/coraislovely-code">coraislovely</a>)</small><br />
 		<?php esc_html_e('If you like the Comic Easel plugin, please donate.  It will help in developing new features and versions.','comic-easel'); ?><br />
 		<table style="margin:0 auto;">
 			<tr>
@@ -232,7 +212,7 @@ if ( wp_verify_nonce($nonce, 'update-options') ) {
 				</td>
 				<td style="width:200px;">
 					<form method="post" id="myForm" name="template" enctype="multipart/form-data" action="">
-						<?php wp_nonce_field('update-options') ?>
+						<?php wp_nonce_field('ceo-update-options') ?>
 						<input name="easel_reset" type="submit" class="button" value="Reset All Settings" />
 						<input type="hidden" name="action" value="comiceasel_reset" />
 					</form>

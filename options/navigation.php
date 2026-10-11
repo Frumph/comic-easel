@@ -1,7 +1,7 @@
 <?php if (!defined('ABSPATH')) exit; ?>
 <div id="comiceasel-navigation">
 	<form method="post" id="myForm-navigation" enctype="multipart/form-data">
-	<?php wp_nonce_field('update-options') ?>
+	<?php wp_nonce_field('ceo-update-options') ?>
 		<?php 
 			if (!isset($ceo_options['default_nav_bar_chapter_goes_to_archive'])) $ceo_options['default_nav_bar_chapter_goes_to_archive'] = false;
 			if (!isset($ceo_options['enable_comic_nav'])) $ceo_options['enable_comic_nav'] = false;
@@ -96,7 +96,7 @@ foreach ($gnav_directories as $gnav_dirs) {
 							</select>
 					</th>
 					<td>
-						<?php _e('Choose a directory to get the graphic navigation styling from. To create your own custom graphic navigation menu buttons just create a directory under <i>images/nav/</i> in your child theme and place your image files and navstyle.css file inside of it to determine the style of your navigation display.','comic-easel'); ?>
+						<?php echo wp_kses(__('Choose a directory to get the graphic navigation styling from. To create your own custom graphic navigation menu buttons just create a directory under <i>images/nav/</i> in your child theme and place your image files and navstyle.css file inside of it to determine the style of your navigation display.','comic-easel'), array('i' => array())); ?>
 						<?php if ($ceo_options['disable_style_sheet']) { echo '<br /><strong>'; esc_html_e('The navstyle.css is disable via the option in the general tab of this config section, this will have no effect.','comic-easel'); ?></strong><br /><?php } ?>
 					</td>
 				</tr>

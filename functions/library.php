@@ -18,6 +18,23 @@ function ceo_title_for_html($post = 0) {
 	return wp_kses_post(get_the_title($post));
 }
 
+/**
+ * KSES rules for printing ceo_display_comic_thumbnail().
+ *
+ * Post HTML, plus the <img> attributes WordPress itself writes on an attachment image.
+ * wp_kses_post() alone would strip srcset and sizes, and with them the responsive images.
+ */
+function ceo_thumbnail_allowed_html() {
+	$allowed = wp_kses_allowed_html('post');
+	$allowed['img'] = array_merge($allowed['img'], array(
+		'srcset' => true,
+		'sizes' => true,
+		'decoding' => true,
+		'fetchpriority' => true,
+	));
+	return $allowed;
+}
+
 /*
 *  Get a sidebar and create a generic dynamic sidebar for it, else find the sidebar-*.php in the theme/childtheme
 */
@@ -40,12 +57,12 @@ function ceo_get_sidebar($location = '') {
  * @param object $use_this_post If provided, after saving the current post, set up this post for template tag use.
  */
 function ceo_protect($use_this_post = null) {
-	global $post, $wp_query, $__post, $__wp_query;
+	global $post, $wp_query, $ceo_saved_post, $ceo_saved_wp_query;
 	if (!empty($post)) {
-		$__post = $post;
+		$ceo_saved_post = $post;
 	}
 	if (!empty($wp_query)) {
-		$__wp_query = $wp_query;
+		$ceo_saved_wp_query = $wp_query;
 	}
 	if (!is_null($use_this_post)) {
 		$post = $use_this_post;
@@ -57,8 +74,8 @@ function ceo_protect($use_this_post = null) {
  * Temporarily restore the global $post variable and set it up for use.
  */
 function ceo_restore() {
-	global $post, $__post;
-	$post = $__post;
+	global $post, $ceo_saved_post;
+	$post = $ceo_saved_post;
 	setup_postdata($post);
 }
 
@@ -66,15 +83,15 @@ function ceo_restore() {
  * Restore global $post and $wp_query.
  */
 function ceo_unprotect() {
-	global $post, $wp_query, $__post, $__wp_query;
-	if (!empty($__post)) {
-		$post = $__post;
+	global $post, $wp_query, $ceo_saved_post, $ceo_saved_wp_query;
+	if (!empty($ceo_saved_post)) {
+		$post = $ceo_saved_post;
 	}
-	if (!empty($__wp_query)) {
-		$wp_query = $__wp_query;
+	if (!empty($ceo_saved_wp_query)) {
+		$wp_query = $ceo_saved_wp_query;
 	}
 	
-	$__post = $__wp_query = null;
+	$ceo_saved_post = $ceo_saved_wp_query = null;
 }
 
 function ceo_in_comic_category() {
@@ -197,10 +214,26 @@ function ceo_content_warning() {
 	return apply_filters('ceo-content-warning', __('Warning, Mature Content.','comic-easel'));
 }
 
+/*
+ * Hand the content warning text to js/content-warning.js, which reads it from the global
+ * ceo_content_warning_text. The function's name is historical: this used to print its own
+ * <script> into wp_head. It now rides on the script handle as an inline 'before' block, so the
+ * variable is defined immediately ahead of the one script that reads it, wherever that script
+ * is printed.
+ *
+ * content-warning.js shows the text with textContent, so it goes over as plain text. The
+ * JSON_HEX_ flags encode < > & ' so nothing in it can close or confuse the script element.
+ */
 function ceo_content_warning_in_head() {
-?>
-<script>
-	var contentwarningtext = "<?php echo esc_js(ceo_content_warning()); ?>";
-</script>
-<?php
+	wp_add_inline_script('ceo_comic_content_warning', 'var ceo_content_warning_text = ' . wp_json_encode(ceo_content_warning(), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) . ';', 'before');
+}
+
+/*
+ * The chapter and comic dropdowns go to the page picked from them. They used to do it with an
+ * onchange attribute on the <select>; js/jump-menu.js now does it for any select with the
+ * class ceo-jump-menu. Each dropdown asks for it as it is built, and the script is loaded in
+ * the footer, so it reaches only pages that show one.
+ */
+function ceo_enqueue_jump_menu() {
+	wp_enqueue_script('ceo-jump-menu', ceo_pluginfo('plugin_url') . 'js/jump-menu.js', array(), ceo_pluginfo('version'), true);
 }

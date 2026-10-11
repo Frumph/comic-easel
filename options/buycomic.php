@@ -2,7 +2,7 @@
 <div id="comiceasel-buycomic">
 
 	<form method="post" id="myForm-archive" enctype="multipart/form-data">
-	<?php wp_nonce_field('update-options') ?>
+	<?php wp_nonce_field('ceo-update-options') ?>
 
 		<div class="comiceasel-options">
 		

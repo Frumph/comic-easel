@@ -22,6 +22,8 @@ if (!defined('ABSPATH')) exit;
  * @param bool $echo Optional, default is true. Set to false for return.
  */
 function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
+	// date() is paired with mktime() below, so both follow PHP's timezone together, as they always have.
+	// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date
 	global $wpdb, $m, $monthnum, $year, $wp_locale, $posts;
 
 	if (empty($taxonomy)) $taxonomy = 'post';
@@ -32,11 +34,13 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 	if ( get_option('permalink_structure') ) { $the_post_type = '?post_type='.$taxonomy_query_value; } else { $the_post_type = '&post_type='.$taxonomy_query_value; }
 	
 	$cache = array();
-	$key = md5( $m . $monthnum . $year );
-	if ( $cache = wp_cache_get( 'get_comic_calendar', 'calendar' ) ) {
+	// Keyed by post type too, so a calendar of one post type never shows another's cached copy.
+	$key = md5( $m . $monthnum . $year . '|' . $taxonomy );
+	// Cached under the plugin's own key and group, not in core's 'calendar' group beside its get_calendar entry.
+	if ( $cache = wp_cache_get( 'ceo_comic_calendar', 'comic-easel' ) ) {
 		if ( is_array($cache) && isset( $cache[ $key ] ) ) {
 			if ( $echo ) {
-				echo apply_filters( 'get_comic_calendar',  $cache[$key] );
+				echo wp_kses_post( apply_filters( 'get_comic_calendar',  $cache[$key] ) );
 				return;
 			} else {
 				return apply_filters( 'get_comic_calendar',  $cache[$key] );
@@ -52,13 +56,15 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 		$gotsome = $wpdb->get_var($wpdb->prepare("SELECT 1 as test FROM $wpdb->posts WHERE post_type = %s AND post_status = 'publish' LIMIT 1", $taxonomy));
 		if ( !$gotsome ) {
 			$cache[ $key ] = '';
-			wp_cache_set( 'get_comic_calendar', $cache, 'calendar' );
+			wp_cache_set( 'ceo_comic_calendar', $cache, 'comic-easel' );
 			return;
 		}
 	}
 
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended -- The week archive argument, read as core's get_calendar() reads it, only picks the month shown.
 	if ( isset($_GET['w']) && is_scalar($_GET['w']) )
 		$w = ''.intval(wp_unslash($_GET['w']));
+	// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 	// week_begins = 0 stands for Sunday
 	$week_begins = intval(get_option('start_of_week'));
@@ -104,7 +110,7 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 	/* translators: Calendar caption: 1: month name, 2: 4-digit year */
 	$calendar_caption = _x('%1$s %2$s', 'calendar caption', 'comic-easel');
 	$calendar_output = '<table id="wp-calendar" summary="' . esc_attr__('Calendar','comic-easel') . '">
-	<caption>' . sprintf($calendar_caption, $wp_locale->get_month($thismonth), date('Y', $unixmonth)) . '</caption>
+	<caption>' . esc_html(sprintf($calendar_caption, $wp_locale->get_month($thismonth), date('Y', $unixmonth))) . '</caption>
 	<thead>
 	<tr>';
 
@@ -117,6 +123,7 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 	foreach ( $myweek as $wd ) {
 		$day_name = (true == $initial) ? $wp_locale->get_weekday_initial($wd) : $wp_locale->get_weekday_abbrev($wd);
 		$wd = esc_attr($wd);
+		$day_name = esc_html($day_name);
 		$calendar_output .= "\n\t\t<th scope=\"col\" title=\"$wd\">$day_name</th>";
 	}
 
@@ -128,7 +135,7 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 	<tr>';
 
 	if ( $previous ) {
-		$calendar_output .= "\n\t\t".'<td colspan="3" id="prev"><a href="' . get_month_link($previous->year, $previous->month) . $the_post_type.'" title="' . sprintf(/* translators: 1: month name, 2: four-digit year. */ __('View posts for %1$s %2$s','comic-easel'), $wp_locale->get_month($previous->month), date('Y', mktime(0, 0 , 0, $previous->month, 1, $previous->year))) . '">&laquo; ' . $wp_locale->get_month_abbrev($wp_locale->get_month($previous->month)) . '</a></td>';
+		$calendar_output .= "\n\t\t".'<td colspan="3" id="prev"><a href="' . esc_url(get_month_link($previous->year, $previous->month) . $the_post_type) .'" title="' . esc_attr( sprintf(/* translators: 1: month name, 2: four-digit year. */ __('View posts for %1$s %2$s','comic-easel'), $wp_locale->get_month($previous->month), date('Y', mktime(0, 0 , 0, $previous->month, 1, $previous->year))) ) . '">&laquo; ' . esc_html($wp_locale->get_month_abbrev($wp_locale->get_month($previous->month))) . '</a></td>';
 	} else {
 		$calendar_output .= "\n\t\t".'<td colspan="3" id="prev" class="pad">&nbsp;</td>';
 	}
@@ -136,7 +143,7 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 	$calendar_output .= "\n\t\t".'<td class="pad">&nbsp;</td>';
 
 	if ( $next ) {
-		$calendar_output .= "\n\t\t".'<td colspan="3" id="next"><a href="' . get_month_link($next->year, $next->month) . $the_post_type.'" title="' . esc_attr( sprintf(/* translators: 1: month name, 2: four-digit year. */ __('View posts for %1$s %2$s','comic-easel'), $wp_locale->get_month($next->month), date('Y', mktime(0, 0 , 0, $next->month, 1, $next->year))) ) . '">' . $wp_locale->get_month_abbrev($wp_locale->get_month($next->month)) . ' &raquo;</a></td>';
+		$calendar_output .= "\n\t\t".'<td colspan="3" id="next"><a href="' . esc_url(get_month_link($next->year, $next->month) . $the_post_type) .'" title="' . esc_attr( sprintf(/* translators: 1: month name, 2: four-digit year. */ __('View posts for %1$s %2$s','comic-easel'), $wp_locale->get_month($next->month), date('Y', mktime(0, 0 , 0, $next->month, 1, $next->year))) ) . '">' . esc_html($wp_locale->get_month_abbrev($wp_locale->get_month($next->month))) . ' &raquo;</a></td>';
 	} else {
 		$calendar_output .= "\n\t\t".'<td colspan="3" id="next" class="pad">&nbsp;</td>';
 	}
@@ -208,7 +215,7 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 			$calendar_output .= '<td>';
 
 		if ( in_array($day, $daywithpost) ) // any posts today?
-		    $calendar_output .= '<a href="' . get_day_link($thisyear, $thismonth, $day) . $the_post_type.'">'.$day.'</a>';
+		    $calendar_output .= '<a href="' . esc_url(get_day_link($thisyear, $thismonth, $day) . $the_post_type) .'">'.$day.'</a>';
 		else
 			$calendar_output .= $day;
 		$calendar_output .= '</td>';
@@ -225,13 +232,15 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
 
 	$cache[ $key ] = $calendar_output;
 
-	wp_cache_set( 'get_comic_calendar', $cache, 'calendar' );
+	wp_cache_set( 'ceo_comic_calendar', $cache, 'comic-easel' );
 
+	// The calendar is table markup with links, all of which wp_kses_post() keeps.
 	if ( $echo )
-		echo apply_filters( 'get_comic_calendar',  $calendar_output );
+		echo wp_kses_post( apply_filters( 'get_comic_calendar',  $calendar_output ) );
 	else
 		return apply_filters( 'get_comic_calendar',  $calendar_output );
 
+	// phpcs:enable WordPress.DateTime.RestrictedFunctions.date_date
 }
 
 /**
@@ -241,7 +250,7 @@ function ceo_get_calendar($initial = true, $echo = true, $taxonomy = 'post') {
  * @since 2.1.0
  */
 function ceo_delete_get_calendar_cache() {
-	wp_cache_delete( 'get_comic_calendar', 'calendar' );
+	wp_cache_delete( 'ceo_comic_calendar', 'comic-easel' );
 }
 add_action( 'save_post', 'ceo_delete_get_calendar_cache' );
 add_action( 'delete_post', 'ceo_delete_get_calendar_cache' );
@@ -266,7 +275,7 @@ class ceo_calendar_widget extends WP_Widget {
 		global $post, $wp_query;
 		extract($args, EXTR_SKIP);
 
-		echo $before_widget;
+		echo wp_kses_post($before_widget);
 		ceo_protect();
 		if (!empty($instance)) { extract($instance); } ?>
 			<div id="wp-calendar-head"></div>
@@ -301,7 +310,7 @@ class ceo_calendar_widget extends WP_Widget {
 			</div>
 			<div id="wp-calendar-foot"></div>
 		<?php
-		echo $after_widget;
+		echo wp_kses_post($after_widget);
 		ceo_unprotect();
 	}
 
@@ -342,7 +351,7 @@ class ceo_calendar_widget extends WP_Widget {
 				</label>
 			</p><?php
 
-			if (isset($after)) { echo $after; }
+			if (isset($after)) { echo wp_kses_post($after); }
 		}
 	}
 }

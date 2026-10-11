@@ -96,7 +96,8 @@ function ceo_comic_archive_jump_to_chapter($hide = true, $exclude = '', $showcou
 	$output = '';
 	if ($render_as_list) {
 		global $post;
-		$the_terms = get_the_terms( $post->ID, 'chapters');
+		// No post on a 404 or an empty search, so nothing to mark as the current chapter.
+		$the_terms = (!empty($post)) ? get_the_terms( $post->ID, 'chapters') : false;
 		// echo "<pre>the terms ";print_r($the_terms); echo "</pre>";
 		$args = array(
 			'walker'			 => new ceo_walker_taxonomy_list(),
@@ -120,7 +121,8 @@ function ceo_comic_archive_jump_to_chapter($hide = true, $exclude = '', $showcou
 	} else {
 		$args = array(
 			'walker' => new ceo_walker_taxonomy_dropdown(),
-			'show_option_all'	=>	__('Select','comic-easel').' '.ucwords(ceo_pluginfo('chapter_type_slug_name')),
+			// wp_dropdown_categories() prints this label as given.
+			'show_option_all'	=>	esc_html__('Select','comic-easel').' '.esc_html(ucwords(ceo_pluginfo('chapter_type_slug_name'))),
 			'option_none_value'  => '-1',
 			'orderby'            => 'menu_order', 
 			'order'              => 'ASC',
@@ -135,11 +137,12 @@ function ceo_comic_archive_jump_to_chapter($hide = true, $exclude = '', $showcou
 			'value_field'	     => 'slug',	
 			'jumptoarchive'	 	 => $jumptoarchive,
 			'render_as_list'	 => $render_as_list,
+			// js/jump-menu.js goes to the chosen chapter when a select with this class changes.
+			'class'              => 'postform ceo-jump-menu',
 		);
+		ceo_enqueue_jump_menu();
 		$output .= '<form id="chapter-select" class="chapter-select" method="get">'."\r\n";
-		$select  = wp_dropdown_categories( $args );
-		$replace = '<select$1 onchange="document.location.href=this.options[this.selectedIndex].value;">';
-		$output  .= preg_replace( '#<select([^>]*)>#', $replace, $select ); 
+		$output .= wp_dropdown_categories( $args );
 		$output .= "\t<noscript>\r\n";
 		$output .= "\t\t<input type=\"submit\" value=\"View\" />\r\n";
 		$output .= "\t</noscript>\r\n";
@@ -147,8 +150,29 @@ function ceo_comic_archive_jump_to_chapter($hide = true, $exclude = '', $showcou
 	}
 	ceo_unprotect();
 	if ($echo) {
-		echo $output;
+		if ($render_as_list) {
+			echo wp_kses_post($output);
+		} else {
+			echo wp_kses($output, ceo_chapter_dropdown_allowed_html());
+		}
 	} else return $output;	
+}
+
+/**
+ * The tags and attributes the chapter dropdown prints, for wp_kses().
+ *
+ * wp_kses_post() would strip the form controls, so the dropdown is filtered against exactly
+ * what it emits: the <select> and <option> tags wp_dropdown_categories() and the walker above
+ * write, and the submit button for browsers without JavaScript.
+ */
+function ceo_chapter_dropdown_allowed_html() {
+	return array(
+		'form'     => array( 'id' => true, 'class' => true, 'method' => true ),
+		'select'   => array( 'name' => true, 'id' => true, 'class' => true ),
+		'option'   => array( 'class' => true, 'value' => true, 'selected' => true ),
+		'noscript' => array(),
+		'input'    => array( 'type' => true, 'value' => true ),
+	);
 }
 
 class ceo_comic_archive_dropdown_widget extends WP_Widget {
@@ -164,19 +188,33 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 		);
 	}
 	
+	/**
+	 * Every setting the widget reads, with the value a newly added widget starts with.
+	 *
+	 * widget() applies these, not just form(). Saved settings are only rewritten when the form
+	 * is saved, so a widget saved before an option existed never gains its key: the comic count
+	 * and jump-to-archive options arrived in 2014, the list rendering in December 2015.
+	 * The count defaults off because that is how such widgets have always rendered.
+	 */
+	private static function defaults() {
+		return array( 'title' => '', 'exclude' => '', 'hide' => 1, 'showcount' => 0, 'jumptoarchive' => 0, 'render_as_list' => 0 );
+	}
+	
 	function widget($args, $instance) {
 		global $post;
 		extract($args, EXTR_SKIP); 
-		echo $before_widget;
+		$instance = wp_parse_args( (array) $instance, self::defaults() );
+		echo wp_kses_post($before_widget);
 		$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']); 
-		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; }; 
-		if (!isset($instance['hide'])) $instance['hide'] = 1;
-		if (!isset($instance['render_as_list'])) $instance['render_as_list'] = false;
+		if ( !empty( $title ) ) { echo wp_kses_post($before_title . $title . $after_title); }; 
 		ceo_comic_archive_jump_to_chapter($instance['hide'], $instance['exclude'], $instance['showcount'], $instance['jumptoarchive'], true, $instance['render_as_list']);
-		echo $after_widget;
+		echo wp_kses_post($after_widget);
 	}
 	
 	function update($new_instance, $old_instance) {
+		// An unchecked box is absent from the submitted form altogether, so here a missing
+		// checkbox means off rather than the default a new widget starts with.
+		$new_instance = wp_parse_args( (array) $new_instance, array( 'title' => '', 'exclude' => '', 'hide' => 0, 'showcount' => 0, 'jumptoarchive' => 0, 'render_as_list' => 0 ) );
 		$instance = $old_instance;
 		$instance['title'] = wp_strip_all_tags($new_instance['title']);
 		$instance['exclude'] = wp_strip_all_tags($new_instance['exclude']);
@@ -188,7 +226,7 @@ class ceo_comic_archive_dropdown_widget extends WP_Widget {
 	}
 	
 	function form($instance) {
-		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'exclude' => '', 'hide' => 1, 'showcount' => 1, 'jumptoarchive' => 0, 'render_as_list' => 0) );
+		$instance = wp_parse_args( (array) $instance, self::defaults() );
 		$title = $instance['title'];
 		$exclude = $instance['exclude'];
 		$hide = ($instance['hide']) ? 1:0;

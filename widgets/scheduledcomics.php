@@ -25,10 +25,10 @@ class ceo_scheduled_comics_widget extends WP_Widget {
 	
 	function widget($args, $instance) {
 		extract($args, EXTR_SKIP); 
-		echo $before_widget;
+		echo wp_kses_post($before_widget);
 		ceo_protect();
-		$title = empty($instance['title']) ? __('Scheduled Comics','comic-easel') : apply_filters('widget_title', $instance['title']); 
-		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; }; 
+		$title = empty($instance['title']) ? esc_html__('Scheduled Comics','comic-easel') : apply_filters('widget_title', $instance['title']);
+		if ( !empty( $title ) ) { echo wp_kses_post($before_title . $title . $after_title); }; 
 		$args = array(
 				'post_status' => 'future',
 				'showposts' => -1,
@@ -41,15 +41,16 @@ class ceo_scheduled_comics_widget extends WP_Widget {
 		} else { ?>
 			<ul>
 			<?php foreach($scheduled_posts as $post) : ?>
-				<li><span class="scheduled-post-date"><?php echo esc_html(date('m/d/Y',strtotime($post->post_date))); ?></span> <span class="scheduled-post-title"><?php echo wp_kses_post($post->post_title); ?></span></li>
+				<li><span class="scheduled-post-date"><?php echo esc_html(date('m/d/Y',strtotime($post->post_date))); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date -- Kept as date() so it follows PHP's timezone exactly as before. ?></span> <span class="scheduled-post-title"><?php echo wp_kses_post($post->post_title); ?></span></li>
 			<?php endforeach; ?>
 			</ul>
 		<?php } 
-		echo $after_widget;
+		echo wp_kses_post($after_widget);
 		ceo_unprotect();
 	}
 	
 	function update($new_instance, $old_instance) {
+		$new_instance = wp_parse_args( (array) $new_instance, array( 'title' => '' ) );
 		$instance = $old_instance;
 		$instance['title'] = wp_strip_all_tags($new_instance['title']);
 		return $instance;

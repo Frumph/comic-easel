@@ -6,31 +6,22 @@ add_action('admin_menu', 'ceo_add_menu_pages');
 add_action('admin_enqueue_scripts', 'ceo_comic_editor_scripts', 10, 1 );
 
 function ceo_comic_editor_scripts( $hook ) {
-	global $pagenow, $post;
-	if (!empty($pagenow)) {
-/*
-		if ( $pagenow == 'post-new.php' || $pagenow == 'post.php' ) {
-			if ('comic' === $post->post_type) {
-
-				wp_enqueue_media();
-			}
-		}
-		if ($pagenow == 'edit.php') {
-			if ('comic' == $post->post_type) {
-				add_action('admin_footer', 'ceo_change_chapter_to_radio');
-			}
-		}
-		if ($pagenow == 'edit-tags.php') {
-			wp_enqueue_script('ceo-inline-edit', ceo_pluginfo('plugin_url').'js/custom_inline_edit_tax.dev.js');
-		}
-*/
-	}
+	// The Comics list's column widths. Same screens as when this was enqueued from admin_menu:
+	// the Comics list, the comic editor and the plugin's own pages under Comics.
+	ceo_enqueue_admin_cpt_style('comic', 'ceo-admin-editor-style', ceo_pluginfo('plugin_url').'css/admin-editor.css', array(), ceo_pluginfo('version'));
+	// On every post editor screen, as before: the meta box setup that used to queue it runs
+	// for every post type.
+	if ('post.php' === $hook || 'post-new.php' === $hook)
+		ceo_change_chapter_to_radio();
 }
 
+/*
+ * A comic belongs to exactly one chapter, so the chapter checklist on the post editor is
+ * turned into radio buttons. The script is a file loaded in the footer, so it runs once the
+ * checklist is in the page.
+ */
 function ceo_change_chapter_to_radio(){
-	echo '<script type="text/javascript">';
-	echo 'jQuery("#chapterschecklist input, .chapters-checklist input")';
-	echo '.each(function(){this.type="radio"});</script>';
+	wp_enqueue_script('ceo-chapter-radio', ceo_pluginfo('plugin_url').'js/chapter-radio.js', array('jquery'), ceo_pluginfo('version'), true);
 }
 
 function ceo_add_menu_pages() {
@@ -47,13 +38,10 @@ function ceo_add_menu_pages() {
 		$import_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $import_title, $import_title, 'edit_theme_options', 'comiceasel-import', 'ceo_import');	
 	if (!defined('CEO_FEATURE_DISABLE_CONFIG')) {
 		$config_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $config_title, $config_title, 'edit_theme_options', 'comiceasel-config', 'ceo_manager_config');
-		add_action('admin_head-' . $config_hook, 'ceo_admin_page_head');
-		add_action('admin_print_scripts-' . $config_hook, 'ceo_admin_print_scripts');
-		add_action('admin_print_styles-' . $config_hook, 'ceo_admin_print_styles');
+		add_action('load-' . $config_hook, 'ceo_config_page_load');
 	}
 	if (!defined('CEO_FEATURE_DISABLE_DEBUG'))
 		$debug_hook = add_submenu_page($menu_location, $plugin_title . ' - ' . $debug_title, $debug_title, 'edit_theme_options', 'comiceasel-debug', 'ceo_debug');	
-	ceo_enqueue_admin_cpt_style('comic', 'comic-admin-editor-style', ceo_pluginfo('plugin_url').'css/admin-editor.css');
 	// Add contextual help
 }
 
@@ -63,21 +51,30 @@ function ceo_load_scripts_chapter_manager() {
 	wp_enqueue_script('jquery-ui-sortable');
 }
 
+// Fires only while the Config screen is loading, so its assets reach no other screen.
+function ceo_config_page_load() {
+	add_action('admin_enqueue_scripts', 'ceo_config_enqueue_scripts');
+}
+
+function ceo_config_enqueue_scripts() {
+	ceo_admin_print_scripts();
+	ceo_admin_print_styles();
+}
+
 function ceo_admin_print_scripts() {
 	wp_enqueue_script('utils');
-	wp_enqueue_script('jquery');
+	wp_enqueue_script('comiceasel-config-tabs', ceo_pluginfo('plugin_url') . 'js/config-tabs.js', array('jquery'), ceo_pluginfo('version'), true);
 }
 
+/*
+ * This also used to call wp_admin_css() for css/global, css/colors and css/ie. Core has not
+ * shipped global.css or ie.css for years, and for a handle it does not know wp_admin_css()
+ * echoes a bare <link> -- here, to a missing file. 'colors' is enqueued by core on every
+ * admin screen already.
+ */
 function ceo_admin_print_styles() {
-	wp_admin_css('css/global');
-	wp_admin_css('css/colors');
-	wp_admin_css('css/ie');
-	wp_enqueue_style('comiceasel-options-style', ceo_pluginfo('plugin_url') . 'css/config.css');
+	wp_enqueue_style('comiceasel-options-style', ceo_pluginfo('plugin_url') . 'css/config.css', array(), ceo_pluginfo('version'));
 }
-
-function ceo_admin_page_head() { ?>
-	<!--[if lt ie 8]> <style> div.show { position: static; margin-top: 1px; } #eadmin div.off { height: 22px; } </style> <![endif]-->
-<?php }
 
 // This is done this way to *not* load pages unless they are called, self sufficient code,
 // but since attached to the ceo-admin it can use the library in core. so the global functions used in multiple areas
@@ -85,15 +82,15 @@ function ceo_admin_page_head() { ?>
 // the "forms" if there are any call the same page back up. - phil
 
 function ceo_manager_config() {
-	require_once('ceo-config.php');
+	require_once __DIR__ . '/ceo-config.php';
 }
 
 function ceo_debug() {
-	require_once('ceo-debug.php');
+	require_once __DIR__ . '/ceo-debug.php';
 }
 
 function ceo_import() {
-	require_once('ceo-import.php');
+	require_once __DIR__ . '/ceo-import.php';
 }
 
 function ceo_enqueue_admin_cpt_style( $cpt, $handle, $src = false, $deps = array(), $ver = false, $media = 'all' ) {

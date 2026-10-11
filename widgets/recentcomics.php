@@ -22,13 +22,26 @@ class ceo_latest_comics_widget extends WP_Widget {
 		);
 	}
 	
+	/**
+	 * Every setting the widget reads, with the value a newly added widget starts with.
+	 *
+	 * widget() and update() apply these, not just form(): a widget that has never been saved
+	 * (a Legacy Widget block left untouched) has no settings at all. Its missing count used to
+	 * reach get_posts() as 0, which get_posts() ignores in favour of its own default of 5, so
+	 * defaulting it to the form's 5 shows the same comics.
+	 */
+	private static function defaults() {
+		return array( 'title' => '', 'count' => 5 );
+	}
+	
 	function widget($args, $instance) {
 		global $post;
 		extract($args, EXTR_SKIP); 
-		echo $before_widget;
+		$instance = wp_parse_args( (array) $instance, self::defaults() );
+		echo wp_kses_post($before_widget);
 		ceo_protect();
-		$title = empty($instance['title']) ? __('Latest Comics','comic-easel') : apply_filters('widget_title', $instance['title']); 
-		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
+		$title = empty($instance['title']) ? esc_html__('Latest Comics','comic-easel') : apply_filters('widget_title', $instance['title']);
+		if ( !empty( $title ) ) { echo wp_kses_post($before_title . $title . $after_title); };
 		$args = array(
 				'showposts' => (int)$instance['count'],
 				'post_type' => 'comic'
@@ -36,15 +49,16 @@ class ceo_latest_comics_widget extends WP_Widget {
 		$latestcomics = get_posts($args); ?>
 		<ul>
 		<?php foreach($latestcomics as $post) : ?>
-			<li><a href="<?php echo esc_url(get_permalink($post->ID)); ?>"><?php echo ceo_title_for_html($post->ID); ?></a></li>
+			<li><a href="<?php echo esc_url(get_permalink($post->ID)); ?>"><?php echo wp_kses_post(ceo_title_for_html($post->ID)); ?></a></li>
 		<?php endforeach; ?>
 		</ul>
 		<?php
-		echo $after_widget;
+		echo wp_kses_post($after_widget);
 		ceo_unprotect();
 	}
 	
 	function update($new_instance, $old_instance) {
+		$new_instance = wp_parse_args( (array) $new_instance, self::defaults() );
 		$instance = $old_instance;
 		$instance['title'] = wp_strip_all_tags($new_instance['title']);
 		$instance['count'] = (int)$new_instance['count'];
@@ -52,7 +66,7 @@ class ceo_latest_comics_widget extends WP_Widget {
 	}
 	
 	function form($instance) {
-		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'count' => 5 ) );
+		$instance = wp_parse_args( (array) $instance, self::defaults() );
 		$title = wp_strip_all_tags($instance['title']);
 		$count = (int)$instance['count'];
 		if (($count > 50) || ($count < 1)) $count = 5;

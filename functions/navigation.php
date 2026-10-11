@@ -175,18 +175,18 @@ function ceo_get_adjacent_comic($previous = true, $in_same_chapter = false, $tax
 	$sort  = apply_filters( "get_{$adjacent}_{$taxonomy}_sort", $sort );
 
 	$query = "SELECT p.* FROM $wpdb->posts AS p $join $where $sort";
-	$query_key = "adjacent_{$taxonomy}_{$post->ID}_{$previous}_{$in_same_chapter}"; // . md5($query);
-	$result = wp_cache_get($query_key, 'counts');
+	$query_key = "ceo_adjacent_{$taxonomy}_{$post->ID}_{$previous}_{$in_same_chapter}"; // . md5($query);
+	$result = wp_cache_get($query_key, 'comic-easel');
 	if ( false !== $result )
 		return $result;
 
 	// $join is assembled from fixed SQL plus integer term IDs. $where and $sort retain the
 	// plugin's longstanding SQL-fragment filters for compatibility with existing sites.
-	// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Dynamic fragments are either prepared above or intentionally supplied through compatibility filters.
+	// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $where is built with $wpdb->prepare() and $join from absint() term IDs; get_{previous|next}_comic_where/_sort are long-standing public filters that take and return SQL fragments, as core's get_{$adjacent}_post_where does.
 	$result = $wpdb->get_row($query);
 	if ( null === $result )
 		$result = '';
-	wp_cache_set($query_key, $result, 'counts');
+	wp_cache_set($query_key, $result, 'comic-easel');
 	return $result;
 }
 

@@ -17,9 +17,11 @@ function ceo_list_jump_to_comic($exclude = '', $return = false) {
 	if (!empty($terms)){
 		$term = reset($terms); // only one chapter
 		$output = '<form method="get" class="comic-list-dropdown-form">';
-		$output .= '<select onchange="document.location.href=this.options[this.selectedIndex].value;">';
+		// js/jump-menu.js goes to the chosen comic when a select with this class changes.
+		ceo_enqueue_jump_menu();
+		$output .= '<select class="ceo-jump-menu">';
 		$level = 0;
-		$output .= '<option class="level-select" value="">'.__('Jump To','comic-easel').'</option>';
+		$output .= '<option class="level-select" value="">'.esc_html__('Jump To','comic-easel').'</option>';
 		$post_args = array( 
 			'showposts' => -1,
 			'post_type' => 'comic',
@@ -38,10 +40,28 @@ function ceo_list_jump_to_comic($exclude = '', $return = false) {
 		$output .= '</noscript>';
 		$output .= '</form>';
 		if ($return) {
+			ceo_unprotect();
 			return $output;
-		} else echo $output;
+		} else echo wp_kses($output, ceo_comic_list_dropdown_allowed_html());
 	}
 	ceo_unprotect();
+}
+
+/**
+ * The tags and attributes the comic dropdown prints, for wp_kses().
+ *
+ * wp_kses_post() would strip the form controls, so the dropdown is filtered against exactly
+ * what it emits.
+ */
+function ceo_comic_list_dropdown_allowed_html() {
+	return array(
+		'form'     => array( 'method' => true, 'class' => true ),
+		'select'   => array( 'class' => true ),
+		'option'   => array( 'class' => true, 'value' => true ),
+		'noscript' => array(),
+		'div'      => array(),
+		'input'    => array( 'type' => true, 'value' => true ),
+	);
 }
 
 class ceo_comic_list_dropdown_widget extends WP_Widget {
@@ -57,13 +77,24 @@ class ceo_comic_list_dropdown_widget extends WP_Widget {
 		);
 	}
 	
+	/**
+	 * Every setting the widget reads, with the value a newly added widget starts with.
+	 *
+	 * widget() and update() apply these, not just form(): a widget that has never been saved
+	 * (a Legacy Widget block left untouched) has no settings at all.
+	 */
+	private static function defaults() {
+		return array( 'title' => '', 'exclude' => '' );
+	}
+	
 	function widget($args, $instance) {
 		global $post;
 
 		extract($args, EXTR_SKIP); 
-		echo $before_widget;
+		$instance = wp_parse_args( (array) $instance, self::defaults() );
+		echo wp_kses_post($before_widget);
 		$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']); 
-		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; }; 
+		if ( !empty( $title ) ) { echo wp_kses_post($before_title . $title . $after_title); }; 
 		if ((is_home() || is_front_page()) && !is_paged() && !ceo_pluginfo('disable_comic_on_home_page')) {
 			$chapter_on_home = '';
 			$chapter_on_home = get_term_by( 'id', ceo_pluginfo('chapter_on_home'), 'chapters');
@@ -78,10 +109,11 @@ class ceo_comic_list_dropdown_widget extends WP_Widget {
 		} elseif (!empty($post)) {
 			ceo_list_jump_to_comic($instance['exclude'], false);
 		}
-		echo $after_widget;
+		echo wp_kses_post($after_widget);
 	}
 	
 	function update($new_instance, $old_instance) {
+		$new_instance = wp_parse_args( (array) $new_instance, self::defaults() );
 		$instance = $old_instance;
 		$instance['title'] = wp_strip_all_tags($new_instance['title']);
 		$instance['exclude'] = wp_strip_all_tags($new_instance['exclude']);
@@ -89,12 +121,11 @@ class ceo_comic_list_dropdown_widget extends WP_Widget {
 	}
 	
 	function form($instance) {
-		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'exclude' => '', 'unhide' => 1, 'showcount' => 1) );
+		$instance = wp_parse_args( (array) $instance, self::defaults() );
 		$title = $instance['title'];
 		$exclude = $instance['exclude'];
 		?>
 		<p><label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php esc_html_e('Title:','comic-easel'); ?> <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>" name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
-		</p>
 		<?php
 	}
 }
