@@ -94,7 +94,8 @@ function ceo_chapters_save_value($term_id, $tt_id) {
 	if (!$chapters || !current_user_can($chapters->cap->edit_terms)) return;
 	// WordPress verifies the term-edit nonce before firing edited_chapters.
 	// phpcs:disable WordPress.Security.NonceVerification.Missing
-	if (isset($_POST['ceo_chapter_order']) && is_scalar($_POST['ceo_chapter_order']))
+	// Quick edit's Order box starts out empty, so an empty one leaves the order as it is.
+	if (isset($_POST['ceo_chapter_order']) && is_scalar($_POST['ceo_chapter_order']) && '' !== sanitize_text_field(wp_unslash($_POST['ceo_chapter_order'])))
 		$itwork = $wpdb->update($wpdb->terms, array('menu_order' => intval(wp_unslash($_POST['ceo_chapter_order']))), array('term_id' => $term_id));
 	// phpcs:enable WordPress.Security.NonceVerification.Missing
 }

@@ -60,6 +60,32 @@ class ChapterOrderTest extends CE_TestCase {
 	}
 
 	/**
+	 * Quick edit always posts the Order box, and it starts out empty, so renaming a chapter
+	 * there used to reset its order to 0.
+	 */
+	public function testAnEmptyOrderFieldLeavesTheOrderAlone() {
+		$wpdb = $this->useWpdbSpy();
+		$this->grantCurrentUserCap( 'manage_categories' );
+
+		foreach ( array( '', '  ' ) as $empty ) {
+			$_POST['ceo_chapter_order'] = $empty;
+			ceo_chapters_save_value( 12, 12 );
+		}
+
+		$this->assertSame( array(), $wpdb->updates );
+	}
+
+	public function testAnOrderOfZeroIsStillSaved() {
+		$wpdb = $this->useWpdbSpy();
+		$this->grantCurrentUserCap( 'manage_categories' );
+		$_POST['ceo_chapter_order'] = '0';
+
+		ceo_chapters_save_value( 12, 12 );
+
+		$this->assertSame( array( array( 'wp_terms', array( 'menu_order' => 0 ), array( 'term_id' => 12 ) ) ), $wpdb->updates );
+	}
+
+	/**
 	 * Hooked to the chapters taxonomy's own creation hook, not create_term, which fires for
 	 * every taxonomy: adding a tag or category no longer runs it.
 	 */
