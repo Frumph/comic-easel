@@ -131,6 +131,29 @@ class ArchiveDropdownWidgetTest extends CE_TestCase {
 		$this->assertStringContainsString( "<option value='0' selected='selected'>Choisir &lt;b&gt;un&lt;/b&gt; Chapters</option>", $out );
 	}
 
+	/**
+	 * [comic-archive-dropdown] passed its 'return' attribute, true unless set otherwise, on as
+	 * the builder's echo argument, so the menu was printed while the post content was being
+	 * filtered: above the content rather than where the shortcode was placed.
+	 */
+	public function testShortcodeReturnsTheMenuInsteadOfPrintingIt() {
+		self::loadPluginFile( 'functions/shortcodes.php' );
+		CE_Test_State::$pluginfo['plugin_url'] = 'https://example.test/wp-content/plugins/comic-easel/';
+		CE_Test_State::$pluginfo['version']    = '1.19';
+		$this->setGlobalPost( 7 );
+
+		foreach ( array( array(), array( 'return' => 'true' ), array( 'return' => 'false' ) ) as $atts ) {
+			$menu    = null;
+			$printed = $this->capture( function () use ( $atts, &$menu ) {
+				$menu = ceo_comic_archive_dropdown( $atts );
+			} );
+			$this->assertSame( '', $printed );
+			$this->assertStringStartsWith( '<form id="chapter-select" class="chapter-select" method="get">', $menu );
+			$this->assertStringContainsString( "class='postform ceo-jump-menu'", $menu );
+		}
+		$this->assertSame( 'https://example.test/wp-content/plugins/comic-easel/js/jump-menu.js', CE_Test_State::$scripts['ceo-jump-menu']['src'] );
+	}
+
 	public function testUpdateStoresUncheckedBoxesAsOff() {
 		// Browsers omit unchecked checkboxes from the form post, so only the text fields arrive.
 		// Off is what they mean here, even for the boxes a new widget starts with ticked.

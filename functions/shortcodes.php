@@ -651,9 +651,9 @@ function ceo_comic_archive_dropdown($atts, $content='') {
 					'exclude' => '',
 					'showcount' => false,
 					'jumptoarchive' => false,
-					'return' => true
+					'return' => true // Accepted for existing shortcodes, but a shortcode always returns its output.
 					), $atts ) );
-	return ceo_comic_archive_jump_to_chapter($unhide, $exclude, $showcount, $jumptoarchive, $return);
+	return ceo_comic_archive_jump_to_chapter($unhide, $exclude, $showcount, $jumptoarchive, false);
 }
 
 function ceo_random_comic_shortcode($atts, $content = '') {
