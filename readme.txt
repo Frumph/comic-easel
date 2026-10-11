@@ -133,12 +133,14 @@ The comic navigation widget is only seen if you have the comic sidebar's enabled
 
 == External services ==
 
-Comic Easel connects to one external service, PayPal, and only for the optional Buy Comic feature. Nothing is sent until a site owner sets up Buy Comic: a PayPal email address and currency entered under Comic Easel > Config > Buy Comic, with prints or originals offered for sale. Sites that do not sell comics make no external connections.
+Comic Easel itself connects to one external service, PayPal, and only for the optional Buy Comic feature. Nothing is sent until a site owner sets up Buy Comic: a PayPal email address and currency entered under Comic Easel > Config > Buy Comic, with prints or originals offered for sale. Sites that do not sell comics make no connections to PayPal.
 
 * **Buy buttons.** The `[buycomic]` shortcode, placed on the page your "Buy!" links point to, shows "Buy Now" buttons that send the visitor to PayPal (www.paypal.com) to pay. When the visitor clicks a button, their browser sends PayPal the comic's title and ID, the price and currency, the seller's PayPal email address, a return address on your site, and the address PayPal should notify when the payment completes. The visitor's own payment details are entered on PayPal, never on your site.
 * **Payment verification (PayPal IPN).** After a sale, PayPal sends a payment notification to your site. Before acting on it, Comic Easel sends that notification back to PayPal (ipnpb.paypal.com) unchanged, to confirm it really came from PayPal. That includes the transaction details PayPal provided, such as the buyer's name, email and shipping address, the item and the amount. The request also identifies your site's address and the Comic Easel version. This happens once for each notification PayPal sends.
 
 PayPal is provided by PayPal, Inc.: [User Agreement](https://www.paypal.com/us/legalhub/paypal/useragreement-full), [Privacy Statement](https://www.paypal.com/us/legalhub/paypal/privacy-full).
+
+A comic that uses the "Media Url as Comic" field is shown through WordPress's built-in oEmbed support, the same way a media link in a post is embedded: each time the comic is displayed, WordPress asks that media provider (YouTube, Vimeo and the like) for the embed code, and visitors' browsers load the player from the provider, under the provider's own terms and privacy policy.
 
 
 == Screenshots ==
