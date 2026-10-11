@@ -182,7 +182,7 @@ function ceo_get_adjacent_comic($previous = true, $in_same_chapter = false, $tax
 
 	// $join is assembled from fixed SQL plus integer term IDs. $where and $sort retain the
 	// plugin's longstanding SQL-fragment filters for compatibility with existing sites.
-	// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Dynamic fragments are either prepared above or intentionally supplied through compatibility filters.
+	// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $where is built with $wpdb->prepare() and $join from absint() term IDs; get_{previous|next}_comic_where/_sort are long-standing public filters that take and return SQL fragments, as core's get_{$adjacent}_post_where does.
 	$result = $wpdb->get_row($query);
 	if ( null === $result )
 		$result = '';
